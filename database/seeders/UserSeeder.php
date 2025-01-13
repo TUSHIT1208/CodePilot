@@ -17,11 +17,15 @@ class UserSeeder extends Seeder
         User::create([
             'username' => 'admin',
             'first_name'=> 'admin',
-            'email' => 'admin@gmail.com',
+            'email' => 'drashtimistry013@gmail.com',
             'password' => Hash::make('admin123'),
-            'phone_number'=> '1234567890',
+            'phone_number'=> '9586981325',
+            'date_of_birth'=> '2000-01-01',
             'role_id'=>1,
             'is_active'=>true,
+            'created_by' => 1,
+            'updated_by' => 1,
+            'created_at' => now(),
         ]);
     }
 }

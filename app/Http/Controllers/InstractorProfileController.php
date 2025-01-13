@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\role;
+use App\Models\InstractorProfile;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class InstractorProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('change_password');
+        //
     }
 
     /**
@@ -34,7 +34,7 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(role $role)
+    public function show(InstractorProfile $instractorProfile)
     {
         //
     }
@@ -42,7 +42,7 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(role $role)
+    public function edit(InstractorProfile $instractorProfile)
     {
         //
     }
@@ -50,15 +50,15 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, role $role)
+    public function update(Request $request, InstractorProfile $instractorProfile)
     {
-        
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(role $role)
+    public function destroy(InstractorProfile $instractorProfile)
     {
         //
     }

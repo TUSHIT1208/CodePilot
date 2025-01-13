@@ -44,23 +44,22 @@
       <div class="col-lg-6 col-md-8">
         <div class="sign_form">
           <h2>Change Your Password</h2>
-
-          <!-- Display Success Message -->
-          @if(session('success'))
-            <div class="alert alert-success">
-              {{ session('success') }}
-            </div>
-          @endif
-
-          <!-- Display Error Message -->
-          @if(session('error'))
-            <div class="alert alert-danger">
-              {{ session('error') }}
-            </div>
-          @endif
-
+              @if (session('success'))
+              <div class="alert alert-dark">
+                {{ session('success') }}
+              </div>
+            @endif
+            @if ($errors->any())
+              <div class="alert alert-danger">
+                <ul>
+                  @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
           <!-- Form for changing password -->
-          <form method="POST" action="/change_password">
+          <form method="POST" action="{{ route('changePassword.update') }}">
             @csrf
             <!-- Current Password -->
             <div class="ui search focus mt-50">

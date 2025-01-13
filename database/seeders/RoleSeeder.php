@@ -13,9 +13,31 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        role::create([
-            'name' => 'admin',
-            'description' => 'This is the admin role',
-        ]);
+        role::insert([
+            [
+                'name' => 'admin',
+                'description' => 'This is the admin role',
+                'created_by' => 1,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'insructor',
+                'description' => 'This is the instractor role',
+                'created_by' => 1,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],[
+                'name' => 'learner',
+                'description' => 'This is the learner role',
+                'created_by' => 1,
+                'updated_by' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ],
+    );
     }
 }

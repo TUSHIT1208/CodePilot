@@ -51,7 +51,7 @@
                         <button class="social_lnk_btn mt-15 color_btn_go"><i class="uil uil-google"></i>Continue with Google</button>
                         
                         <!-- Login Form -->
-                        <form action="/login" method="POST">
+                        <form action="{{ route('login_check')}}" method="POST">
                             @csrf
                             <div class="ui search focus mt-15">
                                 <div class="ui left icon input swdh95">
@@ -94,7 +94,7 @@
                             <button class="login-btn" type="submit">Sign In</button>
                         </form>
                         <p class="sgntrm145">Or <a href="{{ route('forgot_password') }}">Forgot Password</a>.</p>
-                        <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="">Sign Up</a></p>
+                        <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="{{ route('user.create')}}">Sign Up</a></p>
                     </div>
                     <div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>Cursus</strong>. All Rights Reserved.</div>
                 </div>                

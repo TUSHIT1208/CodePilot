@@ -6,7 +6,7 @@
         <div class="container-fluid">			
             <div class="row">
                 <div class="col-lg-12">	
-                    <h2 class="st_title"><i class="uil uil-apps"></i> Instructor Dashboard</h2>
+                    <h2 class="st_title"><i class="uil uil-apps"></i> Admin Dashboard</h2>
                     <h2>Welcome {{ Auth::user()->username}} !!</h2>
                 </div>
                 <div class="col-xl-3 col-lg-6 col-md-6">
