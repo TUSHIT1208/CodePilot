@@ -51,4 +51,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     protected $gyarded = [];
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

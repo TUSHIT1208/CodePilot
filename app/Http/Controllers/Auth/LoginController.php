@@ -1,18 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
+    use AuthenticatesUsers;
+
     public function create()
     {
-        return view('sign_in');
+        return view('auth.login');
     }
-    public function login(request $request)
+    public function login_check(request $request)
     {
         $userData = $request->validate([
             'email' => 'required|email',
@@ -21,7 +25,18 @@ class LoginController extends Controller
         
         if(Auth::attempt($userData))
         {
-            return redirect()->route('admin.dashboard');
+            $user=Auth::user();
+
+            if($user->role && $user->role->name === 'admin'){
+                return redirect()->route('admin.dashboard');
+            }elseif($user->role && $user->role->name === 'instractor'){
+                return redirect()->route('instractor.dashboard');
+            }else{
+                return redirect()->route('learner.dashboard');
+            }
+            
+        }else{
+            return back()->with('error','Invalid Email or Password');
         }
     } 
     public function logout()
