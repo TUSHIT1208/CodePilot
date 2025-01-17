@@ -23,8 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //return view('sign_up');
-         return redirect('/register');
+        // return view('');
+        //  return redirect('/register');
     }
 
     /**
@@ -55,7 +55,7 @@ class UserController extends Controller
         } else {
             $profileImageName = null;
         }
-
+  
         
         // // Start transaction to ensure atomicity
         // \DB::beginTransaction();

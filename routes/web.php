@@ -26,8 +26,8 @@ Route::get('/dashboard', function () {
 Route::resource('user', UserController::class);
 
 Route::get('/register', function () {
-    return view('sign_up');
-});
+    return view('auth.register');
+})->name('register');
 
 route::post('/store_learner',[UserController::class,'store_learner'])->name('user.store_learner');
 

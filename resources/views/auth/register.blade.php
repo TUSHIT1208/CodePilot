@@ -11,6 +11,7 @@
 		
 		<!-- Favicon Icon -->
 		<link rel="icon" type="image/png" href="images/fav.png">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		
 		<!-- Stylesheets -->
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet'>
@@ -300,6 +301,46 @@
 		</div>				
 	</div>
 	<!-- Signup End -->	
+
+    <script>
+        $(document).ready(function () {
+        $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+            
+            let form = $(this);
+            let formData = new FormData(this);
+
+            // Clear previous error messages
+            form.find('.text-danger').remove();
+
+            $.ajax({
+                url: form.attr('action'), // Form action URL
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    // Redirect to the login page with a success message
+                    window.location.href = "{{ route('login') }}?success=" + encodeURIComponent('Registration successful! Please log in.');
+                },
+                error: function (xhr) {
+                    // Handle validation errors from the server
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        for (let key in errors) {
+                            let input = form.find(`[name="${key}"]`);
+                            let errorMessage = `<strong class="text-danger">${errors[key][0]}</strong>`;
+                            input.closest('.ui.search').append(errorMessage);
+                        }
+                    } else {
+                        alert('An error occurred. Please try again.');
+                    }
+                }
+            });
+        });
+    });
+
+    </script>    
 
 	<script src="js/jquery-3.7.1.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
