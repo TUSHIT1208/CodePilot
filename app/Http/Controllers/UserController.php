@@ -23,8 +23,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        //return view('sign_up');
-         return redirect('/register');
+        //
+    }
+    public function register()
+    {
+        return view('auth.register');
     }
 
     /**

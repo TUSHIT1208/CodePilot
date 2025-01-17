@@ -44,7 +44,7 @@
 			<div class="col-lg-6 col-md-8">
 				<div class="sign_form">
 					<h2>Request a Password Reset</h2>
-					<form action="{{ route('password.email') }}" method="POST">
+					<form method="POST" action="{{ route('password.email') }}">
 						@csrf
 						<div class="ui search focus mt-50">
 							<div class="ui left icon input swdh95">
