@@ -22,24 +22,23 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-        
-        if(Auth::attempt($userData))
-        {
-            $user=Auth::user();
 
-            if($user->role && $user->role->name === 'admin'){
+        if (Auth::attempt($userData)) {
+            $user = Auth::user();
+
+            if ($user->role && $user->role->name === 'admin') {
                 return redirect()->route('admin.dashboard');
-            }elseif($user->role && $user->role->name === 'insructor'){
+            } elseif ($user->role && $user->role->name === 'insructor') {
                 return "instractor";
                 // return redirect()->route('instractor.dashboard');
-            }else{
+            } else {
                 return redirect()->route('learner.dashboard');
             }
-            
-        }else{
-            return back()->with('error','Invalid Email or Password');
+
+        } else {
+            return back()->with('error', 'Invalid Email or Password');
         }
-    } 
+    }
     public function logout()
     {
         Auth::logout();

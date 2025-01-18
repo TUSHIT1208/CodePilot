@@ -17,14 +17,20 @@ class UserController extends Controller
         return view('admin.all_learner', compact('learner'));
     }
 
-
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         //
     }
+    /**
+     * Show the form for creating a new resource.
+     */
     public function register()
     {
         return view('auth.register');
+
     }
 
     /**
@@ -150,6 +156,7 @@ class UserController extends Controller
             \DB::commit();
 
             return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
+
         } catch (\Exception $e) {
             // Rollback the transaction in case of error
             \DB::rollback();

@@ -11,7 +11,6 @@
 
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="images/fav.png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Stylesheets -->
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet'>
@@ -28,6 +27,7 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="vendor/semantic/semantic.min.css">
+
 
 </head>
 
@@ -350,7 +350,7 @@
         </div>
     </div>
     <!-- Signup End -->
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
@@ -377,8 +377,8 @@
                         if (xhr.status === 422) {
                             let errors = xhr.responseJSON.errors;
                             for (let key in errors) {
-                                let input = form.find([name = "${key}"]);
-                                let errorMessage = <strong class="text-danger">${errors[key][0]}</strong>;
+                                let input = form.find(`[name="${key}"]`);
+                                let errorMessage = `<strong class="text-danger">${errors[key][0]}</strong>`;
                                 input.closest('.ui.search').append(errorMessage);
                             }
                         } else {
@@ -388,6 +388,7 @@
                 });
             });
         });
+
     </script>
 
     <script src="js/jquery-3.7.1.min.js"></script>

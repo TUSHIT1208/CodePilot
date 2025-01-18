@@ -1,5 +1,4 @@
-@extends('admin.layouts.header')
-@section('body')
+@include('admin.layouts.master')
 <!-- Body Start -->
 <div class="wrapper">
     <div class="sa4d25">
@@ -69,14 +68,5 @@
             </div>
         </div>
     </div>
+    @include('admin.layouts.footer')
 </div>
-<!-- Body End -->
-<script src="js/vertical-responsive-menu.min.js"></script>
-<script src="js/jquery-3.7.1.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="vendor/OwlCarousel/owl.carousel.js"></script>
-<script src="vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js"></script>
-<script src="vendor/semantic/semantic.min.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/night-mode.js"></script>
-@endsection

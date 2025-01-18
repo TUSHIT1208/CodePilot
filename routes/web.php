@@ -20,7 +20,6 @@ Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
 })->name('learner.dashboard');
 
-
 Route::resource('user', UserController::class);
 route::post('/store_learner', [UserController::class, 'store_learner'])->name('user.store_learner');
 
