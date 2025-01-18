@@ -41,15 +41,13 @@
                                             </div>
                                             <div class="tutor_cate">{{$user->email}}</div>
                                             <ul class="tutor_social_links">
-                                                <li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
-                                                <li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
-                                                <li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
-                                                <li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
+                                                <li><a href="#" class="tw"><i class="uil uil-edit"></i></a></li>
+                                                <li><a href="#" class="yu"><i class="uil uil-trash-alt"></i></a></li>
+
                                             </ul>
 
-                                            <div class="tut1250">
-                                                {{-- <p>100K Students &bull; 15 Courses</p> --}}
-                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -73,5 +71,12 @@
     </div>
 </div>
 <!-- Body End -->
-
+<script src="js/vertical-responsive-menu.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="vendor/OwlCarousel/owl.carousel.js"></script>
+<script src="vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js"></script>
+<script src="vendor/semantic/semantic.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/night-mode.js"></script>
 @endsection
