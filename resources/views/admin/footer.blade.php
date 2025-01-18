@@ -1,8 +1,6 @@
-
-
 <footer class="footer mt-40">
     <div class="container-fluid">
-        <div class="row">					
+        <div class="row">
             <div class="col-lg-12">
                 <div class="item_f1">
                     <a href="terms_of_use.html">Copyright Policy</a>

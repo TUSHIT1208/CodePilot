@@ -10,17 +10,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        //
+        $learner = User::where('role_id', 3)->get();
+        return view('admin.all_learner', compact('learner'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
@@ -49,7 +46,7 @@ class UserController extends Controller
             'skill' => 'nullable|string',
             'short_description' => 'nullable|string|max:255', // Short description for instructors
         ]);
-    
+
         // Handle profile picture upload (if exists)
         if ($request->hasFile('profile_image')) {
             $profileImage = $request->file('profile_image');
@@ -59,42 +56,42 @@ class UserController extends Controller
             $profileImageName = null;
         }
 
-        
+
         // // Start transaction to ensure atomicity
         // \DB::beginTransaction();
-    
+
         // try {
-            // Create the user record
-            $user = User::create([
-                'username' => $request->username,
-                'first_name' => $request->firstname,
-                'middle_name' => $request->middlename,
-                'last_name' => $request->lastname,
-                'email' => $request->emailaddress,
-                'password' => Hash::make($request->password),
-                'phone_number' => $request->phone_no,
-                'profile_picture_url' => $profileImageName,
-                'date_of_birth' => $request->date_of_birth,
-                'role_id' => 2, // Assign the instructor role ID
-                'is_active' => true, // Assuming the user is active by default
-            ]);
-    
-            // Create the instructor profile
-            InstractorProfile::create([
-                'user_id' => $user->id,
-                'bio' => $request->bio,
-                'skills' => $request->skill, 
-            ]);
-            return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
-    
+        // Create the user record
+        $user = User::create([
+            'username' => $request->username,
+            'first_name' => $request->firstname,
+            'middle_name' => $request->middlename,
+            'last_name' => $request->lastname,
+            'email' => $request->emailaddress,
+            'password' => Hash::make($request->password),
+            'phone_number' => $request->phone_no,
+            'profile_picture_url' => $profileImageName,
+            'date_of_birth' => $request->date_of_birth,
+            'role_id' => 2, // Assign the instructor role ID
+            'is_active' => true, // Assuming the user is active by default
+        ]);
+
+        // Create the instructor profile
+        InstractorProfile::create([
+            'user_id' => $user->id,
+            'bio' => $request->bio,
+            'skills' => $request->skill,
+        ]);
+        return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
+
         //     // Commit the transaction
-            
+
         //     \DB::commit();
         //     return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
         // } catch (\Exception $e) {
         //     // Rollback the transaction in case of error
         //     \DB::rollback();
-    
+
         //     return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
         // }
     }
@@ -159,7 +156,7 @@ class UserController extends Controller
 
             return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
         }
-        }
+    }
     /**
      * Display the specified resource.
      */
