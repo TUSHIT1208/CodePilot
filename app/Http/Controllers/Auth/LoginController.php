@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    use AuthenticatesUsers;
+    //use AuthenticatesUsers;
 
     public function create()
     {
@@ -29,8 +29,9 @@ class LoginController extends Controller
 
             if($user->role && $user->role->name === 'admin'){
                 return redirect()->route('admin.dashboard');
-            }elseif($user->role && $user->role->name === 'instractor'){
-                return redirect()->route('instractor.dashboard');
+            }elseif($user->role && $user->role->name === 'insructor'){
+                return "instractor";
+                // return redirect()->route('instractor.dashboard');
             }else{
                 return redirect()->route('learner.dashboard');
             }
