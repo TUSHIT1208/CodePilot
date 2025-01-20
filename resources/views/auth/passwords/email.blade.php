@@ -48,14 +48,26 @@
 						@csrf
 						<div class="ui search focus mt-50">
 							<div class="ui left icon input swdh95">
-								<input class="prompt srch_explore" type="email" name="emailaddress" value="" id="id_email" required="" maxlength="64" placeholder="Email Address">															
+								<input 
+									class="prompt srch_explore @error('emailaddress') is-invalid @enderror" 
+									type="email" 
+									name="emailaddress" 
+									value="{{ old('emailaddress') }}" 
+									id="id_email" 
+									required 
+									maxlength="64" 
+									placeholder="Email Address">                                                        
 								<i class="uil uil-envelope icon icon2"></i>
 							</div>
+							@error('emailaddress')
+									{{ $message }}
+							@enderror
 						</div>
 						<button class="login-btn" type="submit">Reset Password</button>
 					</form>
-					<p class="mb-0 mt-30">Go Back <a href="{{ route('login')}}">Sign In</a></p>
+					<p class="mb-0 mt-30">Go Back <a href="{{ route('login') }}">Sign In</a></p>
 				</div>
+				
 				<div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>Cursus</strong>. All Rights Reserved.</div>
 			</div>				
 		</div>				

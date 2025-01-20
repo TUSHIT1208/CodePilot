@@ -21,6 +21,18 @@
                     </a>
                 </li>
                 <li class="menu--item">
+                    <a href="{{ route('category.index')}}" class="menu--link" title="Create Course">
+                        <i class="uil uil-folder-plus menu--icon"></i>
+                        <span class="menu--label">Create Category</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{ route('sub_category.index')}}" class="menu--link" title="Create Course">
+                        <i class="uil uil-folder-open menu--icon"></i>
+                        <span class="menu--label">Create SubCategory</span>
+                    </a>
+                </li>
+                <li class="menu--item">
                     <a href="create_new_course.html" class="menu--link" title="Create Course">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Create Course</span>

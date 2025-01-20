@@ -15,7 +15,7 @@
                             <span class="crdbg_1">New $50</span>
                         </div>
                         <div class="card_dash_right">
-                            <img src="images/dashboard/achievement.svg" alt="">
+                            <img src="{{ asset('images/dashboard/achievement.svg') }}" alt="">
                         </div>
                     </div>
                 </div>

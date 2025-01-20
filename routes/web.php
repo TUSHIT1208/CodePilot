@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Category\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
@@ -13,12 +15,12 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
-})->name('admin.dashboard');
+})->name('admin.dashboard')->middleware('auth');
 
 
 Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
-})->name('learner.dashboard');
+})->name('learner.dashboard')->middleware('auth');
 
 Route::get('/setting', function () {
     return view('admin.setting');
@@ -43,3 +45,6 @@ Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkE
 
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+Route::resource('category', CategoryController::class);
+Route::resource('sub_category', SubCategoryController::class);

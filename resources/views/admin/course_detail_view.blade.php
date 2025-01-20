@@ -1,4 +1,4 @@
-@section('body')
+@include('admin.layouts.master')
 <div class="wrapper _bg4586">
     <div class="_215b01">
         <div class="container-fluid">			

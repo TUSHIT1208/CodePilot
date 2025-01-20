@@ -1,4 +1,4 @@
-@section('body')
+@include('admin.layouts.master')
 <div class="lecture-container-wrap d-flex">
     <div class="lecture-sidebar">
         <h4 class="p-4 lecture-sidebar-course-title">The Web Developer Bootcamp</h4>

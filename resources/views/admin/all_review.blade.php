@@ -1,4 +1,4 @@
-@section('body')
+@include('admin.layouts.master')
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container-fluid">			
@@ -176,5 +176,5 @@
                 </div>
             </div>
         </div>
+        @include('admin.layouts.footer')
     </div>
-@endsection
