@@ -19,6 +19,7 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
     <link href="css/night-mode.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Vendor Stylesheets -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -350,7 +351,7 @@
         </div>
     </div>
     <!-- Signup End -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <script>
         $(document).ready(function () {
             $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {

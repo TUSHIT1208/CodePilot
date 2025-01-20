@@ -1,0 +1,156 @@
+.no-categories-container {
+    padding: 50px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0; /* Initially hidden */
+    animation: fadeIn 1s forwards; /* Apply fade-in animation */
+    animation-delay: 0.3s; /* Delay for smooth entry */
+}
+
+/* Animation for fade-in */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Bounce effect for the icon */
+.bounce-effect {
+    animation: bounce 1.2s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Scale-in effect for the text */
+.scale-in-text {
+    opacity: 0;
+    animation: scaleIn 1s forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes scaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Fade-in effect for the description and button */
+.fade-in-text {
+    opacity: 0;
+    animation: fadeInText 1s forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeInText {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.no-categories-container h3 {
+    font-size: 24px;
+    color: #555;
+}
+
+.no-categories-container p {
+    font-size: 16px;
+    color: #777;
+}
+
+.no-categories-container a {
+    font-size: 16px;
+    padding: 10px 20px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.no-categories-container a:hover {
+    background-color: #0056b3;
+}
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Scale effect and shadow on hover */
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Fade-in animation for the card */
+.card {
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Hover effect for the card header */
+.card-header {
+    transition: background-color 0.3s ease;
+}
+
+.card:hover .card-header {
+    background-color: #ff5722; /* Or any color you prefer */
+}
+
+/* Subcategory text fading in */
+.card-body p {
+    opacity: 0;
+    animation: fadeInText 1s 0.5s forwards;
+}
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Small text animation */
+.card-body small {
+    opacity: 0;
+    animation: fadeInSmallText 1s 1s forwards;
+}
+
+@keyframes fadeInSmallText {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -50,7 +50,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    protected $gyarded = [];
     public function role()
     {
         return $this->belongsTo(Role::class);

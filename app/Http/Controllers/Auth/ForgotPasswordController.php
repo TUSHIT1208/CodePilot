@@ -17,7 +17,7 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate([
-            'emailaddress' => 'required|email', // Validate the input field named 'emailaddress'
+            'emailaddress' => 'required|email|exists:users,email', // Validate the input field named 'emailaddress'
         ]);
 
         // Map the input 'emailaddress' to 'email' before sending the reset link
