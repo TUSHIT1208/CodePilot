@@ -4,7 +4,7 @@
         <div class="left_section">
             <ul>
                 <li class="menu--item">
-                    <a href="index.html" class="menu--link" title="Home">
+                    <a href="{{ route('admin.dashboard') }}" class="menu--link" title="Home">
                         <i class='uil uil-home-alt menu--icon'></i>
                         <span class="menu--label">Home</span>
                     </a>
