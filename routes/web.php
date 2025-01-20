@@ -20,7 +20,16 @@ Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
 })->name('learner.dashboard');
 
+Route::get('/setting', function () {
+    return view('admin.setting');
+})->name('setting');
 Route::resource('user', UserController::class);
+route::get('user/{id}', [UserController::class, 'destroy']);
+route::get('user/{id}', [UserController::class, 'edit']);
+Route::get('/instructorList', [UserController::class, 'instructorList'])->name('instructorList');
+Route::post('/admin/update-user-status', [UserController::class, 'updateUserStatus'])->name('update.user.status');
+
+
 route::post('/store_learner', [UserController::class, 'store_learner'])->name('user.store_learner');
 
 Route::get('/register', [UserController::class, 'register'])->name('register');

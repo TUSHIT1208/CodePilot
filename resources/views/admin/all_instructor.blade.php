@@ -1,5 +1,4 @@
-@include('admin.layouts.master')
-<!-- Body Start -->
+@include('admin.setting.master')
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container-fluid">
@@ -19,7 +18,7 @@
                 <div class="col-md-12">
                     <div class="_14d25">
                         <div class="row">
-                            @foreach ($learner as $user)
+                            @foreach ($instructor as $user)
                                 <div class="col-xl-3 col-lg-4 col-md-6">
                                     <div class="fcrse_1 mt-30">
                                         <div class="tutor_img text-center">
@@ -40,20 +39,10 @@
                                                 </div>
                                             </div>
                                             <div class="tutor_cate">{{ $user->email }}</div>
-
-                                            <!-- Toggle Button -->
-                                            <div class="toggle-button mt-2">
-                                                <input type="checkbox" class="toggle-input" id="toggle{{$user->id}}"
-                                                    data-user-id="{{$user->id}}" {{ $user->is_active ? 'checked' : '' }} />
-                                                <label for="toggle{{$user->id}}" class="toggle-label">
-                                                    <span class="toggle-circle"></span>
-                                                </label>
-                                            </div>
-
                                             <ul class="tutor_social_links">
                                                 <!-- Edit Button -->
                                                 <li>
-                                                    <button type="button" class="btn edit-btn" data-bs-toggle="modal"
+                                                    <button type="button" class="tw edit-btn" data-bs-toggle="modal"
                                                         data-bs-target="#editUserModal{{ $user->id }}">
                                                         <i class="uil uil-edit"></i>
                                                     </button>
@@ -64,9 +53,9 @@
                                                         class="delete-form">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="btn btn-danger delete-btn"
+                                                        <button type="button" class="yu delete-btn"
                                                             data-username="{{ $user->username }}">
-                                                            <i class="uil uil-trash-alt" style="font-size: 137%;"></i>
+                                                            <i class="uil uil-trash-alt"></i>
                                                         </button>
                                                     </form>
                                                 </li>
@@ -144,47 +133,8 @@
     @include('admin.layouts.footer')
 </div>
 
-<style>
-    .toggle-button {
-        position: relative;
-        display: inline-block;
-    }
-
-    .toggle-input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .toggle-label {
-        width: 34px;
-        height: 20px;
-        background-color: #ccc;
-        border-radius: 50px;
-        position: relative;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .toggle-label .toggle-circle {
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 16px;
-        height: 16px;
-        background-color: white;
-        border-radius: 50%;
-        transition: transform 0.3s;
-    }
-
-    .toggle-input:checked+.toggle-label {
-        background-color: #4CAF50;
-    }
-
-    .toggle-input:checked+.toggle-label .toggle-circle {
-        transform: translateX(14px);
-    }
-</style>
+<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- JavaScript for Delete Confirmation -->
 <script>
@@ -210,38 +160,6 @@
                         form.submit(); // Submit the form if the user confirms
                     }
                 });
-            });
-        });
-    });
-</script>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Handle toggle change event
-        $('.toggle-input').change(function () {
-            var userId = $(this).data('user-id');
-            var isActive = $(this).prop('checked') ? 1 : 0;
-
-            // Send the updated status to the server using AJAX
-            $.ajax({
-                url: '/admin/update-user-status',  // Your route to handle the update
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',  // CSRF token for security
-                    user_id: userId,
-                    is_active: isActive
-                },
-                success: function (response) {
-                    if (response.success) {
-                        // You can display a success message or take action if needed
-                        console.log('Status updated successfully');
-                    } else {
-                        // Revert the toggle if there was an error
-                        console.log('Error updating status');
-                        $(this).prop('checked', !isActive);  // Revert toggle
-                    }
-                }
             });
         });
     });

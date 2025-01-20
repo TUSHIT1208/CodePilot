@@ -17,6 +17,12 @@ class UserController extends Controller
         return view('admin.all_learner', compact('learner'));
     }
 
+    public function instructorList()
+    {
+        $instructor = User::where('role_id', 2)->get();
+        return view('admin.all_instructor', compact('instructor'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -54,8 +60,8 @@ class UserController extends Controller
         ]);
 
         // Handle profile picture upload (if exists)
-        if ($request->hasFile('profile_image')) {
-            $profileImage = $request->file('profile_image');
+        if ($request->hasFile('profile_picture_url')) {
+            $profileImage = $request->file('profile_picture_url');
             $profileImageName = time() . '.' . $profileImage->getClientOriginalExtension();
             $profileImage->move(public_path('/images/'), $profileImageName);
         } else {
@@ -112,7 +118,6 @@ class UserController extends Controller
             'emailaddress' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
             'phone_no' => 'required|string',
-            'profile_picture_url' => 'nullable|required',
             'date_of_birth' => 'required|date',
             'profession_headline' => 'nullable|string|max:255',
             'short_description' => 'nullable|string|max:255',
@@ -141,7 +146,6 @@ class UserController extends Controller
                 'email' => $request->emailaddress,
                 'password' => Hash::make($request->password),
                 'phone_number' => $request->phone_no,
-                'profile_picture_url' => $profileImageName,
                 'date_of_birth' => $request->date_of_birth,
                 'role_id' => 3, // Assign the learner role ID
                 'is_active' => true, // Assuming the user is active by default
@@ -183,16 +187,43 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone_number' => 'nullable|string|max:15',  // Validating phone number
+            'password' => 'nullable|string|min:6',  // Validating password
+        ]);
+
+
+        // Update the user record
+        $user->update($data);
+
+        return redirect()->back()->with('success', 'Tutor deleted successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->back()->with('success', 'Tutor deleted successfully!');
+    }
+
+    public function updateUserStatus(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if ($user) {
+            $user->is_active = $request->is_active;
+            $user->save();
+        }
+        return response()->json(['success' => false], 400);
     }
 }
