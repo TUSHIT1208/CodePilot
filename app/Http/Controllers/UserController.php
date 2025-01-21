@@ -82,7 +82,6 @@ class UserController extends Controller
             'email' => $request->emailaddress,
             'password' => Hash::make($request->password),
             'phone_number' => $request->phone_no,
-            'profile_picture_url' => $profileImageName,
             'date_of_birth' => $request->date_of_birth,
             'role_id' => 2, // Assign the instructor role ID
             'is_active' => true, // Assuming the user is active by default

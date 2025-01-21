@@ -87,16 +87,51 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, $id)
     {
-        //
+        // Find the category by ID or fail if it doesn't exist
+        $category = Category::findOrFail($id);
+        
+        // Validate the input data
+        $data = $request->validate([
+            'category_name' => 'required|string|max:255',  // Validating category name
+            'category_description' => 'required|string',   // Validating category description
+        ]);
+
+        // Update the category record with the validated data
+        $category->update([
+            'name' => $data['category_name'],
+            'description' => $data['category_description'],
+        ]);
+
+        // Return response to inform user about the success of the operation
+        return redirect()->back()->with('success', 'Category updated successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(category $category)
+    public function destroy(string $id)
     {
-        //
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->back()->with('success', 'Category deleted successfully!');
+    }
+    public function updateCategoryStatus(Request $request)
+    {
+        $category = Category::find($request->category_id);
+
+        if ($category) {
+            // Update the category's is_active status
+            $category->is_active = $request->is_active;
+            $category->save();
+
+            // Return a success response
+            return response()->json([
+                'success' => $category->is_active ? 'Category has been activated successfully!' : 'Category has been deactivated successfully!',
+            ]);
+            
+        }
     }
 }

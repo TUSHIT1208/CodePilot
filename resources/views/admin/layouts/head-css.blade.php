@@ -10,6 +10,7 @@
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
 <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/OwlCarousel/assets/owl.carousel.css') }}" rel="stylesheet">
@@ -23,3 +24,6 @@
 
 {{-- category css --}}
 <link href="{{ asset('css/category.css') }}" rel="stylesheet">
+
+{{-- toggle_delete_edit_btn css --}}
+<link href="{{ asset('css/toggle_delete_edit_btn.css') }}" rel="stylesheet">

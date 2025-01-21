@@ -50,7 +50,7 @@
                                                 </label>
                                             </div>
 
-                                            <ul class="tutor_social_links">
+                                            <ul class="tutor_social_links mt-4">
                                                 <!-- Edit Button -->
                                                 <li>
                                                     <button type="button" class="btn edit-btn" data-bs-toggle="modal"
@@ -64,9 +64,9 @@
                                                         class="delete-form">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="btn btn-danger delete-btn"
+                                                        <button type="button" class="btn delete-btn"
                                                             data-username="{{ $user->username }}">
-                                                            <i class="uil uil-trash-alt" style="font-size: 137%;"></i>
+                                                            <i class="uil uil-trash-alt"></i>
                                                         </button>
                                                     </form>
                                                 </li>
@@ -144,48 +144,6 @@
     @include('admin.layouts.footer')
 </div>
 
-<style>
-    .toggle-button {
-        position: relative;
-        display: inline-block;
-    }
-
-    .toggle-input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .toggle-label {
-        width: 34px;
-        height: 20px;
-        background-color: #ccc;
-        border-radius: 50px;
-        position: relative;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .toggle-label .toggle-circle {
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 16px;
-        height: 16px;
-        background-color: white;
-        border-radius: 50%;
-        transition: transform 0.3s;
-    }
-
-    .toggle-input:checked+.toggle-label {
-        background-color: #4CAF50;
-    }
-
-    .toggle-input:checked+.toggle-label .toggle-circle {
-        transform: translateX(14px);
-    }
-</style>
-
 <!-- JavaScript for Delete Confirmation -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -215,7 +173,7 @@
     });
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     $(document).ready(function () {
         // Handle toggle change event

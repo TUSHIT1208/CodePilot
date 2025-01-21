@@ -79,16 +79,60 @@ class SubCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, sub_category $sub_category)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                // 'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
+                'subcategory_name' => 'required|string|max:255',  // Validate subcategory name
+                'subcategory_description' => 'required|string',   // Validate subcategory description
+            ]);
+
+            // Find the subcategory by ID
+            $subcategory = Sub_Category::findOrFail($id);
+
+            // Update the subcategory with validated data
+            $subcategory->update([
+                // 'category_id' => $validatedData['category_id'],   // Update the category ID
+                'name' => $validatedData['subcategory_name'],     // Update the subcategory name
+                'description' => $validatedData['subcategory_description'], // Update the subcategory description
+            ]);
+
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Subcategory updated successfully!');
+        }  catch (\Exception $e) {
+            // Handle any other exceptions
+            return redirect()->back()->with('error', 'Failed to update subcategory: ' . $e->getMessage());
+        }
     }
+
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(sub_category $sub_category)
+    public function destroy($id)
     {
-        //
+        $category = Sub_Category::find($id);
+        $category->delete();
+        return redirect()->back()->with('success', 'SubCategory deleted successfully!');
+    }
+    public function updateSubCategoryStatus(Request $request)
+    {
+        $category = Sub_Category::find($request->category_id);
+
+        if ($category) {
+            // Update the category's is_active status
+            $category->is_active = $request->is_active;
+            $category->save();
+
+            // Return a success response
+            return response()->json([
+                'success' => $category->is_active ? 'SubCategory has been activated successfully!' : 'SubCategory has been deactivated successfully!',
+            ]);
+            
+        }
     }
 }

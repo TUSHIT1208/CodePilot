@@ -38,8 +38,8 @@
                         <!-- No Records Found -->
                         <div class="no-categories-container text-center fade-in-animation footer">
                             <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Categories Found</h3>
-                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any categories yet. Add one now to get started!</p>
+                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Subcategories Found</h3>
+                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any subcategories yet. Add one now to get started!</p>
                         </div>
                     @else
                         <!-- Subcategory Cards -->
@@ -54,8 +54,83 @@
                                             <p>{{ $subcategory->description }}</p>
                                             <small>Category: {{ $subcategory->category->name }}</small>
                                         </div>
+                                        <!-- Toggle Button -->
+                                        <div class="toggle-button mt-2 text-center">
+                                            <input type="checkbox" class="toggle-input" id="toggle{{$subcategory->id}}"
+                                                data-user-id="{{$subcategory->id}}" {{ $subcategory->is_active ? 'checked' : '' }} />
+                                            <label for="toggle{{$subcategory->id}}" class="toggle-label">
+                                                <span class="toggle-circle"></span>
+                                            </label>
+                                        </div>
+
+                                        <ul class="tutor_social_links mt-4 text-center mb-2">
+                                            <!-- Edit Button -->
+                                            <li>
+                                                <button type="button" class="btn edit-btn" data-bs-toggle="modal"
+                                                    data-bs-target="#editSubcategoryModal{{ $subcategory->id }}">
+                                                    <i class="uil uil-edit"></i>
+                                                </button>
+                                            </li>
+                                            <!-- Delete Button -->
+                                            <li>
+                                                <form action="{{ route('sub_category.destroy', $subcategory->id) }}" method="POST"
+                                                    class="delete-form">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn delete-btn"
+                                                        data-username="{{ $subcategory->name }}">
+                                                        <i class="uil uil-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
+                                <!-- Edit Subcategory Modal -->
+                                <div class="modal fade" id="editSubcategoryModal{{ $subcategory->id }}" tabindex="-1"
+                                    aria-labelledby="editSubcategoryModalLabel{{ $subcategory->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form action="{{ route('sub_category.update', $subcategory->id) }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editSubcategoryModalLabel{{ $subcategory->id }}">
+                                                        Edit Subcategory
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{-- <div class="mb-3">
+                                                        <label for="category_id_{{ $subcategory->id }}" class="form-label">Category</label>
+                                                        <select class="form-control" id="category_id_{{ $subcategory->id }}" name="category_id" required>
+                                                            @foreach($categories as $category)
+                                                                <option value="{{ $category->id }}" {{ $category->id == $subcategory->category_id ? 'selected' : '' }}>
+                                                                    {{ $category->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div> --}}
+                                                    <div class="mb-3">
+                                                        <label for="subcategory_name_{{ $subcategory->id }}" class="form-label">Subcategory Name</label>
+                                                        <input type="text" class="form-control" id="subcategory_name_{{ $subcategory->id }}"
+                                                            name="subcategory_name" value="{{ $subcategory->name }}" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="subcategory_description_{{ $subcategory->id }}" class="form-label">Subcategory Description</label>
+                                                        <textarea class="form-control" id="subcategory_description_{{ $subcategory->id }}"
+                                                            name="subcategory_description" rows="4" required>{{ $subcategory->description }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End of Edit Subcategory Modal -->
                             @endforeach
                         </div>                        
                     @endif
@@ -68,7 +143,7 @@
     <div class="modal fade" id="addSubcategoryModal" tabindex="-1" aria-labelledby="addSubcategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="subcategoryForm" method="POST">
+                <form id="subcategoryForm" action="{{ route('sub_category.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="addSubcategoryModalLabel"><i class="uil uil-plus-circle"></i> Add a New Subcategory</h5>
@@ -118,14 +193,14 @@
             var formData = new FormData(this); // Get form data
 
             // Display progress bar toast notification
-            var progressToast = toastr.info('', 'Processing...', {
-                timeOut: 0, // Stay until it's closed
-                positionClass: 'toast-bottom-right',
-                extendedTimeOut: 0,
-                closeButton: true,
-                progressBar: true,
-                iconClass: 'toast-info'
-            });
+            // var progressToast = toastr.info('', 'Processing...', {
+            //     timeOut: 0, // Stay until it's closed
+            //     positionClass: 'toast-bottom-right',
+            //     extendedTimeOut: 0,
+            //     closeButton: true,
+            //     progressBar: true,
+            //     iconClass: 'toast-info'
+            // });
 
             $.ajax({
                 url: '{{ route('sub_category.store') }}', // The route to store the subcategory
@@ -178,9 +253,92 @@
                     }
                 }
             });
+            // Automatically clear the info toast if canceled
+        setTimeout(function () {
+            toastr.clear(progressToast); // Clear after 1 second
+        }, 200);
         });
     });
 </script>
-<style>/* Card Hover Animation */
-    
-    </style>
+<!-- JavaScript for Delete Confirmation -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const form = this.closest(".delete-form");
+                const categoryName = this.getAttribute("data-username");
+
+                Swal.fire({
+                    title: `Are you sure?`,
+                    text: `You are about to delete the Subcategory "${categoryName}". This action cannot be undone.`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit the form if the user confirms
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.toggle-input').change(function () {
+            const categoryId = $(this).data('user-id');
+            const isActive = $(this).is(':checked') ? 1 : 0;
+
+            $.ajax({
+                url: '/subcategory/update-subcategory-status', // Replace with your route
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    category_id: categoryId,
+                    is_active: isActive
+                },
+                success: function (response) {
+                    if (response.success) {
+                        toastr.options = {
+                            "closeButton": true, // Remove close button
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true, // Enable time bar
+                            "positionClass": "toast-bottom-right",
+                            "preventDuplicates": true,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000", // Duration before auto-hiding
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.success(response.success, 'Success');
+                    } else {
+                        toastr.error('Failed to update category status. Please try again.', 'Error', {
+                            timeOut: 4000,
+                            positionClass: 'toast-bottom-right',
+                        });
+                    }
+                },
+                error: function () {
+                    toastr.error('An unexpected error occurred. Please try again.', 'Error', {
+                        timeOut: 4000,
+                        positionClass: 'toast-bottom-right',
+                    });
+                }
+            });
+        });
+    });
+</script>
+

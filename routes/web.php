@@ -25,11 +25,18 @@ Route::get('/dashboard/learner', function () {
 Route::get('/setting', function () {
     return view('admin.setting');
 })->name('setting');
+
 Route::resource('user', UserController::class);
 route::get('user/{id}', [UserController::class, 'destroy']);
 route::get('user/{id}', [UserController::class, 'edit']);
+
 Route::get('/instructorList', [UserController::class, 'instructorList'])->name('instructorList');
+
 Route::post('/admin/update-user-status', [UserController::class, 'updateUserStatus'])->name('update.user.status');
+
+Route::post('/category/update-category-status', [CategoryController::class, 'updateCategoryStatus'])->name('update.category.status');
+
+Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
 
 
 route::post('/store_learner', [UserController::class, 'store_learner'])->name('user.store_learner');
