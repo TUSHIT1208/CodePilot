@@ -129,36 +129,38 @@
         </div>
     </div>
 
+    
     <!-- Modal for Adding Category -->
-    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="categoryForm" method="POST">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addCategoryModalLabel"><i class="uil uil-plus-circle"></i> Add a New Category</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('category.store') }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryModalLabel"><i class="uil uil-plus-circle"></i> Add a New Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="category_name" class="form-label">Category Name</label>
+                        <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter the category name">
+                        <small id="category_name_error" class="text-danger"></small>
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="category_name" class="form-label">Category Name</label>
-                            <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter the category name">
-                            <small id="category_name_error" class="text-danger"></small>
-                        </div>
-                        <div class="mb-3">
-                            <label for="category_description" class="form-label">Category Description</label>
-                            <textarea class="form-control" id="category_description" name="category_description" rows="4" placeholder="Enter the category description"></textarea>
-                            <small id="category_description_error" class="text-danger"></small>
-                        </div>
+                    <div class="mb-3">
+                        <label for="category_description" class="form-label">Category Description</label>
+                        <textarea class="form-control" id="category_description" name="category_description" rows="4" placeholder="Enter the category description"></textarea>
+                        <small id="category_description_error" class="text-danger"></small>
                     </div>
-                    <div class="modal-footer">
-                        <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="upload_btn">Add Category</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="upload_btn">Add Category</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
 
     @include('admin.layouts.footer')
 </div>
@@ -166,131 +168,65 @@
 
 <!-- Toastr Script for Success/Error Message -->
 <script>
-    $(document).ready(function() {
-        // AJAX form submission
-        $('#categoryForm').submit(function(e) {
-            e.preventDefault(); // Prevent the default form submission
+    $(document).ready(function () {
+    // AJAX form submission for Add Category
+    $('#addCategoryModal form').submit(function (e) {
+        e.preventDefault(); // Prevent default form submission
 
-            var formData = new FormData(this); // Get form data
+        // Get form data
+        var formData = $(this).serialize();
 
-            // // Display progress bar toast notification
-            // var progressToast = toastr.info('', 'Processing...', {
-            //     timeOut: 0, // Stay until it's closed
-            //     positionClass: 'toast-bottom-right',
-            //     extendedTimeOut: 0,
-            //     closeButton: true,
-            //     progressBar: true,
-            //     iconClass: 'toast-info'
-            // });
+        $.ajax({
+            url: $(this).attr('action'), // URL for form submission
+            method: $(this).attr('method'), // Use POST method
+            data: formData, // Form data
+            success: function (response) {
+                if (response.success) {
+                    // Configure Toastr
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        newestOnTop: true,
+                        progressBar: true,
+                        positionClass: "toast-bottom-right",
+                        preventDuplicates: true,
+                        timeOut: 5000, // Display duration of the toast (5 seconds)
+                        extendedTimeOut: 1000,
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                    };
 
-            $.ajax({
-                url: '{{ route('category.store') }}', // The route to store the category
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.success) {
-                        // Close the progress toast and show success toast
-                        toastr.clear(progressToast); // Clear the progress toast
+                    // Show success toast
+                    toastr.success(response.success, 'Success');
 
-                        // Set toastr options and show success toast
-                        toastr.options = {
-                            "closeButton": true, // Show close button
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true, // Enable progress bar
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": true,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000", // Duration before auto-hiding
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-
-                        toastr.success(response.success, 'Success'); // Display success message
-
-                        // Reload the page after success toast
-                        setTimeout(function() {
-                            location.reload(); // Reload the page after 2 seconds
-                        }, 2000);
-
-                        $('#addCategoryModal').modal('hide'); // Hide the modal after success
-                    }
-                },
-                error: function(xhr) {
-                // Handle error response and display error toast
-                toastr.clear(progressToast); // Clear the progress toast
-
-                // Handle validation errors
+                    // Close modal and reload page after 2 seconds
+                    setTimeout(function () {
+                        $('#addCategoryModal').modal('hide'); // Close modal
+                        location.reload(); // Reload the page
+                    }, 2000);
+                } else {
+                    // Show error toast
+                    toastr.error(response.error, 'Error');
+                }
+            },
+            error: function (xhr) {
+                // Handle validation or unexpected errors
                 if (xhr.status === 422) {
                     var errors = xhr.responseJSON.errors;
-
-                    // Reset previous error messages
-                    $('#category_name_error').text('');
-                    $('#category_description_error').text('');
-
-                    if (errors.category_name) {
-                        $('#category_name_error').text(errors.category_name[0]);
-                    }
-                    if (errors.category_description) {
-                        $('#category_description_error').text(errors.category_description[0]);
-                    }
-
-                    // Set toastr options and show error toast for validation errors
-                    toastr.options = {
-                        "closeButton": true, // Show close button
-                        "debug": false,
-                        "newestOnTop": true,
-                        "progressBar": true, // Enable progress bar
-                        "positionClass": "toast-bottom-right",
-                        "preventDuplicates": true,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000", // Duration before auto-hiding
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
-
-                    toastr.error('Please fix the errors and try again.', 'Error');
+                    $('#category_name_error').text(errors.category_name ? errors.category_name[0] : '');
+                    $('#category_description_error').text(errors.category_description ? errors.category_description[0] : '');
                 } else {
-                    // For other errors, display generic error toast
-                    toastr.options = {
-                        "closeButton": true, // Show close button
-                        "debug": false,
-                        "newestOnTop": true,
-                        "progressBar": true, // Enable progress bar
-                        "positionClass": "toast-bottom-right",
-                        "preventDuplicates": true,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000", // Duration before auto-hiding
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
-
                     toastr.error('An unexpected error occurred. Please try again.', 'Error');
                 }
             }
-
-                
-            });
         });
     });
+});
+
 </script>
+
 <!-- JavaScript for Delete Confirmation -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {

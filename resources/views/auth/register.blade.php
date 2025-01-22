@@ -10,24 +10,26 @@
     <title>Cursus - Sign Up Next Step</title>
 
     <!-- Favicon Icon -->
-    <link rel="icon" type="image/png" href="images/fav.png">
+    <link rel="icon" type="image/png" href="{{ asset('images/fav.png') }}">
 
     <!-- Stylesheets -->
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet'>
-    <link href='vendor/unicons-2.0.1/css/unicons.css' rel='stylesheet'>
-    <link href="css/vertical-responsive-menu.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/responsive.css" rel="stylesheet">
-    <link href="css/night-mode.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,500" rel="stylesheet">
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">  
+    <link href="{{ asset('vendor/unicons-2.0.1/css/unicons.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet">
 
     <!-- Vendor Stylesheets -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="vendor/OwlCarousel/assets/owl.carousel.css" rel="stylesheet">
-    <link href="vendor/OwlCarousel/assets/owl.theme.default.min.css" rel="stylesheet">
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="vendor/semantic/semantic.min.css">
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/OwlCarousel/assets/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/OwlCarousel/assets/owl.theme.default.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
 
 
 </head>
@@ -399,6 +401,52 @@
     <script src="vendor/semantic/semantic.min.js"></script>
     <script src="js/custom.js"></script>
     <script src="js/night-mode.js"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <script>
+        // Check if there is a success message in the session
+        @if(session('success'))
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-bottom-right",  // Toast notification position
+                preventDuplicates: true,
+                timeOut: 5000,  // Display duration of the toast (3 seconds)
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            
+            // Show success toast notification with the session message
+            toastr.success("{{ session('success') }}", "Success");
+        @endif
+    
+        // You can also handle other session messages if needed
+        @if(session('error'))
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-top-right",  // Toast notification position
+                preventDuplicates: true,
+                timeOut: 3000,  // Display duration of the toast (3 seconds)
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            
+            // Show error toast notification with the session message
+            toastr.error("{{ session('error') }}", "Error");
+        @endif
+    </script>
 </body>
 
 </html>

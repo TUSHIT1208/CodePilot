@@ -84,7 +84,7 @@ class SubCategoryController extends Controller
         try {
             // Validate the incoming request data
             $validatedData = $request->validate([
-                // 'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
+                'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
                 'subcategory_name' => 'required|string|max:255',  // Validate subcategory name
                 'subcategory_description' => 'required|string',   // Validate subcategory description
             ]);

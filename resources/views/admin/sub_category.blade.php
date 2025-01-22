@@ -155,22 +155,33 @@
                             <select class="form-control" id="category_id" name="category_id">
                                 <option value="">-- Select a Category --</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </select>
-                            <small id="category_id_error" class="text-danger"></small>
+                            @error('category_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+                    
                         <div class="mb-3">
                             <label for="subcategory_name" class="form-label">Subcategory Name</label>
-                            <input type="text" class="form-control" id="subcategory_name" name="subcategory_name" placeholder="Enter the subcategory name">
-                            <small id="subcategory_name_error" class="text-danger"></small>
+                            <input type="text" class="form-control" id="subcategory_name" name="subcategory_name" value="{{ old('subcategory_name') }}" placeholder="Enter the subcategory name" >
+                            @error('subcategory_name')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+                    
                         <div class="mb-3">
                             <label for="subcategory_description" class="form-label">Subcategory Description</label>
-                            <textarea class="form-control" id="subcategory_description" name="subcategory_description" rows="4" placeholder="Enter the subcategory description"></textarea>
-                            <small id="subcategory_description_error" class="text-danger"></small>
+                            <textarea class="form-control" id="subcategory_description" name="subcategory_description" rows="4" placeholder="Enter the subcategory description" >{{ old('subcategory_description') }}</textarea>
+                            @error('subcategory_description')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
+                    
                     <div class="modal-footer">
                         <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="upload_btn">Add Subcategory</button>
@@ -187,77 +198,67 @@
 <script>
     $(document).ready(function() {
         // AJAX form submission
-        $('#subcategoryForm').submit(function(e) {
-            e.preventDefault(); // Prevent the default form submission
+        $(document).ready(function () {
+    // AJAX form submission for adding subcategory
+    $('#subcategoryForm').submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
 
-            var formData = new FormData(this); // Get form data
+        var formData = new FormData(this); // Get form data
 
-            // Display progress bar toast notification
-            // var progressToast = toastr.info('', 'Processing...', {
-            //     timeOut: 0, // Stay until it's closed
-            //     positionClass: 'toast-bottom-right',
-            //     extendedTimeOut: 0,
-            //     closeButton: true,
-            //     progressBar: true,
-            //     iconClass: 'toast-info'
-            // });
+        $.ajax({
+            url: '{{ route('sub_category.store') }}', // The route to store the subcategory
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    // Configure Toastr
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        newestOnTop: true,
+                        progressBar: true,
+                        positionClass: "toast-bottom-right",
+                        preventDuplicates: true,
+                        timeOut: 3000, // Display duration of the toast (3 seconds)
+                        extendedTimeOut: 1000,
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                    };
 
-            $.ajax({
-                url: '{{ route('sub_category.store') }}', // The route to store the subcategory
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.success) {
-                        // Close the progress toast and show success toast
-                        toastr.clear(progressToast); // Clear the progress toast
-                        toastr.success(response.success, 'Success', {
-                            timeOut: 4000,
-                            positionClass: 'toast-bottom-right',
-                        });
+                    // Show success toast
+                    toastr.success(response.success, 'Success');
 
-                        // Reload the page after success toast
-                        setTimeout(function() {
-                            location.reload();
-                        }, 2000);
-
-                        $('#addSubcategoryModal').modal('hide'); // Hide the modal after success
-                    }
-                },
-                error: function(xhr) {
-                    toastr.clear(progressToast); // Clear the progress toast
-
-                    if (xhr.status === 422) {
-                        var errors = xhr.responseJSON.errors;
-
-                        $('#subcategory_name_error').text('');
-                        $('#subcategory_description_error').text('');
-
-                        if (errors.subcategory_name) {
-                            $('#subcategory_name_error').text(errors.subcategory_name[0]);
-                        }
-                        if (errors.subcategory_description) {
-                            $('#subcategory_description_error').text(errors.subcategory_description[0]);
-                        }
-
-                        toastr.error('Please fix the errors and try again.', 'Error', {
-                            timeOut: 5000,
-                            positionClass: 'toast-bottom-right',
-                        });
-                    } else {
-                        toastr.error('An unexpected error occurred. Please try again.', 'Error', {
-                            timeOut: 5000,
-                            positionClass: 'toast-bottom-right',
-                        });
-                    }
+                    // Close the modal and reload the page after a short delay
+                    setTimeout(function () {
+                        $('#addSubcategoryModal').modal('hide'); // Close modal
+                        location.reload(); // Reload the page
+                    }, 2000);
                 }
-            });
-            // Automatically clear the info toast if canceled
-        setTimeout(function () {
-            toastr.clear(progressToast); // Clear after 1 second
-        }, 200);
+            },
+            error: function (xhr) {
+                console.log(xhr.responseJSON); // Check the response structure
+                if (xhr.status === 422) {
+                    var errors = xhr.responseJSON.errors;
+
+                    toastr.error('Please fix the errors and try again.', 'Validation Error', {
+                        timeOut: 5000,
+                        positionClass: 'toast-bottom-right',
+                    });
+                } else {
+                    toastr.error('An unexpected error occurred. Please try again.', 'Error', {
+                        timeOut: 5000,
+                        positionClass: 'toast-bottom-right',
+                    });
+                }
+            }
+
         });
+    });
+});
     });
 </script>
 <!-- JavaScript for Delete Confirmation -->

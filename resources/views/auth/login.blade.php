@@ -15,6 +15,8 @@
     <!-- Stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,500" rel="stylesheet">
     <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">  
     <link href="{{ asset('vendor/unicons-2.0.1/css/unicons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -54,11 +56,7 @@
                         <button class="social_lnk_btn mt-15 color_btn_go"><i class="uil uil-google"></i>Continue with
                             Google</button>
 
-                        @if (session('status'))
-                            <div class="alert alert-success mt-5">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                        
 
                         <!-- Login Form -->
                         <form action="{{ route('login_check') }}" method="POST">
@@ -114,6 +112,54 @@
     <script src="{{ asset('vendor/semantic/semantic.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/night-mode.js') }}"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <script>
+        // Check if there is a success message in the session
+        @if(session('success'))
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-bottom-right",  // Toast notification position
+                preventDuplicates: true,
+                timeOut: 5000,  // Display duration of the toast (3 seconds)
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            
+            // Show success toast notification with the session message
+            toastr.success("{{ session('success') }}", "Success");
+        @endif
+    
+        // You can also handle other session messages if needed
+        @if(session('error'))
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-top-right",  // Toast notification position
+                preventDuplicates: true,
+                timeOut: 5000,  // Display duration of the toast (3 seconds)
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut"
+            };
+            
+            // Show error toast notification with the session message
+            toastr.error("{{ session('error') }}", "Error");
+        @endif
+    </script>
+    
+    
 </body>
 
 </html>

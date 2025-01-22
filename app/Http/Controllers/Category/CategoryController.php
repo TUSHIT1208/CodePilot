@@ -120,18 +120,27 @@ class CategoryController extends Controller
     }
     public function updateCategoryStatus(Request $request)
     {
-        $category = Category::find($request->category_id);
+        try{
+            $category = Category::find($request->category_id);
 
-        if ($category) {
-            // Update the category's is_active status
-            $category->is_active = $request->is_active;
-            $category->save();
+            if ($category) {
+                // Update the category's is_active status
+                $category->is_active = $request->is_active;
+                $category->save();
 
-            // Return a success response
-            return response()->json([
-                'success' => $category->is_active ? 'Category has been activated successfully!' : 'Category has been deactivated successfully!',
-            ]);
-            
+                // Return a success response
+                return response()->json([
+                    'success' => $category->is_active ? 'Category has been activated successfully!' : 'Category has been deactivated successfully!',
+                ]);
+                
+            }    
+        } catch(Exception $e) {
+            // Log the error message
+            \Log::error('Error while updating category status: ' . $e->getMessage());
+
+            // Return an error response
+            return response()->json(['error' => 'An error occurred while updating the category status. Please try again later.']);
         }
+        
     }
 }
