@@ -567,5 +567,49 @@
             </div>
         </div>
     </div>
+<script>
+		ClassicEditor.create( document.querySelector( '#editor1' ) )
+		.then( editor => {
+			window.editor1 = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
 
-@endsection
+		ClassicEditor.create( document.querySelector( '#editor2' ) )
+		.then( editor => {
+			window.editor2 = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+		
+		ClassicEditor.create( document.querySelector( '#editor3' ) )
+		.then( editor => {
+			window.editor3 = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+		
+		ClassicEditor.create( document.querySelector( '#editor4' ) )
+		.then( editor => {
+			window.editor4 = editor;
+		} )
+		.catch( err => {
+			console.error( err.stack );
+		} );
+	</script> 
+	<script>
+		$('#add-course-tab').steps({
+		  onFinish: function () {
+			alert('Wizard Completed');
+		  }
+		});		
+	</script>
+	<script>
+		$( function() {
+			$( ".sortable" ).sortable();
+			$( ".sortable" ).disableSelection();
+		} );
+	</script>

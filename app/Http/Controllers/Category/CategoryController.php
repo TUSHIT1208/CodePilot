@@ -17,10 +17,10 @@ class CategoryController extends Controller
     {
         try {
             // Fetch all categories from the database
-            $categories = Category::all();
+            $categories = Category::paginate(5);
     
             // Pass the categories to the view
-            return view('admin.category', compact('categories'));
+            return view('admin.category.category', compact('categories'));
         } catch (Exception $e) {
             // Log the error message
             \Log::error('Error while fetching categories: ' . $e->getMessage());

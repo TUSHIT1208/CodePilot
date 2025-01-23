@@ -116,36 +116,6 @@
     }
 }
 
-/* Hover effect for the card header */
-.card-header {
-    transition: background-color 0.3s ease;
-}
-
-.card:hover .card-header {
-    background-color: #ff5722; /* Or any color you prefer */
-}
-
-/* Subcategory text fading in */
-.card-body p {
-    opacity: 0;
-    animation: fadeInText 1s 0.5s forwards;
-}
-
-@keyframes fadeInText {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-/* Small text animation */
-.card-body small {
-    opacity: 0;
-    animation: fadeInSmallText 1s 1s forwards;
-}
-
 @keyframes fadeInSmallText {
     from {
         opacity: 0;

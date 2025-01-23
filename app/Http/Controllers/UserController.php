@@ -67,8 +67,6 @@ class UserController extends Controller
         } else {
             $profileImageName = null;
         }
-
-
         // // Start transaction to ensure atomicity
         // \DB::beginTransaction();
 
@@ -196,8 +194,6 @@ class UserController extends Controller
             'phone_number' => 'nullable|string|max:15',  // Validating phone number
             'password' => 'nullable|string|min:6',  // Validating password
         ]);
-
-
         // Update the user record
         $user->update($data);
 

@@ -9,6 +9,10 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
+Route::get('/course', function () {
+    return view('admin.create_new_course');
+});
+
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
