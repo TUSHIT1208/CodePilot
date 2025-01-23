@@ -66,7 +66,7 @@
                                         </div>
                                     @else
                                         <!-- Display Table When Data Exists -->
-                                        <table class="table ucp-table">
+                                        <table class="table ucp-table table-hover">
                                             <thead class="thead-s">
                                                 <tr>
                                                     <th class="text-center" scope="col">Item No.</th>
@@ -76,7 +76,7 @@
                                                     <th class="text-center" scope="col">Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="bg-dark">
+                                            <tbody class="">
                                                 @foreach($categories as $category)
                                                     <tr>
                                                         <td class="text-center"><p class="text-dark">{{ str_pad($category->id, 3, '0', STR_PAD_LEFT) }}</p></td>
@@ -106,23 +106,15 @@
                                                     <!-- Include Edit Modal Here -->
                                                 @endforeach
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="5" class="text-end">
-                                                        <div class="d-flex justify-content-end mt-3">
-                                                            {{ $categories->links('pagination::bootstrap-5') }}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
                                         </table>
-                                        
                                     @endif
                                 </div>
                             </div>
-                            
-                            
-                
+                            <div class="card-footer mt-4">
+                                <div class="d-flex justify-content-end mt-3">
+                                    {{ $categories->links('pagination::bootstrap-5')}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -131,44 +123,54 @@
 
     
     <!-- Modal for Adding Category -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="{{ route('category.store') }}" method="POST">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addCategoryModalLabel"><i class="uil uil-plus-circle"></i> Add a New Category</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="category_name" class="form-label">Category Name</label>
-                        <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter the category name">
-                        <small id="category_name_error" class="text-danger"></small>
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('category.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCategoryModalLabel">
+                            <i class="uil uil-plus-circle"></i> Add a New Category
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="category_description" class="form-label">Category Description</label>
-                        <textarea class="form-control" id="category_description" name="category_description" rows="4" placeholder="Enter the category description"></textarea>
-                        <small id="category_description_error" class="text-danger"></small>
+                    <div class="modal-body">
+                        <!-- Category Name Field -->
+                        <div class="mb-3">
+                            <label for="category_name" class="form-label">Category Name</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="category_name" 
+                                   name="category_name" 
+                                   placeholder="Enter the category name">
+                            <div class="invalid-feedback" id="category_name_error"></div>
+                        </div>
+                        <!-- Category Description Field -->
+                        <div class="mb-3">
+                            <label for="category_description" class="form-label">Category Description</label>
+                            <textarea class="form-control" 
+                                      id="category_description" 
+                                      name="category_description" 
+                                      rows="4" 
+                                      placeholder="Enter the category description"></textarea>
+                            <div class="invalid-feedback" id="category_description_error"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="upload_btn">Add Category</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="upload_btn">Add Category</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-
+    
     @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
-
-<!-- Toastr Script for Success/Error Message -->
 <script>
-    $(document).ready(function () {
+
+$(document).ready(function () {
     // AJAX form submission for Add Category
     $('#addCategoryModal form').submit(function (e) {
         e.preventDefault(); // Prevent default form submission
@@ -212,11 +214,21 @@
                 }
             },
             error: function (xhr) {
-                // Handle validation or unexpected errors
-                if (xhr.status === 422) {
+                // Remove existing validation feedback
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                if (xhr.status === 422) { // Validation error
                     var errors = xhr.responseJSON.errors;
-                    $('#category_name_error').text(errors.category_name ? errors.category_name[0] : '');
-                    $('#category_description_error').text(errors.category_description ? errors.category_description[0] : '');
+
+                    for (var field in errors) {
+                        // Highlight the field with error
+                        var inputField = $(`[name="${field}"]`);
+                        inputField.addClass('is-invalid');
+
+                        // Add error message
+                        inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                    }
                 } else {
                     toastr.error('An unexpected error occurred. Please try again.', 'Error');
                 }
