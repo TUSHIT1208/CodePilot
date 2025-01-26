@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\adminabout;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -26,6 +27,11 @@ class UserSeeder extends Seeder
             'created_by' => 1,
             'updated_by' => 1,
             'created_at' => now(),
+        ]);
+
+        adminabout::create([
+            'admin_id' => 1,
+            'short_discription' => null,
         ]);
     }
 }

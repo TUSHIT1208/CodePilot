@@ -4,17 +4,5 @@
 <script src="{{ asset('vendor/OwlCarousel/owl.carousel.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js') }}"></script>
 <script src="{{ asset('vendor/semantic/semantic.min.js') }}"></script>
-<script src="{{ asset('vendor/jquery-ui-1.12.1/jquery-ui.js') }}"></script>
-<script src="{{ asset('js/custom1.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
-<script src="{{ asset('js/night-mode.js')}}"></script>
-<script src="{{ asset('js/jquery-steps.min.js')}}"></script>
-<script src="{{ asset('vendor/ckeditor5/ckeditor.js')}}"></script>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-<!-- Toastr JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="{{ asset('js/night-mode.js') }}"></script>

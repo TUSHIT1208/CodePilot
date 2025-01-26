@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\adminabout;
 use Illuminate\Http\Request;
 use App\Models\LearnerProfile;
 use App\Models\InstractorProfile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -14,13 +16,13 @@ class UserController extends Controller
     public function index()
     {
         $learner = User::where('role_id', 3)->get();
-        return view('admin.all_learner', compact('learner'));
+        return view('admin.user.learner_list', compact('learner'));
     }
 
     public function instructorList()
     {
         $instructor = User::where('role_id', 2)->get();
-        return view('admin.all_instructor', compact('instructor'));
+        return view('admin.user.instructor_list', compact('instructor'));
     }
 
     /**
@@ -165,12 +167,10 @@ class UserController extends Controller
             return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
         }
     }
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $adminData = User::find($id);
+        return view('admin.profile.my_admin_profile', compact('adminData'));
     }
 
     /**
@@ -181,23 +181,48 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        if ($id == 1) {
+            $user = User::find($id);
 
-        $data = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone_number' => 'nullable|string|max:15',  // Validating phone number
-            'password' => 'nullable|string|min:6',  // Validating password
-        ]);
-        // Update the user record
-        $user->update($data);
+            $request->validate([
+                'first_name' => 'required|string',
+                'username' => 'required|string',
+                'email' => 'required|email',
+                'phone' => 'required|string',
+                'dob' => 'required|date',
+            ]);
 
-        return redirect()->back()->with('success', 'Tutor deleted successfully!');
+            // Update the user using the update method
+            $user->update([
+                'first_name' => $request->first_name,
+                'username' => $request->username,
+                'last_name' => $request->surname,
+                'middle_name' => $request->middle_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
+            ]);
+
+            // Update the adminabout table using the update method
+            adminabout::where('admin_id', $id)->update([
+                'short_discription' => $request->description,
+            ]);
+
+            return redirect()->back();
+
+        } else {
+            $user = User::findOrFail($id);
+
+            $data = $request->validate([
+                'username' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'phone_number' => 'nullable|string|max:15',
+            ]);
+            $user->update($data);
+            return redirect()->back()->with('success', 'Tutor updated successfully!');
+        }
     }
 
 
@@ -220,5 +245,37 @@ class UserController extends Controller
             $user->save();
         }
         return response()->json(['success' => false], 400);
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Validate the image
+        ]);
+
+        // Retrieve the currently authenticated user
+        $user = Auth::user();
+
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
+            $filename = time() . '_' . $file->getClientOriginalName(); // Generate a unique file name
+            $destinationPath = public_path('profile_images'); // Define the destination path in the public directory
+
+            // Move the uploaded file to the public directory
+            $file->move($destinationPath, $filename);
+
+            // Update the user's profile image URL in the database
+            $user->profile_picture_url = 'profile_images/' . $filename;
+            $user->save();
+
+            return redirect()->back();
+        }
+
+        return response()->json(['message' => 'No file uploaded'], 400);
+    }
+
+    public function aboutabmin(){
+        $adminAbout = adminabout::with('user')->where('admin_id',Auth::user()->id)->first();
+        return view('admin.profile.setting',compact('adminAbout'));
     }
 }

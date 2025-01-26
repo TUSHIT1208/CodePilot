@@ -22,7 +22,7 @@
 	<div class="header_right">
 		<ul>
 			<li>
-				<a href="create_new_course.html" class="upload_btn" title="Create New Course">Create New Course</a>
+				<a href="{{ route('admin.create.course') }}" class="upload_btn" title="Create New Course">Create New Course</a>
 			</li>
 			<li>
 				<a href="shopping_cart.html" class="option_links" title="cart"><i
@@ -105,12 +105,20 @@
 			<li class="profile-dropdown">
 				<a href="#" class="opts_account" data-bs-toggle="dropdown" data-bs-auto-close="outside"
 					aria-expanded="false">
-					<img src="{{ asset('images/hd_dp.jpg') }}" alt="">
+					@if(!empty(auth()->user()->profile_picture_url))
+						<img src="{{ asset(Auth::user()->profile_picture_url) }}">
+					@else
+						<h1>{{ substr(Auth::user()->username, 0, 1) }}</h1>
+					@endif 
 				</a>
 				<div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
 					<div class="channel_my">
 						<div class="profile_link">
-							<img src="{{ asset('images/hd_dp.jpg') }}" alt="">
+							@if(!empty(auth()->user()->profile_picture_url))
+                                <img src="{{ asset(Auth::user()->profile_picture_url) }}">
+                            @else
+                                <h1>{{ substr(Auth::user()->username, 0, 1) }}</h1>
+                            @endif
 							<div class="pd_content">
 								<div class="rhte85">
 									<h6>{{ Auth::user()->username }}</h6>
@@ -121,7 +129,7 @@
 								<span>{{ Auth::user()->email }}</span>
 							</div>
 						</div>
-						<a href="my_instructor_profile.html" class="dp_link_12">View Instructor Profile</a>
+						<a href="{{ route('user.show',Auth::user()->id) }}" class="dp_link_12">View Instructor Profile</a>
 					</div>
 					<div class="night_mode_switch__btn">
 						<a href="#" id="night-mode" class="btn-night-mode">

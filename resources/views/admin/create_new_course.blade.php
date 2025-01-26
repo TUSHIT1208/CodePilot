@@ -108,7 +108,7 @@
                                                         <div class="mt-30 lbel25">
                                                             <label>Course Level*</label>
                                                         </div>
-                                                        <select class="selectpicker"  multiple data-selected-text-format="count > 3">
+                                                        <select class="selectpicker" multiple data-selected-text-format="count > 3">
                                                             <option value="1">Beginner</option>
                                                             <option value="2">Intermediate</option>
                                                             <option value="3">Expert</option>

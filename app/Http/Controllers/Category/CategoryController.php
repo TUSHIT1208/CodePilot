@@ -20,7 +20,7 @@ class CategoryController extends Controller
             $categories = Category::paginate(5);
     
             // Pass the categories to the view
-            return view('admin.category', compact('categories'));
+            return view('admin.category.category', compact('categories'));
         } catch (Exception $e) {
             // Log the error message
             \Log::error('Error while fetching categories: ' . $e->getMessage());
@@ -140,7 +140,18 @@ class CategoryController extends Controller
 
             // Return an error response
             return response()->json(['error' => 'An error occurred while updating the category status. Please try again later.']);
+        }   
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+
+        if (!empty($ids)) {
+            Category::whereIn('id', $ids)->delete();
+            return response()->json(['success' => 'Categories deleted successfully.']);
         }
-        
+
+        return response()->json(['error' => 'No categories selected for deletion.'], 400);
     }
 }

@@ -16,10 +16,10 @@ class SubCategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::all();
+            $categories = Category::paginate(5);
             $subcategories = Sub_Category::with('category')->get();
 
-            return view('admin.sub_category', compact('categories', 'subcategories'));
+            return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));
 
         } catch (\Exception $e) {
             Log::error('Error fetching subcategories: ' . $e->getMessage());
@@ -134,5 +134,17 @@ class SubCategoryController extends Controller
             ]);
             
         }
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+
+        if (!empty($ids)) {
+            sub_category::whereIn('id', $ids)->delete();
+            return response()->json(['success' => 'Sub-categories deleted successfully.']);
+        }
+
+        return response()->json(['error' => 'No sub-categories selected for deletion.'], 400);
     }
 }

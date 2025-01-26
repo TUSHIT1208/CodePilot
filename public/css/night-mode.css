@@ -133,11 +133,6 @@ Night Mood
     margin-right:3px;
 }
 
-.night-mode .upload_btn:hover {
-    color: #fff !important;
-    background: #cc2622 !important;
-}
-
 .night-mode .menu.dropdown_ms {
     width: 300px;
     margin-top: 17px !important;
@@ -650,8 +645,13 @@ Night Mood
 
 .night-mode ._dlor1 {	
 	background: #242424 !important;
-    border: 0 !important;
+    border: 1px solid #4d4646 !important;
     color: #dbdbdb !important;
+}
+
+.night-mode ._dlor1::placeholder {
+    color: #4d4646 !important;
+    opacity: 1;
 }
 
 .night-mode ._6tf7s:hover {
@@ -1263,7 +1263,7 @@ Night Mood
 
 .night-mode .caption-content {
     background-color: #333;
-    border: 242424);
+    border: 242424;
 }
 
 .night-mode .caption-content span {
@@ -1659,6 +1659,7 @@ Night Mood
 .night-mode .ucp-table thead tr th {
     color: #fff !important;
     font-size: 14px;
+    padding: 1%;
     background-color: #171717 !important;
 }
 
@@ -1669,6 +1670,23 @@ Night Mood
 
 .night-mode .ucp-table tbody {
     background: #333;
+}
+
+.night-mode .ucp-table tbody tr {
+    border-bottom: 1px solid #897272; 
+}
+
+.night-mode .ucp-table tbody tr:hover {
+    background-color: #3a3a3a; 
+    color: #ffffff; 
+    border-bottom: 1px solid #ffffff; 
+}
+
+.night-mode .edit-btn{
+    color: #decccc;
+    font-size: 117%;
+    position: relative;
+    right: 11%;
 }
 
 .night-mode .course_active {

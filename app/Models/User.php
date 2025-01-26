@@ -54,4 +54,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function adminabout(){
+        return $this->hasOne(adminabout::class,'admin_id');
+    }
 }
