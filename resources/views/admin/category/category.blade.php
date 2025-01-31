@@ -254,9 +254,6 @@ $(document).ready(function () {
                         $('#addCategoryModal').modal('hide'); // Close modal
                         location.reload(); // Reload the page
                     }, 2000);
-                } else {
-                    // Show error toast
-                    toastr.error(response.error, 'Error');
                 }
             },
             error: function (xhr) {

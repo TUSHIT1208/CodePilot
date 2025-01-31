@@ -117,12 +117,14 @@
                                                                         <div class="mb-3">
                                                                             <label for="subcategory_name_{{ $subcategory->id }}" class="form-label">Subcategory Name</label>
                                                                             <input type="text" class="form-control _dlor1" id="subcategory_name_{{ $subcategory->id }}"
-                                                                                name="subcategory_name" value="{{ $subcategory->name }}" required>
+                                                                                name="subcategory_name_edit" value="{{ $subcategory->name }}" >
+                                                                                <div class="invalid-feedback"></div> 
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="subcategory_description_{{ $subcategory->id }}" class="form-label">Subcategory Description</label>
                                                                             <textarea class="form-control _dlor1" id="subcategory_description_{{ $subcategory->id }}"
-                                                                                name="subcategory_description" rows="4" required>{{ $subcategory->description }}</textarea>
+                                                                                name="subcategory_description_edit" rows="4" >{{ $subcategory->description }}</textarea>
+                                                                                <div class="invalid-feedback"></div> 
                                                                         </div>
                                                                     </div>
                                                                     <div class="modal-footer">
@@ -178,25 +180,27 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('category_id')
+                            {{-- @error('category_id')
                                 <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            @enderror --}}
                         </div>
                     
                         <div class="mb-3">
                             <label for="subcategory_name" class="form-label">Subcategory Name</label>
                             <input type="text" class="form-control _dlor1" id="subcategory_name" name="subcategory_name" value="{{ old('subcategory_name') }}" placeholder="Enter the subcategory name" >
-                            @error('subcategory_name')
+                            <div class="invalid-feedback" id="subcategory_name_error"></div>
+                            {{-- @error('subcategory_name')
                                 <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            @enderror --}}
                         </div>
                     
                         <div class="mb-3">
                             <label for="subcategory_description" class="form-label">Subcategory Description</label>
                             <textarea class="form-control _dlor1" id="subcategory_description" name="subcategory_description" rows="4" placeholder="Enter the subcategory description" >{{ old('subcategory_description') }}</textarea>
-                            @error('subcategory_description')
+                            <div class="invalid-feedback" id="subcategory_description_error"></div>
+                            {{-- @error('subcategory_description')
                                 <small class="text-danger">{{ $message }}</small>
-                            @enderror
+                            @enderror --}}
                         </div>
                     </div>
                     
@@ -251,10 +255,7 @@ $(document).ready(function () {
                         $('#addCategoryModal').modal('hide'); // Close modal
                         location.reload(); // Reload the page
                     }, 2000);
-                } else {
-                    // Show error toast
-                    toastr.error(response.error, 'Error');
-                }
+                } 
             },
             error: function (xhr) {
                 // Remove existing validation feedback
@@ -273,7 +274,67 @@ $(document).ready(function () {
                         inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
                     }
                 } else {
-                    toastr.error('An unexpected error occurred. Please try again.', 'Error');
+                   // toastr.error('An unexpected error occurred. Please try again.', 'Error');
+                }
+            }
+        });
+    });
+    $('#editSubcategoryModal form').submit(function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        // Get form data
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: $(this).attr('action'), // URL for form submission
+            method: $(this).attr('method'), // Use POST method
+            data: formData, // Form data
+            success: function (response) {
+                if (response.success) {
+                    // Configure Toastr
+                    toastr.options = {
+                        closeButton: true,
+                        debug: false,
+                        newestOnTop: true,
+                        progressBar: true,
+                        positionClass: "toast-bottom-right",
+                        preventDuplicates: true,
+                        timeOut: 5000, // Display duration of the toast (5 seconds)
+                        extendedTimeOut: 1000,
+                        showEasing: "swing",
+                        hideEasing: "linear",
+                        showMethod: "fadeIn",
+                        hideMethod: "fadeOut"
+                    };
+
+                    // Show success toast
+                    toastr.success(response.success, 'Success');
+                    
+                    $('#editSubcategoryModal').modal('hide'); // Close modal
+                    // // Close modal and reload page after 2 seconds
+                    // setTimeout(function () {
+                    //     location.reload(); // Reload the page
+                    // }, 2000);
+                } 
+            },
+            error: function (xhr) {
+                // Remove existing validation feedback
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                if (xhr.status === 422) { // Validation error
+                    var errors = xhr.responseJSON.errors;
+
+                    for (var field in errors) {
+                        // Highlight the field with error
+                        var inputField = $(`[name="${field}"]`);
+                        inputField.addClass('is-invalid');
+
+                        // Add error message
+                        inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                    }
+                } else {
+                   // toastr.error('An unexpected error occurred. Please try again.', 'Error');
                 }
             }
         });

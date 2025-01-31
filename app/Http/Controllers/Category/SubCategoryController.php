@@ -40,13 +40,13 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        
             $request->validate([
                 'category_id' => 'required|exists:categories,id',
                 'subcategory_name' => 'required|string|max:255',
                 'subcategory_description' => 'nullable|string',
             ]);
-
+        try {
             Sub_Category::create([
                 'category_id' => $request->category_id,
                 'name' => $request->subcategory_name,
@@ -87,8 +87,8 @@ class SubCategoryController extends Controller
             // Validate the incoming request data
             $validatedData = $request->validate([
                 // 'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
-                'subcategory_name' => 'required|string|max:255',  // Validate subcategory name
-                'subcategory_description' => 'required|string',   // Validate subcategory description
+                'subcategory_name_edit' => 'required|string|max:255',  // Validate subcategory name
+                'subcategory_description_edit' => 'nullable|string',   // Validate subcategory description
             ]);
 
             // Find the subcategory by ID
@@ -97,8 +97,8 @@ class SubCategoryController extends Controller
             // Update the subcategory with validated data
             $subcategory->update([
                 // 'category_id' => $validatedData['category_id'],   // Update the category ID
-                'name' => $validatedData['subcategory_name'],     // Update the subcategory name
-                'description' => $validatedData['subcategory_description'], // Update the subcategory description
+                'name' => $validatedData['subcategory_name_edit'],     // Update the subcategory name
+                'description' => $validatedData['subcategory_description_edit'], // Update the subcategory description
             ]);
             
 
