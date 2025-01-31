@@ -25,9 +25,9 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 text-end">
-                                    <a data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="upload_btn" title="Add a Category">
+                                    <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn" title="Add a Category">
                                         <i class="uil uil-plus-circle"></i> Add a Subcategories
-                                    </a>
+                                    </button>
                                 </div>                                
                             </div>
                 
@@ -77,7 +77,7 @@
                                                             </div>
                                                         </td>
                                                         <td class="text-center">
-                                                            <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editCategoryModal{{ $subcategory->id }}">
+                                                            <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editSubcategoryModal{{ $subcategory->id }}">
                                                                 <i class="uil uil-edit-alt ucp-table"></i>
                                                             </a>
                                                             <form action="{{ route('sub_category.destroy', $subcategory->id) }}" method="POST" class="delete-form d-inline-block">
@@ -104,20 +104,30 @@
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
+                                                                        {{-- <div class="mb-3">
+                                                                            <label for="category_id_{{ $subcategory->id }}" class="form-label">Category</label>
+                                                                            <select class="form-control" id="category_id_{{ $subcategory->id }}" name="category_id" required>
+                                                                                @foreach($categories as $category)
+                                                                                    <option value="{{ $category->id }}" {{ $category->id == $subcategory->category_id ? 'selected' : '' }}>
+                                                                                        {{ $category->name }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div> --}}
                                                                         <div class="mb-3">
                                                                             <label for="subcategory_name_{{ $subcategory->id }}" class="form-label">Subcategory Name</label>
                                                                             <input type="text" class="form-control _dlor1" id="subcategory_name_{{ $subcategory->id }}"
-                                                                                name="subcategory_name" value="{{ $subcategory->name }}">
+                                                                                name="subcategory_name" value="{{ $subcategory->name }}" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="subcategory_description_{{ $subcategory->id }}" class="form-label">Subcategory Description</label>
                                                                             <textarea class="form-control _dlor1" id="subcategory_description_{{ $subcategory->id }}"
-                                                                                name="subcategory_description" rows="4">{{ $subcategory->description }}</textarea>
+                                                                                name="subcategory_description" rows="4" required>{{ $subcategory->description }}</textarea>
                                                                         </div>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="upload_btn" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="upload_btn">Save Changes</button>
+                                                                        <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="main-btn">Save Changes</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -133,7 +143,7 @@
                             @if(!$subcategories->isEmpty())
                                 <div class="card-footer mt-4">
                                     <div class="mt-3">
-                                        <button id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button>
+                                        <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
                                     </div>                                
                                     {{-- <div class="d-flex justify-content-end mt-3">
                                         {{ $subcategories->links('pagination::bootstrap-5') }}
@@ -191,8 +201,8 @@
                     </div>
                     
                     <div class="modal-footer">
-                        <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="upload_btn">Add Subcategory</button>
+                        <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="main-btn">Add Subcategory</button>
                     </div>
                 </form>
             </div>

@@ -17,7 +17,7 @@ class CategoryController extends Controller
     {
         try {
             // Fetch all categories from the database
-            $categories = Category::paginate(5);
+            $categories = Category::paginate(3);
     
             // Pass the categories to the view
             return view('admin.category.category', compact('categories'));
@@ -44,28 +44,28 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         // Validate the form data
-    $request->validate([
-        'category_name' => 'required|string|max:255',
-        'category_description' => 'nullable|string',
-    ]);
-
-    try {
-        // Create a new category using the create() method
-        Category::create([
-            'name' => $request->input('category_name'),
-            'description' => $request->input('category_description'),
-            'is_active' => true, // Set to active by default
+        $request->validate([
+            'category_name' => 'required|string|max:255',
+            'category_description' => 'nullable|string',
         ]);
 
-        // Return a JSON response if the category is successfully created
-        return response()->json(['success' => 'Category added successfully!']);
-    } catch (Exception $e) {
-        // Log the error message
-        \Log::error('Error while adding category: ' . $e->getMessage());
+        try {
+            // Create a new category using the create() method
+            Category::create([
+                'name' => $request->input('category_name'),
+                'description' => $request->input('category_description'),
+                'is_active' => true, // Set to active by default
+            ]);
 
-        // Return a JSON response with an error message
-        return response()->json(['error' => 'An error occurred while adding the category. Please try again later.']);
-    }
+            // Return a JSON response if the category is successfully created
+            return response()->json(['success' => 'Category added successfully!']);
+        } catch (Exception $e) {
+            // Log the error message
+            \Log::error('Error while adding category: ' . $e->getMessage());
+
+            // Return a JSON response with an error message
+            return response()->json(['error' => 'An error occurred while adding the category. Please try again later.']);
+        }
     }
 
     /**

@@ -16,7 +16,7 @@ class SubCategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::paginate(5);
+            $categories = Category::paginate(3);
             $subcategories = Sub_Category::with('category')->get();
 
             return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));
@@ -81,30 +81,33 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+        //dd('hello');
+        
+        // try {
             // Validate the incoming request data
             $validatedData = $request->validate([
-                'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
+                // 'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
                 'subcategory_name' => 'required|string|max:255',  // Validate subcategory name
                 'subcategory_description' => 'required|string',   // Validate subcategory description
             ]);
 
             // Find the subcategory by ID
-            $subcategory = Sub_Category::findOrFail($id);
-
+            $subcategory = sub_category::findOrFail($id);
+            // return $subcategory;    
             // Update the subcategory with validated data
             $subcategory->update([
                 // 'category_id' => $validatedData['category_id'],   // Update the category ID
                 'name' => $validatedData['subcategory_name'],     // Update the subcategory name
                 'description' => $validatedData['subcategory_description'], // Update the subcategory description
             ]);
+            
 
             // Redirect back with a success message
             return redirect()->back()->with('success', 'Subcategory updated successfully!');
-        }  catch (\Exception $e) {
-            // Handle any other exceptions
-            return redirect()->back()->with('error', 'Failed to update subcategory: ' . $e->getMessage());
-        }
+        // }  catch (\Exception $e) {
+        //     // Handle any other exceptions
+        //     return redirect()->back()->with('error', 'Failed to update subcategory: ' . $e->getMessage());
+        // }
     }
 
 
