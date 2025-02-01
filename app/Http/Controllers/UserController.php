@@ -15,13 +15,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $learner = User::where('role_id', 3)->get();
+        $learner = User::where('role_id', 3)->paginate(10);
         return view('admin.user.learner_list', compact('learner'));
     }
 
     public function instructorList()
     {
-        $instructor = User::where('role_id', 2)->get();
+        $instructor = User::where('role_id', 2)->paginate(10);
         return view('admin.user.instructor_list', compact('instructor'));
     }
 
@@ -217,8 +217,12 @@ class UserController extends Controller
 
             $data = $request->validate([
                 'username' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'middle_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'phone_number' => 'nullable|string|max:15',
+                'date_of_birth' => 'nullable|string|max:15',
             ]);
             $user->update($data);
             return redirect()->back()->with('success', 'Tutor updated successfully!');
@@ -277,5 +281,21 @@ class UserController extends Controller
     public function aboutabmin(){
         $adminAbout = adminabout::with('user')->where('admin_id',Auth::user()->id)->first();
         return view('admin.profile.setting',compact('adminAbout'));
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        try {
+            $ids = $request->ids;
+
+        if (!empty($ids)) {
+                User::whereIn('id', $ids)->delete();
+                return response()->json(['success' => 'Selected users have been deleted successfully.']);
+            } else {
+                return response()->json(['error' => 'No users selected.'], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 }

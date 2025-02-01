@@ -28,6 +28,8 @@ Route::get('/dashboard/learner', function () {
 
 Route::resource('user', UserController::class);
 route::get('user/{id}', [UserController::class, 'destroy']);
+Route::post('/users/bulk-delete', [UserController::class, 'bulkDelete'])->name('user.bulk-delete');
+
 route::get('user/{id}', [UserController::class, 'edit']);
 
 Route::get('/instructorList', [UserController::class, 'instructorList'])->name('instructorList');
@@ -60,3 +62,4 @@ Route::post('/category/update-category-status', [CategoryController::class, 'upd
 Route::resource('sub_category', SubCategoryController::class);
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
+

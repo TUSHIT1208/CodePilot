@@ -106,18 +106,18 @@
 				<a href="#" class="opts_account" data-bs-toggle="dropdown" data-bs-auto-close="outside"
 					aria-expanded="false">
 					@if(!empty(auth()->user()->profile_picture_url))
-						<img src="{{ asset(Auth::user()->profile_picture_url) }}">
+						<img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
 					@else
-						<h1>{{ substr(Auth::user()->username, 0, 1) }}</h1>
+						<h1 id="default_avtar">{{ substr(Auth::user()->username, 0, 1) }}</h1>
 					@endif 
 				</a>
 				<div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
 					<div class="channel_my">
 						<div class="profile_link">
 							@if(!empty(auth()->user()->profile_picture_url))
-                                <img src="{{ asset(Auth::user()->profile_picture_url) }}">
+                                <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
                             @else
-                                <h1>{{ substr(Auth::user()->username, 0, 1) }}</h1>
+                                <h1 id="default_avtar">{{ substr(Auth::user()->username, 0, 1) }}</h1>
                             @endif
 							<div class="pd_content">
 								<div class="rhte85">

@@ -25,9 +25,9 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 text-end">
-                                    <a data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="upload_btn" title="Add a Category">
+                                    <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn" title="Add a Category">
                                         <i class="uil uil-plus-circle"></i> Add a Subcategories
-                                    </a>
+                                    </button>
                                 </div>                                
                             </div>
                 
@@ -116,8 +116,8 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="upload_btn" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="upload_btn">Save Changes</button>
+                                                                        <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="main-btn">Save Changes</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -133,7 +133,7 @@
                             @if(!$subcategories->isEmpty())
                                 <div class="card-footer mt-4">
                                     <div class="mt-3">
-                                        <button id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button>
+                                        <button id="bulk-delete-btn" class="btn" disabled>Delete Selected</button>
                                     </div>                                
                                     {{-- <div class="d-flex justify-content-end mt-3">
                                         {{ $subcategories->links('pagination::bootstrap-5') }}
@@ -191,8 +191,8 @@
                     </div>
                     
                     <div class="modal-footer">
-                        <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="upload_btn">Add Subcategory</button>
+                        <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="main-btn">Add Subcategory</button>
                     </div>
                 </form>
             </div>

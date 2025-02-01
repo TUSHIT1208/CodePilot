@@ -33,7 +33,6 @@ figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
-	padding: 0;
 	border: 0;
 	font-size: 100%;
 	font: inherit;
@@ -516,7 +515,7 @@ i.icon1 {
     float: right;
 }
 
-.opts_account img {
+#profile_picture{
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -526,7 +525,7 @@ i.icon1 {
     object-fit: cover;
 }
 
-.opts_account h1{
+#default_avtar{
     width: 40px;
     border-radius: 50%;
     border: 2px solid #fff;
@@ -621,31 +620,6 @@ i.icon1 {
 
 .channel_my:hover {
     background:#ffecec !important;
-}
-
-.profile_link {
-    display: flex;
-}
-
-.profile_link img {
-    height: 40px;
-    margin-right: 10px;
-	border: 2px solid #fff;
-	border-radius: 100%;
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
-}
-
-.profile_link h1{
-    width: 43px;
-    height: 40px;
-    margin-right: 10px;
-	border: 2px solid #fff;
-	border-radius: 10px;
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
-    background-color: red;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: lighter;
 }
 
 .pd_content {
