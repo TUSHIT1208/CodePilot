@@ -48,9 +48,9 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 text-end">
-                                    <a data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="upload_btn" title="Add a Category">
+                                    <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn" title="Add a Category">
                                         <i class="uil uil-plus-circle"></i> Add a Category
-                                    </a>
+                                    </button>
                                 </div>                                
                             </div>
                 
@@ -110,6 +110,41 @@
                                                             </form>
                                                         </td>
                                                     </tr>
+                                                    <!-- Edit User Modal -->
+                                                    <div class="modal fade" id="editCategoryModal{{ $category->id }}" tabindex="-1"
+                                                        aria-labelledby="editCategoryModalLabel{{ $category->id }}" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <form action="{{ route('category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editCategoryModalLabel{{ $category->id }}">
+                                                                            Edit Category
+                                                                        </h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="mb-3">
+                                                                            <label for="category_name_{{ $category->id }}" class="form-label">Category Name</label>
+                                                                            <input type="text" class="form-control _dlor1" id="category_name_{{ $category->id }}"
+                                                                                name="category_name" value="{{ $category->name }}" required>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="category_description_{{ $category->id }}" class="form-label">Category Description</label>
+                                                                            <textarea class="form-control _dlor1" id="category_description_{{ $category->id }}"
+                                                                                name="category_description" rows="4" required>{{ $category->description }}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="main-btn">Save Changes</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End of Edit User Modal -->
                                                 @endforeach
                                             </tbody>
                                         </table>                                        
@@ -119,7 +154,7 @@
                             @if(!$categories->isEmpty())
                                 <div class="card-footer mt-4">
                                     <div class="mt-3">
-                                        <button id="bulk-delete-btn" class="btn btn-danger" disabled>Delete Selected</button>
+                                        <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
                                     </div>                                
                                     <div class="d-flex justify-content-end mt-3">
                                         {{ $categories->links('pagination::bootstrap-5') }}
@@ -169,8 +204,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="upload_btn" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="upload_btn">Add Category</button>
+                        <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="main-btn">Add Category</button>
                     </div>
                 </form>
             </div>
@@ -219,9 +254,6 @@ $(document).ready(function () {
                         $('#addCategoryModal').modal('hide'); // Close modal
                         location.reload(); // Reload the page
                     }, 2000);
-                } else {
-                    // Show error toast
-                    toastr.error(response.error, 'Error');
                 }
             },
             error: function (xhr) {
