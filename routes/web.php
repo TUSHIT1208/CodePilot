@@ -42,8 +42,11 @@ route::post('/store_learner', [UserController::class, 'store_learner'])->name('u
 Route::get('/register', [UserController::class, 'register'])->name('register');
 
 Route::get('/setting', [UserController::class,'aboutabmin'])->name('setting');
+Route::get('/learner/setting', [UserController::class,'learner_setting'])->name('learner.setting');
 
 Route::post('/upload-profile-image', [UserController::class, 'uploadImage'])->name('upload.profile.image');
+
+Route::get('/learner/profile', [UserController::class, 'learner_show'])->name('user.learner.profile');
 
 Route::get('/create', [LoginController::class, 'create_changepassword'])->name('changepassword.create');
 Route::post('/change_password', [LoginController::class, 'changePassword'])->name('changePassword.update');

@@ -216,6 +216,8 @@
     @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
+
+
 <script>
 $(document).ready(function () {
     // AJAX form submission for Add Category

@@ -9,6 +9,7 @@
 <script src="{{ asset('js/night-mode.js')}}"></script>
 <script src="{{ asset('js/jquery-steps.min.js')}}"></script>
 <script src="{{ asset('vendor/ckeditor5/ckeditor.js')}}"></script>
+<script src="//cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
 
 
 

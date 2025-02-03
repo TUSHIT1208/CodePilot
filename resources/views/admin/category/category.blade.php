@@ -8,29 +8,6 @@
                     <h2 class="st_title"><i class="uil uil-folder-plus"></i> Categories</h2>
                 </div>
             </div>
-
-            <!-- Display Success or Error Messages -->
-            {{-- @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-            @endif --}}
-
-            <!-- Add Category Button -->
-                    {{-- @if($category->isEmpty())
-                        <!-- No Records Found -->
-                        <div class="no-categories-container text-center fade-in-animation footer">
-                            <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Subcategories Found</h3>
-                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any subcategories yet. Add one now to get started!</p>
-                        </div>
-                    @else --}}
                     <div class="col-md-12">
                         <div class="card_dash1">
                             <div class="row mt-2">
@@ -66,7 +43,7 @@
                                         </div>
                                     @else
                                         <!-- Display Table When Data Exists -->
-                                        <table class="ucp-table">
+                                        <table class="ucp-table" id="my-table">
                                             <thead class="ucp-table">
                                                 <tr>
                                                     <th class="text-center ucp-tabler">
@@ -214,6 +191,12 @@
     
     @include('admin.layouts.footer')
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('#my-table').DataTable();
+    });
+</script>
 <!-- Body End -->
 <script>
 $(document).ready(function () {
