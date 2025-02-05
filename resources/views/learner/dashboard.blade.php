@@ -1,6 +1,4 @@
-@extends('learner.layout.header')
-@section('body')
-<!-- Body Start -->
+@include('learner.layout.master')
 <div class="wrapper">
 	<div class="sa4d25">
 		<div class="container-fluid">
@@ -154,5 +152,3 @@
 		</div>
 	</footer>
 </div>
-<!-- Body End -->
-@endsection

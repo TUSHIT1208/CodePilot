@@ -4188,7 +4188,7 @@ a.rmv-btn i {
     margin-top: 47px;
 }
 
-.ui.label.lb12 {
+.ui .label .lb12 {
     background-color: #dedfe !important;
     padding: .9999em 1.2em !important;
     color: #686f7a !important;

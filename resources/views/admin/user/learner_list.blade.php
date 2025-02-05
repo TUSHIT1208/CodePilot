@@ -23,7 +23,7 @@
                 
                             <div class="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
                                 <div class="table-responsive mt-30">
-                                    @if($learner->isEmpty())
+                                    @if($learners->isEmpty())
                                         <!-- No Records Found -->
                                         <div class="no-categories-container text-center fade-in-animation footer">
                                             <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
@@ -33,7 +33,7 @@
                                         </div>
                                     @else
                                         <!-- Display Table When Data Exists -->
-                                        <table class="ucp-table">
+                                        <table class="ucp-table" id="myTable">
                                             <thead class="ucp-table">
                                                 <tr>
                                                     <th class="text-center ucp-tabler">
@@ -51,113 +51,15 @@
                                                     <th class="text-center ucp-table" scope="col">action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="ucp-table">
-                                                @foreach($learner as $learner_details)
-                                                    <tr>
-                                                        <!-- Checkbox in the first column -->
-                                                        <td class="text-center ">
-                                                            <input type="checkbox" class="learner_details-checkbox" value="{{ $learner_details->id }}">
-                                                        </td>                                                       
-                                                        <td class="text-center"><p class="ucp-table">{{ $learner_details->username }}</p></td>
-                                                        <td class="text-center">
-                                                            @if(!empty($learner_details->profile_picture_url))
-                                                                <img id="profile_picture" src="{{ asset($learner_details->profile_picture_url) }}">
-                                                            @else
-                                                                <h1 id="default_avtar">{{ substr($learner_details->username, 0, 1) }}</h1>
-                                                            @endif
-                                                        </td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $learner_details->first_name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $learner_details->middle_name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $learner_details->last_name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $learner_details->email }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $learner_details->phone_number }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $learner_details->date_of_birth }}</p></td>
-                                                        <td class="text-center">
-                                                            <div class="toggle-button mt-2 text-center">
-                                                                <input type="checkbox" class="toggle-input" id="toggle{{$learner_details->id}}" data-user-id="{{$learner_details->id}}" {{ $learner_details->is_active ? 'checked' : '' }}>
-                                                                <label for="toggle{{$learner_details->id}}" class="toggle-label">
-                                                                    <span class="toggle-circle"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editlearner_detailsModal{{ $learner_details->id }}">
-                                                                <i class="uil uil-edit-alt ucp-table"></i>
-                                                            </a>
-                                                            <form action="{{ route('user.destroy', $learner_details->id) }}" method="POST" class="delete-form d-inline-block">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-username="{{ $learner_details->username }}">
-                                                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                                                </a>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Edit User Modal -->
-                                                    <div class="modal fade" id="editlearner_detailsModal{{ $learner_details->id }}" tabindex="-1"
-                                                        aria-labelledby="editlearner_detailsModalLabel{{ $learner_details->id }}" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <form action="{{ route('user.update', $learner_details->id) }}" method="POST">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Edit Learner Details</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="mb-3">
-                                                                            <label for="username{{ $learner_details->id }}" class="form-label">Username</label>
-                                                                            <input type="text" class="form-control _dlor1" name="username" value="{{ $learner_details->username }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="first_name{{ $learner_details->id }}" class="form-label">First Name</label>
-                                                                            <input type="text" class="form-control _dlor1" name="first_name" value="{{ $learner_details->first_name }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="middle_name{{ $learner_details->id }}" class="form-label">Middle Name</label>
-                                                                            <input type="text" class="form-control _dlor1" name="middle_name" value="{{ $learner_details->middle_name }}">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="last_name{{ $learner_details->id }}" class="form-label">Last Name</label>
-                                                                            <input type="text" class="form-control _dlor1" name="last_name" value="{{ $learner_details->last_name }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="email{{ $learner_details->id }}" class="form-label">Email</label>
-                                                                            <input type="email" class="form-control _dlor1" name="email" value="{{ $learner_details->email }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="phone{{ $learner_details->id }}" class="form-label">Phone</label>
-                                                                            <input type="text" class="form-control _dlor1" name="phone_number" value="{{ $learner_details->phone_number }}">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="date_of_birth{{ $learner_details->id }}" class="form-label">Date of Birth</label>
-                                                                            <input type="date" class="form-control _dlor1" name="date_of_birth" value="{{ $learner_details->date_of_birth }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="main-btn">Save Changes</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End of Edit User Modal -->
-                                                @endforeach
-                                            </tbody>
                                         </table>                                        
                                     @endif
                                 </div>
                             </div>
-                            @if(!$learner->isEmpty())
+                            @if(!$learners->isEmpty())
                                 <div class="card-footer mt-4">
                                     <div class="mt-3">
                                         <button id="bulk-delete-btn" class="btn" disabled>Delete Selected</button>
                                     </div>                                
-                                    <div class="d-flex justify-content-end mt-3">
-                                        {{ $learner->links('pagination::bootstrap-5') }}
-                                    </div>
                                 </div>
                             @endif
                         </div>
@@ -168,6 +70,136 @@
     @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
+
+@foreach($learners as $learner)
+    <!-- Modal for each learner -->
+    <div class="modal fade" id="editdetailsModal{{ $learner->id }}" tabindex="-1" aria-labelledby="editdetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editdetailsModalLabel">Edit Learner Details: {{ $learner->first_name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('user.update', $learner->id) }}" method="POST" id="learnerForm{{ $learner->id }}" class="needs-validation" novalidate>
+                        @csrf
+                        @method('PUT')
+                    
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control _dlor1" name="username" id="username" value="{{ old('username', $learner->username) }}" required>
+                            <div class="invalid-feedback"></div> <!-- Error message container -->
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" class="form-control _dlor1" name="first_name" id="first_name" value="{{ old('first_name', $learner->first_name) }}" required>
+                            <div class="invalid-feedback"></div> <!-- Error message container -->
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control _dlor1" name="last_name" id="last_name" value="{{ old('last_name', $learner->last_name) }}" required>
+                            <div class="invalid-feedback"></div> <!-- Error message container -->
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="middle_name" class="form-label">Middle Name</label>
+                            <input type="text" class="form-control _dlor1" name="middle_name" id="middle_name" value="{{ old('middle_name', $learner->middle_name) }}" required>
+                            <div class="invalid-feedback"></div> <!-- Error message container -->
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control _dlor1" name="email" id="email" value="{{ old('email', $learner->email) }}" required>
+                            <div class="invalid-feedback"></div> <!-- Error message container -->
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="phone_number" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control _dlor1" name="phone_number" id="phone_number" value="{{ old('phone_number', $learner->phone_number) }}" required>
+                            <div class="invalid-feedback"></div> <!-- Error message container -->
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="date_of_birth" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control _dlor1" name="date_of_birth" id="dob" value="{{ old('date_of_birth', $learner->date_of_birth) }}" required>
+                            <div class="invalid-feedback"></div> <!-- Error message container -->
+                        </div>
+                    
+                        <div class="modal-footer">
+                            <button type="button" class="main-btn" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="main-btn">Save changes</button>
+                        </div>
+                    </form>                    
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+<script>
+    $(document).ready(function () {
+    $('form.needs-validation').on('submit', function (e) {
+        e.preventDefault();  // Prevent default form submission
+
+        var form = $(this);
+        var formData = new FormData(form[0]);
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Display success message if update is successful
+                alert(response.success);
+                $('#editdetailsModal' + response.id).modal('hide');  // Close the modal
+                location.reload();  // Optionally reload the page to reflect changes
+            },
+            error: function (xhr) {
+                // Clear previous error messages
+                form.find('.invalid-feedback').remove();
+                form.find('.is-invalid').removeClass('is-invalid');
+
+                // Handle validation errors
+                var errors = xhr.responseJSON.errors;
+                $.each(errors, function (field, message) {
+                    $('#' + field).addClass('is-invalid');
+                    $('#' + field).after('<div class="invalid-feedback">' + message + '</div>');
+                });
+            }
+        });
+    });
+});
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('user.index') }}",
+            columns: [
+                { data: 'id', render: function(data) {
+                    return '<input type="checkbox" class="learner-checkbox" value="'+ data +'">';
+                }, orderable: false, searchable: false },
+                { data: 'username', name: 'username' },
+                { data: 'profile', name: 'profile', orderable: false, searchable: false },
+                { data: 'first_name', name: 'first_name' },
+                { data: 'middle_name', name: 'middle_name' },
+                { data: 'last_name', name: 'last_name' },
+                { data: 'email', name: 'email' },
+                { data: 'phone_number', name: 'phone_number' },
+                { data: 'date_of_birth', name: 'date_of_birth' },
+                { data: 'status', name: 'status', orderable: false, searchable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
+        });
+    });
+</script>
 
 <!-- JavaScript for Delete Confirmation -->
 <script>
@@ -198,10 +230,9 @@
     });
 </script>
 
-
+{{-- Handle toggle change event --}}
 <script>
     $(document).ready(function () {
-        // Handle toggle change event
         $('.toggle-input').change(function () {
             var userId = $(this).data('user-id');
             var isActive = $(this).prop('checked') ? 1 : 0;
@@ -230,9 +261,9 @@
     });
 </script>
 
+{{-- Handle "Select All" checkbox --}}
 <script>
     $(document).ready(function () {
-    // Handle "Select All" checkbox
     $('#select-all').change(function () {
         $('.learner_details-checkbox').prop('checked', $(this).prop('checked'));
         toggleBulkDeleteButton();

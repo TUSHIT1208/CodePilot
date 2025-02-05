@@ -9,6 +9,16 @@ class category extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($category) {
+            $category->sub_categories()->delete();
+        });
+    }
+    
     public function sub_categories()
     {
         return $this->hasMany(sub_category::class);
