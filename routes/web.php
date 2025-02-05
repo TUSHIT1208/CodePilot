@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Category\SubCategoryController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\LearnerProfileController;
+use App\Http\Controllers\LearningPathController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Category\CategoryController;
@@ -41,7 +44,7 @@ route::post('/store_learner', [UserController::class, 'store_learner'])->name('u
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
 
-Route::get('/setting', [UserController::class,'aboutabmin'])->name('setting');
+Route::get('/setting', [UserController::class, 'aboutabmin'])->name('setting');
 
 Route::post('/upload-profile-image', [UserController::class, 'uploadImage'])->name('upload.profile.image');
 
@@ -63,3 +66,6 @@ Route::resource('sub_category', SubCategoryController::class);
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
 
+Route::resource('faq', FaqController::class);
+
+Route::resource('learningpath', LearningPathController::class);

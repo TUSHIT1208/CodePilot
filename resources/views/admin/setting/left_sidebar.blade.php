@@ -180,7 +180,19 @@
         <div class="left_section pt-2">
             <ul>
                 <li class="menu--item">
-                    <a href="setting.html" class="menu--link" title="Setting">
+                    <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">F & Q</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{route('learningpath.index')}}" class="menu--link" title="FAQ">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">Learning Path</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{asset('setting')}}" class="menu--link" title="Setting">
                         <i class='uil uil-cog menu--icon'></i>
                         <span class="menu--label">Setting</span>
                     </a>
