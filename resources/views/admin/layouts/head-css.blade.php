@@ -30,3 +30,8 @@
 
 {{-- toggle_delete_edit_btn css --}}
 <link href="{{ asset('css/toogle_delete_edit_btn.css') }}" rel="stylesheet">
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+

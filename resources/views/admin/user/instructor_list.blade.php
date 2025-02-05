@@ -101,9 +101,6 @@
                                                             id="phone_number{{ $user->id }}" name="phone_number"
                                                             value="{{ $user->phone_number }}">
                                                     </div>
-
-
-
                                                     <button type=" submit" class="btn btn-primary">Save
                                                         Changes</button>
                                                 </form>

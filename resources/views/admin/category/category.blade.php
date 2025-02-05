@@ -23,14 +23,7 @@
             @endif --}}
 
             <!-- Add Category Button -->
-                    {{-- @if($category->isEmpty())
-                        <!-- No Records Found -->
-                        <div class="no-categories-container text-center fade-in-animation footer">
-                            <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Subcategories Found</h3>
-                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any subcategories yet. Add one now to get started!</p>
-                        </div>
-                    @else --}}
+                    
                     <div class="col-md-12">
                         <div class="card_dash1">
                             <div class="row mt-2">
@@ -349,13 +342,13 @@ $(document).ready(function () {
                     } else {
                         toastr.error('Failed to update category status. Please try again.', 'Error', {
                             timeOut: 4000,
-                            positionClass: 'toast-bottom-right',
+                            positionClass: 'toast-top-right',
                         });
                     }
                 },error: function () {
                     toastr.error('An unexpected error occurred. Please try again.', 'Error', {
                         timeOut: 4000,
-                        positionClass: 'toast-bottom-right',
+                        positionClass: 'toast-top-right',
                     });
                 }
             });
