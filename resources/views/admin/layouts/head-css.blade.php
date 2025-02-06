@@ -2,6 +2,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,500" rel="stylesheet">
 <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
 <link href="{{ asset('vendor/unicons-2.0.1/css/unicons.css') }}" rel="stylesheet">
 <link href="{{ asset('css/vertical-responsive-menu1.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">
@@ -19,7 +20,6 @@
 <link href="{{ asset('vendor/OwlCarousel/assets/owl.carousel.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/OwlCarousel/assets/owl.theme.default.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-<link href="{{ asset('vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
 
 <!-- Toastr CSS -->
@@ -30,8 +30,3 @@
 
 {{-- toggle_delete_edit_btn css --}}
 <link href="{{ asset('css/toogle_delete_edit_btn.css') }}" rel="stylesheet">
-
-<!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-
-

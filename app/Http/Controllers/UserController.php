@@ -2,48 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\adminprofile;
 use App\Models\User;
-use App\Models\adminabout;
 use Illuminate\Http\Request;
 use App\Models\LearnerProfile;
 use App\Models\InstractorProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $learner = User::where('role_id', 3)->get();
-        return view('admin.user.learner_list', compact('learner'));
+        if ($request->ajax()) {
+            $learners = User::select([
+                'id', 'username', 'profile_picture_url', 'first_name', 'middle_name', 
+                'last_name', 'email', 'phone_number', 'date_of_birth', 'is_active'
+            ])->where('role_id', operator: 3);
+
+            return DataTables::of($learners)
+                ->addColumn('profile', function ($learner) {
+                    return !empty($learner->profile_picture_url) 
+                        ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40">'
+                        : '<h1 id="default_avtar">' . strtoupper(substr($learner->username, 0, 1)) . '</h1>';
+                })
+                ->addColumn('status', function ($learner) {
+                    return '<div class="toggle-button mt-2 text-center">
+                                <input type="checkbox" class="toggle-input" id="toggle' . $learner->id . '" data-user-id="' . $learner->id . '" ' . ($learner->is_active ? 'checked' : '') . '>
+                                <label for="toggle' . $learner->id . '" class="toggle-label">
+                                    <span class="toggle-circle"></span>
+                                </label>
+                            </div>';
+                })
+                ->addColumn('action', function ($learner) {
+                    return '<a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editdetailsModal' . $learner->id . '">
+                                <i class="uil uil-edit-alt ucp-table"></i>
+                            </a>
+                            <form action="' . route('user.destroy', $learner->id) . '" method="POST" class="delete-form d-inline-block">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-username="' . $learner->username . '">
+                                    <i class="uil uil-trash-alt ucp-table"></i>
+                                </a>
+                            </form>';
+                })
+                ->rawColumns(['profile', 'status', 'action']) // Ensures these columns render HTML
+                ->make(true); // Return DataTable JSON response
+        }
+
+        $learners = User::where('role_id', 3)->get();
+        return view('admin.learner.list', compact('learners'));
     }
 
     public function instructorList()
     {
-        $instructor = User::where('role_id', 2)->get();
-        return view('admin.user.instructor_list', compact('instructor'));
+        $instructor = User::where('role_id', 2)->paginate(10);
+        return view('admin.instructor.list', compact('instructor'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function register()
     {
         return view('auth.register');
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -61,7 +90,6 @@ class UserController extends Controller
             'short_description' => 'nullable|string|max:255', // Short description for instructors
         ]);
 
-        // Handle profile picture upload (if exists)
         if ($request->hasFile('profile_picture_url')) {
             $profileImage = $request->file('profile_picture_url');
             $profileImageName = time() . '.' . $profileImage->getClientOriginalExtension();
@@ -173,9 +201,11 @@ class UserController extends Controller
         return view('admin.profile.my_admin_profile', compact('adminData'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function learner_show()
+    {
+        return view('learner.profile.my_learner_profile');
+    }
+
     public function edit(string $id)
     {
         //
@@ -194,7 +224,6 @@ class UserController extends Controller
                 'dob' => 'required|date',
             ]);
 
-            // Update the user using the update method
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
@@ -205,8 +234,7 @@ class UserController extends Controller
                 'date_of_birth' => $request->dob,
             ]);
 
-            // Update the adminabout table using the update method
-            adminabout::where('admin_id', $id)->update([
+            adminprofile::where('admin_id', $id)->update([
                 'short_discription' => $request->description,
             ]);
 
@@ -215,12 +243,26 @@ class UserController extends Controller
         } else {
             $user = User::findOrFail($id);
 
-            $data = $request->validate([
+            $validated = $request->validate([
                 'username' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'middle_name' => 'nullable|string|max:255',
                 'email' => 'required|email|max:255',
-                'phone_number' => 'nullable|string|max:15',
+                'phone_number' => 'required|string|max:20',
+                'date_of_birth' => 'required|date',
             ]);
-            $user->update($data);
+            
+            $user->username = $request->input('username');
+            $user->first_name = $request->input('first_name');
+            $user->last_name = $request->input('last_name');
+            $user->middle_name = $request->input('middle_name');
+            $user->email = $request->input('email');
+            $user->phone_number = $request->input('phone_number');
+            $user->date_of_birth = $request->input('date_of_birth');
+            
+            $user->save();
+
             return redirect()->back()->with('success', 'Tutor updated successfully!');
         }
     }
@@ -275,7 +317,27 @@ class UserController extends Controller
     }
 
     public function aboutabmin(){
-        $adminAbout = adminabout::with('user')->where('admin_id',Auth::user()->id)->first();
+        $adminAbout = adminprofile::with('user')->where('admin_id',Auth::user()->id)->first();
         return view('admin.profile.setting',compact('adminAbout'));
+    }
+
+    public function learner_setting(){
+        return view('learner.profile.setting');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        try {
+            $ids = $request->ids;
+
+        if (!empty($ids)) {
+                User::whereIn('id', $ids)->delete();
+                return response()->json(['success' => 'Selected users have been deleted successfully.']);
+            } else {
+                return response()->json(['error' => 'No users selected.'], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
+        }
     }
 }

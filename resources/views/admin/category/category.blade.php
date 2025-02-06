@@ -8,22 +8,6 @@
                     <h2 class="st_title"><i class="uil uil-folder-plus"></i> Categories</h2>
                 </div>
             </div>
-
-            <!-- Display Success or Error Messages -->
-            {{-- @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-            @endif --}}
-
-            <!-- Add Category Button -->
-                    
                     <div class="col-md-12">
                         <div class="card_dash1">
                             <div class="row mt-2">
@@ -207,6 +191,7 @@
     
     @include('admin.layouts.footer')
 </div>
+
 <!-- Body End -->
 <script>
 $(document).ready(function () {
