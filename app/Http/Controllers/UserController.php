@@ -280,13 +280,12 @@ class UserController extends Controller
 
     public function updateUserStatus(Request $request)
     {
-        $user = User::find($request->user_id);
+        $user = User::findOrFail($request->user_id);
 
-        if ($user) {
-            $user->is_active = $request->is_active;
-            $user->save();
-        }
-        return response()->json(['success' => false], 400);
+        $user->is_active = $request->is_active;
+        $user->save();
+    
+        return response()->json(['success' => true, 'message' => 'User status updated successfully']);
     }
 
     public function uploadImage(Request $request)
@@ -326,18 +325,17 @@ class UserController extends Controller
     }
 
     public function bulkDelete(Request $request)
-    {
-        try {
-            $ids = $request->ids;
+{
+    $ids = $request->ids;
 
-        if (!empty($ids)) {
-                User::whereIn('id', $ids)->delete();
-                return response()->json(['success' => 'Selected users have been deleted successfully.']);
-            } else {
-                return response()->json(['error' => 'No users selected.'], 400);
-            }
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
-        }
+    if (!$ids || !is_array($ids)) {
+        return response()->json(['error' => 'Invalid request. No IDs provided.'], 400);
     }
+
+    User::whereIn('id', $ids)->delete();
+
+    return response()->json(['success' => 'Selected users have been deleted successfully.']);
+}
+
+
 }
