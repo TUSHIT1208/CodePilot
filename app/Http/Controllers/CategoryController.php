@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers;
 
 
 use Exception;
@@ -18,13 +18,13 @@ class CategoryController extends Controller
         try {
             // Fetch all categories from the database
             $categories = Category::paginate(3);
-    
+
             // Pass the categories to the view
             return view('admin.category.category', compact('categories'));
         } catch (Exception $e) {
             // Log the error message
             \Log::error('Error while fetching categories: ' . $e->getMessage());
-    
+
             // Redirect with error message
             return redirect()->route('category.index')->with('error', 'An error occurred while fetching the categories. Please try again later.');
         }
@@ -35,7 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-       //
+        //
     }
 
     /**
@@ -91,7 +91,7 @@ class CategoryController extends Controller
     {
         // Find the category by ID or fail if it doesn't exist
         $category = Category::findOrFail($id);
-        
+
         // Validate the input data
         $data = $request->validate([
             'category_name' => 'required|string|max:255',  // Validating category name
@@ -120,7 +120,7 @@ class CategoryController extends Controller
     }
     public function updateCategoryStatus(Request $request)
     {
-        try{
+        try {
             $category = Category::find($request->category_id);
 
             if ($category) {
@@ -132,15 +132,15 @@ class CategoryController extends Controller
                 return response()->json([
                     'success' => $category->is_active ? 'Category has been activated successfully!' : 'Category has been deactivated successfully!',
                 ]);
-                
-            }    
-        } catch(Exception $e) {
+
+            }
+        } catch (Exception $e) {
             // Log the error message
             \Log::error('Error while updating category status: ' . $e->getMessage());
 
             // Return an error response
             return response()->json(['error' => 'An error occurred while updating the category status. Please try again later.']);
-        }   
+        }
     }
 
     public function bulkDelete(Request $request)

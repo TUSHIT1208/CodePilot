@@ -1,4 +1,8 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+learning-path
+@endsection
+@section('content')
 <!-- Body Start -->
 <div class="wrapper">
     <div class="sa4d25">
@@ -10,7 +14,7 @@
                             <h4 class=""><i class="uil uil-plus"></i> Add Learning path</h4>
                         </div>
                         <div class="col-lg-7">
-                            <div class="search120">
+                            {{-- <div class="search120">
                                 <div class="ui search">
                                     <div class="ui left icon input swdh10">
                                         <input class="prompt srch10" type="text"
@@ -18,7 +22,7 @@
                                         <i class='uil uil-search-alt icon icon1'></i>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-6 text-end">
                             <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn"
@@ -408,3 +412,4 @@
         });
     });
 </script>
+@endsection

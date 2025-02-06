@@ -1,4 +1,8 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+deshbord
+@endsection
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container-fluid">
@@ -296,3 +300,4 @@
     </div>
     @include('admin.layouts.footer')
 </div>
+@endsection

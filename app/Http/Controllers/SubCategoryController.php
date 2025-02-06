@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers;
 
 use App\Models\category;
 use App\Models\sub_category;
@@ -40,12 +40,12 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        
-            $request->validate([
-                'category_id' => 'required|exists:categories,id',
-                'subcategory_name' => 'required|string|max:255',
-                'subcategory_description' => 'nullable|string',
-            ]);
+
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_name' => 'required|string|max:255',
+            'subcategory_description' => 'nullable|string',
+        ]);
         try {
             Sub_Category::create([
                 'category_id' => $request->category_id,
@@ -82,28 +82,28 @@ class SubCategoryController extends Controller
     public function update(Request $request, $id)
     {
         //dd('hello');
-        
+
         // try {
-            // Validate the incoming request data
-            $validatedData = $request->validate([
-                // 'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
-                'subcategory_name_edit' => 'required|string|max:255',  // Validate subcategory name
-                'subcategory_description_edit' => 'nullable|string',   // Validate subcategory description
-            ]);
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            // 'category_id' => 'required|exists:categories,id',  // Validate that category_id exists in categories table
+            'subcategory_name_edit' => 'required|string|max:255',  // Validate subcategory name
+            'subcategory_description_edit' => 'nullable|string',   // Validate subcategory description
+        ]);
 
-            // Find the subcategory by ID
-            $subcategory = sub_category::findOrFail($id);
-            // return $subcategory;    
-            // Update the subcategory with validated data
-            $subcategory->update([
-                // 'category_id' => $validatedData['category_id'],   // Update the category ID
-                'name' => $validatedData['subcategory_name_edit'],     // Update the subcategory name
-                'description' => $validatedData['subcategory_description_edit'], // Update the subcategory description
-            ]);
-            
+        // Find the subcategory by ID
+        $subcategory = sub_category::findOrFail($id);
+        // return $subcategory;    
+        // Update the subcategory with validated data
+        $subcategory->update([
+            // 'category_id' => $validatedData['category_id'],   // Update the category ID
+            'name' => $validatedData['subcategory_name_edit'],     // Update the subcategory name
+            'description' => $validatedData['subcategory_description_edit'], // Update the subcategory description
+        ]);
 
-            // Redirect back with a success message
-            return redirect()->back()->with('success', 'Subcategory updated successfully!');
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Subcategory updated successfully!');
         // }  catch (\Exception $e) {
         //     // Handle any other exceptions
         //     return redirect()->back()->with('error', 'Failed to update subcategory: ' . $e->getMessage());
@@ -135,7 +135,7 @@ class SubCategoryController extends Controller
             return response()->json([
                 'success' => $category->is_active ? 'SubCategory has been activated successfully!' : 'SubCategory has been deactivated successfully!',
             ]);
-            
+
         }
     }
 

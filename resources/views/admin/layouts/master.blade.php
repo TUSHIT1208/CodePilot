@@ -7,17 +7,19 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>Cursus - Dashboard</title>
+    <title>@yield('title') | codepilot</title>
     @include('admin.layouts.head-css')
+    @include('admin.layouts.vendor-script')
 </head>
+
 @section('body')
 @include('admin.layouts.body')
 @show
 
 @include('admin.layouts.header')
 @include('admin.layouts.left_sidebar')
+@yield('content')
 
-@include('admin.layouts.vendor-script')
 </body>
 
 </html>

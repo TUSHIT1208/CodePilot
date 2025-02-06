@@ -1,21 +1,26 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+review
+@endsection
+@section('content')
+
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container-fluid">			
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-star"></i> All Review</h2>
-                </div>					
-            </div>				
+                </div>
+            </div>
             <div class="row">
-                <div class="col-12">						
+                <div class="col-12">
                     <div class="student_reviews">
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="reviews_left">
                                     <h3>All Student Feedback</h3>
                                     <div class="total_rating">
-                                        <div class="_rate001">4.6</div>														
+                                        <div class="_rate001">4.6</div>
                                         <div class="rating-box">
                                             <span class="rating-star full-star"></span>
                                             <span class="rating-star full-star"></span>
@@ -23,12 +28,13 @@
                                             <span class="rating-star full-star"></span>
                                             <span class="rating-star half-star"></span>
                                         </div>
-                                        <div class="_rate002">All Rating</div>	
+                                        <div class="_rate002">All Rating</div>
                                     </div>
                                     <div class="_rate003">
                                         <div class="_rate004">
                                             <div class="progress progress1">
-                                                <div class="progress-bar w-70" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar w-70" role="progressbar" aria-valuenow="70"
+                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <div class="rating-box">
                                                 <span class="rating-star full-star"></span>
@@ -41,7 +47,8 @@
                                         </div>
                                         <div class="_rate004">
                                             <div class="progress progress1">
-                                                <div class="progress-bar w-30" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar w-30" role="progressbar" aria-valuenow="30"
+                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <div class="rating-box">
                                                 <span class="rating-star full-star"></span>
@@ -54,7 +61,8 @@
                                         </div>
                                         <div class="_rate004">
                                             <div class="progress progress1">
-                                                <div class="progress-bar w-5" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar w-5" role="progressbar" aria-valuenow="10"
+                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <div class="rating-box">
                                                 <span class="rating-star full-star"></span>
@@ -67,7 +75,8 @@
                                         </div>
                                         <div class="_rate004">
                                             <div class="progress progress1">
-                                                <div class="progress-bar w-2" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar w-2" role="progressbar" aria-valuenow="2"
+                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <div class="rating-box">
                                                 <span class="rating-star full-star"></span>
@@ -80,7 +89,8 @@
                                         </div>
                                         <div class="_rate004">
                                             <div class="progress progress1">
-                                                <div class="progress-bar w-1" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar w-1" role="progressbar" aria-valuenow="0"
+                                                    aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <div class="rating-box">
                                                 <span class="rating-star full-star"></span>
@@ -92,7 +102,7 @@
                                             <div class="_rate002">1%</div>
                                         </div>
                                     </div>
-                                </div>												
+                                </div>
                             </div>
                             <div class="col-lg-7">
                                 <div class="review_right">
@@ -123,7 +133,9 @@
                                             <span class="rating-star full-star"></span>
                                             <span class="rating-star half-star"></span>
                                         </div>
-                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex elementum.
+                                            Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia,
+                                            nunc sit amet tincidunt venenatis.</p>
                                     </div>
                                 </div>
                                 <div class="review_all120 mt-30">
@@ -145,7 +157,9 @@
                                             <span class="rating-star full-star"></span>
                                             <span class="rating-star half-star"></span>
                                         </div>
-                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex elementum.
+                                            Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia,
+                                            nunc sit amet tincidunt venenatis.</p>
                                     </div>
                                 </div>
                                 <div class="review_all120 mt-30">
@@ -167,7 +181,9 @@
                                             <span class="rating-star full-star"></span>
                                             <span class="rating-star half-star"></span>
                                         </div>
-                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex elementum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex elementum.
+                                            Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce lacinia,
+                                            nunc sit amet tincidunt venenatis.</p>
                                     </div>
                                 </div>
                             </div>
@@ -178,3 +194,4 @@
         </div>
         @include('admin.layouts.footer')
     </div>
+    @endsection

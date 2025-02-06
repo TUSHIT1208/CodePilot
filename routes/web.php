@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Category\SubCategoryController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\LearnerProfileController;
 use App\Http\Controllers\LearningPathController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -24,6 +24,9 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard')->middleware('auth');
 
+Route::get('/cource', function () {
+    return view('admin.all_cource');
+})->name('admin.cource');
 
 Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
@@ -44,12 +47,8 @@ route::post('/store_learner', [UserController::class, 'store_learner'])->name('u
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
 
-<<<<<<< HEAD
 Route::get('/setting', [UserController::class, 'aboutabmin'])->name('setting');
-=======
-Route::get('/setting', [UserController::class,'aboutabmin'])->name('setting');
-Route::get('/learner/setting', [UserController::class,'learner_setting'])->name('learner.setting');
->>>>>>> e9985d77c20c4423dcd9f7d261a65a6bcf5a7554
+Route::get('/learner/setting', [UserController::class, 'learner_setting'])->name('learner.setting');
 
 Route::post('/upload-profile-image', [UserController::class, 'uploadImage'])->name('upload.profile.image');
 
@@ -58,7 +57,7 @@ Route::get('/learner/profile', [UserController::class, 'learner_show'])->name('u
 Route::get('/create', [LoginController::class, 'create_changepassword'])->name('changepassword.create');
 Route::post('/change_password', [LoginController::class, 'changePassword'])->name('changePassword.update');
 
-Route::get('/forgot_password', [ForgotPasswordController::class, 'create'])->name('forgot_password');
+Route::get('/forgot_passwords', [ForgotPasswordController::class, 'create'])->name('forgot_password');
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
