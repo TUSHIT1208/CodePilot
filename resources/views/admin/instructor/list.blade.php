@@ -61,7 +61,7 @@
                     @if(!$instructors->isEmpty())
                         <div class="card-footer mt-4">
                             <div class="mt-3">
-                                <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
+                                <button id="bulk-delete-btn" class="btn" disabled>Delete Selected</button>
                             </div>
                             <div class="d-flex justify-content-end mt-3">
                                 {{ $instructors->links('pagination::bootstrap-5') }}
@@ -92,43 +92,41 @@
 
                     <div class="mb-3">
                         <label for="username{{ $user->id }}" class="form-label">Username</label>
-                        <input type="text" class="form-control _dlor1" id="username{{ $user->id }}" name="username" value="{{ old('username', $user->username) }}" >
+                        <input type="text" class="form-control _dlor1" id="username{{ $user->id }}" name="username" value="{{ old('username', $user->username) }}" required>
                         <div class="invalid-feedback"></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="first_name{{ $user->id }}" class="form-label">First Name</label>
-                        <input type="text" class="form-control _dlor1" id="first_name{{ $user->id }}" name="first_name" value="{{ old('first_name', $user->first_name) }}" >
+                        <input type="text" class="form-control _dlor1" id="first_name{{ $user->id }}" name="first_name" value="{{ old('first_name', $user->first_name) }}" required>
                         <div class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3">
                         <label for="first_name{{ $user->id }}" class="form-label">Middle Name</label>
-                        <input type="text" class="form-control _dlor1" id="first_name{{ $user->id }}" name="middle_name" value="{{ old('middle_name', $user->middle_name) }}" >
+                        <input type="text" class="form-control _dlor1" id="first_name{{ $user->id }}" name="middle_name" value="{{ old('middle_name', $user->middle_name) }}" required>
                         <div class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3">
                         <label for="last_name{{ $user->id }}" class="form-label">Last Name</label>
-                        <input type="text" class="form-control _dlor1" id="last_name{{ $user->id }}" name="last_name" value="{{ old('last_name', $user->last_name) }}" >
+                        <input type="text" class="form-control _dlor1" id="last_name{{ $user->id }}" name="last_name" value="{{ old('last_name', $user->last_name) }}" required>
                         <div class="invalid-feedback"></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="email{{ $user->id }}" class="form-label">Email</label>
-                        <input type="email" class="form-control _dlor1" id="email{{ $user->id }}" name="email" value="{{ old('email', $user->email) }}" >
+                        <input type="email" class="form-control _dlor1" id="email{{ $user->id }}" name="email" value="{{ old('email', $user->email) }}" required>
                         <div class="invalid-feedback"></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control _dlor1" id="phone_number{{ $user->id }}" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" 
-                        >
+                        <input type="tel" class="form-control _dlor1" id="phone_number{{ $user->id }}" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" required>
                         <div class="invalid-feedback"></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="date_of_birth{{ $user->id }}" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control _dlor1" id="date_of_birth{{ $user->id }}" name="date_of_birth" value="{{ old('date_of_birth', $user->date_of_birth) }}" 
-                        >
+                        <input type="date" class="form-control _dlor1" id="date_of_birth{{ $user->id }}" name="date_of_birth" value="{{ old('date_of_birth', $user->date_of_birth) }}" required>
                         <div class="invalid-feedback"></div>
                     </div>
 
@@ -274,6 +272,33 @@
     });
 </script>
 
+<!-- JavaScript for Delete Confirmation -->
+<script>
+    $(document).ready(function () {
+    $(document).on("click", ".delete-btn", function (e) {
+        e.preventDefault(); // Prevent default action
+
+        var form = $(this).closest(".delete-form"); // Get the closest delete form
+        var username = $(this).data("username"); // Get the username
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are about to delete ${username}. This action cannot be undone.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // Submit the form if confirmed
+            }
+        });
+    });
+});
+</script>
+
 <!-- Toggle User Status Script -->
 <script>
     $(document).ready(function () {
@@ -302,30 +327,4 @@
             });
         });
     });
-</script>
-<!-- JavaScript for Delete Confirmation -->
-<script>
-    $(document).ready(function () {
-    $(document).on("click", ".delete-btn", function (e) {
-        e.preventDefault(); // Prevent default action
-
-        var form = $(this).closest(".delete-form"); // Get the closest delete form
-        var username = $(this).data("username"); // Get the username
-
-        Swal.fire({
-            title: "Are you sure?",
-            text: `You are about to delete ${username}. This action cannot be undone.`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "Cancel",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit(); // Submit the form if confirmed
-            }
-        });
-    });
-});
 </script>

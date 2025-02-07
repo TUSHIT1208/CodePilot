@@ -15,14 +15,14 @@
                                     <h4 class=""><i class="uil uil-plus"></i> Add Subcategories</h4>
                                 </div>
                                 <div class="col-lg-7">
-                                    <div class="search120">
+                                    {{-- <div class="search120">
                                         <div class="ui search">
                                             <div class="ui left icon input swdh10">
                                                 <input class="prompt srch10" type="text" placeholder="Search for Categories..">
                                                 <i class='uil uil-search-alt icon icon1'></i>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 text-end">
                                     <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn" title="Add a Category">
@@ -37,108 +37,28 @@
                                         <!-- No Records Found -->
                                         <div class="no-categories-container text-center fade-in-animation footer">
                                             <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Categories Found</h3>
+                                            <h3 class="mt-3 scale-in-text" style="color: #777;">No SubCategories Found</h3>
                                             <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any categories yet. Add one now to get started!</p>
                                             
                                         </div>
                                     @else
                                         <!-- Display Table When Data Exists -->
                                         <table class="ucp-table">
-                                            <thead class="ucp-table">
+                                            <thead>
                                                 <tr>
-                                                    <th class="text-center ucp-table">
+                                                    <th class="text-center ">
                                                         <input type="checkbox" id="select-all"> <!-- Select All Checkbox -->
                                                     </th>
-                                                    <th class="text-center ucp-table" scope="col">Item No.</th>
-                                                    <th class="text-center ucp-table">category</th>
-                                                    <th class="text-center ucp-table">Name</th>
-                                                    <th class="text-center ucp-table" scope="col">Description</th>
-                                                    <th class="text-center ucp-table" scope="col">Status</th>
-                                                    <th class="text-center ucp-table" scope="col">Actions</th>
+                                                    
+                                                    <th class="text-center ">category</th>
+                                                    <th class="text-center ">Name</th>
+                                                    <th class="text-center " scope="col">Description</th>
+                                                    <th class="text-center " scope="col">Status</th>
+                                                    <th class="text-center " scope="col">Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="ucp-table">
-                                                @foreach($subcategories as $subcategory)
-                                                    <tr>
-                                                        <!-- Checkbox in the first column -->
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="category-checkbox" value="{{ $subcategory->id }}">
-                                                        </td>
-                                                        <td class="text-center"><p class="ucp-table">{{ str_pad($subcategory->id, 3, '0', STR_PAD_LEFT) }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $subcategory->category->name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $subcategory->name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $subcategory->description }}</p></td>
-                                                        <td class="text-center">
-                                                            <div class="toggle-button mt-2 text-center">
-                                                                <input type="checkbox" class="toggle-input" id="toggle{{$subcategory->id}}" data-user-id="{{$subcategory->id}}" {{ $subcategory->is_active ? 'checked' : '' }}>
-                                                                <label for="toggle{{$subcategory->id}}" class="toggle-label">
-                                                                    <span class="toggle-circle"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editSubcategoryModal{{ $subcategory->id }}">
-                                                                <i class="uil uil-edit-alt ucp-table"></i>
-                                                            </a>
-                                                            <form action="{{ route('sub_category.destroy', $subcategory->id) }}" method="POST" class="delete-form d-inline-block">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <a href="#" title="Delete" class="gray-s delete-btn" data-username="{{ $subcategory->name }}">
-                                                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                                                </a>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Edit Subcategory Modal -->
-                                                    <div class="modal fade" id="editSubcategoryModal{{ $subcategory->id }}" tabindex="-1"
-                                                        aria-labelledby="editSubcategoryModalLabel{{ $subcategory->id }}" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <form action="{{ route('sub_category.update', $subcategory->id) }}" method="POST" enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="editSubcategoryModalLabel{{ $subcategory->id }}">
-                                                                            Edit Subcategory
-                                                                        </h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        {{-- <div class="mb-3">
-                                                                            <label for="category_id_{{ $subcategory->id }}" class="form-label">Category</label>
-                                                                            <select class="form-control" id="category_id_{{ $subcategory->id }}" name="category_id" required>
-                                                                                @foreach($categories as $category)
-                                                                                    <option value="{{ $category->id }}" {{ $category->id == $subcategory->category_id ? 'selected' : '' }}>
-                                                                                        {{ $category->name }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div> --}}
-                                                                        <div class="mb-3">
-                                                                            <label for="subcategory_name_{{ $subcategory->id }}" class="form-label">Subcategory Name</label>
-                                                                            <input type="text" class="form-control _dlor1" id="subcategory_name_{{ $subcategory->id }}"
-                                                                                name="subcategory_name_edit" value="{{ $subcategory->name }}" >
-                                                                                <div class="invalid-feedback"></div> 
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="subcategory_description_{{ $subcategory->id }}" class="form-label">Subcategory Description</label>
-                                                                            <textarea class="form-control _dlor1" id="subcategory_description_{{ $subcategory->id }}"
-                                                                                name="subcategory_description_edit" rows="4" >{{ $subcategory->description }}</textarea>
-                                                                                <div class="invalid-feedback"></div> 
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="main-btn">Save Changes</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End of Edit Subcategory Modal -->
-                                                @endforeach
-                                            </tbody>
-                                        </table>                                        
+                                            <tbody class="text-center"></tbody>
+                                        </table>                      
                                     @endif
                                 </div>
                             </div>
@@ -157,8 +77,49 @@
                 </div>
             </div>
             
-
-    
+            @foreach($subcategories as $subcategory)
+            <!-- Edit Subcategory Modal -->
+            <div class="modal fade" id="editSubcategoryModal{{ $subcategory->id }}" tabindex="-1"
+                aria-labelledby="editSubcategoryModalLabel{{ $subcategory->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form class="edit-subcategory-form" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            
+                            <!-- Hidden field to store subcategory ID -->
+                            {{-- <input type="hidden" name="subcategory_id" value="{{ $subcategory->id }}"> --}}
+        
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editSubcategoryModalLabel{{ $subcategory->id }}">
+                                    Edit Subcategory
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="subcategory_name_{{ $subcategory->id }}" class="form-label">Subcategory Name</label>
+                                    <input type="text" class="form-control _dlor1" id="subcategory_name_{{ $subcategory->id }}"
+                                        name="subcategory_name_edit" value="{{ $subcategory->name }}">
+                                    <div class="invalid-feedback"></div> 
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subcategory_description_{{ $subcategory->id }}" class="form-label">Subcategory Description</label>
+                                    <textarea class="form-control _dlor1" id="subcategory_description_{{ $subcategory->id }}"
+                                        name="subcategory_description_edit" rows="4">{{ $subcategory->description }}</textarea>
+                                    <div class="invalid-feedback"></div> 
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="main-btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        
     <!-- Modal for Adding Category -->
     <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -216,8 +177,95 @@
     @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
+<script>
+$(document).ready(function () {
+    // Initialize the DataTable
+    var table = $('.ucp-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('sub_category.index') }}", // Replace with your route to fetch data
+        columns: [
+            { 
+                data: 'id', 
+                render: function(data) {
+                    return '<input type="checkbox" class="item-checkbox" value="'+ data +'">'; // Checkbox for each row
+                },
+                orderable: false, 
+                searchable: false
+            },
+           
+            { data: 'category_name', name: 'category' }, // Replace 'category' with actual category name
+            { data: 'name', name: 'name' },
+            { data: 'description', name: 'description' },
+            { data: 'is_active', name: 'status', orderable: false, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false } // Column for actions
+        ]
+    });
 
+    // Handle individual checkbox selection
+    $('.ucp-table tbody').on('change', '.item-checkbox', function () {
+        let allChecked = $('.item-checkbox').length === $('.item-checkbox:checked').length;
+        $('#select-all').prop('checked', allChecked); // Update the "Select All" checkbox
+        toggleBulkDeleteButton(); // Enable/Disable Bulk Delete button
+    });
 
+    // Select/Deselect All checkboxes
+    $('#select-all').on('change', function () {
+        $('.item-checkbox').prop('checked', $(this).prop('checked')); // Select or deselect all checkboxes
+        toggleBulkDeleteButton(); // Enable/Disable Bulk Delete button
+    });
+
+    // Enable/Disable Bulk Delete button based on selection
+    function toggleBulkDeleteButton() {
+        let anyChecked = $('.item-checkbox:checked').length > 0;
+        $('#bulk-delete-btn').prop('disabled', !anyChecked); // If any checkbox is checked, enable button
+    }
+
+    // Bulk Delete Functionality
+    $('#bulk-delete-btn').on('click', function () {
+        let selectedIds = $('.item-checkbox:checked').map(function () {
+            return $(this).val(); // Get the selected checkbox IDs
+        }).get();
+
+        if (selectedIds.length > 0) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You are about to delete ${selectedIds.length} items. This action cannot be undone.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete them!',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    url: '{{ route("subcategories.bulk-delete") }}', // Your route for bulk delete
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            ids: selectedIds,
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                toastr.success(response.success, 'Success');
+                                $('#select-all').prop('checked', false); // Uncheck "Select All" checkbox
+                                $('#bulk-delete-btn').prop('disabled', true); // Disable the bulk delete button
+                                table.ajax.reload(); // Reload the DataTable after deletion
+                            } else {
+                                toastr.error(response.error || 'Failed to delete.', 'Error');
+                            }
+                        },
+                        error: function () {
+                            toastr.error('An error occurred. Please try again.', 'Error');
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+</script>
 <script>
 $(document).ready(function () {
     // AJAX form submission for Add Category
@@ -347,85 +395,120 @@ $(document).ready(function () {
 
 <!-- JavaScript for Delete Confirmation -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const deleteButtons = document.querySelectorAll(".delete-btn");
+    $(document).ready(function () {
+    $(document).on("click", ".delete-btn", function (e) {
+        e.preventDefault(); // Prevent default action
 
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const form = this.closest(".delete-form");
-                const categoryName = this.getAttribute("data-username");
+        var form = $(this).closest(".delete-form"); // Get the closest delete form
+        var username = $(this).data("username"); // Get the username
 
-                Swal.fire({
-                    title: `Are you sure?`,
-                    text: `You are about to delete the Sub-category "${categoryName}". This action cannot be undone.`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "Cancel",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit(); // Submit the form if the user confirms
-                    }
-                });
-            });
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are about to delete ${username}. This action cannot be undone.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // Submit the form if confirmed
+            }
         });
     });
+});
 </script>
 
 
+<!-- Toggle User Status Script -->
 <script>
     $(document).ready(function () {
-        $('.toggle-input').change(function () {
-            const categoryId = $(this).data('user-id');
-            const isActive = $(this).is(':checked') ? 1 : 0;
+        $('.ucp-table').on('change', '.toggle-input', function () {
+            var userId = $(this).data('user-id');
+            var isActive = $(this).prop('checked') ? 1 : 0;
 
             $.ajax({
-                url: '/subcategory/update-subcategory-status', // Replace with your route
+                url: '/admin/update-user-status',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
-                    category_id: categoryId,
+                    user_id: userId,
                     is_active: isActive
                 },
                 success: function (response) {
                     if (response.success) {
-                        toastr.options = {
-                            "closeButton": true, // Remove close button
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true, // Enable time bar
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": true,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000", // Duration before auto-hiding
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr.success(response.success, 'Success');
+                        toastr.success('Status updated successfully.');
                     } else {
-                        toastr.error('Failed to update category status. Please try again.', 'Error', {
-                            timeOut: 4000,
-                            positionClass: 'toast-bottom-right',
-                        });
+                        toastr.error('Error updating status.');
                     }
-                },error: function () {
-                    toastr.error('An unexpected error occurred. Please try again.', 'Error', {
-                        timeOut: 4000,
-                        positionClass: 'toast-bottom-right',
-                    });
+                },
+                error: function () {
+                    toastr.error('An error occurred. Please try again.');
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Open the Edit Subcategory Modal
+        $(document).on('click', '.edit-category', function () {
+            let subcategoryId = $(this).data('id');
+            let subcategoryName = $(this).data('name');
+            let subcategoryDescription = $(this).data('description');
+
+            // Populate the modal fields using dynamic IDs
+            $(`#subcategory_name_${subcategoryId}`).val(subcategoryName);
+            $(`#subcategory_description_${subcategoryId}`).val(subcategoryDescription);
+
+            // Show the correct modal using the subcategory ID
+            $(`#editSubcategoryModal${subcategoryId}`).modal('show');
+        });
+
+        // Handle Update Subcategory Submission via AJAX
+        $('.edit-subcategory-form').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            let form = $(this);
+            let subcategoryId = form.find('[name="subcategory_id"]').val();
+            let formData = form.serialize(); // Serialize form data
+
+            $.ajax({
+                url: `/sub_category/${subcategoryId}`, // Resourceful route
+                method: 'PUT', // Laravel requires PUT for update
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.success, 'Success');
+
+                        // Close modal and reload table
+                        $(`#editSubcategoryModal${subcategoryId}`).modal('hide');
+                        $('#subcategory-table').DataTable().ajax.reload(); // Reload DataTable
+                    }
+                },
+                error: function (xhr) {
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('.invalid-feedback').remove();
+
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        for (let field in errors) {
+                            let inputField = $(`[name="${field}"]`);
+                            inputField.addClass('is-invalid');
+                            inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+                    } else {
+                        toastr.error('An unexpected error occurred. Please try again.', 'Error');
+                    }
                 }
             });
         });
     });
 </script>
 
+
+{{-- 
 <script>
     $(document).ready(function () {
     // Select All Checkbox
@@ -489,4 +572,4 @@ $(document).ready(function () {
         }
     });
 });
-</script>
+</script> --}}

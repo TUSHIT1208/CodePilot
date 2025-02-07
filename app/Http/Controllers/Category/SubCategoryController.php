@@ -7,29 +7,84 @@ use App\Models\sub_category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
+use Yajra\DataTables\Facades\DataTables;
 
 class SubCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+
+     public function index(Request $request)
     {
-        try {
-            $categories = Category::paginate(3);
-            $subcategories = Sub_Category::with('category')->get();
+    try {
+        // Check if the request is ajax
+        if ($request->ajax()) {
+            // Fetch subcategories with the related category using eager loading
+            $subCategories = Sub_Category::with('category') // Assuming there's a category relationship defined in the SubCategory model
+                ->select(['id', 'name', 'description', 'category_id', 'is_active']); // Select the relevant fields
 
-            return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));
-
-        } catch (\Exception $e) {
-            Log::error('Error fetching subcategories: ' . $e->getMessage());
-            return redirect()->route('category.index')->with('error', 'An error occurred while fetching the categories. Please try again later.');
+            // Return DataTables response
+            return DataTables::of($subCategories)
+                ->addColumn('category_name', function ($subcategory) {
+                    // Ensure the relationship is correctly accessed
+                    return $subcategory->category ? $subcategory->category->name : 'N/A'; // Display category name or N/A if no category
+                })
+                ->addColumn('action', function ($subcategory) {
+                    return '
+                        <a href="javascript:void(0);" class="edit-category gray-s" 
+                            data-id="' . $subcategory->id . '" 
+                            data-name="' . $subcategory->name . '" 
+                            data-description="' . $subcategory->description . '">
+                            <i class="uil uil-edit-alt ucp-table"></i>
+                        </a>
+                        <form action="' . route('sub_category.destroy', $subcategory->id) . '" method="POST" class="delete-form d-inline-block">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <a href="javascript:void(0);" title="Delete" class="gray-s delete-btn" data-username="' . $subcategory->name . '">
+                                <i class="uil uil-trash-alt ucp-table"></i>
+                            </a>
+                        </form>';
+                })
+                
+                
+                ->editColumn('status', function ($subcategory) {
+                    return '
+                        <div class="toggle-button mt-2 text-center">
+                            <input type="checkbox" class="toggle-input toggle-status" data-id="' . $subcategory->id . '" ' . ($subcategory->is_active ? 'checked' : '') . '>
+                            <label class="toggle-label">
+                                <span class="toggle-circle"></span>
+                            </label>
+                        </div>';
+                })
+    
+                
+                ->rawColumns(['category_name', 'status', 'action']) // Ensure action buttons, status, and category name are rendered as HTML
+                ->make(true);
         }
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+        // If it's not an AJAX request, fetch all subcategories and categories for display
+        $categories = Category::paginate(3); // Fetch categories with pagination
+        $subcategories = Sub_Category::with('category')->get(); // Fetch subcategories with their related categories
+
+        // Return the view with the subcategories and categories data
+        return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));
+    } catch (ModelNotFoundException $e) {
+        // Handle the case when a model is not found
+        return response()->json(['error' => 'Subcategory or related category not found.'], 404);
+    } catch (Exception $e) {
+        // General exception handling
+        return response()->json(['error' => 'An error occurred while fetching the subcategories. Please try again later.'], 500);
+    }
+}
+
+     
+        /**
+         * Show the form for creating a new resource.
+         */
+
     public function create()
     {
         //
@@ -54,7 +109,7 @@ class SubCategoryController extends Controller
             ]);
 
             return response()->json(['success' => 'SubCategory added successfully!']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Error adding subcategory: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred while adding the subscategory. Please try again later.']);
         }
@@ -109,9 +164,6 @@ class SubCategoryController extends Controller
         //     return redirect()->back()->with('error', 'Failed to update subcategory: ' . $e->getMessage());
         // }
     }
-
-
-
 
     /**
      * Remove the specified resource from storage.
