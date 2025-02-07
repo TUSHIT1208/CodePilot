@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('admin.setting.master')
 @section('title')
 learning-path
 @endsection
@@ -44,100 +44,19 @@ learning-path
                                         learning path yet. Add one now to get started!</p>
                                 </div>
                             @else
-                                <!-- Display Table When Data Exists -->
-                                <table class="ucp-table">
-                                    <thead class="ucp-table">
+                                <table id="learningPathTable" class="table ucp-table">
+                                    <thead>
                                         <tr>
-                                            <th class="text-center ucp-tabler">
-                                                <input type="checkbox" id="select-all"> <!-- Select All Checkbox -->
-                                            </th>
-                                            <th class="text-center ucp-table" scope="col">No.</th>
-                                            <th class="text-center ucp-table">Learning Path Name</th>
-                                            <th class="text-center ucp-table" scope="col">Description</th>
-                                            <th class="text-center ucp-table" scope="col">Actions</th>
+                                            <th class="text-center"><input type="checkbox" id="select-all"></th>
+                                            <th class="text-center">No.</th>
+                                            <th class="text-center">Learning Path Name</th>
+                                            <th class="text-center">Description</th>
+                                            <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="ucp-table">
-                                        @foreach($learningpath as $category)
-                                            <tr>
-                                                <!-- Checkbox in the first column -->
-                                                <td class="text-center ">
-                                                    <input type="checkbox" class="category-checkbox"
-                                                        value="{{ $category->id }}">
-                                                </td>
-                                                <td class="text-center">
-                                                    <p class="ucp-table">{{ str_pad($category->id, 3, '0', STR_PAD_LEFT) }}</p>
-                                                </td>
-                                                <td class="text-center">
-                                                    <p class="ucp-table">{{ $category->name }}</p>
-                                                </td>
-                                                <td class="text-center">
-                                                    <p class="ucp-table">{{ $category->description }}</p>
-                                                </td>
-
-                                                <td class="text-center">
-                                                    <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal"
-                                                        data-bs-target="#editCategoryModal{{ $category->id }}">
-                                                        <i class="uil uil-edit-alt ucp-table"></i>
-                                                    </a>
-                                                    <form action="{{ route('learningpath.destroy', $category->id) }}"
-                                                        method="POST" class="delete-form d-inline-block">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <a href="javascript:;" title="Delete" class="gray-s delete-btn"
-                                                            data-username="{{ $category->name }}">
-                                                            <i class="uil uil-trash-alt ucp-table"></i>
-                                                        </a>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <!-- Edit User Modal -->
-                                            <div class="modal fade" id="editCategoryModal{{ $category->id }}" tabindex="-1"
-                                                aria-labelledby="editCategoryModalLabel{{ $category->id }}" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <form action="{{ route('learningpath.update', $category->id) }}"
-                                                            method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="editCategoryModalLabel{{ $category->id }}">
-                                                                    Edit Learning Path
-                                                                </h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="mb-3">
-                                                                    <label for="category_name_{{ $category->id }}"
-                                                                        class="form-label">Learning Path Name</label>
-                                                                    <input type="text" class="form-control _dlor1"
-                                                                        id="category_name_{{ $category->id }}" name="name"
-                                                                        value="{{ $category->name }}" required>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="category_description_{{ $category->id }}"
-                                                                        class="form-label">Learning Path Description</label>
-                                                                    <textarea class="form-control _dlor1"
-                                                                        id="category_description_{{ $category->id }}"
-                                                                        name="description" rows="4"
-                                                                        required>{{ $category->description }}</textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="main-btn"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="main-btn">Save Changes</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End of Edit User Modal -->
-                                        @endforeach
-                                    </tbody>
+                                    <tbody class="text-center"></tbody>
                                 </table>
+
                             @endif
                         </div>
                     </div>
@@ -156,6 +75,36 @@ learning-path
         </div>
     </div>
 
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Learning Path</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="edit-id">
+
+                        <div class="mb-3">
+                            <label for="edit-name" class="form-label">Learning Path Name</label>
+                            <input type="text" class="form-control" id="edit-name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="edit-description" class="form-label">Description</label>
+                            <textarea class="form-control" id="edit-description" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Modal for Adding Category -->
@@ -200,6 +149,37 @@ learning-path
     @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
+
+{{-- datatable --}}
+<script>
+    $(document).ready(function () {
+        if ($.fn.DataTable.isDataTable("#learningPathTable")) {
+            $('#learningPathTable').DataTable().destroy();
+        }
+
+        let table = $('#learningPathTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('learningpath.index') }}", // Route for AJAX request
+            columns: [
+                { data: 'checkbox', orderable: false, searchable: false },
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'description', name: 'description' },
+                { data: 'actions', orderable: false, searchable: false }
+            ],
+            columnDefs: [{
+                targets: 0,
+                className: 'text-center',
+                render: function (data) {
+                    return `<input type="checkbox" class="learningpath-checkbox" value="${data}">`;
+                }
+            }]
+        });
+    });
+</script>
+
+{{-- add lerningpath --}}
 <script>
     $(document).ready(function () {
         // AJAX form submission for Add Category
@@ -267,86 +247,44 @@ learning-path
 
 </script>
 
-<!-- JavaScript for Delete Confirmation -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const deleteButtons = document.querySelectorAll(".delete-btn");
 
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const form = this.closest(".delete-form");
-                const categoryName = this.getAttribute("data-username");
+    // Handle Delete Button Click
+    $(document).on('click', '.delete-btn', function () {
+        let id = $(this).data('id');
 
-                Swal.fire({
-                    title: `Are you sure?`,
-                    text: `You are about to delete the category "${categoryName}". This action cannot be undone.`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "Cancel",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit(); // Submit the form if the user confirms
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/learningpath/" + id,
+                    type: "POST",
+                    data: { _method: "DELETE", _token: "{{ csrf_token() }}" },
+                    success: function (response) {
+                        table.ajax.reload();
+                        Swal.fire('Deleted!', response.success, 'success');
+                    },
+                    error: function () {
+                        Swal.fire('Error!', 'Failed to delete learning path.', 'error');
                     }
                 });
-            });
+            }
         });
+    });
+
+    // Select All Checkbox
+    $('#select-all').change(function () {
+        $('.learningpath-checkbox').prop('checked', this.checked);
     });
 </script>
 
-
-<script>
-    $(document).ready(function () {
-        $('.toggle-input').change(function () {
-            const categoryId = $(this).data('user-id');
-            const isActive = $(this).is(':checked') ? 1 : 0;
-
-            $.ajax({
-                url: '/category/update-category-status', // Replace with your route
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    category_id: categoryId,
-                    is_active: isActive
-                },
-                success: function (response) {
-                    if (response.success) {
-                        toastr.options = {
-                            "closeButton": true, // Remove close button
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true, // Enable time bar
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": true,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000", // Duration before auto-hiding
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr.success(response.success, 'Success');
-                    } else {
-                        toastr.error('Failed to update category status. Please try again.', 'Error', {
-                            timeOut: 4000,
-                            positionClass: 'toast-bottom-right',
-                        });
-                    }
-                }, error: function () {
-                    toastr.error('An unexpected error occurred. Please try again.', 'Error', {
-                        timeOut: 4000,
-                        positionClass: 'toast-bottom-right',
-                    });
-                }
-            });
-        });
-    });
-</script>
 
 <script>
     $(document).ready(function () {
@@ -412,4 +350,64 @@ learning-path
         });
     });
 </script>
+
+
+{{-- edit --}}
+<script>
+    $(document).ready(function () {
+        let table = $('#learningPathTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('learningpath.index') }}",
+            columns: [
+                { data: 'checkbox', orderable: false, searchable: false },
+                { data: 'id', name: 'id' },
+                { data: 'name', name: 'name' },
+                { data: 'description', name: 'description' },
+                { data: 'actions', orderable: false, searchable: false }
+            ]
+        });
+
+        // Open Edit Modal and Fill Data
+        $(document).on('click', '.edit-btn', function () {
+            let id = $(this).data('id');
+            let name = $(this).data('name');
+            let description = $(this).data('description');
+
+            $('#edit-id').val(id);
+            $('#edit-name').val(name);
+            $('#edit-description').val(description);
+
+            $('#editModal').modal('show'); // Open modal
+        });
+
+        // Handle Update Form Submission (AJAX)
+        $('#editForm').submit(function (e) {
+            e.preventDefault();
+
+            let id = $('#edit-id').val();
+            let name = $('#edit-name').val();
+            let description = $('#edit-description').val();
+
+            $.ajax({
+                url: "/learningpath/" + id,
+                type: "PUT",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    name: name,
+                    description: description
+                },
+                success: function (response) {
+                    $('#editModal').modal('hide'); // Close modal
+                    table.ajax.reload(); // Reload DataTable
+                    Swal.fire('Updated!', response.success, 'success');
+                },
+                error: function () {
+                    Swal.fire('Error!', 'Failed to update learning path.', 'error');
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

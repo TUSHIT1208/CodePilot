@@ -18,7 +18,7 @@
 
 @include('admin.layouts.header')
 @include('admin.layouts.left_sidebar')
-@yield('content')
+@yield(section: 'content')
 
 </body>
 

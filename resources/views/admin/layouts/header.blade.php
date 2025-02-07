@@ -22,8 +22,7 @@
 	<div class="header_right">
 		<ul>
 			<li>
-				<a href="{{ route('admin.create.course') }}" class="upload_btn" title="Create New Course">Create New
-					Course</a>
+				<a href="" class="upload_btn" title="Create New Course">Create New Course</a>
 			</li>
 			<li>
 				<a href="shopping_cart.html" class="option_links" title="cart"><i

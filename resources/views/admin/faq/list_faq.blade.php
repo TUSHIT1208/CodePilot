@@ -1,7 +1,5 @@
 @extends('admin.layouts.master')
-@section('title')
-faq
-@endsection
+@section('title') Frequintly ask Question @endsection
 @section('content')
 <!-- Body Start -->
 <div class="wrapper">
@@ -13,45 +11,13 @@ faq
                 </div>
             </div>
 
-            <!-- Display Success or Error Messages -->
-            {{-- @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-            @endif --}}
-
-            <!-- Add Category Button -->
-            {{-- @if($category->isEmpty())
-            <!-- No Records Found -->
-            <div class="no-categories-container text-center fade-in-animation footer">
-                <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                <h3 class="mt-3 scale-in-text" style="color: #777;">No Subcategories Found</h3>
-                <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any subcategories yet.
-                    Add one now to get started!</p>
-            </div>
-            @else --}}
             <div class="col-md-12">
                 <div class="card_dash1">
                     <div class="row mt-2">
                         <div class="col-lg-2">
                             <h4 class=""><i class="uil uil-plus"></i> Add Faq</h4>
                         </div>
-                        <div class="col-lg-7">
-                            {{-- <div class="search120">
-                                <div class="ui search">
-                                    <div class="ui left icon input swdh10">
-                                        <input class="prompt srch10" type="text" placeholder="Search for Faq..">
-                                        <i class='uil uil-search-alt icon icon1'></i>
-                                    </div>
-                                </div>
-                            </div> --}}
-                        </div>
+                        <div class="col-lg-7"></div>
                         <div class="col-lg-3 col-md-4 col-sm-6 text-end">
                             <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn"
                                 title="Add a Category">
@@ -74,8 +40,8 @@ faq
                                 </div>
                             @else
                                 <!-- Display Table When Data Exists -->
-                                <table class="ucp-table">
-                                    <thead class="ucp-table">
+                                <table class="ucp-table" id="ucp-table">
+                                    <thead class="ucp-table text-center">
                                         <tr>
                                             <th class="text-center ucp-tabler">
                                                 <input type="checkbox" id="select-all"> <!-- Select All Checkbox -->
@@ -86,85 +52,7 @@ faq
                                             <th class="text-center ucp-table" scope="col">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="ucp-table">
-                                        @foreach($faqs as $category)
-                                            <tr>
-                                                <!-- Checkbox in the first column -->
-                                                <td class="text-center ">
-                                                    <input type="checkbox" class="category-checkbox"
-                                                        value="{{ $category->id }}">
-                                                </td>
-                                                <td class="text-center">
-                                                    <p class="ucp-table">{{ str_pad($category->id, 3, '0', STR_PAD_LEFT) }}</p>
-                                                </td>
-                                                <td class="text-center">
-                                                    <p class="ucp-table">{{ $category->question }}</p>
-                                                </td>
-                                                <td class="text-center">
-                                                    <p class="ucp-table">{{ $category->answer }}</p>
-                                                </td>
-                                                <td class="text-center">
-                                                    <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal"
-                                                        data-bs-target="#editCategoryModal{{ $category->id }}">
-                                                        <i class="uil uil-edit-alt ucp-table"></i>
-                                                    </a>
-                                                    <form action="{{ route('faq.destroy', $category->id) }}" method="POST"
-                                                        class="delete-form d-inline-block">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <a href="javascript:;" title="Delete" class="gray-s delete-btn"
-                                                            data-username="{{ $category->name }}">
-                                                            <i class="uil uil-trash-alt ucp-table"></i>
-                                                        </a>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <!-- Edit User Modal -->
-                                            <div class="modal fade" id="editCategoryModal{{ $category->id }}" tabindex="-1"
-                                                aria-labelledby="editCategoryModalLabel{{ $category->id }}" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <form action="{{ route('faq.update', $category->id) }}" method="POST"
-                                                            enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title"
-                                                                    id="editCategoryModalLabel{{ $category->id }}">
-                                                                    Edit Faq
-                                                                </h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="mb-3">
-                                                                    <label for="category_name_{{ $category->id }}"
-                                                                        class="form-label">Question</label>
-                                                                    <input type="text" class="form-control _dlor1"
-                                                                        id="category_name_{{ $category->id }}" name="question"
-                                                                        value="{{ $category->question }}" required>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="category_description_{{ $category->id }}"
-                                                                        class="form-label">Answer</label>
-                                                                    <textarea class="form-control _dlor1"
-                                                                        id="category_description_{{ $category->id }}"
-                                                                        name="answer" rows="4"
-                                                                        required>{{ $category->answer }}</textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="main-btn"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="main-btn">Save faq</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End of Edit User Modal -->
-                                        @endforeach
-                                    </tbody>
+                                    <tbody class="text-center"></tbody>
                                 </table>
                             @endif
                         </div>
@@ -184,6 +72,36 @@ faq
         </div>
     </div>
 
+    <div class="modal fade" id="editFaqModal" tabindex="-1" aria-labelledby="editFaqModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editFaqForm" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editFaqModalLabel">Edit FAQ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editFaqId" name="faq_id">
+                        <div class="mb-3">
+                            <label for="editFaqQuestion" class="form-label">Question</label>
+                            <input type="text" class="form-control" id="editFaqQuestion" name="question" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editFaqAnswer" class="form-label">Answer</label>
+                            <textarea class="form-control" id="editFaqAnswer" name="answer" rows="4"
+                                required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save FAQ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Modal for Adding Category -->
@@ -228,6 +146,24 @@ faq
     @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
+
+<script>
+    $(document).ready(function () {
+        let table = $('#ucp-table').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{{ route('faq.index') }}",
+            "columns": [
+                { "data": "checkbox", "orderable": false, "searchable": false },
+                { "data": "id" },
+                { "data": "question" },
+                { "data": "answer" },
+                { "data": "actions", "orderable": false, "searchable": false }
+            ]
+        });
+    });
+</script>
+
 <script>
     $(document).ready(function () {
         // AJAX form submission for Add Category
@@ -298,16 +234,17 @@ faq
 <!-- JavaScript for Delete Confirmation -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const deleteButtons = document.querySelectorAll(".delete-btn");
+        // Event delegation for dynamically loaded buttons
+        document.addEventListener("click", function (event) {
+            if (event.target.closest(".delete-btn")) {
+                let button = event.target.closest(".delete-btn"); // Find the clicked button
+                let form = button.closest(".delete-form"); // Get the form
+                let faqId = button.getAttribute("data-id"); // Get FAQ ID
 
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const form = this.closest(".delete-form");
-                const categoryName = this.getAttribute("data-username");
-
+                // SweetAlert Confirmation
                 Swal.fire({
-                    title: `Are you sure?`,
-                    text: `You are about to delete the category "${categoryName}". This action cannot be undone.`,
+                    title: "Are you sure?",
+                    text: "This action cannot be undone!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -316,65 +253,14 @@ faq
                     cancelButtonText: "Cancel",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit(); // Submit the form if the user confirms
+                        form.submit(); // Submit the form if user confirms
                     }
                 });
-            });
+            }
         });
     });
 </script>
 
-
-<script>
-    $(document).ready(function () {
-        $('.toggle-input').change(function () {
-            const categoryId = $(this).data('user-id');
-            const isActive = $(this).is(':checked') ? 1 : 0;
-
-            $.ajax({
-                url: '/category/update-category-status', // Replace with your route
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    category_id: categoryId,
-                    is_active: isActive
-                },
-                success: function (response) {
-                    if (response.success) {
-                        toastr.options = {
-                            "closeButton": true, // Remove close button
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true, // Enable time bar
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": true,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000", // Duration before auto-hiding
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr.success(response.success, 'Success');
-                    } else {
-                        toastr.error('Failed to update category status. Please try again.', 'Error', {
-                            timeOut: 4000,
-                            positionClass: 'toast-bottom-right',
-                        });
-                    }
-                }, error: function () {
-                    toastr.error('An unexpected error occurred. Please try again.', 'Error', {
-                        timeOut: 4000,
-                        positionClass: 'toast-bottom-right',
-                    });
-                }
-            });
-        });
-    });
-</script>
 <script>
     $(document).ready(function () {
         // Select All Checkbox
@@ -439,4 +325,27 @@ faq
         });
     });
 </script>
+
+<script>
+    $(document).ready(function () {
+        // Handle Edit Button Click
+        $(document).on("click", ".edit-btn", function () {
+            let id = $(this).data("id");
+            let question = $(this).data("question");
+            let answer = $(this).data("answer");
+
+            // Populate the modal fields
+            $("#editFaqId").val(id);
+            $("#editFaqQuestion").val(question);
+            $("#editFaqAnswer").val(answer);
+
+            // Set form action dynamically
+            $("#editFaqForm").attr("action", "/faq/" + id);
+
+            // Show the modal
+            $("#editFaqModal").modal("show");
+        });
+    });
+</script>
+
 @endsection

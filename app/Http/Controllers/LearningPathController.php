@@ -4,24 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\LearningPath;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class LearningPathController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $data = LearningPath::select('id', 'name', 'description');
+
+            return DataTables::of($data)
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" name="learningpath_checkbox[]" value="' . $row->id . '';
+                })
+                ->addColumn('actions', function ($row) {
+                    return '<a href="#" title="Edit" class="gray-s edit-btn" 
+                                data-id="' . $row->id . '" 
+                                data-name="' . htmlspecialchars($row->name, ENT_QUOTES) . '" 
+                                data-description="' . htmlspecialchars($row->description, ENT_QUOTES) . '">
+                                <i class="uil uil-edit-alt ucp-table"></i>
+                            </a>
+                            <form action="' . route('learningpath.destroy', $row->id) . '" method="POST" class="delete-form d-inline-block">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-id="' . $row->id . '">
+                                    <i class="uil uil-trash-alt ucp-table"></i>
+                                </a>
+                            </form>';
+                })
+                ->rawColumns(['checkbox', 'actions'])
+                ->make(true);
+        }
         $learningpath = LearningPath::paginate(3);
         return view('admin.learningpath.learning_path', compact('learningpath'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -29,84 +47,43 @@ class LearningPathController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
         if ($request->ajax()) {
-            if ($validated) {
-                // Create the learning path
-                LearningPath::create($request->all());
-
-                // Return success response
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Learning path added successfully.'
-                ]);
-            }
+            LearningPath::create($validated);
+            return response()->json(['success' => 'Learning path added successfully.']);
         }
 
-        // If not an AJAX request, continue as usual (standard response)
-        return redirect()->route('learningpath.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(LearningPath $learningPath)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(LearningPath $learningPath)
-    {
-        //
+        return redirect()->route('learningpath.index')->with('success', 'Learning path added successfully.');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        // Validate request data
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
 
-        try {
-            // Find the learning path by ID
-            $learningPath = LearningPath::findOrFail($id);
+        $learningPath = LearningPath::findOrFail($id);
+        $learningPath->update($validated);
 
-            // Update only the provided fields
-            $learningPath->update([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
-            ]);
-
-            // Redirect with success message
-            return redirect()->route('learningpath.index')->with('success', 'Learning path updated successfully.');
-        } catch (\Exception $e) {
-            // Log the error for debugging
-            \Log::error('Error updating learning path: ' . $e->getMessage());
-
-            // Redirect with an error message
-            return redirect()->route('learningpath.index')->with('error', 'Failed to update learning path. Please try again.');
-        }
+        return response()->json(['success' => 'Learning path updated successfully.']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $learningPath = LearningPath::findOrFail($id);
         $learningPath->delete();
-        return redirect()->back()->with('success', 'Learning Path deleted successfully!');
+
+        return redirect()->route('learningpath.index');
     }
 }

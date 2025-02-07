@@ -22,6 +22,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet">
+    
 
     <!-- Vendor Stylesheets -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -71,7 +72,7 @@
                                     <div class="ui search focus">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="username"
-                                                value="{{ old('username') }}" id="id_firstname" maxlength="64"
+                                                value="{{ old('username') }}" id="id_username" maxlength="64"
                                                 placeholder="UserName">
                                         </div>
                                         @error('username')
@@ -93,7 +94,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="middlename"
-                                                value="{{ old('middlename') }}" id="id_fullname" maxlength="64"
+                                                value="{{ old('middlename') }}" id="id_middlename" maxlength="64"
                                                 placeholder="Middle Name">
                                         </div>
                                         @error('middlename')
@@ -104,7 +105,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="lastname"
-                                                value="{{ old('lastname') }}" id="id_fullname" maxlength="64"
+                                                value="{{ old('lastname') }}" id="id_lastname" maxlength="64"
                                                 placeholder="Last Name">
                                         </div>
                                         @error('lastname')
@@ -138,7 +139,7 @@
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="password"
                                                 name="password_confirmation" value="{{ old('password_confirmation') }}"
-                                                id="id_password" maxlength="64" placeholder="Confirm Password">
+                                                id="id_confirmationpassword" maxlength="64" placeholder="Confirm Password">
                                         </div>
                                         @error('password_confirmation')
                                             <strong class="text-danger">{{ $message }}</strong>
@@ -224,7 +225,7 @@
                                     <div class="ui search focus">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="username"
-                                                value="{{ old('username') }}" id="id_firstname" maxlength="64"
+                                                value="{{ old('username') }}" id="id_username" maxlength="64"
                                                 placeholder="UserName">
                                         </div>
                                         @error('username')
@@ -246,7 +247,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="middlename"
-                                                value="{{ old('middlename') }}" id="id_fullname" maxlength="64"
+                                                value="{{ old('middlename') }}" id="id_middlename" maxlength="64"
                                                 placeholder="Middle Name">
                                         </div>
                                         @error('middlename')
@@ -257,7 +258,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="lastname"
-                                                value="{{ old('lastname') }}" id="id_fullname" maxlength="64"
+                                                value="{{ old('lastname') }}" id="id_lastname" maxlength="64"
                                                 placeholder="Last Name">
                                         </div>
                                         @error('lastname')
@@ -291,7 +292,7 @@
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="password"
                                                 name="password_confirmation" value="{{ old('password_confirmation') }}"
-                                                id="id_password" maxlength="64" placeholder="Confirm Password">
+                                                id="id_confrimpassword" maxlength="64" placeholder="Confirm Password">
                                         </div>
                                         @error('password_confirmation')
                                             <strong class="text-danger">{{ $message }}</strong>
@@ -301,7 +302,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="number" name="phone_no"
-                                                value="{{ old('phone_no') }}" id="id_fullname" maxlength="64"
+                                                value="{{ old('phone_no') }}" id="id_phoneno" maxlength="64"
                                                 placeholder="Phone Number">
                                         </div>
                                         @error('phone_no')
@@ -312,7 +313,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="file" name="profile_picture_url"
-                                                id="id_fullname">
+                                                id="id_profile_picture_url">
                                         </div>
                                         @error('profile_picture_url')
                                             <strong class="text-danger">{{ $message }}</strong>
@@ -322,7 +323,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="date" name="date_of_birth"
-                                                value="{{ old('date_of_birth') }}" id="id_fullname">
+                                                value="{{ old('date_of_birth') }}" id="id_date_of_birth">
                                         </div>
                                         @error('date_of_birth')
                                             <strong class="text-danger">{{ $message }}</strong>
@@ -353,7 +354,9 @@
         </div>
     </div>
     <!-- Signup End -->
-    
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    <script src="js/jquery-3.7.1.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
@@ -395,6 +398,7 @@
     </script>
 
     <script src="js/jquery-3.7.1.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/OwlCarousel/owl.carousel.js"></script>
     <script src="vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js"></script>
@@ -406,21 +410,24 @@
 
     <script>
         // Check if there is a success message in the session
-        @if(session('success'))
-            toastr.options = {
-                closeButton: true,
-                debug: false,
-                newestOnTop: true,
-                progressBar: true,
-                positionClass: "toast-bottom-right",  // Toast notification position
-                preventDuplicates: true,
-                timeOut: 5000,  // Display duration of the toast (3 seconds)
-                extendedTimeOut: 1000,
-                showEasing: "swing",
-                hideEasing: "linear",
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut"
-            };
+    @if(session('success'))
+    toastr.options = {
+                            "closeButton": true, // Remove close button
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true, // Enable time bar
+                            "positionClass": "toast-bottom-right",
+                            "preventDuplicates": true,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000", // Duration before auto-hiding
+                    "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
             
             // Show success toast notification with the session message
             toastr.success("{{ session('success') }}", "Success");

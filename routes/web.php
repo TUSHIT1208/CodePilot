@@ -114,5 +114,7 @@ Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkD
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
 
 Route::resource('faq', FaqController::class);
+Route::post('/faq/bulk-delete', [FaqController::class, 'bulkDelete'])->name('faq.bulkDelete');
+
 
 Route::resource('learningpath', LearningPathController::class);

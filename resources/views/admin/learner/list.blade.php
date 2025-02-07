@@ -168,7 +168,6 @@ learner
                 contentType: false,
                 success: function (response) {
                     // Display success message if update is successful
-                    alert(response.success);
                     $('#editdetailsModal' + response.id).modal('hide');  // Close the modal
                     location.reload();  // Optionally reload the page to reflect changes
                 },
@@ -192,7 +191,7 @@ learner
 
 <script>
     $(document).ready(function () {
-        $('#myTable').DataTable({
+        let table = $('#myTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('user.index') }}",
@@ -214,33 +213,94 @@ learner
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
+
+        // Event delegation for dynamically loaded checkboxes
+        $('#myTable tbody').on('change', '.learner-checkbox', function () {
+            let allChecked = $('.learner-checkbox').length === $('.learner-checkbox:checked').length;
+            $('#select-all').prop('checked', allChecked);
+            toggleBulkDeleteButton();
+        });
+
+        // Select All Functionality
+        $('#select-all').on('change', function () {
+            $('.learner-checkbox').prop('checked', $(this).prop('checked'));
+            toggleBulkDeleteButton();
+        });
+
+        // Enable/Disable the Bulk Delete Button
+        function toggleBulkDeleteButton() {
+            let anyChecked = $('.learner-checkbox:checked').length > 0;
+            $('#bulk-delete-btn').prop('disabled', !anyChecked);
+        }
+
+        // Bulk Delete Functionality
+        $('#bulk-delete-btn').on('click', function () {
+            let selectedIds = $('.learner-checkbox:checked').map(function () {
+                return $(this).val();
+            }).get();
+
+            if (selectedIds.length > 0) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to delete ${selectedIds.length} users. This action cannot be undone.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route("user.bulk-delete") }}',
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selectedIds,
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    toastr.success(response.success, 'Success');
+                                    $('#select-all').prop('checked', false);
+                                    $('#bulk-delete-btn').prop('disabled', true);
+                                    location.reload(); // Reload the entire page after delete
+                                } else {
+                                    toastr.error(response.error || 'Failed to delete.', 'Error');
+                                }
+                            },
+                            error: function () {
+                                toastr.error('An error occurred. Please try again.', 'Error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
     });
 </script>
 
 <!-- JavaScript for Delete Confirmation -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const deleteButtons = document.querySelectorAll(".delete-btn");
+    $(document).ready(function () {
+        $(document).on("click", ".delete-btn", function (e) {
+            e.preventDefault(); // Prevent default action
 
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const form = this.closest(".delete-form");
-                const username = this.getAttribute("data-username");
+            var form = $(this).closest(".delete-form"); // Get the closest delete form
+            var username = $(this).data("username"); // Get the username
 
-                Swal.fire({
-                    title: `Are you sure?`,
-                    text: `You are about to delete ${username}. This action cannot be undone.`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "Cancel",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit(); // Submit the form if the user confirms
-                    }
-                });
+            Swal.fire({
+                title: "Are you sure?",
+                text: `You are about to delete ${username}. This action cannot be undone.`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "Cancel",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); // Submit the form if confirmed
+                }
             });
         });
     });
@@ -249,13 +309,15 @@ learner
 {{-- Handle toggle change event --}}
 <script>
     $(document).ready(function () {
-        $('.toggle-input').change(function () {
-            var userId = $(this).data('user-id');
-            var isActive = $(this).prop('checked') ? 1 : 0;
+        // Use event delegation for dynamically loaded elements
+        $(document).on('change', '.toggle-input', function () {
+            var toggleButton = $(this); // Store reference to toggle
+            var userId = toggleButton.data('user-id');
+            var isActive = toggleButton.prop('checked') ? 1 : 0;
 
-            // Send the updated status to the server using AJAX
+            // Send AJAX request to update status
             $.ajax({
-                url: '/admin/update-user-status',  // Your route to handle the update
+                url: '/admin/update-user-status',  // Adjust route as needed
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',  // CSRF token for security
@@ -264,20 +326,23 @@ learner
                 },
                 success: function (response) {
                     if (response.success) {
-                        // You can display a success message or take action if needed
                         console.log('Status updated successfully');
                     } else {
-                        // Revert the toggle if there was an error
-                        console.log('Error updating status');
-                        $(this).prop('checked', !isActive);  // Revert toggle
+                        alert('Failed to update status');
+                        toggleButton.prop('checked', !isActive); // Revert toggle
                     }
+                },
+                error: function () {
+                    alert('Error updating status');
+                    toggleButton.prop('checked', !isActive); // Revert toggle on error
                 }
             });
         });
     });
 </script>
+@endsection
 
-{{-- Handle "Select All" checkbox --}}
+{{-- Handle "Select All" checkbox
 <script>
     $(document).ready(function () {
         $('#select-all').change(function () {
@@ -340,5 +405,5 @@ learner
             }
         });
     });
-</script>
-@endsection
+});
+</script> --}}

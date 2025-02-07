@@ -45,7 +45,7 @@
                                         </div>
                                     @else
                                         <!-- Display Table When Data Exists -->
-                                        <table class="ucp-table" id="my-table">
+                                        <table class="ucp-table">
                                             <thead class="ucp-table">
                                                 <tr>
                                                     <th class="text-center ucp-tabler">
@@ -194,11 +194,6 @@
     @include('admin.layouts.footer')
 </div>
 
-<script>
-    $(document).ready(function(){
-        $('#my-table').DataTable();
-    });
-</script>
 <!-- Body End -->
 <script>
 $(document).ready(function () {
@@ -334,13 +329,13 @@ $(document).ready(function () {
                     } else {
                         toastr.error('Failed to update category status. Please try again.', 'Error', {
                             timeOut: 4000,
-                            positionClass: 'toast-bottom-right',
+                            positionClass: 'toast-top-right',
                         });
                     }
                 },error: function () {
                     toastr.error('An unexpected error occurred. Please try again.', 'Error', {
                         timeOut: 4000,
-                        positionClass: 'toast-bottom-right',
+                        positionClass: 'toast-top-right',
                     });
                 }
             });

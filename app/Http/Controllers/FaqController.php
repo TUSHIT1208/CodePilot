@@ -2,65 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\faq;
+use App\Models\Faq;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class FaqController extends Controller
 {
-
-    public function index()
+    public function index(Request $request)
     {
-        $faqs = FAQ::paginate(3); // Fetch all FAQs
+        if ($request->ajax()) {
+            $data = Faq::select('id', 'question', 'answer');
+            return DataTables::of($data)
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" name="faq_checkbox[]" value="' . $row->id . '">';
+                })
+                ->addColumn('actions', function ($row) {
+                    return '<a class="edit-btn gray-s" data-id="' . $row->id . '" 
+                            data-question="' . htmlspecialchars($row->question, ENT_QUOTES) . '" 
+                            data-answer="' . htmlspecialchars($row->answer, ENT_QUOTES) . '">
+                            <i class="uil uil-edit-alt ucp-table"></i>
+                        </a>
+                        <form action="' . route('faq.destroy', $row->id) . '" method="POST" class="delete-form d-inline-block">
+                            ' . csrf_field() . '
+                            ' . method_field('DELETE') . '
+                            <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-id="' . $row->id . '">
+                                <i class="uil uil-trash-alt ucp-table"></i>
+                            </a>
+                        </form>';
+                })
+                ->rawColumns(['checkbox', 'actions'])
+                ->make(true);
+        }
+        $faqs = faq::paginate(3);
         return view('admin.faq.list_faq', compact('faqs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'question' => 'required|string|max:255', // Corrected max length
+            'question' => 'required|string|max:255',
             'answer' => 'required|string',
         ]);
 
-        // Insert FAQ
-        FAQ::create([
+        Faq::create([
             'question' => $request->input('question'),
             'answer' => $request->input('answer'),
         ]);
 
-        // Redirect back with success message
         return redirect()->back()->with('success', 'FAQ added successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(faq $faq)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(faq $faq)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $request->validate([
@@ -77,14 +69,17 @@ class FaqController extends Controller
         return redirect()->route('faq.index')->with('success', 'FAQ updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        $faq = FAQ::findOrFail($id); // Find the FAQ
-        $faq->delete(); // Delete FAQ
+        $faq = Faq::findOrFail($id);
+        $faq->delete();
 
         return redirect()->back()->with('success', 'FAQ deleted successfully!');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        Faq::whereIn('id', $request->ids)->delete();
+        return response()->json(['success' => 'Selected FAQs have been deleted successfully!']);
     }
 }
