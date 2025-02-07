@@ -25,8 +25,49 @@ Route::get('/dashboard', function () {
 })->name('admin.dashboard')->middleware('auth');
 
 Route::get('/cource', function () {
-    return view('admin.all_cource');
+    return view('admin.cource');
 })->name('admin.cource');
+
+Route::get('/message', function () {
+    return view('admin.message');
+})->name('admin.message');
+
+
+Route::get('/review', function () {
+    return view('admin.review');
+})->name('admin.review');
+
+
+Route::get('/analyics', function () {
+    return view('admin.analycis');
+})->name('admin.analyics');
+
+Route::get('/notification', function () {
+    return view('admin.notification');
+})->name('admin.notification');
+
+Route::get('/certificate', function () {
+    return view('admin.certificate');
+})->name('admin.certificate');
+
+Route::get('/earning', function () {
+    return view('admin.earning');
+})->name('admin.earning');
+
+
+Route::get('/payout', function () {
+    return view('admin.payout');
+})->name('admin.payout');
+
+
+Route::get('/statement', function () {
+    return view('admin.statement');
+})->name('admin.statement');
+
+
+Route::get('/feedback', function () {
+    return view('admin.feedback');
+})->name('admin.feedback');
 
 Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');

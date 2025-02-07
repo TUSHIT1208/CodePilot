@@ -1,27 +1,32 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+earning
+@endsection
+@section('content')
+
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container-fluid">			
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-dollar-sign"></i> Earning</h2>
-                </div>					
-            </div>				
+                </div>
+            </div>
             <div class="row">
-                <div class="col-md-4">						
-                    <div class="earning_steps">						
+                <div class="col-md-4">
+                    <div class="earning_steps">
                         <p>Sales earnings this month (April), after edututs+ fees, & before taxes:</p>
                         <h2>$1146.78</h2>
                     </div>
                 </div>
-                <div class="col-md-4">						
-                    <div class="earning_steps">						
+                <div class="col-md-4">
+                    <div class="earning_steps">
                         <p>Your balance:</p>
                         <h2>$1146.78</h2>
                     </div>
                 </div>
-                <div class="col-md-4">						
-                    <div class="earning_steps">						
+                <div class="col-md-4">
+                    <div class="earning_steps">
                         <p>Total value of your sales, before taxes:</p>
                         <h2>$95895.54</h2>
                     </div>
@@ -138,65 +143,65 @@
                                 <tr>
                                     <th scope="col">Date</th>
                                     <th scope="col">Item Sales Count</th>
-                                    <th scope="col">Earning</th>									
+                                    <th scope="col">Earning</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>										
-                                    <td>1, Wednesday</td>	
-                                    <td>3</td>	
-                                    <td>$120.50</td>	
+                                <tr>
+                                    <td>1, Wednesday</td>
+                                    <td>3</td>
+                                    <td>$120.50</td>
                                 </tr>
-                                <tr>										
-                                    <td>2, Thursday</td>	
-                                    <td>2</td>	
-                                    <td>$84.00</td>	
+                                <tr>
+                                    <td>2, Thursday</td>
+                                    <td>2</td>
+                                    <td>$84.00</td>
                                 </tr>
-                                <tr>										
-                                    <td>4, Saturday</td>	
-                                    <td>4</td>	
-                                    <td>$150.50</td>	
+                                <tr>
+                                    <td>4, Saturday</td>
+                                    <td>4</td>
+                                    <td>$150.50</td>
                                 </tr>
-                                <tr>										
-                                    <td>5, Sunday</td>	
-                                    <td>3</td>	
-                                    <td>$102.24</td>	
+                                <tr>
+                                    <td>5, Sunday</td>
+                                    <td>3</td>
+                                    <td>$102.24</td>
                                 </tr>
-                                <tr>										
-                                    <td>6, Monday</td>	
-                                    <td>2</td>	
-                                    <td>$80.50</td>	
+                                <tr>
+                                    <td>6, Monday</td>
+                                    <td>2</td>
+                                    <td>$80.50</td>
                                 </tr>
-                                <tr>										
-                                    <td>7, Tuesday</td>	
-                                    <td>3</td>	
-                                    <td>$70.50</td>	
+                                <tr>
+                                    <td>7, Tuesday</td>
+                                    <td>3</td>
+                                    <td>$70.50</td>
                                 </tr>
-                                <tr>										
-                                    <td>8, Wednesday</td>	
-                                    <td>5</td>	
-                                    <td>$130.00</td>	
+                                <tr>
+                                    <td>8, Wednesday</td>
+                                    <td>5</td>
+                                    <td>$130.00</td>
                                 </tr>
-                                <tr>										
-                                    <td>9, Thursday</td>	
-                                    <td>3</td>	
-                                    <td>$95.50</td>	
+                                <tr>
+                                    <td>9, Thursday</td>
+                                    <td>3</td>
+                                    <td>$95.50</td>
                                 </tr>
-                                <tr>										
-                                    <td>10, Friday</td>	
-                                    <td>4</td>	
-                                    <td>$152.50</td>	
+                                <tr>
+                                    <td>10, Friday</td>
+                                    <td>4</td>
+                                    <td>$152.50</td>
                                 </tr>
-                                <tr>										
-                                    <td>11, Saturday</td>	
-                                    <td>3</td>	
-                                    <td>$100.40</td>	
+                                <tr>
+                                    <td>11, Saturday</td>
+                                    <td>3</td>
+                                    <td>$100.40</td>
                                 </tr>
-                                <tr>										
-                                    <td>12, Sunday</td>	
-                                    <td>2</td>	
-                                    <td>$60.14</td>	
-                                </tr>			
+                                <tr>
+                                    <td>12, Sunday</td>
+                                    <td>2</td>
+                                    <td>$60.14</td>
+                                </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -211,4 +216,4 @@
             </div>
         </div>
     </div>
-@endsection
+    @endsection

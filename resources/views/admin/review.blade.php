@@ -3,7 +3,6 @@
 review
 @endsection
 @section('content')
-
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container-fluid">

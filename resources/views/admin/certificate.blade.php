@@ -1,12 +1,16 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+Certificate
+@endsection
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container-fluid">			
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-award"></i> My Certificates</h2>
-                </div>					
-            </div>				
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="mt-10">
@@ -16,7 +20,9 @@
                                 <h1>Jump Into New Certificate</h1>
                             </div>
                             <div class="card_dash_right1">
-                                <button class="create_btn_dash" onclick="window.location.href = 'certification_center.html';">New Certificate</button>
+                                <button class="create_btn_dash"
+                                    onclick="window.location.href = 'certification_center.html';">New
+                                    Certificate</button>
                             </div>
                         </div>
                         <div class="table-cerificate">
@@ -40,9 +46,12 @@
                                             <td class="text-center">15</td>
                                             <td class="text-center">20</td>
                                             <td class="text-center">6 April 2019</td>
-                                            <td class="text-center"><a href="http://gambolthemes.net/html-imgs/certificate.jpg" target="_blank">View</a></td>
+                                            <td class="text-center"><a
+                                                    href="http://gambolthemes.net/html-imgs/certificate.jpg"
+                                                    target="_blank">View</a></td>
                                             <td class="text-center">
-                                                <a href="#" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                                                <a href="#" title="Delete" class="gray-s"><i
+                                                        class="uil uil-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -51,9 +60,12 @@
                                             <td class="text-center">14</td>
                                             <td class="text-center">20</td>
                                             <td class="text-center">4 April 2019</td>
-                                            <td class="text-center"><a href="http://gambolthemes.net/html-imgs/certificate.jpg" target="_blank">View</a></td>
+                                            <td class="text-center"><a
+                                                    href="http://gambolthemes.net/html-imgs/certificate.jpg"
+                                                    target="_blank">View</a></td>
                                             <td class="text-center">
-                                                <a href="#" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                                                <a href="#" title="Delete" class="gray-s"><i
+                                                        class="uil uil-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -62,9 +74,12 @@
                                             <td class="text-center">18</td>
                                             <td class="text-center">20</td>
                                             <td class="text-center">3 April 2019</td>
-                                            <td class="text-center"><a href="http://gambolthemes.net/html-imgs/certificate.jpg" target="_blank">View</a></td>
+                                            <td class="text-center"><a
+                                                    href="http://gambolthemes.net/html-imgs/certificate.jpg"
+                                                    target="_blank">View</a></td>
                                             <td class="text-center">
-                                                <a href="#" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                                                <a href="#" title="Delete" class="gray-s"><i
+                                                        class="uil uil-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -75,5 +90,7 @@
                 </div>
             </div>
         </div>
+        @include('admin.layouts.footer')
+
     </div>
-@endsection
+    @endsection

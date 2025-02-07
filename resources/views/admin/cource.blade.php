@@ -1,4 +1,8 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+cource
+@endsection
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
         <div class="sa4d25">
@@ -407,3 +411,4 @@
 
         @include('admin.layouts.footer')
     </div>
+    @endsection

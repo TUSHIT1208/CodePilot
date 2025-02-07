@@ -1,13 +1,17 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+payout
+@endsection
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container-fluid">			
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-wallet"></i> Payout</h2>
-                </div>					
-            </div>				
-            <div class="row">					
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-4 col-md-5">
                     <div class="top_countries mt-30">
                         <div class="top_countries_title">
@@ -18,7 +22,8 @@
                             <div class="payout__via">
                                 <strong>via Payoneer</strong>
                             </div>
-                            <p><small class="payout__small-notification">Your payout will be processed on  <strong>April 15, 2020</strong></small></p>
+                            <p><small class="payout__small-notification">Your payout will be processed on <strong>April
+                                        15, 2020</strong></small></p>
                         </div>
                     </div>
                     <div class="top_countries mt-30">
@@ -42,26 +47,26 @@
                                 <tr>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Payout Method</th>
-                                    <th scope="col">Date Processed</th>									
+                                    <th scope="col">Date Processed</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>										
-                                    <td>$2550.54</td>	
-                                    <td>Payoneer</td>	
-                                    <td>15 Mar 2020</td>	
+                                <tr>
+                                    <td>$2550.54</td>
+                                    <td>Payoneer</td>
+                                    <td>15 Mar 2020</td>
                                 </tr>
-                                <tr>										
-                                    <td>$1950.14</td>	
-                                    <td>Payoneer</td>	
-                                    <td>15 Feb 2020</td>	
-                                </tr>												
-                            </tbody>				
+                                <tr>
+                                    <td>$1950.14</td>
+                                    <td>Payoneer</td>
+                                    <td>15 Feb 2020</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
-            
+
                 </div>
             </div>
         </div>
     </div>
-@endsection
+    @endsection

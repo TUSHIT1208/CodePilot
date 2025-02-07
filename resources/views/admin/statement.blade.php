@@ -1,13 +1,17 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title')
+statement
+@endsection
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container-fluid">			
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-file-alt"></i> Statements</h2>
-                </div>					
-            </div>				
-            <div class="row">					
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-8 col-md-7">
                     <div class="top_countries mt-30">
                         <div class="top_countries_title">
@@ -53,7 +57,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>			
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-5">
                     <div class="top_countries mt-30">
@@ -74,7 +78,7 @@
                                 <button class="st_download_btn"><i class="uil uil-download-alt"></i></button>
                             </div>
                         </div>
-                    </div>			
+                    </div>
                 </div>
                 <div class="col-lg-12 col-md-12">
                     <ul class="more_options_tt">
@@ -101,81 +105,81 @@
                                     <th scope="col">Order ID</th>
                                     <th scope="col">Type</th>
                                     <th scope="col">Title</th>
-                                    <th scope="col">Amount</th>									
-                                    <th scope="col">Fees</th>									
-                                    <th scope="col">Invoice</th>									
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Fees</th>
+                                    <th scope="col">Invoice</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>										
-                                    <td>13 Apr 2020</td>	
-                                    <td>123456</td>	
-                                    <td>Sale</td>	
-                                    <td>Course Title Here</td>	
-                                    <td>$10</td>	
-                                    <td>-$5</td>	
-                                    <td><a href="#">View</a></td>	
+                                <tr>
+                                    <td>13 Apr 2020</td>
+                                    <td>123456</td>
+                                    <td>Sale</td>
+                                    <td>Course Title Here</td>
+                                    <td>$10</td>
+                                    <td>-$5</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
-                                <tr>										
-                                    <td>12 Apr 2020</td>	
-                                    <td>123456</td>	
-                                    <td>Sale</td>	
-                                    <td>Course Title Here</td>	
-                                    <td>$10</td>	
-                                    <td>-$5</td>	
-                                    <td><a href="#">View</a></td>	
+                                <tr>
+                                    <td>12 Apr 2020</td>
+                                    <td>123456</td>
+                                    <td>Sale</td>
+                                    <td>Course Title Here</td>
+                                    <td>$10</td>
+                                    <td>-$5</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
-                                <tr>										
-                                    <td>11 Apr 2020</td>	
-                                    <td>123456</td>	
-                                    <td>Sale</td>	
-                                    <td>Course Title Here</td>	
-                                    <td>$10</td>	
-                                    <td>-$5</td>	
-                                    <td><a href="#">View</a></td>	
+                                <tr>
+                                    <td>11 Apr 2020</td>
+                                    <td>123456</td>
+                                    <td>Sale</td>
+                                    <td>Course Title Here</td>
+                                    <td>$10</td>
+                                    <td>-$5</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
-                                <tr>										
-                                    <td>10 Apr 2020</td>	
-                                    <td>123456</td>	
-                                    <td>Sale</td>	
-                                    <td>Course Title Here</td>	
-                                    <td>$10</td>	
-                                    <td>-$5</td>	
-                                    <td><a href="#">View</a></td>	
+                                <tr>
+                                    <td>10 Apr 2020</td>
+                                    <td>123456</td>
+                                    <td>Sale</td>
+                                    <td>Course Title Here</td>
+                                    <td>$10</td>
+                                    <td>-$5</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
-                                <tr>										
-                                    <td>9 Apr 2020</td>	
-                                    <td>123456</td>	
-                                    <td>Sale</td>	
-                                    <td>Course Title Here</td>	
-                                    <td>$10</td>	
-                                    <td>-$5</td>	
-                                    <td><a href="#">View</a></td>	
+                                <tr>
+                                    <td>9 Apr 2020</td>
+                                    <td>123456</td>
+                                    <td>Sale</td>
+                                    <td>Course Title Here</td>
+                                    <td>$10</td>
+                                    <td>-$5</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
-                                <tr>										
-                                    <td>8 Apr 2020</td>	
-                                    <td>123456</td>	
-                                    <td>Sale</td>	
-                                    <td>Course Title Here</td>	
-                                    <td>$10</td>	
-                                    <td>-$5</td>	
-                                    <td><a href="#">View</a></td>	
+                                <tr>
+                                    <td>8 Apr 2020</td>
+                                    <td>123456</td>
+                                    <td>Sale</td>
+                                    <td>Course Title Here</td>
+                                    <td>$10</td>
+                                    <td>-$5</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
-                                <tr>										
-                                    <td>7 Apr 2020</td>	
-                                    <td>123456</td>	
-                                    <td>Sale</td>	
-                                    <td>Course Title Here</td>	
-                                    <td>$10</td>	
-                                    <td>-$5</td>	
-                                    <td><a href="#">View</a></td>	
+                                <tr>
+                                    <td>7 Apr 2020</td>
+                                    <td>123456</td>
+                                    <td>Sale</td>
+                                    <td>Course Title Here</td>
+                                    <td>$10</td>
+                                    <td>-$5</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
-                            </tbody>				
+                            </tbody>
                         </table>
                     </div>
-            
+
                 </div>
             </div>
         </div>
     </div>
-@endsection
+    @endsection
