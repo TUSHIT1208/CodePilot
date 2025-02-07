@@ -1,296 +1,331 @@
 @include('admin.layouts.master')
+
 <!-- Body Start -->
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container-fluid">
-                    <div class="col-md-12">
-                        <div class="card_dash1">
-                            <div class="row mt-2">
-                                <div class="col-lg-2">
-                                    <h4 class=""><i class="uil uil-plus"></i> Instructor List</h4>
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="search120">
-                                        <div class="ui search">
-                                            <div class="ui left icon input swdh10">
-                                                <input class="prompt srch10" type="text" placeholder="Search for Instructor...">
-                                                <i class='uil uil-search-alt icon icon1'></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                               
-                            </div>
-                
-                            <div class="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
-                                <div class="table-responsive mt-30">
-                                    @if($instructor->isEmpty())
-                                        <!-- No Records Found -->
-                                        <div class="no-categories-container text-center fade-in-animation footer">
-                                            <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Instructor Found</h3>
-                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any categories yet. Add one now to get started!</p>
-                                            
-                                        </div>
-                                    @else
-                                        <!-- Display Table When Data Exists -->
-                                        <table class="ucp-table">
-                                            <thead class="ucp-table">
-                                                <tr>
-                                                    <th class="text-center ucp-tabler">
-                                                        <input type="checkbox" id="select-all">
-                                                    </th>
-                                                    <th class="text-center ucp-table">Username</th>
-                                                    <th class="text-center ucp-table">profile</th>
-                                                    <th class="text-center ucp-table" scope="col">first_name</th>
-                                                    <th class="text-center ucp-table" scope="col">middle_name</th>
-                                                    <th class="text-center ucp-table" scope="col">last_name</th>
-                                                    <th class="text-center ucp-table" scope="col">email</th>
-                                                    <th class="text-center ucp-table" scope="col">phone</th>
-                                                    <th class="text-center ucp-table" scope="col">date of birth</th>
-                                                    <th class="text-center ucp-table" scope="col">status</th>
-                                                    <th class="text-center ucp-table" scope="col">action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="ucp-table">
-                                                @foreach($instructor as $details)
-                                                    <tr>
-                                                        <!-- Checkbox in the first column -->
-                                                        <td class="text-center ">
-                                                            <input type="checkbox" class="details-checkbox" value="{{ $details->id }}">
-                                                        </td>                                                       
-                                                        <td class="text-center"><p class="ucp-table">{{ $details->username }}</p></td>
-                                                        <td class="text-center">
-                                                            @if(!empty($details->profile_picture_url))
-                                                                <img id="profile_picture" src="{{ asset($details->profile_picture_url) }}">
-                                                            @else
-                                                                <h1 id="default_avtar">{{ substr($details->username, 0, 1) }}</h1>
-                                                            @endif
-                                                        </td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $details->first_name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $details->middle_name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $details->last_name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $details->email }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $details->phone_number }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $details->date_of_birth }}</p></td>
-                                                        <td class="text-center">
-                                                            <div class="toggle-button mt-2 text-center">
-                                                                <input type="checkbox" class="toggle-input" id="toggle{{$details->id}}" data-user-id="{{$details->id}}" {{ $details->is_active ? 'checked' : '' }}>
-                                                                <label for="toggle{{$details->id}}" class="toggle-label">
-                                                                    <span class="toggle-circle"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editdetailsModal{{ $details->id }}">
-                                                                <i class="uil uil-edit-alt ucp-table"></i>
-                                                            </a>
-                                                            <form action="{{ route('user.destroy', $details->id) }}" method="POST" class="delete-form d-inline-block">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-username="{{ $details->username }}">
-                                                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                                                </a>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Edit User Modal -->
-                                                    <div class="modal fade" id="editdetailsModal{{ $details->id }}" tabindex="-1"
-                                                        aria-labelledby="editdetailsModalLabel{{ $details->id }}" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <form action="{{ route('user.update', $details->id) }}" method="POST">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title">Edit Learner Details</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="mb-3">
-                                                                            <label for="username{{ $details->id }}" class="form-label">Username</label>
-                                                                            <input type="text" class="form-control _dlor1" name="username" value="{{ $details->username }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="first_name{{ $details->id }}" class="form-label">First Name</label>
-                                                                            <input type="text" class="form-control _dlor1" name="first_name" value="{{ $details->first_name }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="middle_name{{ $details->id }}" class="form-label">Middle Name</label>
-                                                                            <input type="text" class="form-control _dlor1" name="middle_name" value="{{ $details->middle_name }}">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="last_name{{ $details->id }}" class="form-label">Last Name</label>
-                                                                            <input type="text" class="form-control _dlor1" name="last_name" value="{{ $details->last_name }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="email{{ $details->id }}" class="form-label">Email</label>
-                                                                            <input type="email" class="form-control _dlor1" name="email" value="{{ $details->email }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="phone{{ $details->id }}" class="form-label">Phone</label>
-                                                                            <input type="text" class="form-control _dlor1" name="phone_number" value="{{ $details->phone_number }}">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="date_of_birth{{ $details->id }}" class="form-label">Date of Birth</label>
-                                                                            <input type="date" class="form-control _dlor1" name="date_of_birth" value="{{ $details->date_of_birth }}">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="main-btn">Save Changes</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End of Edit User Modal -->
-                                                @endforeach
-                                            </tbody>
-                                        </table>                                        
-                                    @endif
-                                </div>
-                            </div>
-                            @if(!$instructor->isEmpty())
-                                <div class="card-footer mt-4">
-                                    <div class="mt-3">
-                                        <button id="bulk-delete-btn" class="btn" disabled>Delete Selected</button>
-                                    </div>                                
-                                    <div class="d-flex justify-content-end mt-3">
-                                        {{ $instructor->links('pagination::bootstrap-5') }}
+            <div class="col-md-12">
+                <div class="card_dash1">
+                    <div class="row mt-2">
+                        <div class="col-lg-2">
+                            <h4><i class="uil uil-plus"></i> Instructor List</h4>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="search120">
+                                <div class="ui search">
+                                    <div class="ui left icon input swdh10">
+                                        <input class="prompt srch10" type="text" placeholder="Search for Instructor...">
+                                        <i class='uil uil-search-alt icon icon1'></i>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
+                        <div class="table-responsive mt-30">
+                            @if($instructors->isEmpty())
+                                <!-- No Records Found -->
+                                <div class="no-categories-container text-center fade-in-animation footer">
+                                    <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
+                                    <h3 class="mt-3 scale-in-text" style="color: #777;">No Instructor Found</h3>
+                                    <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any categories yet. Add one now to get started!</p>
+                                </div>
+                            @else
+                                <!-- Display Table When Data Exists -->
+                                <table class="ucp-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                <input type="checkbox" id="select-all">
+                                            </th>
+                                            <th class="text-center">Username</th>
+                                            <th class="text-center">Profile</th>
+                                            <th class="text-center">First Name</th>
+                                            <th class="text-center">Middle Name</th>
+                                            <th class="text-center">Last Name</th>
+                                            <th class="text-center">Email</th>
+                                            <th class="text-center">Phone</th>
+                                            <th class="text-center">Date of Birth</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                
                             @endif
                         </div>
                     </div>
+
+                    @if(!$instructors->isEmpty())
+                        <div class="card-footer mt-4">
+                            <div class="mt-3">
+                                <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3">
+                                {{ $instructors->links('pagination::bootstrap-5') }}
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
-    
+        </div>
+    </div>
+
     @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
+@foreach ($instructors as $user)
+<!-- Edit Instructor Modal -->
+<div class="modal fade" id="editUserModal{{ $user->id }}" tabindex="-1" aria-labelledby="editUserModalLabel{{ $user->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel{{ $user->id }}">Edit Instructor Details: {{ $user->first_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('user.update', $user->id) }}" method="POST" id="instructorForm{{ $user->id }}" class="needs-validation" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    @method('PUT')
 
-<!-- JavaScript for Delete Confirmation -->
+                    <div class="mb-3">
+                        <label for="username{{ $user->id }}" class="form-label">Username</label>
+                        <input type="text" class="form-control _dlor1" id="username{{ $user->id }}" name="username" value="{{ old('username', $user->username) }}" >
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="first_name{{ $user->id }}" class="form-label">First Name</label>
+                        <input type="text" class="form-control _dlor1" id="first_name{{ $user->id }}" name="first_name" value="{{ old('first_name', $user->first_name) }}" >
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="first_name{{ $user->id }}" class="form-label">Middle Name</label>
+                        <input type="text" class="form-control _dlor1" id="first_name{{ $user->id }}" name="middle_name" value="{{ old('middle_name', $user->middle_name) }}" >
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name{{ $user->id }}" class="form-label">Last Name</label>
+                        <input type="text" class="form-control _dlor1" id="last_name{{ $user->id }}" name="last_name" value="{{ old('last_name', $user->last_name) }}" >
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email{{ $user->id }}" class="form-label">Email</label>
+                        <input type="email" class="form-control _dlor1" id="email{{ $user->id }}" name="email" value="{{ old('email', $user->email) }}" >
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control _dlor1" id="phone_number{{ $user->id }}" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" 
+                        >
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date_of_birth{{ $user->id }}" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control _dlor1" id="date_of_birth{{ $user->id }}" name="date_of_birth" value="{{ old('date_of_birth', $user->date_of_birth) }}" 
+                        >
+                        <div class="invalid-feedback"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="main-btn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="main-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Edit Instructor Modal -->
+@endforeach
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const deleteButtons = document.querySelectorAll(".delete-btn");
+    $(document).ready(function () {
+    $('form.needs-validation').on('submit', function (e) {
+        e.preventDefault();  // Prevent default form submission
 
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const form = this.closest(".delete-form");
-                const username = this.getAttribute("data-username");
+        var form = $(this);
+        var formData = new FormData(form[0]);
 
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('method'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                // Display success message if update is successful
+                $('#editdetailsModal' + response.id).modal('hide');  // Close the modal
+                location.reload();  // Optionally reload the page to reflect changes
+            },
+            error: function (xhr) {
+                // Clear previous error messages
+                form.find('.invalid-feedback').remove();
+                form.find('.is-invalid').removeClass('is-invalid');
+
+                // Handle validation errors
+                var errors = xhr.responseJSON.errors;
+                $.each(errors, function (field, message) {
+                    $('#' + field).addClass('is-invalid');
+                    $('#' + field).after('<div class="invalid-feedback">' + message + '</div>');
+                });
+            }
+        });
+    });
+});
+</script>
+
+<!-- DataTables & Bulk Delete Script -->
+<script>
+    $(document).ready(function () {
+        $('.ucp-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('instructorList') }}",
+        columns: [
+            { 
+                data: 'id', 
+                render: function(data) {
+                    return '<input type="checkbox" class="learner-checkbox" value="'+ data +'">';
+                }, 
+                orderable: false, 
+                searchable: false 
+            },
+            { data: 'username', name: 'username' },
+            { data: 'profile', name: 'profile', orderable: false, searchable: false },
+            { data: 'first_name', name: 'first_name' },
+            { data: 'middle_name', name: 'middle_name' },
+            { data: 'last_name', name: 'last_name' },
+            { data: 'email', name: 'email' },
+            { data: 'phone_number', name: 'phone_number' },
+            { data: 'date_of_birth', name: 'date_of_birth' },
+            { data: 'status', name: 'status', orderable: false, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
+
+
+        // Handle individual checkbox selection
+        $('.ucp-table tbody').on('change', '.learner-checkbox', function () {
+            let allChecked = $('.learner-checkbox').length === $('.learner-checkbox:checked').length;
+            $('#select-all').prop('checked', allChecked);
+            toggleBulkDeleteButton();
+        });
+
+        // Select/Deselect All checkboxes
+        $('#select-all').on('change', function () {
+            $('.learner-checkbox').prop('checked', $(this).prop('checked'));
+            toggleBulkDeleteButton();
+        });
+
+        // Enable/Disable Bulk Delete button based on selection
+        function toggleBulkDeleteButton() {
+            let anyChecked = $('.learner-checkbox:checked').length > 0;
+            $('#bulk-delete-btn').prop('disabled', !anyChecked);
+        }
+
+        // Bulk Delete Functionality
+        $('#bulk-delete-btn').on('click', function () {
+            let selectedIds = $('.learner-checkbox:checked').map(function () {
+                return $(this).val();
+            }).get();
+
+            if (selectedIds.length > 0) {
                 Swal.fire({
-                    title: `Are you sure?`,
-                    text: `You are about to delete ${username}. This action cannot be undone.`,
-                    icon: "warning",
+                    title: 'Are you sure?',
+                    text: `You are about to delete ${selectedIds.length} users. This action cannot be undone.`,
+                    icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "Cancel",
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!',
+                    cancelButtonText: 'Cancel',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit(); // Submit the form if the user confirms
+                        $.ajax({
+                            url: '{{ route("user.bulk-delete") }}',
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selectedIds,
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    toastr.success(response.success, 'Success');
+                                    $('#select-all').prop('checked', false);
+                                    $('#bulk-delete-btn').prop('disabled', true);
+                                    table.ajax.reload(); // Reload the DataTable after deletion
+                                } else {
+                                    toastr.error(response.error || 'Failed to delete.', 'Error');
+                                }
+                            },
+                            error: function () {
+                                toastr.error('An error occurred. Please try again.', 'Error');
+                            }
+                        });
                     }
                 });
-            });
+            }
         });
     });
 </script>
 
-
+<!-- Toggle User Status Script -->
 <script>
     $(document).ready(function () {
-        // Handle toggle change event
-        $('.toggle-input').change(function () {
+        $('.ucp-table').on('change', '.toggle-input', function () {
             var userId = $(this).data('user-id');
             var isActive = $(this).prop('checked') ? 1 : 0;
 
-            // Send the updated status to the server using AJAX
             $.ajax({
-                url: '/admin/update-user-status',  // Your route to handle the update
+                url: '/admin/update-user-status',
                 type: 'POST',
                 data: {
-                    _token: '{{ csrf_token() }}',  // CSRF token for security
+                    _token: '{{ csrf_token() }}',
                     user_id: userId,
                     is_active: isActive
                 },
                 success: function (response) {
                     if (response.success) {
-                        // You can display a success message or take action if needed
-                        console.log('Status updated successfully');
+                        toastr.success('Status updated successfully.');
                     } else {
-                        // Revert the toggle if there was an error
-                        console.log('Error updating status');
-                        $(this).prop('checked', !isActive);  // Revert toggle
+                        toastr.error('Error updating status.');
                     }
+                },
+                error: function () {
+                    toastr.error('An error occurred. Please try again.');
                 }
             });
         });
     });
 </script>
-
+<!-- JavaScript for Delete Confirmation -->
 <script>
     $(document).ready(function () {
-    // Handle "Select All" checkbox
-    $('#select-all').change(function () {
-        $('.details-checkbox').prop('checked', $(this).prop('checked'));
-        toggleBulkDeleteButton();
-    });
+    $(document).on("click", ".delete-btn", function (e) {
+        e.preventDefault(); // Prevent default action
 
-    // Handle individual checkbox changes
-    $('.details-checkbox').change(function () {
-        let allChecked = $('.details-checkbox').length === $('.details-checkbox:checked').length;
-        $('#select-all').prop('checked', allChecked);
-        toggleBulkDeleteButton();
-    });
+        var form = $(this).closest(".delete-form"); // Get the closest delete form
+        var username = $(this).data("username"); // Get the username
 
-    // Enable/Disable the Bulk Delete Button
-    function toggleBulkDeleteButton() {
-        let anyChecked = $('.details-checkbox:checked').length > 0;
-        $('#bulk-delete-btn').prop('disabled', !anyChecked);
-    }
-
-    // Bulk Delete Users
-    $('#bulk-delete-btn').click(function () {
-        let selectedIds = $('.details-checkbox:checked').map(function () {
-            return $(this).val();
-        }).get();
-
-        if (selectedIds.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `You are about to delete ${selectedIds.length} users. This action cannot be undone.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route("user.bulk-delete") }}', // Replace with actual route
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}', // CSRF protection
-                            ids: selectedIds,
-                        },
-                        success: function (response) {
-                            if (response.success) {
-                                toastr.success(response.success, 'Success');
-                                location.reload(); // Refresh page to reflect changes
-                            } else {
-                                toastr.error(response.error, 'Error');
-                            }
-                        },
-                        error: function () {
-                            toastr.error('An error occurred. Please try again.', 'Error');
-                        },
-                    });
-                }
-            });
-        }
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are about to delete ${username}. This action cannot be undone.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // Submit the form if confirmed
+            }
+        });
     });
 });
 </script>
