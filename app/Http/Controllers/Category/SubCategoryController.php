@@ -18,67 +18,68 @@ class SubCategoryController extends Controller
      */
 
 
-     public function index(Request $request)
-    {
-        try {
-            if ($request->ajax()) {
-                $subCategories = Sub_Category::with('category');
+        public function index(Request $request)
+        {
+            try {
+                if ($request->ajax()) {
+                    $subCategories = Sub_Category::with('category');
 
-                // Apply search filter
-                if ($request->has('search') && $request->search['value'] != '') {
-                    $search = $request->search['value'];
-                    $subCategories->where(function ($query) use ($search) {
-                        $query->whereHas('category', function ($q) use ($search) {
-                            $q->where('name', 'LIKE', "%{$search}%");
+                    // Apply search filter
+                    if ($request->has('search') && $request->search['value'] != '') {
+                        $search = $request->search['value'];
+                        $subCategories->where(function ($query) use ($search) {
+                            $query->whereHas('category', function ($q) use ($search) {
+                                $q->where('name', 'LIKE', "%{$search}%");
+                            })
+                            ->orWhere('name', 'LIKE', "%{$search}%")
+                            ->orWhere('description', 'LIKE', "%{$search}%");
+                        });
+                    }
+
+                    return DataTables::of($subCategories)
+                        ->addColumn('category_name', function ($subcategory) {
+                            return $subcategory->category ? $subcategory->category->name : 'N/A';
                         })
-                        ->orWhere('name', 'LIKE', "%{$search}%")
-                        ->orWhere('description', 'LIKE', "%{$search}%");
-                    });
+                        ->addColumn('action', function ($subcategory) {
+                            return '
+                                <a href="javascript:void(0);" class="edit-category gray-s" 
+                                    data-id="' . $subcategory->id . '" 
+                                    data-name="' . $subcategory->name . '" 
+                                    data-description="' . $subcategory->description . '"
+                                    data-bs-toggle="modal" data-bs-target="#editSubcategoryModal">
+                                    <i class="uil uil-edit-alt ucp-table"></i>
+                                </a>
+                                <form action="' . route('sub_category.destroy', $subcategory->id) . '" method="POST" class="delete-form d-inline-block">
+                                    ' . csrf_field() . method_field('DELETE') . '
+                                    <a type="submit" class="gray-s delete-btn" data-name="' . $subcategory->name . '">
+                                        <i class="uil uil-trash-alt ucp-table"></i>
+                                    </a>
+                                </form>';
+                        })
+                        ->editColumn('status', function ($subcategory) {
+                            return '
+                                <div class="toggle-button mt-2 text-center">
+                                    <input type="checkbox" class="toggle-input toggle-status"
+                                        id="toggle' . $subcategory->id . '" 
+                                        data-id="' . $subcategory->id . '" 
+                                        ' . ($subcategory->is_active ? 'checked' : '') . '>
+                                    <label for="toggle' . $subcategory->id . '" class="toggle-label">
+                                        <span class="toggle-circle"></span>
+                                    </label>
+                                </div>';
+                        })                    
+                        ->rawColumns(['category_name', 'status', 'action'])
+                        ->make(true);
                 }
 
-                return DataTables::of($subCategories)
-                    ->addColumn('category_name', function ($subcategory) {
-                        return $subcategory->category ? $subcategory->category->name : 'N/A';
-                    })
-                    ->addColumn('action', function ($subcategory) {
-                        return '
-                            <a href="javascript:void(0);" class="edit-category gray-s" 
-                                data-id="' . $subcategory->id . '" 
-                                data-name="' . $subcategory->name . '" 
-                                data-description="' . $subcategory->description . '">
-                                <i class="uil uil-edit-alt ucp-table"></i>
-                            </a>
-                            <form action="' . route('sub_category.destroy', $subcategory->id) . '" method="POST" class="delete-form d-inline-block">
-                                ' . csrf_field() . method_field('DELETE') . '
-                                <button type="submit" class="gray-s delete-btn" data-name="' . $subcategory->name . '">
-                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                </button>
-                            </form>';
-                    })
-                    ->addColumn('is_active', function ($subcategory) {
-                        return '
-                            <div class="toggle-button mt-2 text-center">
-                                <input type="checkbox" class="toggle-input toggle-status"
-                                    id="toggle' . $subcategory->id . '" 
-                                    data-id="' . $subcategory->id . '" 
-                                    ' . ($subcategory->is_active ? 'checked' : '') . '>
-                                <label for="toggle' . $subcategory->id . '" class="toggle-label">
-                                    <span class="toggle-circle"></span>
-                                </label>
-                            </div>';
-                    })
-                    ->rawColumns(['category_name', 'is_active', 'action'])
-                    ->make(true);
+                $categories = Category::paginate(3);
+                $subcategories = Sub_Category::with('category')->get();
+
+                return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));
+            } catch (Exception $e) {
+                return response()->json(['error' => 'An error occurred while fetching the subcategories. Please try again later.'], 500);
             }
-
-            $categories = Category::paginate(3);
-            $subcategories = Sub_Category::with('category')->get();
-
-            return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));
-        } catch (Exception $e) {
-            return response()->json(['error' => 'An error occurred while fetching the subcategories. Please try again later.'], 500);
         }
-    }
 
      
         /**
@@ -148,8 +149,7 @@ class SubCategoryController extends Controller
 
             // Find the subcategory by ID
             $subcategory = sub_category::findOrFail($id);
-            // return $subcategory;    
-            // Update the subcategory with validated data
+
             $subcategory->update([
                 // 'category_id' => $validatedData['category_id'],   // Update the category ID
                 'name' => $validatedData['subcategory_name_edit'],     // Update the subcategory name
@@ -175,17 +175,18 @@ class SubCategoryController extends Controller
         return redirect()->back()->with('success', 'SubCategory deleted successfully!');
     }
     public function updateSubCategoryStatus(Request $request)
-    {
-        try {
-            $subcategory = Sub_Category::findOrFail($request->sub_category_id);
-            $subcategory->is_active = $request->is_active;
-            $subcategory->save();
+{
+    try {
+        $subCategory = Sub_Category::findOrFail($request->sub_category_id);
+        $subCategory->is_active = $request->is_active;
+        $subCategory->save();
 
-            return response()->json(['success' => 'Status updated successfully.']);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'An error occurred while updating the status. Please try again later.'], 500);
-        }
+        return response()->json(['success' => 'Subcategory status updated successfully.']);
+    } catch (Exception $e) {
+        return response()->json(['error' => 'Failed to update subcategory status.'], 500);
     }
+}
+
 
     public function bulkDelete(Request $request)
     {

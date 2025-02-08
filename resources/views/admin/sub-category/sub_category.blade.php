@@ -15,14 +15,7 @@
                                     <h4 class=""><i class="uil uil-plus"></i> Add Subcategories</h4>
                                 </div>
                                 <div class="col-lg-7">
-                                    {{-- <div class="search120">
-                                        <div class="ui search">
-                                            <div class="ui left icon input swdh10">
-                                                <input class="prompt srch10" type="text" placeholder="Search for Categories..">
-                                                <i class='uil uil-search-alt icon icon1'></i>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+                                  
                                 </div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 text-end">
                                     <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn" title="Add a Category">
@@ -77,48 +70,48 @@
                 </div>
             </div>
             
-            @foreach($subcategories as $subcategory)
-            <!-- Edit Subcategory Modal -->
-            <div class="modal fade" id="editSubcategoryModal{{ $subcategory->id }}" tabindex="-1"
-                aria-labelledby="editSubcategoryModalLabel{{ $subcategory->id }}" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form class="edit-subcategory-form" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            
-                            <!-- Hidden field to store subcategory ID -->
-                            {{-- <input type="hidden" name="subcategory_id" value="{{ $subcategory->id }}"> --}}
-        
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editSubcategoryModalLabel{{ $subcategory->id }}">
-                                    Edit Subcategory
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="subcategory_name_{{ $subcategory->id }}" class="form-label">Subcategory Name</label>
-                                    <input type="text" class="form-control _dlor1" id="subcategory_name_{{ $subcategory->id }}"
-                                        name="subcategory_name_edit" value="{{ $subcategory->name }}">
-                                    <div class="invalid-feedback"></div> 
-                                </div>
-                                <div class="mb-3">
-                                    <label for="subcategory_description_{{ $subcategory->id }}" class="form-label">Subcategory Description</label>
-                                    <textarea class="form-control _dlor1" id="subcategory_description_{{ $subcategory->id }}"
-                                        name="subcategory_description_edit" rows="4">{{ $subcategory->description }}</textarea>
-                                    <div class="invalid-feedback"></div> 
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="main-btn">Save Changes</button>
-                            </div>
-                        </form>
+           @foreach($subcategories as $subcategory)
+    <!-- Edit Subcategory Modal -->
+    <div class="modal fade" id="editSubcategoryModal{{ $subcategory->id }}" tabindex="-1"
+         aria-labelledby="editSubcategoryModalLabel{{ $subcategory->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="edit-subcategory-form" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <!-- Hidden field to store subcategory ID -->
+                    <input type="hidden" name="subcategory_id" value="{{ $subcategory->id }}">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editSubcategoryModalLabel{{ $subcategory->id }}">
+                            Edit Subcategory
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="subcategory_name_{{ $subcategory->id }}" class="form-label">Subcategory Name</label>
+                            <input type="text" class="form-control" id="subcategory_name_{{ $subcategory->id }}"
+                                   name="subcategory_name_edit" value="{{ $subcategory->name }}">
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subcategory_description_{{ $subcategory->id }}" class="form-label">Subcategory Description</label>
+                            <textarea class="form-control" id="subcategory_description_{{ $subcategory->id }}"
+                                      name="subcategory_description_edit" rows="4">{{ $subcategory->description }}</textarea>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
             </div>
-        @endforeach
+        </div>
+    </div>
+@endforeach
+
         
     <!-- Modal for Adding Category -->
     <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
@@ -196,7 +189,7 @@
                 { data: 'category_name', name: 'category.name' },
                 { data: 'name', name: 'name' },
                 { data: 'description', name: 'description' },
-                { data: 'is_active', name: 'status', orderable: false, searchable: false },
+                { data: 'status', name: 'status', orderable: false, searchable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
@@ -416,110 +409,90 @@ $(document).ready(function () {
 });
 </script>
 
-
 <script>
-    $('.toggle-input').change(function () {
-        const categoryId = $(this).data('user-id');
-        const isActive = $(this).is(':checked') ? 1 : 0;
+    $(document).ready(function () {
+        $(document).on('change', '.toggle-input', function () {
+            let subCategoryId = $(this).data('id'); 
+            let isActive = $(this).is(':checked') ? 1 : 0; 
 
-        $.ajax({
-            url: '/subcategory/update-subcategory-status',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                category_id: categoryId,
-                is_active: isActive
-            },
-            success: function (response) {
-                if (response.success) {
-                    toastr.options = {
-                        "closeButton": true,
-                        "debug": false,
-                        "newestOnTop": true,
-                        "progressBar": true,
-                        "positionClass": "toast-bottom-right",
-                        "preventDuplicates": true,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
-                    toastr.success(response.success, 'Success');
-                } else {
-                    toastr.error('Failed to update category status. Please try again.', 'Error', {
-                        timeOut: 4000,
-                        positionClass: 'toast-bottom-right',
-                    });
+            $.ajax({
+                url: '{{ route("update.subcategory.status") }}', // Corrected route name
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', 
+                    sub_category_id: subCategoryId, // Corrected parameter name
+                    is_active: isActive
+                },
+                success: function (response) {
+                    toastr.success(response.success, 'Success'); 
+                },
+                error: function () {
+                    toastr.error('Error updating subcategory status.', 'Error'); 
                 }
-            },
-            error: function () {
-                toastr.error('An unexpected error occurred. Please try again.', 'Error', {
-                    timeOut: 4000,
-                    positionClass: 'toast-bottom-right',
-                });
-            }
+            });
         });
     });
 </script>
 
 <script>
-    $(document).ready(function () {
-        // Open the Edit Subcategory Modal
-        $(document).on('click', '.edit-category', function () {
-            let subcategoryId = $(this).data('id');
-            let subcategoryName = $(this).data('name');
-            let subcategoryDescription = $(this).data('description');
+$(document).ready(function () {
+    // Open the Edit Subcategory Modal
+    $(document).on('click', '.edit-category', function () {
+        let subcategoryId = $(this).data('id');
+        let subcategoryName = $(this).data('name');
+        let subcategoryDescription = $(this).data('description');
 
-            // Populate the modal fields using dynamic IDs
-            $(`#subcategory_name_${subcategoryId}`).val(subcategoryName);
-            $(`#subcategory_description_${subcategoryId}`).val(subcategoryDescription);
+        // Clear previous error states
+        $(`#editSubcategoryModal${subcategoryId} .is-invalid`).removeClass('is-invalid');
+        $(`#editSubcategoryModal${subcategoryId} .invalid-feedback`).remove();
 
-            // Show the correct modal using the subcategory ID
-            $(`#editSubcategoryModal${subcategoryId}`).modal('show');
-        });
+        // Populate the modal fields using dynamic IDs
+        $(`#subcategory_name_${subcategoryId}`).val(subcategoryName);
+        $(`#subcategory_description_${subcategoryId}`).val(subcategoryDescription);
 
-        // Handle Update Subcategory Submission via AJAX
-        $('.edit-subcategory-form').submit(function (e) {
-            e.preventDefault(); // Prevent default form submission
+        // Show the correct modal using the subcategory ID
+        $(`#editSubcategoryModal${subcategoryId}`).modal('show');
+    });
 
-            let form = $(this);
-            let subcategoryId = form.find('[name="subcategory_id"]').val();
-            let formData = form.serialize(); // Serialize form data
+    // Handle Update Subcategory Submission via AJAX
+    $('.edit-subcategory-form').submit(function (e) {
+        e.preventDefault(); // Prevent default form submission
 
-            $.ajax({
-                url: `/sub_category/${subcategoryId}`, // Resourceful route
-                method: 'PUT', // Laravel requires PUT for update
-                data: formData,
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success(response.success, 'Success');
+        let form = $(this);
+        let subcategoryId = form.find('[name="subcategory_id"]').val(); // Fetch the subcategory ID from hidden input
+        let formData = form.serialize(); // Serialize form data for sending to the server
 
-                        // Close modal and reload table
-                        $(`#editSubcategoryModal${subcategoryId}`).modal('hide');
-                        $('#subcategory-table').DataTable().ajax.reload(); // Reload DataTable
-                    }
-                },
-                error: function (xhr) {
-                    $('.is-invalid').removeClass('is-invalid');
-                    $('.invalid-feedback').remove();
+        $.ajax({
+            url: `/sub_category/${subcategoryId}`, // Ensure this is the correct route URL
+            method: 'PUT', // Laravel requires PUT for update
+            data: formData,
+            success: function (response) {
+                if (response.success) {
+                    toastr.success(response.success, 'Success');
 
-                    if (xhr.status === 422) {
-                        let errors = xhr.responseJSON.errors;
-                        for (let field in errors) {
-                            let inputField = $(`[name="${field}"]`);
-                            inputField.addClass('is-invalid');
-                            inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
-                        }
-                    } else {
-                        toastr.error('An unexpected error occurred. Please try again.', 'Error');
-                    }
+                    // Close modal and reload table
+                    $(`#editSubcategoryModal${subcategoryId}`).modal('hide');
+                    $('#subcategory-table').DataTable().ajax.reload(); // Reload DataTable
                 }
-            });
+            },
+            error: function (xhr) {
+                // Clear previous error states
+                $(this).find('.is-invalid').removeClass('is-invalid');
+                $(this).find('.invalid-feedback').remove();
+
+                // Handle form validation errors
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    for (let field in errors) {
+                        let inputField = $(`[name="${field}"]`);
+                        inputField.addClass('is-invalid');
+                        inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                    }
+                } else {
+                    toastr.error('An unexpected error occurred. Please try again.', 'Error');
+                }
+            }
         });
     });
+});
 </script>
