@@ -1,21 +1,15 @@
 <?php
 
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\LearnerProfileController;
+use App\Http\Controllers\LearningPathController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VideoController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Category\SubCategoryController;
-
-
-// Route::get('/course', function () {
-//     return view('admin.course.create_new_course');
-// });
-
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
@@ -25,6 +19,41 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard');
 })->name('admin.dashboard')->middleware('auth');
 
+Route::get('/cource', function () {
+    return view('admin.course');
+})->name('admin.cource');
+
+Route::get('/review', function () {
+    return view('admin.review');
+})->name('admin.review');
+
+
+Route::get('/analyics', function () {
+    return view('admin.analycis');
+})->name('admin.analyics');
+
+Route::get('/certificate', function () {
+    return view('admin.certificate');
+})->name('admin.certificate');
+
+Route::get('/earning', function () {
+    return view('admin.earning');
+})->name('admin.earning');
+
+
+Route::get('/payout', function () {
+    return view('admin.payout');
+})->name('admin.payout');
+
+
+Route::get('/statement', function () {
+    return view('admin.statement');
+})->name('admin.statement');
+
+
+Route::get('/feedback', function () {
+    return view('admin.feedback');
+})->name('admin.feedback');
 
 Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
@@ -45,17 +74,17 @@ route::post('/store_learner', [UserController::class, 'store_learner'])->name('u
 
 Route::get('/register', [UserController::class, 'register'])->name('register');
 
-Route::get('/setting', [UserController::class,'aboutabmin'])->name('setting');
-Route::get('/learner/setting', [UserController::class,'learner_setting'])->name('learner.setting');
+Route::get('/setting', [UserController::class, 'aboutabmin'])->name('setting');
+Route::get('/learner/setting', [UserController::class, 'learner_setting'])->name('learner.setting');
 
 Route::post('/upload-profile-image', [UserController::class, 'uploadImage'])->name('upload.profile.image');
 
-Route::get('/learner/profile', [UserController::class, 'learner_show'])->name('user.learner.profile')->middleware('auth');
+Route::get('/learner/profile', [UserController::class, 'learner_show'])->name('user.learner.profile');
 
 Route::get('/create', [LoginController::class, 'create_changepassword'])->name('changepassword.create');
-Route::post('/change-password', [LoginController::class, 'changePassword'])->name('changePassword.update');
+Route::post('/change_password', [LoginController::class, 'changePassword'])->name('changePassword.update');
 
-Route::get('/forgot_password', [ForgotPasswordController::class, 'create'])->name('forgot_password');
+Route::get('/forgot_passwords', [ForgotPasswordController::class, 'create'])->name('forgot_password');
 Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
@@ -69,8 +98,10 @@ Route::resource('sub_category', SubCategoryController::class);
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
 
-Route::resource('course', CourseController::class);
+Route::resource('faq', FaqController::class);
+Route::post('/faq/bulk-delete', [FaqController::class, 'bulkDelete'])->name('faq.bulk-delete');
 
-Route::resource('test', TestController::class);
 
-Route::resource('video', VideoController::class);
+
+
+Route::resource('learningpath', LearningPathController::class);

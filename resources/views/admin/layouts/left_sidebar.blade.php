@@ -9,13 +9,13 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_courses.html" class="menu--link" title="Courses">
+                    <a href="{{ route('admin.cource') }}" class="menu--link" title="Courses">
                         <i class='uil uil-book-alt menu--icon'></i>
                         <span class="menu--label">Courses</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_analyics.html" class="menu--link" title="Analyics">
+                    <a href="{{route('admin.analyics')}}" class="menu--link" title="Analyics">
                         <i class='uil uil-analysis menu--icon'></i>
                         <span class="menu--label">Analyics</span>
                     </a>
@@ -33,49 +33,37 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('course.create')}}" class="menu--link" title="Create Course">
+                    <a href="#" class="menu--link" title="Create Course">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Create Course</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_messages.html" class="menu--link" title="Messages">
-                        <i class='uil uil-comments menu--icon'></i>
-                        <span class="menu--label">Messages</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="instructor_notifications.html" class="menu--link" title="Notifications">
-                        <i class='uil uil-bell menu--icon'></i>
-                        <span class="menu--label">Notifications</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="instructor_my_certificates.html" class="menu--link" title="My Certificates">
+                    <a href="{{route('admin.certificate')}}" class="menu--link" title="My Certificates">
                         <i class='uil uil-award menu--icon'></i>
                         <span class="menu--label">My Certificates</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_all_reviews.html" class="menu--link" title="Reviews">
+                    <a href="{{route('admin.review')}}" class="menu--link" title="Reviews">
                         <i class='uil uil-star menu--icon'></i>
                         <span class="menu--label">Reviews</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_earning.html" class="menu--link" title="Earning">
+                    <a href="{{route('admin.earning')}}" class="menu--link" title="Earning">
                         <i class='uil uil-dollar-sign menu--icon'></i>
                         <span class="menu--label">Earning</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_payout.html" class="menu--link" title="Payout">
+                    <a href="{{route('admin.payout')}}" class="menu--link" title="Payout">
                         <i class='uil uil-wallet menu--icon'></i>
                         <span class="menu--label">Payout</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="instructor_statements.html" class="menu--link" title="Statements">
+                    <a href="{{route('admin.statement')}}" class="menu--link" title="Statements">
                         <i class='uil uil-file-alt menu--icon'></i>
                         <span class="menu--label">Statements</span>
                     </a>
@@ -94,12 +82,6 @@
                     <a href="{{ route('setting') }}" class="menu--link" title="Setting">
                         <i class='uil uil-cog menu--icon'></i>
                         <span class="menu--label">Setting</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="feedback.html" class="menu--link" title="Send Feedback">
-                        <i class='uil uil-comment-alt-exclamation menu--icon'></i>
-                        <span class="menu--label">Send Feedback</span>
                     </a>
                 </li>
             </ul>

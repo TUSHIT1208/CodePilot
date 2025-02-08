@@ -7,17 +7,23 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>Cursus - Dashboard</title>
+    <title>@yield('title') | codepilot</title>
     @include('admin.layouts.head-css')
+    <script src="{{ asset('js/vertical-responsive-menu.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 </head>
+
 @section('body')
 @include('admin.layouts.body')
 @show
 
-@include('admin.layouts.header')
+   @include('admin.layouts.header')
 @include('admin.layouts.left_sidebar')
 
+@yield(section: 'content')
+
 @include('admin.layouts.vendor-script')
+
 </body>
 
 </html>

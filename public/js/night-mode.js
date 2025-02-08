@@ -15,7 +15,6 @@
 
 		// Feature test
 		if (!('localStorage' in window)) return;
-
 		// Get our newly insert toggle
 		var nightMode = document.querySelector('#night-mode');
 		if (!nightMode) return;

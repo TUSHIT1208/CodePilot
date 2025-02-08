@@ -56,10 +56,47 @@ class UserController extends Controller
         return view('admin.learner.list', compact('learners'));
     }
 
-    public function instructorList()
+    public function instructorList(Request $request)
     {
-        $instructor = User::where('role_id', 2)->paginate(10);
-        return view('admin.instructor.list', compact('instructor'));
+        if ($request->ajax()) {
+            $instructors = User::select([
+                'id', 'username', 'profile_picture_url', 'first_name', 'middle_name', 
+                'last_name', 'email', 'phone_number', 'date_of_birth', 'is_active'
+            ])->where('role_id', 2);
+
+            return DataTables::of($instructors)
+                ->addColumn('profile', function ($instructors) {
+                   return !empty($instructors->profile_picture_url) 
+                       ? '<img id="profile_picture" src="' . asset($instructors->profile_picture_url) . '" width="40">'
+                       : '<h1 id="default_avtar">' . strtoupper(substr($instructors->username, 0, 1)) . '</h1>';
+                    })
+                ->addColumn('status', function ($instructor) {
+                    return '<div class="toggle-button mt-2 text-center">
+                                <input type="checkbox" class="toggle-input" id="toggle' . $instructor->id . '" data-user-id="' . $instructor->id . '" ' . ($instructor->is_active ? 'checked' : '') . '>
+                                <label for="toggle' . $instructor->id . '" class="toggle-label">
+                                    <span class="toggle-circle"></span>
+                                </label>
+                            </div>';
+                })
+                ->addColumn('action', function ($instructor) {
+                    return '<a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editUserModal' . $instructor->id . '">
+                                <i class="uil uil-edit-alt ucp-table"></i>
+                            </a>
+                            <form action="' . route('user.destroy', $instructor->id) . '" method="POST" class="delete-form d-inline-block">
+                                ' . csrf_field() . '
+                                ' . method_field('DELETE') . '
+                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-username="' . $instructor->username . '">
+                                    <i class="uil uil-trash-alt ucp-table"></i>
+                                </a>
+                            </form>';
+                })                
+                
+                ->rawColumns(['profile', 'status', 'action'])
+                ->make(true);
+        }
+
+        $instructors = User::where('role_id', 2)->paginate(10);
+        return view('admin.instructor.list', compact('instructors'));
     }
 
     public function create()
@@ -76,19 +113,40 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|string|unique:users,username',
-            'firstname' => 'required|string',
-            'middlename' => 'nullable|string',
-            'lastname' => 'required|string',
+            // Username: Alphanumeric with underscores, 3-20 characters
+            'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
+        
+            // First Name: Only letters, minimum 2 characters
+            'firstname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+        
+            // Middle Name: Optional, only letters if provided
+            'middlename' => 'nullable|string|regex:/^[A-Za-z]*$/',
+        
+            // Last Name: Only letters, minimum 2 characters
+            'lastname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+        
+            // Email Address: Valid email format and unique
             'emailaddress' => 'required|email|unique:users,email',
+        
+            // Password: Required, minimum 6 characters, confirmed
             'password' => 'required|string|min:6|confirmed',
-            'phone_no' => 'required|string',
-            'profile_picture_url' => 'nullable|required',
+        
+            // Phone Number: Exactly 10 digits
+            'phone_no' => 'required|regex:/^\d{10}$/', // 10-digit phone number
+        
+            // Date of Birth: Valid date
             'date_of_birth' => 'required|date',
+        
+            // Bio: Optional text
             'bio' => 'nullable|string',
+        
+            // Skill: Optional text
             'skill' => 'nullable|string',
-            'short_description' => 'nullable|string|max:255', // Short description for instructors
+        
+            // Short Description: Optional, but no more than 255 characters
+            'short_description' => 'nullable|string|max:255',
         ]);
+        
 
         if ($request->hasFile('profile_picture_url')) {
             $profileImage = $request->file('profile_picture_url');
@@ -123,32 +181,43 @@ class UserController extends Controller
         ]);
         return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
 
-        //     // Commit the transaction
-
-        //     \DB::commit();
-        //     return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
-        // } catch (\Exception $e) {
-        //     // Rollback the transaction in case of error
-        //     \DB::rollback();
-
-        //     return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
-        // }
+       
     }
     public function store_learner(Request $request)
     {
         // Validate the incoming request
         $request->validate([
-            'username' => 'required|string',
-            'firstname' => 'required|string',
-            'middlename' => 'nullable|string',
-            'lastname' => 'nullable|string',
+            // Username: Alphanumeric with underscores, 3-20 characters
+            'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
+        
+            // First Name: Only letters, minimum 2 characters
+            'firstname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+        
+            // Middle Name: Optional, only letters if provided
+            'middlename' => 'nullable|string|regex:/^[A-Za-z]*$/',
+        
+            // Last Name: Optional, but letters only if provided, minimum 2 characters
+            'lastname' => 'nullable|string|regex:/^[A-Za-z]{2,}$/',
+        
+            // Email Address: Valid email format and unique
             'emailaddress' => 'required|email|unique:users,email',
+        
+            // Password: Required, minimum 6 characters, confirmed
             'password' => 'required|string|min:6|confirmed',
-            'phone_no' => 'required|string',
+        
+            // Phone Number: Exactly 10 digits
+            'phone_no' => 'required|regex:/^\d{10}$/', // 10-digit phone number
+        
+            // Date of Birth: Valid date
             'date_of_birth' => 'required|date',
+        
+            // Profession Headline: Optional, but a string, and max 255 characters
             'profession_headline' => 'nullable|string|max:255',
+        
+            // Short Description: Optional, but a string, and max 255 characters
             'short_description' => 'nullable|string|max:255',
         ]);
+        
 
         // Handle profile picture upload (if exists)
         if ($request->hasFile('profile_picture_url')) {
@@ -217,12 +286,27 @@ class UserController extends Controller
             $user = User::find($id);
 
             $request->validate([
-                'first_name' => 'required|string',
-                'username' => 'required|string',
-                'email' => 'required|email',
-                'phone' => 'required|string',
-                'dob' => 'required|date',
+                // First Name: Only letters, minimum 2 characters
+                'first_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+
+                'last_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+        
+                // Username: Alphanumeric with underscores, between 3 and 20 characters
+                'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
+        
+                // Email: Standard email format
+                'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|unique:users,email',
+        
+                // Phone Number: 10 digits
+                'phone_number' => 'required|regex:/^\d{10}$/|unique:users,phone_number',
+        
+                // Date of Birth: Valid date format
+                'date_of_birth' => 'required|date',
+        
+                // Middle Name: Optional but only letters (if present)
+                'middle_name' => 'nullable|regex:/^[A-Za-z]*$/',
             ]);
+        
 
             $user->update([
                 'first_name' => $request->first_name,

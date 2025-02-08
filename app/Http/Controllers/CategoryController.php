@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Category;
-
+namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\category;
@@ -15,10 +14,6 @@ class CategoryController extends Controller
     {
         if ($request->ajax()) {
             $categories = Category::select(['id', 'name', 'description', 'is_active']);
-
-            if ($categories->count() === 0) {
-                return response()->json(['no_data' => true]);
-            }
 
             return DataTables::of($categories)
                 ->addColumn('action', function ($category) {
@@ -52,49 +47,29 @@ class CategoryController extends Controller
                 ->make(true);
         }
 
-            $categories = Category::all();
-            return view('admin.category.category',compact('categories'));
-    }
-    public function create()
-    {
-       //
+        $categories = Category::all();
+        return view('admin.category.category',compact('categories'));
     }
 
     public function store(Request $request)
     {
-        // Validate the form data
         $request->validate([
             'category_name' => 'required|string|max:255',
             'category_description' => 'nullable|string',
         ]);
 
         try {
-            // Create a new category using the create() method
             Category::create([
                 'name' => $request->input('category_name'),
                 'description' => $request->input('category_description'),
-                'is_active' => true, // Set to active by default
+                'is_active' => true,
             ]);
 
-            // Return a JSON response if the category is successfully created
             return response()->json(['success' => 'Category added successfully!']);
         } catch (Exception $e) {
-            // Log the error message
             \Log::error('Error while adding category: ' . $e->getMessage());
-
-            // Return a JSON response with an error message
             return response()->json(['error' => 'An error occurred while adding the category. Please try again later.']);
         }
-    }
-
-    public function show(category $category)
-    {
-        //
-    }
-
-    public function edit(category $category)
-    {
-        //
     }
 
     public function update(Request $request, Category $category)
@@ -130,7 +105,6 @@ class CategoryController extends Controller
 
         return response()->json(['success' => 'Category status updated successfully!']);
     }
-
 
     public function bulkDelete(Request $request)
     {

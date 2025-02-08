@@ -1,11 +1,17 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+
+@section('title')
+Analytics
+@endsection
+
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container-fluid">			
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-analysis"></i> Analyics</h2>
-                </div>					
+                </div>
             </div>
             <div class="row">
                 <div class="col-xl-4 col-sm-6">
@@ -66,9 +72,11 @@
                                             <span></span>
                                         </div>
                                     </div>
-                                    <ul class="nav nav-tabs justify-content-between justify-content-xl-start nav-fill" role="tablist">
+                                    <ul class="nav nav-tabs justify-content-between justify-content-xl-start nav-fill"
+                                        role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active pb-md-0" data-toggle="tab" href="#user" role="tab" aria-selected="true">
+                                            <a class="nav-link active pb-md-0" data-toggle="tab" href="#user" role="tab"
+                                                aria-selected="true">
                                                 <span class="type-name">User</span>
                                                 <h4 class="views_title d-inline-block mt-2 mr-2 mb-3">5248</h4>
                                                 <span class="text-success1">5%
@@ -77,7 +85,8 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link pb-md-0" data-toggle="tab" href="#session" role="tab" aria-selected="false">
+                                            <a class="nav-link pb-md-0" data-toggle="tab" href="#session" role="tab"
+                                                aria-selected="false">
                                                 <span class="type-name">Sessions</span>
                                                 <h4 class="views_title d-inline-block mt-2 mr-2 mb-3">638</h4>
                                                 <span class="text-success">20%
@@ -86,7 +95,8 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link pb-md-0" data-toggle="tab" href="#bounce" role="tab" aria-selected="false">
+                                            <a class="nav-link pb-md-0" data-toggle="tab" href="#bounce" role="tab"
+                                                aria-selected="false">
                                                 <span class="type-name">Bounce Rate</span>
                                                 <h4 class="views_title d-inline-block mt-2 mr-2 mb-3">36.9%</h4>
                                                 <span class="text-danger">7%
@@ -95,7 +105,8 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link pb-md-0" data-toggle="tab" href="#session-duration" role="tab" aria-selected="false">
+                                            <a class="nav-link pb-md-0" data-toggle="tab" href="#session-duration"
+                                                role="tab" aria-selected="false">
                                                 <span class="type-name">Session Duration</span>
                                                 <h4 class="views_title d-inline-block mt-2 mr-2 mb-3">4m 49s</h4>
                                                 <span class="text-success">15%
@@ -107,7 +118,8 @@
                                     <div class="card-body">
                                         <div class="tab-content" id="myTabContent">
                                             <div class="tab-pane fade show active" id="user" role="tabpanel">
-                                                <canvas id="activity" class="chartjs p-4" style="height: 350px;"></canvas>
+                                                <canvas id="activity" class="chartjs p-4"
+                                                    style="height: 350px;"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -117,7 +129,7 @@
                                 </div>
                             </div>
                             <div class="col-xl-4">
-                                <div data-scroll-height="350">	
+                                <div data-scroll-height="350">
                                     <div class="card-header justify-content-between">
                                         <h2 class="m-0">Current Users</h2>
                                     </div>
@@ -153,7 +165,9 @@
                             <tbody>
                                 <tr>
                                     <td class="text-center">001</td>
-                                    <td class="cell-ta"><div class="thumb_img"><img src="images/courses/img-2.jpg" alt=""></div></td>
+                                    <td class="cell-ta">
+                                        <div class="thumb_img"><img src="images/courses/img-2.jpg" alt=""></div>
+                                    </td>
                                     <td class="cell-ta">Course Title Here</td>
                                     <td class="text-center">70</td>
                                     <td class="text-center">1150</td>
@@ -161,7 +175,9 @@
                                 </tr>
                                 <tr>
                                     <td class="text-center">002</td>
-                                    <td class="cell-ta"><div class="thumb_img"><img src="images/courses/img-3.jpg" alt=""></div></td>
+                                    <td class="cell-ta">
+                                        <div class="thumb_img"><img src="images/courses/img-3.jpg" alt=""></div>
+                                    </td>
                                     <td class="cell-ta">Course Title Here</td>
                                     <td class="text-center">86</td>
                                     <td class="text-center">2150</td>
@@ -169,9 +185,9 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>	
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+    @endsection

@@ -10,86 +10,10 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="live_streams.html" class="menu--link" title="Live Streams">
-                        <i class='uil uil-kayak menu--icon'></i>
-                        <span class="menu--label">Live Streams</span>
-                    </a>
-                </li>
-                <li class="menu--item">
                     <a href="explore.html" class="menu--link" title="Explore">
                         <i class='uil uil-search menu--icon'></i>
                         <span class="menu--label">Explore</span>
                     </a>
-                </li>
-                <li class="menu--item menu--item__has_sub_menu">
-                    <label class="menu--link" title="Categories">
-                        <i class='uil uil-layers menu--icon'></i>
-                        <span class="menu--label">Categories</span>
-                    </label>
-                    <ul class="sub_menu">
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Development</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Business</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Finance & Accounting</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#.html" class="sub_menu--link">IT & Software</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Office Productivity</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Personal Development</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Design</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Marketing</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Lifestyle</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Photography</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Health & Fitness</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Music</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="#" class="sub_menu--link">Teaching & Academics</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu--item  menu--item__has_sub_menu">
-                    <label class="menu--link" title="Tests">
-                        <i class='uil uil-clipboard-alt menu--icon'></i>
-                        <span class="menu--label">Tests</span>
-                    </label>
-                    <ul class="sub_menu">
-                        <li class="sub_menu--item">
-                            <a href="certification_center.html" class="sub_menu--link">Certification Center</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="certification_start_form.html" class="sub_menu--link">Certification Fill Form</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="certification_test_view.html" class="sub_menu--link">Test View</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="certification_test__result.html" class="sub_menu--link">Test Result</a>
-                        </li>
-                        <li class="sub_menu--item">
-                            <a href="student_my_certificates.html" class="sub_menu--link">My Certification</a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="menu--item">
                     <a href="saved_courses.html" class="menu--link" title="Saved Courses">
@@ -180,7 +104,19 @@
         <div class="left_section pt-2">
             <ul>
                 <li class="menu--item">
-                    <a href="setting.html" class="menu--link" title="Setting">
+                    <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">F & Q</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{route('learningpath.index')}}" class="menu--link" title="FAQ">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">Learning Path</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{asset('setting')}}" class="menu--link" title="Setting">
                         <i class='uil uil-cog menu--icon'></i>
                         <span class="menu--label">Setting</span>
                     </a>
@@ -189,18 +125,6 @@
                     <a href="help.html" class="menu--link" title="Help">
                         <i class='uil uil-question-circle menu--icon'></i>
                         <span class="menu--label">Help</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="report_history.html" class="menu--link" title="Report History">
-                        <i class='uil uil-windsock menu--icon'></i>
-                        <span class="menu--label">Report History</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="feedback.html" class="menu--link" title="Send Feedback">
-                        <i class='uil uil-comment-alt-exclamation menu--icon'></i>
-                        <span class="menu--label">Send Feedback</span>
                     </a>
                 </li>
             </ul>

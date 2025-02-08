@@ -59,7 +59,7 @@ Night Mood
 .night-mode .post .post-add-comment-text-area,
 .night-mode .dt-input,
 .night-mode .post .post-add-comment-text-area input{
-    background-color: #000 !important;
+    background-color: #333 !important;
     border-color: #242424 !important;
     color: hsla(0, 0%, 100%, 0.79) !important;
 }

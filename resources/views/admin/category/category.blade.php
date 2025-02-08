@@ -1,5 +1,7 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title') category @endsection
 <!-- Body Start -->
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container-fluid">
@@ -11,20 +13,10 @@
                     <div class="col-md-12">
                         <div class="card_dash1">
                             <div class="row mt-2">
-                                <div class="col-lg-2">
-                                    <h4 class=""><i class="uil uil-plus"></i> Add Categories</h4>
-                                </div>
-                                <div class="col-lg-7">
-                                    <div class="search120">
-                                        <div class="ui search">
-                                            <div class="ui left icon input swdh10">
-                                                <input class="prompt srch10" type="text" placeholder="Search for Categories..">
-                                                <i class='uil uil-search-alt icon icon1'></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-6 text-end">
+                                <div class="col-lg-12 col-md-4 col-sm-6 text-end">
+                                    @if(!$categories->isEmpty())
+                                        <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
+                                    @endif
                                     <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn" title="Add a Category">
                                         <i class="uil uil-plus-circle"></i> Add a Category
                                     </button>
@@ -59,13 +51,7 @@
                                     @endif
                                 </div>
                             </div>
-                            @if(!$categories->isEmpty())
-                                <div class="card-footer mt-4">
-                                    <div class="mt-3">
-                                        <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
-                                    </div>                                
-                                </div>
-                            @endif
+                            
                         </div>
                     </div>
                 </div>
@@ -420,3 +406,4 @@ $(document).ready(function () {
         });
     });
 </script>
+@endsection
