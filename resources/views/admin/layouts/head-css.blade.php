@@ -22,6 +22,22 @@
 <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 

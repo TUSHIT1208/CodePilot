@@ -7,40 +7,59 @@ use Exception;
 use App\Models\category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        try {
-            // Fetch all categories from the database
-            $categories = Category::paginate(3);
-    
-            // Pass the categories to the view
-            return view('admin.category.category', compact('categories'));
-        } catch (Exception $e) {
-            // Log the error message
-            \Log::error('Error while fetching categories: ' . $e->getMessage());
-    
-            // Redirect with error message
-            return redirect()->route('category.index')->with('error', 'An error occurred while fetching the categories. Please try again later.');
-        }
-    }
+        if ($request->ajax()) {
+            $categories = Category::select(['id', 'name', 'description', 'is_active']);
 
-    /**
-     * Show the form for creating a new resource.
-     */
+            if ($categories->count() === 0) {
+                return response()->json(['no_data' => true]);
+            }
+
+            return DataTables::of($categories)
+                ->addColumn('action', function ($category) {
+                    return '
+                    <a href="javascript:void(0);" class="edit-category gray-s" 
+                    data-id="' . $category->id . '" 
+                    data-name="' . $category->name . '" 
+                    data-description="' . $category->description . '">
+                        <i class="uil uil-edit-alt ucp-table"></i>
+                    </a>
+                    <form action="' . route('category.destroy', $category->id) . '" method="POST" class="delete-form d-inline-block">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <a href="javascript:void(0);" title="Delete" class="gray-s delete-btn" data-username="' . $category->name . '">
+                            <i class="uil uil-trash-alt ucp-table"></i>
+                        </a>
+                    </form>';
+                })
+                ->editColumn('status', function ($category) {
+                    return '
+                        <div class="toggle-button mt-2 text-center">
+                        <input type="checkbox" class="toggle-input" 
+                            id="toggle' . $category->id . '" 
+                            data-id="' . $category->id . '" 
+                            ' . ($category->is_active ? 'checked' : '') . '>
+                        <label for="toggle' . $category->id . '" class="toggle-label">
+                            <span class="toggle-circle"></span>
+                        </label>
+                    </div>';
+                })
+                ->rawColumns(['action', 'status'])                               
+                ->make(true);
+        }
+
+            $categories = Category::all();
+            return view('admin.category.category',compact('categories'));
+    }
     public function create()
     {
        //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validate the form data
@@ -68,90 +87,58 @@ class CategoryController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(category $category)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(category $category)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        // Find the category by ID or fail if it doesn't exist
-        $category = Category::findOrFail($id);
-        
-        // Validate the input data
-        $data = $request->validate([
-            'category_name' => 'required|string|max:255',  // Validating category name
-            'category_description' => 'required|string',   // Validating category description
+        $request->validate([
+            'category_name' => 'required|string|max:255',
+            'category_description' => 'nullable|string'
         ]);
 
-        // Update the category record with the validated data
         $category->update([
-            'name' => $data['category_name'],
-            'description' => $data['category_description'],
+            'name' => $request->category_name,
+            'description' => $request->category_description
         ]);
 
-        // Return response to inform user about the success of the operation
-        return redirect()->back()->with('success', 'Category updated successfully!');
+        return response()->json(['success' => 'Category updated successfully!']);
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $category = Category::find($id);
         $category->delete();
         return redirect()->back()->with('success', 'Category deleted successfully!');
     }
-    public function updateCategoryStatus(Request $request)
+
+    public function updateStatus(Request $request)
     {
-        try{
-            $category = Category::find($request->category_id);
+        $category = Category::find($request->category_id);
+        if (!$category) {
+            return response()->json(['error' => 'Category not found.'], 404);
+        }
+        $category->is_active = $request->is_active;
+        $category->save();
 
-            if ($category) {
-                // Update the category's is_active status
-                $category->is_active = $request->is_active;
-                $category->save();
-
-                // Return a success response
-                return response()->json([
-                    'success' => $category->is_active ? 'Category has been activated successfully!' : 'Category has been deactivated successfully!',
-                ]);
-                
-            }    
-        } catch(Exception $e) {
-            // Log the error message
-            \Log::error('Error while updating category status: ' . $e->getMessage());
-
-            // Return an error response
-            return response()->json(['error' => 'An error occurred while updating the category status. Please try again later.']);
-        }   
+        return response()->json(['success' => 'Category status updated successfully!']);
     }
+
 
     public function bulkDelete(Request $request)
     {
         $ids = $request->input('ids', []);
-
         if (!empty($ids)) {
             Category::whereIn('id', $ids)->delete();
             return response()->json(['success' => 'Categories deleted successfully.']);
         }
-
-        return response()->json(['error' => 'No categories selected for deletion.'], 400);
+        return response()->json(['success' => 'Selected users have been deleted successfully.']);
     }
 }

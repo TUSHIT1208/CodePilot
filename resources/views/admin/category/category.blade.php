@@ -39,91 +39,22 @@
                                             <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
                                             <h3 class="mt-3 scale-in-text" style="color: #777;">No Categories Found</h3>
                                             <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any categories yet. Add one now to get started!</p>
-                                            
                                         </div>
                                     @else
                                         <!-- Display Table When Data Exists -->
-                                        <table class="ucp-table">
+                                        <table id="category-table" class="ucp-table">
                                             <thead class="ucp-table">
                                                 <tr>
                                                     <th class="text-center ucp-tabler">
-                                                        <input type="checkbox" id="select-all"> <!-- Select All Checkbox -->
+                                                        <input type="checkbox" id="select-all">
                                                     </th>
-                                                    <th class="text-center ucp-table" scope="col">Item No.</th>
-                                                    <th class="text-center ucp-table">Category Name</th>
-                                                    <th class="text-center ucp-table" scope="col">Description</th>
-                                                    <th class="text-center ucp-table" scope="col">Status</th>
-                                                    <th class="text-center ucp-table" scope="col">Actions</th>
+                                                    <th class="text-center ucp-tabler" scope="col">Name</th>
+                                                    <th class="text-center ucp-tabler" scope="col">Description</th>
+                                                    <th class="text-center ucp-tabler" scope="col">Status</th>
+                                                    <th class="text-center ucp-tabler" scope="col">Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="ucp-table">
-                                                @foreach($categories as $category)
-                                                    <tr>
-                                                        <!-- Checkbox in the first column -->
-                                                        <td class="text-center ">
-                                                            <input type="checkbox" class="category-checkbox" value="{{ $category->id }}">
-                                                        </td>
-                                                        <td class="text-center"><p class="ucp-table">{{ str_pad($category->id, 3, '0', STR_PAD_LEFT) }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $category->name }}</p></td>
-                                                        <td class="text-center"><p class="ucp-table">{{ $category->description }}</p></td>
-                                                        <td class="text-center">
-                                                            <div class="toggle-button mt-2 text-center">
-                                                                <input type="checkbox" class="toggle-input" id="toggle{{$category->id}}" data-user-id="{{$category->id}}" {{ $category->is_active ? 'checked' : '' }}>
-                                                                <label for="toggle{{$category->id}}" class="toggle-label">
-                                                                    <span class="toggle-circle"></span>
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editCategoryModal{{ $category->id }}">
-                                                                <i class="uil uil-edit-alt ucp-table"></i>
-                                                            </a>
-                                                            <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="delete-form d-inline-block">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-username="{{ $category->name }}">
-                                                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                                                </a>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- Edit User Modal -->
-                                                    <div class="modal fade" id="editCategoryModal{{ $category->id }}" tabindex="-1"
-                                                        aria-labelledby="editCategoryModalLabel{{ $category->id }}" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <form action="{{ route('category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="editCategoryModalLabel{{ $category->id }}">
-                                                                            Edit Category
-                                                                        </h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="mb-3">
-                                                                            <label for="category_name_{{ $category->id }}" class="form-label">Category Name</label>
-                                                                            <input type="text" class="form-control _dlor1" id="category_name_{{ $category->id }}"
-                                                                                name="category_name" value="{{ $category->name }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="category_description_{{ $category->id }}" class="form-label">Category Description</label>
-                                                                            <textarea class="form-control _dlor1" id="category_description_{{ $category->id }}"
-                                                                                name="category_description" rows="4" required>{{ $category->description }}</textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="main-btn">Save Changes</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End of Edit User Modal -->
-                                                @endforeach
-                                            </tbody>
+                                            <tbody class="text-center"></tbody>  <!-- Ensure tbody exists -->
                                         </table>                                        
                                     @endif
                                 </div>
@@ -133,18 +64,54 @@
                                     <div class="mt-3">
                                         <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
                                     </div>                                
-                                    <div class="d-flex justify-content-end mt-3">
-                                        {{ $categories->links('pagination::bootstrap-5') }}
-                                    </div>
                                 </div>
                             @endif
                         </div>
                     </div>
                 </div>
             </div>
-            
 
-    
+    <!-- Edit Category Modal -->
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editCategoryForm">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="edit_category_id" name="category_id">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCategoryModalLabel">
+                            <i class="uil uil-edit"></i> Edit Category
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- Category Name Field -->
+                        <div class="mb-3">
+                            <label for="edit_category_name" class="form-label">Category Name</label>
+                            <input type="text" class="form-control _dlor1" id="edit_category_name" name="category_name" required>
+                            <div class="invalid-feedback" id="edit_category_name_error"></div>
+                        </div>
+
+                        <!-- Category Description Field -->
+                        <div class="mb-3">
+                            <label for="edit_category_description" class="form-label">Category Description</label>
+                            <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4"></textarea>
+                            <div class="invalid-feedback" id="edit_category_description_error"></div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="main-btn">Update Category</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal for Adding Category -->
     <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -188,14 +155,96 @@
             </div>
         </div>
     </div>
-    
+
     @include('admin.layouts.footer')
 </div>
-
 <!-- Body End -->
+
+
+{{-- Dispplay list using datatable with bulk delete --}}
+<script>
+    $(document).ready(function () {
+        let table = $('#category-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('category.index') }}", // Adjust this route
+            columns: [
+                { data: 'id', render: function(data) {
+                    return '<input type="checkbox" class="category-checkbox" value="'+ data +'">';
+                }, orderable: false, searchable: false },
+                { data: 'name', name: 'name' },
+                { data: 'description', name: 'description' },
+                { data: 'status', name: 'status', orderable: false, searchable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
+        });
+
+        // Handle "Select All" checkbox
+        $('#category-table tbody').on('change', '.category-checkbox', function () {
+            let allChecked = $('.category-checkbox').length === $('.category-checkbox:checked').length;
+            $('#select-all').prop('checked', allChecked);
+            toggleBulkDeleteButton();
+        });
+
+        $('#select-all').on('change', function () {
+            $('.category-checkbox').prop('checked', $(this).prop('checked'));
+            toggleBulkDeleteButton();
+        });
+
+        function toggleBulkDeleteButton() {
+            let anyChecked = $('.category-checkbox:checked').length > 0;
+            $('#bulk-delete-btn').prop('disabled', !anyChecked);
+        }
+
+        // Bulk Delete Functionality
+        $('#bulk-delete-btn').on('click', function () {
+            let selectedIds = $('.category-checkbox:checked').map(function () {
+                return $(this).val();
+            }).get();
+
+            if (selectedIds.length > 0) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to delete ${selectedIds.length} categories. This action cannot be undone.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route("categories.bulk-delete") }}', // Adjust this route
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selectedIds,
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    toastr.success(response.success, 'Success');
+                                    $('#select-all').prop('checked', false);
+                                    $('#bulk-delete-btn').prop('disabled', true);
+                                    table.ajax.reload(); // Reload DataTable instead of full page refresh
+                                } else {
+                                    toastr.error(response.error || 'Failed to delete.', 'Error');
+                                }
+                            },
+                            error: function () {
+                                toastr.error('An error occurred. Please try again.', 'Error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+{{-- AJAX form submission for Add Category --}}
 <script>
 $(document).ready(function () {
-    // AJAX form submission for Add Category
     $('#addCategoryModal form').submit(function (e) {
         e.preventDefault(); // Prevent default form submission
 
@@ -257,151 +306,117 @@ $(document).ready(function () {
         });
     });
 });
-
 </script>
 
 <!-- JavaScript for Delete Confirmation -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const deleteButtons = document.querySelectorAll(".delete-btn");
+    document.body.addEventListener("click", function (event) {
+        if (event.target.closest(".delete-btn")) {
+            event.preventDefault(); // Prevent default anchor behavior
 
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", function () {
-                const form = this.closest(".delete-form");
-                const categoryName = this.getAttribute("data-username");
+            const button = event.target.closest(".delete-btn");
+            const form = button.closest(".delete-form");
+            const categoryName = button.getAttribute("data-username");
 
-                Swal.fire({
-                    title: `Are you sure?`,
-                    text: `You are about to delete the category "${categoryName}". This action cannot be undone.`,
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
-                    cancelButtonText: "Cancel",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit(); // Submit the form if the user confirms
-                    }
-                });
-            });
-        });
-    });
-</script>
-
-
-<script>
-    $(document).ready(function () {
-        $('.toggle-input').change(function () {
-            const categoryId = $(this).data('user-id');
-            const isActive = $(this).is(':checked') ? 1 : 0;
-
-            $.ajax({
-                url: '/category/update-category-status', // Replace with your route
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    category_id: categoryId,
-                    is_active: isActive
-                },
-                success: function (response) {
-                    if (response.success) {
-                        toastr.options = {
-                            "closeButton": true, // Remove close button
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true, // Enable time bar
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": true,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000", // Duration before auto-hiding
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr.success(response.success, 'Success');
-                    } else {
-                        toastr.error('Failed to update category status. Please try again.', 'Error', {
-                            timeOut: 4000,
-                            positionClass: 'toast-top-right',
-                        });
-                    }
-                },error: function () {
-                    toastr.error('An unexpected error occurred. Please try again.', 'Error', {
-                        timeOut: 4000,
-                        positionClass: 'toast-top-right',
-                    });
-                }
-            });
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-    // Select All Checkbox
-    $('#select-all').change(function () {
-        $('.category-checkbox').prop('checked', this.checked);
-        toggleBulkDeleteButton();
-    });
-
-    // Individual Checkbox
-    $('.category-checkbox').change(function () {
-        const allChecked = $('.category-checkbox').length === $('.category-checkbox:checked').length;
-        $('#select-all').prop('checked', allChecked);
-        toggleBulkDeleteButton();
-    });
-
-    // Enable/Disable Bulk Delete Button
-    function toggleBulkDeleteButton() {
-        const anyChecked = $('.category-checkbox:checked').length > 0;
-        $('#bulk-delete-btn').prop('disabled', !anyChecked);
-    }
-
-    // Bulk Delete
-    $('#bulk-delete-btn').click(function () {
-        const selectedIds = $('.category-checkbox:checked').map(function () {
-            return $(this).val();
-        }).get();
-
-        if (selectedIds.length > 0) {
             Swal.fire({
-                title: 'Are you sure?',
-                text: `You are about to delete ${selectedIds.length} categories. This action cannot be undone.`,
-                icon: 'warning',
+                title: `Are you sure?`,
+                text: `You are about to delete the category "${categoryName}". This action cannot be undone.`,
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel',
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "Cancel",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.ajax({
-                        url: '/categories/bulk-delete', // Replace with your route
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            ids: selectedIds,
-                        },
-                        success: function (response) {
-                            if (response.success) {
-                                toastr.success(response.success, 'Success');
-                                location.reload(); // Reload page to refresh data
-                            } else {
-                                toastr.error(response.error, 'Error');
-                            }
-                        },
-                        error: function () {
-                            toastr.error('An error occurred. Please try again.', 'Error');
-                        },
-                    });
+                    form.submit(); // Submit the form if the user confirms
                 }
             });
         }
     });
 });
+</script>
+
+{{-- Use event delegation to handle dynamically loaded toggle switches --}}
+<script>
+    $(document).ready(function () {
+        $(document).on('change', '.toggle-input', function () {
+        let categoryId = $(this).data('id'); 
+        let isActive = $(this).is(':checked') ? 1 : 0; 
+
+        $.ajax({
+            url: '{{ route("categories.update-status") }}', // Blade template syntax
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}', 
+                category_id: categoryId,
+                is_active: isActive
+            },
+            success: function (response) {
+                toastr.success(response.success, 'Success'); 
+            },
+            error: function () {
+                toastr.error('Error updating category status.', 'Error'); 
+            }
+        });
+    });
+});
+</script>
+
+{{-- Open Edit Modal and Populate Data --}}
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.edit-category', function () {
+            let categoryId = $(this).data('id');
+            let categoryName = $(this).data('name');
+            let categoryDescription = $(this).data('description');
+    
+            // Populate modal fields
+            $('#edit_category_id').val(categoryId);
+            $('#edit_category_name').val(categoryName);
+            $('#edit_category_description').val(categoryDescription);
+    
+            // Show modal
+            $('#editCategoryModal').modal('show');
+        });
+    
+        // Handle Update Category Submission via AJAX
+        $('#editCategoryForm').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+    
+            let categoryId = $('#edit_category_id').val();
+            let formData = $(this).serialize(); // Serialize form data
+    
+            $.ajax({
+                url: `/category/${categoryId}`, // Resourceful route
+                method: 'PUT', // Laravel requires PUT for update
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.success, 'Success');
+    
+                        // Close modal and reload table
+                        $('#editCategoryModal').modal('hide');
+                        $('#category-table').DataTable().ajax.reload(); // Reload DataTable
+                    }
+                },
+                error: function (xhr) {
+                    $('.is-invalid').removeClass('is-invalid');
+                    $('.invalid-feedback').remove();
+    
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        for (let field in errors) {
+                            let inputField = $(`[name="${field}"]`);
+                            inputField.addClass('is-invalid');
+                            inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+                    } else {
+                        toastr.error('An unexpected error occurred. Please try again.', 'Error');
+                    }
+                }
+            });
+        });
+    });
 </script>

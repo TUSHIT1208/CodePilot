@@ -63,8 +63,7 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 
 Route::resource('category', CategoryController::class);
 Route::post('/categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk-delete');
-Route::post('/category/update-category-status', [CategoryController::class, 'updateCategoryStatus'])->name('update.category.status');
-
+Route::post('/categories/update-status', action: [CategoryController::class, 'updateStatus'])->name('categories.update-status');
 
 Route::resource('sub_category', SubCategoryController::class);
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');

@@ -57,6 +57,7 @@ Night Mood
 .night-mode .sidebar ,
 .night-mode .nav-profile ,
 .night-mode .post .post-add-comment-text-area,
+.night-mode .dt-input,
 .night-mode .post .post-add-comment-text-area input{
     background-color: #000 !important;
     border-color: #242424 !important;

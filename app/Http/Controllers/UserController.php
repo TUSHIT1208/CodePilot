@@ -48,7 +48,7 @@ class UserController extends Controller
                                 </a>
                             </form>';
                 })
-                ->rawColumns(['profile', 'status', 'action']) // Ensures these columns render HTML
+                ->rawColumns(['profile', 'status', 'action'])
                 ->make(true); // Return DataTable JSON response
         }
 
