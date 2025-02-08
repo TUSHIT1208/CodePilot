@@ -178,94 +178,90 @@
 </div>
 <!-- Body End -->
 <script>
-$(document).ready(function () {
-    // Initialize the DataTable
-    var table = $('.ucp-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('sub_category.index') }}", // Replace with your route to fetch data
-        columns: [
-            { 
-                data: 'id', 
-                render: function(data) {
-                    return '<input type="checkbox" class="item-checkbox" value="'+ data +'">'; // Checkbox for each row
+    $(document).ready(function () {
+        var table = $('.ucp-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('sub_category.index') }}",
+            columns: 
+            [
+                { 
+                    data: 'id', 
+                    render: function(data) {
+                        return '<input type="checkbox" class="item-checkbox" value="'+ data +'">';
+                    },
+                    orderable: false, 
+                    searchable: false
                 },
-                orderable: false, 
-                searchable: false
-            },
-           
-            { data: 'category_name', name: 'category' }, // Replace 'category' with actual category name
-            { data: 'name', name: 'name' },
-            { data: 'description', name: 'description' },
-            { data: 'is_active', name: 'status', orderable: false, searchable: false },
-            { data: 'action', name: 'action', orderable: false, searchable: false } // Column for actions
-        ]
-    });
-
-    // Handle individual checkbox selection
-    $('.ucp-table tbody').on('change', '.item-checkbox', function () {
-        let allChecked = $('.item-checkbox').length === $('.item-checkbox:checked').length;
-        $('#select-all').prop('checked', allChecked); // Update the "Select All" checkbox
-        toggleBulkDeleteButton(); // Enable/Disable Bulk Delete button
-    });
-
-    // Select/Deselect All checkboxes
-    $('#select-all').on('change', function () {
-        $('.item-checkbox').prop('checked', $(this).prop('checked')); // Select or deselect all checkboxes
-        toggleBulkDeleteButton(); // Enable/Disable Bulk Delete button
-    });
-
-    // Enable/Disable Bulk Delete button based on selection
-    function toggleBulkDeleteButton() {
-        let anyChecked = $('.item-checkbox:checked').length > 0;
-        $('#bulk-delete-btn').prop('disabled', !anyChecked); // If any checkbox is checked, enable button
-    }
-
-    // Bulk Delete Functionality
-    $('#bulk-delete-btn').on('click', function () {
-        let selectedIds = $('.item-checkbox:checked').map(function () {
-            return $(this).val(); // Get the selected checkbox IDs
-        }).get();
-
-        if (selectedIds.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `You are about to delete ${selectedIds.length} items. This action cannot be undone.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                    url: '{{ route("subcategories.bulk-delete") }}', // Your route for bulk delete
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            ids: selectedIds,
-                        },
-                        success: function (response) {
-                            if (response.success) {
-                                toastr.success(response.success, 'Success');
-                                $('#select-all').prop('checked', false); // Uncheck "Select All" checkbox
-                                $('#bulk-delete-btn').prop('disabled', true); // Disable the bulk delete button
-                                table.ajax.reload(); // Reload the DataTable after deletion
-                            } else {
-                                toastr.error(response.error || 'Failed to delete.', 'Error');
-                            }
-                        },
-                        error: function () {
-                            toastr.error('An error occurred. Please try again.', 'Error');
-                        }
-                    });
-                }
-            });
+                { data: 'category_name', name: 'category.name' },
+                { data: 'name', name: 'name' },
+                { data: 'description', name: 'description' },
+                { data: 'is_active', name: 'status', orderable: false, searchable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
+        });
+    
+        $('.ucp-table tbody').on('change', '.item-checkbox', function () {
+            let allChecked = $('.item-checkbox').length === $('.item-checkbox:checked').length;
+            $('#select-all').prop('checked', allChecked);
+            toggleBulkDeleteButton();
+        });
+    
+        $('#select-all').on('change', function () {
+            $('.item-checkbox').prop('checked', $(this).prop('checked'));
+            toggleBulkDeleteButton();
+        });
+    
+        function toggleBulkDeleteButton() {
+            let anyChecked = $('.item-checkbox:checked').length > 0;
+            $('#bulk-delete-btn').prop('disabled', !anyChecked);
         }
+    
+        $('#bulk-delete-btn').on('click', function () {
+            let selectedIds = $('.item-checkbox:checked').map(function () {
+                return $(this).val();
+            }).get();
+    
+            if (selectedIds.length > 0) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to delete ${selectedIds.length} items. This action cannot be undone.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route("subcategories.bulk-delete") }}',
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selectedIds,
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    toastr.success(response.success, 'Success');
+                                    $('#select-all').prop('checked', false);
+                                    $('#bulk-delete-btn').prop('disabled', true);
+                                    table.ajax.reload();
+                                } else {
+                                    toastr.error(response.error || 'Failed to delete.', 'Error');
+                                }
+                            },
+                            error: function () {
+                                toastr.error('An error occurred. Please try again.', 'Error');
+                            }
+                        });
+                    }
+                });
+            }
+        });
     });
-});
-</script>
+    </script>
+    
 <script>
 $(document).ready(function () {
     // AJAX form submission for Add Category
@@ -421,35 +417,56 @@ $(document).ready(function () {
 </script>
 
 
-<!-- Toggle User Status Script -->
 <script>
-    $(document).ready(function () {
-        $('.ucp-table').on('change', '.toggle-input', function () {
-            var userId = $(this).data('user-id');
-            var isActive = $(this).prop('checked') ? 1 : 0;
+    $('.toggle-input').change(function () {
+        const categoryId = $(this).data('user-id');
+        const isActive = $(this).is(':checked') ? 1 : 0;
 
-            $.ajax({
-                url: '/admin/update-user-status',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    user_id: userId,
-                    is_active: isActive
-                },
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success('Status updated successfully.');
-                    } else {
-                        toastr.error('Error updating status.');
-                    }
-                },
-                error: function () {
-                    toastr.error('An error occurred. Please try again.');
+        $.ajax({
+            url: '/subcategory/update-subcategory-status',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                category_id: categoryId,
+                is_active: isActive
+            },
+            success: function (response) {
+                if (response.success) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "newestOnTop": true,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": true,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                    toastr.success(response.success, 'Success');
+                } else {
+                    toastr.error('Failed to update category status. Please try again.', 'Error', {
+                        timeOut: 4000,
+                        positionClass: 'toast-bottom-right',
+                    });
                 }
-            });
+            },
+            error: function () {
+                toastr.error('An unexpected error occurred. Please try again.', 'Error', {
+                    timeOut: 4000,
+                    positionClass: 'toast-bottom-right',
+                });
+            }
         });
     });
 </script>
+
 <script>
     $(document).ready(function () {
         // Open the Edit Subcategory Modal
@@ -506,70 +523,3 @@ $(document).ready(function () {
         });
     });
 </script>
-
-
-{{-- 
-<script>
-    $(document).ready(function () {
-    // Select All Checkbox
-    $('#select-all').change(function () {
-        $('.category-checkbox').prop('checked', this.checked);
-        toggleBulkDeleteButton();
-    });
-
-    // Individual Checkbox
-    $('.category-checkbox').change(function () {
-        const allChecked = $('.category-checkbox').length === $('.category-checkbox:checked').length;
-        $('#select-all').prop('checked', allChecked);
-        toggleBulkDeleteButton();
-    });
-
-    // Enable/Disable Bulk Delete Button
-    function toggleBulkDeleteButton() {
-        const anyChecked = $('.category-checkbox:checked').length > 0;
-        $('#bulk-delete-btn').prop('disabled', !anyChecked);
-    }
-
-    // Bulk Delete
-    $('#bulk-delete-btn').click(function () {
-        const selectedIds = $('.category-checkbox:checked').map(function () {
-            return $(this).val();
-        }).get();
-
-        if (selectedIds.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `You are about to delete ${selectedIds.length} Sub-categories. This action cannot be undone.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '/sub_categories/bulk-delete', // Replace with your route
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            ids: selectedIds,
-                        },
-                        success: function (response) {
-                            if (response.success) {
-                                toastr.success(response.success, 'Success');
-                                location.reload(); // Reload page to refresh data
-                            } else {
-                                toastr.error(response.error, 'Error');
-                            }
-                        },
-                        error: function () {
-                            toastr.error('An error occurred. Please try again.', 'Error');
-                        },
-                    });
-                }
-            });
-        }
-    });
-});
-</script> --}}
