@@ -1,7 +1,5 @@
 @extends('admin.layouts.master')
-@section('title')
-learner
-@endsection
+@section('title') learner @endsection
 @section('content')
 <!-- Body Start -->
 <div class="wrapper">
@@ -331,7 +329,6 @@ learner
             });
         });
     });
-});
 </script>
 @endsection
 

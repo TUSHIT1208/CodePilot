@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    @include('admin.footer')
+    @include('admin.layouts.footer')
 </div>
 <!-- Body End -->
 @endsection

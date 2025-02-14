@@ -141,10 +141,8 @@
 						</a>
 					</div>
 					<a href="{{ route('admin.dashboard') }}" class="item channel_item">Cursus dashboard</a>
-					<a href="membership.html" class="item channel_item">Paid Memberships</a>
 					<a href="{{ route('setting') }}" class="item channel_item">Setting</a>
-					<a href="help.html" class="item channel_item">Help</a>
-					<a href="feedback.html" class="item channel_item">Send Feedback</a>
+					<a href="{{ route('admin.help') }}" class="item channel_item">Help</a>
 					<a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>
 					<a href="{{ route('logout') }}" class="item channel_item">Sign Out</a>
 				</div>

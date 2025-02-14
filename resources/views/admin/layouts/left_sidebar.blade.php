@@ -9,7 +9,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('admin.cource') }}" class="menu--link" title="Courses">
+                    <a href="{{ route('admin.course') }}" class="menu--link" title="Courses">
                         <i class='uil uil-book-alt menu--icon'></i>
                         <span class="menu--label">Courses</span>
                     </a>

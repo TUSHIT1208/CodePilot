@@ -285,27 +285,27 @@ class UserController extends Controller
         if ($id == 1) {
             $user = User::find($id);
 
-            $request->validate([
-                // First Name: Only letters, minimum 2 characters
-                'first_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+            // $request->validate([
+            //     // First Name: Only letters, minimum 2 characters
+            //     'first_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
 
-                'last_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+            //     'last_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
         
-                // Username: Alphanumeric with underscores, between 3 and 20 characters
-                'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
+            //     // Username: Alphanumeric with underscores, between 3 and 20 characters
+            //     'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
         
-                // Email: Standard email format
-                'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|unique:users,email',
+            //     // Email: Standard email format
+            //     'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|unique:users,email',
         
-                // Phone Number: 10 digits
-                'phone_number' => 'required|regex:/^\d{10}$/|unique:users,phone_number',
+            //     // Phone Number: 10 digits
+            //     'phone_number' => 'required|regex:/^\d{10}$/|unique:users,phone_number',
         
-                // Date of Birth: Valid date format
-                'date_of_birth' => 'required|date',
+            //     // Date of Birth: Valid date format
+            //     'date_of_birth' => 'required|date',
         
-                // Middle Name: Optional but only letters (if present)
-                'middle_name' => 'nullable|regex:/^[A-Za-z]*$/',
-            ]);
+            //     // Middle Name: Optional but only letters (if present)
+            //     'middle_name' => 'nullable|regex:/^[A-Za-z]*$/',
+            // ]);
         
 
             $user->update([
@@ -409,17 +409,18 @@ class UserController extends Controller
     }
 
     public function bulkDelete(Request $request)
-{
-    $ids = $request->ids;
+    {
+        $ids = $request->ids;
 
-    if (!$ids || !is_array($ids)) {
-        return response()->json(['error' => 'Invalid request. No IDs provided.'], 400);
+        if (!$ids || !is_array($ids)) {
+            return response()->json(['error' => 'Invalid request.'], 400);
+        }
+
+        try {
+            User::whereIn('id', $ids)->delete();
+            return response()->json(['success' => 'Selected users deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete users.'], 500);
+        }
     }
-
-    User::whereIn('id', $ids)->delete();
-
-    return response()->json(['success' => 'Selected users have been deleted successfully.']);
-}
-
-
 }

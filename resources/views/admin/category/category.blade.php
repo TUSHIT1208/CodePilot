@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title') category @endsection
+@section('title') Category @endsection
 <!-- Body Start -->
 @section('content')
 <div class="wrapper">
@@ -77,14 +77,14 @@
                         <!-- Category Name Field -->
                         <div class="mb-3">
                             <label for="edit_category_name" class="form-label">Category Name</label>
-                            <input type="text" class="form-control _dlor1" id="edit_category_name" name="category_name" required>
+                            <input type="text" class="form-control _dlor1" id="edit_category_name" name="category_name" placeholder="Enter the category name">
                             <div class="invalid-feedback" id="edit_category_name_error"></div>
                         </div>
 
                         <!-- Category Description Field -->
                         <div class="mb-3">
                             <label for="edit_category_description" class="form-label">Category Description</label>
-                            <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4"></textarea>
+                            <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4" placeholder="Enter the category description n ( OPTIONAL )"></textarea>
                             <div class="invalid-feedback" id="edit_category_description_error"></div>
                         </div>
                     </div>
@@ -212,7 +212,7 @@
                                     toastr.success(response.success, 'Success');
                                     $('#select-all').prop('checked', false);
                                     $('#bulk-delete-btn').prop('disabled', true);
-                                    table.ajax.reload(); // Reload DataTable instead of full page refresh
+                                    location.reload(); // Reload DataTable full page refresh
                                 } else {
                                     toastr.error(response.error || 'Failed to delete.', 'Error');
                                 }
@@ -384,7 +384,7 @@ $(document).ready(function () {
     
                         // Close modal and reload table
                         $('#editCategoryModal').modal('hide');
-                        $('#category-table').DataTable().ajax.reload(); // Reload DataTable
+                        location.reload();
                     }
                 },
                 error: function (xhr) {

@@ -383,8 +383,8 @@
                         if (xhr.status === 422) {
                             let errors = xhr.responseJSON.errors;
                             for (let key in errors) {
-                                let input = form.find(`[name="${key}"]`);
-                                let errorMessage = `<strong class="text-danger">${errors[key][0]}</strong>`;
+                                let input = form.find([name="${key}"]);
+                                let errorMessage = <strong class="text-danger">${errors[key][0]}</strong>;
                                 input.closest('.ui.search').append(errorMessage);
                             }
                         } else {

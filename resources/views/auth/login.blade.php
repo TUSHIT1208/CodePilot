@@ -49,14 +49,6 @@
                     <div class="sign_form">
                         <h2>Welcome Back</h2>
                         <p>Log In to Your Cursus Account!</p>
-                        <button class="social_lnk_btn color_btn_fb"><i class="uil uil-facebook-f"></i>Continue with
-                            Facebook</button>
-                        <button class="social_lnk_btn mt-15 color_btn_tw"><i class="uil uil-twitter"></i>Continue with
-                            Twitter</button>
-                        <button class="social_lnk_btn mt-15 color_btn_go"><i class="uil uil-google"></i>Continue with
-                            Google</button>
-
-                        
 
                         <!-- Login Form -->
                         <form action="{{ route('login_check') }}" method="POST">
@@ -81,14 +73,6 @@
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                            </div>
-                            <div class="ui form mt-30 checkbox_sign">
-                                <div class="inline field">
-                                    <div class="ui checkbox mncheck">
-                                        <input type="checkbox" name="remember" tabindex="0" class="hidden">
-                                        <label>Remember Me</label>
-                                    </div>
-                                </div>
                             </div>
                             <button class="login-btn" type="submit">Sign In</button>
                         </form>

@@ -53,149 +53,33 @@ cource
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
                                     <div class="table-responsive mt-30">
-                                        <table class="table ucp-table">
-                                            <thead class="thead-s">
+                                        <table class="ucp-table">
+                                            <thead class="ucp-table">
                                                 <tr>
-                                                    <th class="text-center" scope="col">Item No.</th>
-                                                    <th>Title</th>
-                                                    <th class="text-center" scope="col">Publish Date</th>
-                                                    <th class="text-center" scope="col">Sales</th>
-                                                    <th class="text-center" scope="col">Parts</th>
-                                                    <th class="text-center" scope="col">Category</th>
-                                                    <th class="text-center" scope="col">Status</th>
-                                                    <th class="text-center" scope="col">Action</th>
+                                                    <th class="text-center ucp-table" scope="col">Item No.</th>
+                                                    <th class="text-center ucp-table">Title</th>
+                                                    <th class="text-center ucp-table">Publish Date</th>
+                                                    <th class="text-center ucp-table">Sales</th>
+                                                    <th class="text-center ucp-table">Parts</th>
+                                                    <th class="text-center ucp-table">Category</th>
+                                                    <th class="text-center ucp-table">Status</th>
+                                                    <th class="text-center ucp-table">Action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="text-center">IT-001</td>
-                                                    <td>Course Title Here</td>
-                                                    <td class="text-center">06 April 2020 | 08:31</td>
-                                                    <td class="text-center">15</td>
-                                                    <td class="text-center">5</td>
-                                                    <td class="text-center"><a href="#">Web Development</a></td>
-                                                    <td class="text-center"><b class="course_active">Active</b></td>
-                                                    <td class="text-center">
+                                            <tbody class="ucp-table">
+                                                <tr class="ucp-table">
+                                                    <td class="text-center ucp-table">IT-001</td>
+                                                    <td class="ucp-table">Course Title Here</td>
+                                                    <td class="text-center ucp-table">06 April 2020 | 08:31</td>
+                                                    <td class="text-center ucp-table">15</td>
+                                                    <td class="text-center ucp-table">5</td>
+                                                    <td class="text-center ucp-table"><a href="#">Web Development</a></td>
+                                                    <td class="text-center ucp-table"><b class="course_active">Active</b></td>
+                                                    <td class="ucp-table">
                                                         <a href="#" title="Edit" class="gray-s"><i
                                                                 class="uil uil-edit-alt"></i></a>
                                                         <a href="#" title="Delete" class="gray-s"><i
                                                                 class="uil uil-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">IT-002</td>
-                                                    <td>Course Title Here</td>
-                                                    <td class="text-center">05 April 2020 | 05:15</td>
-                                                    <td class="text-center">30</td>
-                                                    <td class="text-center">3</td>
-                                                    <td class="text-center"><a href="#">Graphic Design</a></td>
-                                                    <td class="text-center"><b class="course_active">Active</b></td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Edit" class="gray-s"><i
-                                                                class="uil uil-edit-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">IT-003</td>
-                                                    <td>Course Title</td>
-                                                    <td class="text-center">03 April 2020 | 01:30</td>
-                                                    <td class="text-center">14</td>
-                                                    <td class="text-center">5</td>
-                                                    <td class="text-center"><a href="#">Bootstrap</a></td>
-                                                    <td class="text-center"><b class="course_active">Active</b></td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Edit" class="gray-s"><i
-                                                                class="uil uil-edit-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">IT-004</td>
-                                                    <td>Course Title Here</td>
-                                                    <td class="text-center">02 April 2020 | 05:15</td>
-                                                    <td class="text-center">110</td>
-                                                    <td class="text-center">9</td>
-                                                    <td class="text-center"><a href="#">Game Development</a></td>
-                                                    <td class="text-center"><b class="course_active">Active</b></td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Edit" class="gray-s"><i
-                                                                class="uil uil-edit-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">IT-002</td>
-                                                    <td>Course Title Here</td>
-                                                    <td class="text-center">28 March 2020 | 05:15</td>
-                                                    <td class="text-center">185</td>
-                                                    <td class="text-center">10</td>
-                                                    <td class="text-center"><a href="#">C++</a></td>
-                                                    <td class="text-center"><b class="course_active">Active</b></td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Edit" class="gray-s"><i
-                                                                class="uil uil-edit-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-my-purchases" role="tabpanel">
-                                    <div class="table-responsive mt-30">
-                                        <table class="table ucp-table">
-                                            <thead class="thead-s">
-                                                <tr>
-                                                    <th class="text-center" scope="col">Item No.</th>
-                                                    <th class="cell-ta" scope="col">Title</th>
-                                                    <th class="cell-ta" scope="col">Vendor</th>
-                                                    <th class="cell-ta" scope="col">Category</th>
-                                                    <th class="text-center" scope="col">Delivery Type</th>
-                                                    <th class="text-center" scope="col">Price</th>
-                                                    <th class="text-center" scope="col">Purchase Date</th>
-                                                    <th class="text-center" scope="col">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="text-center">001</td>
-                                                    <td class="cell-ta">Course Title Here</td>
-                                                    <td class="cell-ta"><a href="#">Zoena Singh</a></td>
-                                                    <td class="cell-ta"><a href="#">Web Development</a></td>
-                                                    <td class="text-center"><b class="course_active">Download</b>
-                                                    </td>
-                                                    <td class="text-center">$15</td>
-                                                    <td class="text-center">25 March 2020</td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Download" class="gray-s"><i
-                                                                class="uil uil-download-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                        <a href="#" title="Print" class="gray-s"><i
-                                                                class="uil uil-print"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">002</td>
-                                                    <td class="cell-ta">Course Title Here</td>
-                                                    <td class="cell-ta"><a href="#">Rock William</a></td>
-                                                    <td class="cell-ta"><a href="#">C++</a></td>
-                                                    <td class="text-center"><b class="course_active">Download</b>
-                                                    </td>
-                                                    <td class="text-center">$20</td>
-                                                    <td class="text-center">20 March 2020</td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Download" class="gray-s"><i
-                                                                class="uil uil-download-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                        <a href="#" title="Print" class="gray-s"><i
-                                                                class="uil uil-print"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -204,7 +88,7 @@ cource
                                 </div>
                                 <div class="tab-pane fade" id="pills-upcoming-courses" role="tabpanel">
                                     <div class="table-responsive mt-30">
-                                        <table class="table ucp-table">
+                                        <table class="ucp-table">
                                             <thead class="thead-s">
                                                 <tr>
                                                     <th class="text-center" scope="col">Item No.</th>
@@ -225,38 +109,6 @@ cource
                                                     <td class="text-center"><a href="#">Web Development</a></td>
                                                     <td class="text-center">$15</td>
                                                     <td class="text-center">9 April 2020</td>
-                                                    <td class="text-center"><b class="course_active">Pending</b>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Edit" class="gray-s"><i
-                                                                class="uil uil-edit-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">02</td>
-                                                    <td class="cell-ta">Course Title Here</td>
-                                                    <td class="text-center"><a href="#">View</a></td>
-                                                    <td class="text-center"><a href="#">Graphic Design</a></td>
-                                                    <td class="text-center">$12</td>
-                                                    <td class="text-center">8 April 2020</td>
-                                                    <td class="text-center"><b class="course_active">Pending</b>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="#" title="Edit" class="gray-s"><i
-                                                                class="uil uil-edit-alt"></i></a>
-                                                        <a href="#" title="Delete" class="gray-s"><i
-                                                                class="uil uil-trash-alt"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="text-center">03</td>
-                                                    <td class="cell-ta">Course Title Here</td>
-                                                    <td class="text-center"><a href="#">View</a></td>
-                                                    <td class="text-center"><a href="#">Photography</a></td>
-                                                    <td class="text-center">$6</td>
-                                                    <td class="text-center">7 April 2020</td>
                                                     <td class="text-center"><b class="course_active">Pending</b>
                                                     </td>
                                                     <td class="text-center">
@@ -358,7 +210,7 @@ cource
                                         </div>
                                     </div>
                                     <div class="table-responsive mt-30">
-                                        <table class="table ucp-table">
+                                        <table class="ucp-table">
                                             <thead class="thead-s">
                                                 <tr>
                                                     <th class="text-center" scope="col">Item No.</th>

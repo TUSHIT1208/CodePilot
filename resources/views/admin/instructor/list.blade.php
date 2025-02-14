@@ -1,9 +1,8 @@
 @extends('admin.setting.master')
-@section('title')
-Instructor
-@endsection
-@section('content')
 
+@section('title') Instructor @endsection
+
+@section('content')
 <!-- Body Start -->
 <div class="wrapper">
     <div class="sa4d25">
@@ -16,7 +15,7 @@ Instructor
             <div class="col-md-12">
                 <div class="card_dash1">
                     <div class="row mt-2">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 text-end">
                             @if(!$instructors->isEmpty())
                                 <button id="bulk-delete-btn" class="btn" disabled>Delete Selected</button>
                             @endif
@@ -32,7 +31,7 @@ Instructor
                                         style="font-size: 50px; color: #d1d1d1;"></i>
                                     <h3 class="mt-3 scale-in-text" style="color: #777;">No Instructor Found</h3>
                                     <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
-                                        categories yet. Add one now to get started!</p>
+                                        Instructor yet.!</p>
                                 </div>
                             @else
                                 <!-- Display Table When Data Exists -->
@@ -144,6 +143,7 @@ Instructor
     </div>
     <!-- End of Edit Instructor Modal -->
 @endforeach
+
 <script>
     $(document).ready(function () {
         $('form.needs-validation').on('submit', function (e) {
@@ -183,13 +183,13 @@ Instructor
 <!-- DataTables & Bulk Delete Script -->
 <script>
     $(document).ready(function () {
-        $('.ucp-table').DataTable({
+        let table = $('.ucp-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('instructorList') }}",
             columns: [
                 {
-                    data: 'checkbox',
+                    data: 'id',
                     render: function (data) {
                         return '<input type="checkbox" class="learner-checkbox" value="' + data + '">';
                     },
@@ -208,8 +208,14 @@ Instructor
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
+
         $("#dt-length-0").addClass('form-control form-control-sm');
 
+        // Select/Deselect All Checkboxes
+        $('#select-all').on('change', function () {
+            $('.learner-checkbox').prop('checked', $(this).prop('checked'));
+            toggleBulkDeleteButton();
+        });
 
         // Handle individual checkbox selection
         $('.ucp-table tbody').on('change', '.learner-checkbox', function () {
@@ -218,23 +224,26 @@ Instructor
             toggleBulkDeleteButton();
         });
 
-        // Select/Deselect All checkboxes
-        $('#select-all').on('change', function () {
-            $('.learner-checkbox').prop('checked', $(this).prop('checked'));
-            toggleBulkDeleteButton();
-        });
-
-        // Enable/Disable Bulk Delete button based on selection
+        // Enable/Disable Bulk Delete Button
         function toggleBulkDeleteButton() {
             let anyChecked = $('.learner-checkbox:checked').length > 0;
             $('#bulk-delete-btn').prop('disabled', !anyChecked);
         }
+
+        // AJAX Setup for CSRF Token
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         // Bulk Delete Functionality
         $('#bulk-delete-btn').on('click', function () {
             let selectedIds = $('.learner-checkbox:checked').map(function () {
                 return $(this).val();
             }).get();
+
+            console.log("Selected IDs:", selectedIds); // Debugging
 
             if (selectedIds.length > 0) {
                 Swal.fire({
@@ -251,21 +260,20 @@ Instructor
                         $.ajax({
                             url: '{{ route("user.bulk-delete") }}',
                             type: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                ids: selectedIds,
-                            },
+                            data: { ids: selectedIds },
                             success: function (response) {
+                                console.log("Response:", response); // Debugging
                                 if (response.success) {
                                     toastr.success(response.success, 'Success');
                                     $('#select-all').prop('checked', false);
                                     $('#bulk-delete-btn').prop('disabled', true);
-                                    table.ajax.reload(); // Reload the DataTable after deletion
+                                    table.ajax.reload(); // Reload DataTable properly
                                 } else {
                                     toastr.error(response.error || 'Failed to delete.', 'Error');
                                 }
                             },
-                            error: function () {
+                            error: function (xhr) {
+                                console.log("AJAX Error:", xhr.responseText); // Debugging
                                 toastr.error('An error occurred. Please try again.', 'Error');
                             }
                         });

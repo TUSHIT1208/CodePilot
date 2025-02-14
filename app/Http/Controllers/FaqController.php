@@ -48,7 +48,7 @@ class FaqController extends Controller
             'answer' => $request->input('answer'),
         ]);
 
-        return redirect()->back()->with('success', 'FAQ added successfully!');
+        return response()->json(['success' => 'FAQ added successfully!']);
     }
 
     public function update(Request $request, string $id)
@@ -64,7 +64,7 @@ class FaqController extends Controller
             'answer' => $request->answer,
         ]);
 
-        return redirect()->route('faq.index')->with('success', 'FAQ updated successfully!');
+        return response()->json(['success' => 'FAQ updated successfully!']);;
     }
 
     public function destroy(string $id)
@@ -77,13 +77,17 @@ class FaqController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        if (!$request->has('ids') || empty($request->ids)) {
-            return response()->json(['error' => 'No FAQs selected.'], 400);
-        }
-    
-        Faq::whereIn('id', $request->ids)->delete();
-    
-        return response()->json(['success' => 'Selected FAQs have been deleted successfully!']);
-    }
+        $ids = $request->ids; // Get the array of IDs from the request
 
+        if (!is_array($ids) || empty($ids)) {
+            return response()->json(['error' => 'No FAQs selected for deletion.'], 400);
+        }
+
+        try {
+            Faq::whereIn('id', $ids)->delete();
+            return response()->json(['success' => 'Selected FAQs deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete FAQs.'], 500);
+        }
+    }
 }

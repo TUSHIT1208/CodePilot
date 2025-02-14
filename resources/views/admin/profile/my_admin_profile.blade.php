@@ -1,4 +1,8 @@
-@include('admin.setting.master')
+@extends('admin.setting.master')
+
+@section('title') Admin Profile @endsection
+
+@section('content')
 <!-- Body Start -->
 <div class="wrapper _bg4586">
     <div class="_216b01">
@@ -24,7 +28,6 @@
                                         </div>
                                         <div class="prfledt1">
                                             <h2>{{ Auth::user()->username }}</h2>
-                                            <span>Junior Graphic Developer</span>
                                             <i id="editProfileBtn" class="uil uil-camera"></i>
                                             <input type="file" id="fileInput" name="profile_image" style="display:none;" onchange="previewImage(event)">
                                             <button id="saveProfileBtn" class="upload_btn" style="display:none;">Save Profile</button>
@@ -59,21 +62,11 @@
                                 </ul>
                             </div>
                             <div class="col-lg-6">
-                                <a href="setting.html" class="_216b12">
+                                <a href="{{ route('setting') }}" class="_216b12">
                                     <span><i class="uil uil-cog"></i></span>Setting
                                 </a>
-                                <div class="rgt-145">
-                                    <ul class="tutor_social_links">
-                                        <li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
-                                        <li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
-                                    </ul>
-                                </div>
-                                <ul class="_bty149">
-                                    <li><button class="studio-link-btn btn500"
-                                            onclick="window.location.href = 'instructor_dashboard.html';">Cursus
-                                            Studio</button></li>
+                                <ul class="_bty149 mt-5">
+                                    <li><button class="studio-link-btn btn500"><a href="{{ route('admin.dashboard') }}">Cursus Studio</a></button></li>
                                     <li><button class="msg125 btn500"><a href="{{ route('setting') }}">Edit</a></button></li>
                                 </ul>
 
@@ -860,3 +853,4 @@
          document.getElementById('fileInput').addEventListener('change', previewImage);
      });
      </script>
+@endsection

@@ -27,7 +27,7 @@ Certificate
                         </div>
                         <div class="table-cerificate">
                             <div class="table-responsive">
-                                <table class="table ucp-table" id="content-table">
+                                <table class="ucp-table" id="content-table">
                                     <thead class="thead-s">
                                         <tr>
                                             <th class="text-center" scope="col">Item No.</th>

@@ -10,13 +10,13 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="explore.html" class="menu--link" title="Explore">
+                    <a href="{{ route('admin.explore') }}" class="menu--link" title="Explore">
                         <i class='uil uil-search menu--icon'></i>
                         <span class="menu--label">Explore</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="saved_courses.html" class="menu--link" title="Saved Courses">
+                    <a href="{{ route('admin.saved.course') }}" class="menu--link" title="Saved Courses">
                         <i class="uil uil-heart-alt menu--icon"></i>
                         <span class="menu--label">Saved Courses</span>
                     </a>
@@ -106,7 +106,7 @@
                 <li class="menu--item">
                     <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
                         <i class='uil uil-file menu--icon'></i>
-                        <span class="menu--label">F & Q</span>
+                        <span class="menu--label">Frequently asked questions</span>
                     </a>
                 </li>
                 <li class="menu--item">
@@ -122,7 +122,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="help.html" class="menu--link" title="Help">
+                    <a href="{{ route('admin.help') }}" class="menu--link" title="Help">
                         <i class='uil uil-question-circle menu--icon'></i>
                         <span class="menu--label">Help</span>
                     </a>

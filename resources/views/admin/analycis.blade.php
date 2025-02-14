@@ -151,7 +151,7 @@ Analytics
                 </div>
                 <div class="col-md-12">
                     <div class="table-responsive mt-30">
-                        <table class="table ucp-table">
+                        <table class="ucp-table">
                             <thead class="thead-s">
                                 <tr>
                                     <th class="text-center" scope="col">Item No.</th>
@@ -190,4 +190,6 @@ Analytics
             </div>
         </div>
     </div>
-    @endsection
+
+    @include('admin.layouts.footer')
+@endsection

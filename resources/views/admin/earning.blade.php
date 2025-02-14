@@ -138,7 +138,7 @@ earning
                         </div>
                     </div>
                     <div class="table-responsive mt-30">
-                        <table class="table ucp-table earning__table">
+                        <table class="ucp-table earning__table">
                             <thead class="thead-s">
                                 <tr>
                                     <th scope="col">Date</th>
@@ -216,4 +216,5 @@ earning
             </div>
         </div>
     </div>
-    @endsection
+    @include('admin.layouts.footer')
+@endsection

@@ -8,9 +8,6 @@ use Yajra\DataTables\DataTables;
 
 class LearningPathController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -18,7 +15,7 @@ class LearningPathController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" name="learningpath_checkbox[]" value="' . $row->id . '';
+                    return '<input type="checkbox" class="learningpath-checkbox" name="learningpath_checkbox[]" value="' . $row->id . '">';
                 })
                 ->addColumn('actions', function ($row) {
                     return '<a href="#" title="Edit" class="gray-s edit-btn" 
@@ -27,13 +24,9 @@ class LearningPathController extends Controller
                                 data-description="' . htmlspecialchars($row->description, ENT_QUOTES) . '">
                                 <i class="uil uil-edit-alt ucp-table"></i>
                             </a>
-                            <form action="' . route('learningpath.destroy', $row->id) . '" method="POST" class="delete-form d-inline-block">
-                                ' . csrf_field() . '
-                                ' . method_field('DELETE') . '
-                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-id="' . $row->id . '">
-                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                </a>
-                            </form>';
+                            <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-id="' . $row->id . '">
+                                <i class="uil uil-trash-alt ucp-table"></i>
+                            </a>';
                 })
                 ->rawColumns(['checkbox', 'actions'])
                 ->make(true);
@@ -42,9 +35,6 @@ class LearningPathController extends Controller
         return view('admin.learningpath.learning_path', compact('learningpath'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -84,6 +74,22 @@ class LearningPathController extends Controller
         $learningPath = LearningPath::findOrFail($id);
         $learningPath->delete();
 
-        return redirect()->route('learningpath.index');
+        return response()->json(['success' => 'Learning Path deleted successfully!']);
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->ids;
+
+        if (!is_array($ids) || empty($ids)) {
+            return response()->json(['error' => 'No FAQs selected for deletion.'], 400);
+        }
+
+        try {
+            LearningPath::whereIn('id', $ids)->delete();
+            return response()->json(['success' => 'Selected Learning Paths deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete Learning Paths.'], 500);
+        }
     }
 }

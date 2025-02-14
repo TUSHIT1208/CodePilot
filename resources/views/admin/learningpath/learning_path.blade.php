@@ -74,15 +74,18 @@ learning-path
 
                         <div class="mb-3">
                             <label for="edit-name" class="form-label">Learning Path Name</label>
-                            <input type="text" class="form-control _dlor1" id="edit-name" required>
+                            <input type="text" class="form-control _dlor1" id="edit-name" placeholder="Enter the path name">
                         </div>
 
                         <div class="mb-3">
                             <label for="edit-description" class="form-label">Description</label>
-                            <textarea class="form-control _dlor1" id="edit-description" rows="3"></textarea>
+                            <textarea class="form-control _dlor1" id="edit-description" rows="3" placeholder="Enter the category description n ( OPTIONAL )"></textarea>
                         </div>
 
-                        <button type="submit" class="main-btn">Update</button>
+                        <div class="modal-footer">
+                            <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="main-btn">Save LearningPath</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -121,7 +124,7 @@ learning-path
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button class="main-btn">Cancel</button>
                         <button type="submit" class="main-btn">Add learning path</button>
                     </div>
                 </form>
@@ -133,31 +136,105 @@ learning-path
 </div>
 <!-- Body End -->
 
-{{-- datatable --}}
 <script>
     $(document).ready(function () {
-        if ($.fn.DataTable.isDataTable("#learningPathTable")) {
-            $('#learningPathTable').DataTable().destroy();
-        }
-
         let table = $('#learningPathTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('learningpath.index') }}", // Route for AJAX request
+            ajax: "{{ route('learningpath.index') }}",
             columns: [
-                { data: 'checkbox', orderable: false, searchable: false },
-                { data: 'id', name: 'id' },
-                { data: 'name', name: 'name' },
-                { data: 'description', name: 'description' },
-                { data: 'actions', orderable: false, searchable: false }
-            ],
-            columnDefs: [{
-                targets: 0,
-                className: 'text-center',
-                render: function (data) {
-                    return `<input type="checkbox" class="learningpath-checkbox" value="${data}">`;
-                }
-            }]
+                { 
+                    data: "id",
+                    orderable: false,
+                    searchable: false,
+                    render: function (data) {
+                        return '<input type="checkbox" class="learningpath-checkbox" value="' + data + '">';
+                    }
+                },
+                { data: "id", name: "id" },
+                { data: "name", name: "name" },
+                { data: "description", name: "description" },
+                { data: "actions", orderable: false, searchable: false }
+            ]
+        });
+
+        // Set global Toastr options
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "timeOut": "5000", // 5 seconds
+            "extendedTimeOut": "2000" // Additional time when hovered
+        };
+
+        // Handle individual checkbox selection
+        $(document).on("change", ".learningpath-checkbox", function () {
+            let allChecked = $(".learningpath-checkbox").length === $(".learningpath-checkbox:checked").length;
+            $("#select-all").prop("checked", allChecked);
+            toggleBulkDeleteButton();
+        });
+
+        // Select/Deselect All
+        $("#select-all").on("change", function () {
+            $(".learningpath-checkbox").prop("checked", $(this).prop("checked"));
+            toggleBulkDeleteButton();
+        });
+
+        // Enable/Disable Bulk Delete button
+        function toggleBulkDeleteButton() {
+            let anyChecked = $(".learningpath-checkbox:checked").length > 0;
+            $("#bulk-delete-btn").prop("disabled", !anyChecked);
+        }
+
+        // Bulk Delete Functionality
+        $(document).on("click", "#bulk-delete-btn", function () {
+            let selectedIds = $(".learningpath-checkbox:checked").map(function () {
+                return $(this).val();
+            }).get();
+
+            if (selectedIds.length > 0) {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: `You are about to delete ${selectedIds.length} Learning Paths. This action cannot be undone.`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete them!",
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('learningpath.bulk-delete') }}",
+                            type: "POST",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                ids: selectedIds,
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    toastr.success(response.success, "Success");
+
+                                    // Delay the page refresh to allow Toastr to be displayed
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 3000); // Refresh after 3 seconds
+
+                                    $("#select-all").prop("checked", false);
+                                    $("#bulk-delete-btn").prop("disabled", true);
+                                } else {
+                                    toastr.error(response.error || "Failed to delete.", "Error");
+                                }
+                            },
+                            error: function (xhr) {
+                                console.error(xhr.responseText);
+                                toastr.error("An error occurred. Please try again.", "Error");
+                            }
+                        });
+                    }
+                });
+            } else {
+                toastr.warning("Please select at least one Learning Path to delete.", "Warning");
+            }
         });
     });
 </script>
@@ -231,166 +308,110 @@ learning-path
 </script>
 
 <script>
-
-    // Handle Delete Button Click
     $(document).on('click', '.delete-btn', function () {
-        let id = $(this).data('id');
+    let id = $(this).data('id');
 
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'This action cannot be undone!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "/learningpath/" + id,
-                    type: "POST",
-                    data: { _method: "DELETE", _token: "{{ csrf_token() }}" },
-                    success: function (response) {
-                        table.ajax.reload();
-                        Swal.fire('Deleted!', response.success, 'success');
-                    },
-                    error: function () {
-                        Swal.fire('Error!', 'Failed to delete learning path.', 'error');
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This action cannot be undone!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/learningpath/" + id,
+                type: "POST",
+                data: { _method: "DELETE", _token: "{{ csrf_token() }}" },
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.success, "Success");
+
+                        // Delay page reload so Toastr can be seen
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
+                    } else {
+                        toastr.error("Something went wrong!", "Error");
                     }
-                });
-            }
-        });
-    });
-
-    // Select All Checkbox
-    $('#select-all').change(function () {
-        $('.learningpath-checkbox').prop('checked', this.checked);
-    });
-</script>
-
-
-<script>
-    $(document).ready(function () {
-        // Select All Checkbox
-        $('#select-all').change(function () {
-            $('.category-checkbox').prop('checked', this.checked);
-            toggleBulkDeleteButton();
-        });
-
-        // Individual Checkbox
-        $('.category-checkbox').change(function () {
-            const allChecked = $('.category-checkbox').length === $('.category-checkbox:checked').length;
-            $('#select-all').prop('checked', allChecked);
-            toggleBulkDeleteButton();
-        });
-
-        // Enable/Disable Bulk Delete Button
-        function toggleBulkDeleteButton() {
-            const anyChecked = $('.category-checkbox:checked').length > 0;
-            $('#bulk-delete-btn').prop('disabled', !anyChecked);
+                },
+                error: function () {
+                    Swal.fire('Error!', 'Failed to delete learning path.', 'error');
+                }
+            });
         }
-
-        // Bulk Delete
-        $('#bulk-delete-btn').click(function () {
-            const selectedIds = $('.category-checkbox:checked').map(function () {
-                return $(this).val();
-            }).get();
-
-            if (selectedIds.length > 0) {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: `You are about to delete ${selectedIds.length} categories. This action cannot be undone.`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete them!',
-                    cancelButtonText: 'Cancel',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/categories/bulk-delete', // Replace with your route
-                            type: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                ids: selectedIds,
-                            },
-                            success: function (response) {
-                                if (response.success) {
-                                    toastr.success(response.success, 'Success');
-                                    location.reload(); // Reload page to refresh data
-                                } else {
-                                    toastr.error(response.error, 'Error');
-                                }
-                            },
-                            error: function () {
-                                toastr.error('An error occurred. Please try again.', 'Error');
-                            },
-                        });
-                    }
-                });
-            }
-        });
     });
+});
 </script>
 
 
 {{-- edit --}}
 <script>
     $(document).ready(function () {
-        let table = $('#learningPathTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('learningpath.index') }}",
-            columns: [
-                { data: 'checkbox', orderable: false, searchable: false },
-                { data: 'id', name: 'id' },
-                { data: 'name', name: 'name' },
-                { data: 'description', name: 'description' },
-                { data: 'actions', orderable: false, searchable: false }
-            ]
-        });
+    // Open Edit Modal and Fill Data
+    $(document).on('click', '.edit-btn', function () {
+        let id = $(this).data('id');
+        let name = $(this).data('name');
+        let description = $(this).data('description');
 
-        // Open Edit Modal and Fill Data
-        $(document).on('click', '.edit-btn', function () {
-            let id = $(this).data('id');
-            let name = $(this).data('name');
-            let description = $(this).data('description');
+        $('#edit-id').val(id);
+        $('#edit-name').val(name);
+        $('#edit-description').val(description);
 
-            $('#edit-id').val(id);
-            $('#edit-name').val(name);
-            $('#edit-description').val(description);
+        // Clear validation errors
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
 
-            $('#editModal').modal('show'); // Open modal
-        });
+        $('#editModal').modal('show'); // Open modal
+    });
 
-        // Handle Update Form Submission (AJAX)
-        $('#editForm').submit(function (e) {
-            e.preventDefault();
+    // Handle Update Form Submission (AJAX)
+    $('#editForm').submit(function (e) {
+        e.preventDefault();
 
-            let id = $('#edit-id').val();
-            let name = $('#edit-name').val();
-            let description = $('#edit-description').val();
+        let id = $('#edit-id').val();
+        let name = $('#edit-name').val();
+        let description = $('#edit-description').val();
 
-            $.ajax({
-                url: "/learningpath/" + id,
-                type: "PUT",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    name: name,
-                    description: description
-                },
-                success: function (response) {
+        $.ajax({
+            url: "/learningpath/" + id,
+            type: "PUT",
+            data: {
+                _token: "{{ csrf_token() }}",
+                name: name,
+                description: description
+            },
+            success: function (response) {
+                if (response.success) {
+                    toastr.success(response.success, "Success");
                     $('#editModal').modal('hide'); // Close modal
-                    table.ajax.reload(); // Reload DataTable
-                    Swal.fire('Updated!', response.success, 'success');
-                },
-                error: function () {
-                    Swal.fire('Error!', 'Failed to update learning path.', 'error');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000); // Refresh after 3 seconds
+                } else {
+                    toastr.error("Something went wrong!", "Error");
                 }
-            });
+            },
+            error: function (xhr) {
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    for (let field in errors) {
+                        let inputField = $(`#edit-${field}`);
+                        inputField.addClass('is-invalid');
+                        inputField.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                    }
+                } else {
+                    toastr.error("An unexpected error occurred. Please try again.", "Error");
+                }
+            }
         });
     });
+});
 </script>
 
 @endsection
