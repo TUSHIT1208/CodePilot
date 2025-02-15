@@ -1,4 +1,4 @@
-@extends('admin.setting.master')
+@extends('admin.layouts.master')
 
 @section('title')
     Instructor
@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2 class="st_title"><i class="uil uil-folder-plus"></i> Instructor's</h2>
+                        <h2 class="st_title"><i class="uil uil-folder-plus"></i> Instructors</h2>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -40,22 +40,18 @@
                                     <table class="ucp-table" id="instructor-table">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
+                                                <th class="text-left">
                                                     <input type="checkbox" id="select-all">
                                                 </th>
-                                                <th class="text-center">Username</th>
-                                                <th class="text-center">Profile</th>
-                                                <th class="text-center">First Name</th>
-                                                <th class="text-center">Middle Name</th>
-                                                <th class="text-center">Last Name</th>
-                                                <th class="text-center">Email</th>
-                                                <th class="text-center">Phone</th>
-                                                <th class="text-center">Date of Birth</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-left">Profile</th>
+                                                <th class="text-left">Full name</th>
+                                                <th class="text-left">Email</th>
+                                                <th class="text-left">Phone</th>
+                                                <th class="text-left">Status</th>
+                                                <th class="text-left">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody></tbody>
+                                        <tbody class="text-left"></tbody>
                                     </table>
                                 @endif
                             </div>
@@ -171,95 +167,119 @@
     <!-- DataTables & Bulk Delete Script -->
     <script>
         $(document).ready(function() {
-    let table = $('#instructor-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('instructorList') }}", // Adjust this route
-        columns: [
-            {
-                data: 'id',
-                render: function(data) {
-                    return '<input type="checkbox" class="instructor-checkbox" value="' + data + '">';
-                },
-                orderable: false,
-                searchable: false
-            },
-            { data: 'username', name: 'username' },
-            { data: 'profile', name: 'profile', orderable: false, searchable: false },
-            { data: 'first_name', name: 'first_name' },
-            { data: 'middle_name', name: 'middle_name' },
-            { data: 'last_name', name: 'last_name' },
-            { data: 'email', name: 'email' },
-            { data: 'phone_number', name: 'phone_number' },
-            { data: 'date_of_birth', name: 'date_of_birth' },
-            { data: 'status', name: 'status', orderable: false, searchable: false },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
-        ]
-    });
-
-    // Handle "Select All" checkbox
-    $('#instructor-table tbody').on('change', '.instructor-checkbox', function() {
-        let allChecked = $('.instructor-checkbox').length === $('.instructor-checkbox:checked').length;
-        $('#select-all').prop('checked', allChecked);
-        toggleBulkDeleteButton();
-    });
-
-    $('#select-all').on('change', function() {
-        $('.instructor-checkbox').prop('checked', $(this).prop('checked'));
-        toggleBulkDeleteButton();
-    });
-
-    function toggleBulkDeleteButton() {
-        let anyChecked = $('.instructor-checkbox:checked').length > 0;
-        $('#bulk-delete-btn').prop('disabled', !anyChecked);
-    }
-
-    // Bulk Delete Functionality
-    $('#bulk-delete-btn').on('click', function() {
-        let selectedIds = $('.instructor-checkbox:checked').map(function() {
-            return $(this).val();
-        }).get();
-
-        if (selectedIds.length > 0) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: `You are about to delete ${selectedIds.length} instructors. This action cannot be undone.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete them!',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('user.bulk-delete') }}', // Adjust this route
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            ids: selectedIds,
+            let table = $('#instructor-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('instructorList') }}", // Adjust this route
+                columns: [{
+                        data: 'id',
+                        render: function(data) {
+                            return '<input type="checkbox" class="instructor-checkbox" value="' +
+                                data + '">';
                         },
-                        success: function(response) {
-                            if (response.success) {
-                                toastr.success(response.success, 'Success');
-                                $('#select-all').prop('checked', false);
-                                $('#bulk-delete-btn').prop('disabled', true);
-                                setTimeout(function () {
-                                    location.reload(); // Reload the page
-                                }, 2000);
-                            } else {
-                                toastr.error(response.error || 'Failed to delete.', 'Error');
-                            }
-                        },
-                        error: function() {
-                            toastr.error('An error occurred. Please try again.', 'Error');
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'profile',
+                        name: 'profile',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'full_name',
+                        name: 'full_name'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone_number',
+                        name: 'phone_number'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+
+            // Handle "Select All" checkbox
+            $('#instructor-table tbody').on('change', '.instructor-checkbox', function() {
+                let allChecked = $('.instructor-checkbox').length === $('.instructor-checkbox:checked')
+                    .length;
+                $('#select-all').prop('checked', allChecked);
+                toggleBulkDeleteButton();
+            });
+
+            $('#select-all').on('change', function() {
+                $('.instructor-checkbox').prop('checked', $(this).prop('checked'));
+                toggleBulkDeleteButton();
+            });
+
+            function toggleBulkDeleteButton() {
+                let anyChecked = $('.instructor-checkbox:checked').length > 0;
+                $('#bulk-delete-btn').prop('disabled', !anyChecked);
+            }
+
+            // Bulk Delete Functionality
+            $('#bulk-delete-btn').on('click', function() {
+                let selectedIds = $('.instructor-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (selectedIds.length > 0) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: `You are about to delete ${selectedIds.length} instructors. This action cannot be undone.`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete them!',
+                        cancelButtonText: 'Cancel',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: '{{ route('user.bulk-delete') }}', // Adjust this route
+                                type: 'POST',
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    ids: selectedIds,
+                                },
+                                success: function(response) {
+                                    if (response.success) {
+                                        toastr.success(response.success, 'Success');
+                                        $('#select-all').prop('checked', false);
+                                        $('#bulk-delete-btn').prop('disabled', true);
+                                        setTimeout(function() {
+                                            location
+                                        .reload(); // Reload the page
+                                        }, 2000);
+                                    } else {
+                                        toastr.error(response.error ||
+                                            'Failed to delete.', 'Error');
+                                    }
+                                },
+                                error: function() {
+                                    toastr.error('An error occurred. Please try again.',
+                                        'Error');
+                                }
+                            });
                         }
                     });
                 }
             });
-        }
-    });
-});
+        });
     </script>
 
     <!-- JavaScript for Delete Confirmation -->

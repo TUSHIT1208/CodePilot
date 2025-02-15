@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>@yield('title') | codepilot</title>
+    <title>@yield('title') | Codepilot</title>
     @include('admin.layouts.head-css')
     <script src="{{ asset('js/vertical-responsive-menu.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>

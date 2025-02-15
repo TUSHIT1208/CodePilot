@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>Cursus - Sign In</title>
+    <title> Sign In | Codepilot</title>
 
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{{ asset('images/fav.png') }}">

@@ -21,7 +21,7 @@
                                 @endif
                                 <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn"
                                     title="Add a Category">
-                                    <i class="uil uil-plus-circle"></i> Add a Category
+                                    <i class="uil uil-plus-circle"></i> Add Category
                                 </button>
                             </div>
                         </div>
@@ -42,16 +42,16 @@
                                     <table id="category-table" class="ucp-table">
                                         <thead class="ucp-table">
                                             <tr>
-                                                <th class="text-center ucp-tabler">
+                                                <th class="text-left ucp-tabler">
                                                     <input type="checkbox" id="select-all">
                                                 </th>
-                                                <th class="text-center ucp-tabler" scope="col">Name</th>
-                                                <th class="text-center ucp-tabler" scope="col">Description</th>
-                                                <th class="text-center ucp-tabler" scope="col">Status</th>
-                                                <th class="text-center ucp-tabler" scope="col">Actions</th>
+                                                <th class="text-left ucp-tabler" scope="col">Name</th>
+                                                <th class="text-left ucp-tabler" scope="col">Description</th>
+                                                <th class="text-left ucp-tabler" scope="col">Status</th>
+                                                <th class="text-left ucp-tabler" scope="col">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="text-center"></tbody> <!-- Ensure tbody exists -->
+                                        <tbody class="text-left"></tbody> <!-- Ensure tbody exists -->
                                     </table>
                                 @endif
                             </div>
@@ -74,7 +74,7 @@
 
                         <div class="modal-header">
                             <h5 class="modal-title" id="editCategoryModalLabel">
-                                <i class="uil uil-edit"></i> Edit Category
+                                Edit Category
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -98,8 +98,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="main-btn">Update Category</button>
+                            <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="main-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -115,7 +115,7 @@
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="addCategoryModalLabel">
-                                <i class="uil uil-plus-circle"></i> Add a New Category
+                                Add New Category
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
@@ -139,7 +139,7 @@
                         </div>
                         <div class="modal-footer">
                             <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="main-btn">Add Category</button>
+                            <button type="submit" class="main-btn">Save</button>
                         </div>
                     </form>
                 </div>
@@ -213,44 +213,53 @@
                     return $(this).val();
                 }).get();
 
-                if (selectedIds.length > 0) {
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: `You are about to delete ${selectedIds.length} categories. This action cannot be undone.`,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete them!',
-                        cancelButtonText: 'Cancel',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: '{{ route('categories.bulk-delete') }}', // Adjust this route
-                                type: 'POST',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    ids: selectedIds,
-                                },
-                                success: function(response) {
-                                    if (response.success) {
-                                        toastr.success(response.success, 'Success');
-                                        $('#select-all').prop('checked', false);
-                                        $('#bulk-delete-btn').prop('disabled', true);
-                                        location.reload(); // Reload DataTable full page refresh
-                                    } else {
-                                        toastr.error(response.error ||
-                                            'Failed to delete.', 'Error');
-                                    }
-                                },
-                                error: function() {
+                // ✅ Show error Toastr if no category is selected
+                if (selectedIds.length === 0) {
+                    toastr.error('Please select at least one category to delete.', 'Error');
+                    return; // Stop further execution
+                }
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to delete ${selectedIds.length} categories. This action cannot be undone.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('categories.bulk-delete') }}', // Adjust this route
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selectedIds,
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    toastr.success(response.success, 'Success');
+                                    $('#select-all').prop('checked', false);
+                                    $('#bulk-delete-btn').prop('disabled', true);
+                                    location
+                                .reload(); // Reload DataTable full page refresh
+                                } else {
+                                    toastr.error(response.error || 'Failed to delete.',
+                                        'Error');
+                                }
+                            },
+                            error: function(xhr) {
+                                if (xhr.status === 400) {
+                                    toastr.error(xhr.responseJSON.error, 'Error');
+                                } else {
                                     toastr.error('An error occurred. Please try again.',
                                         'Error');
                                 }
-                            });
-                        }
-                    });
-                }
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>
@@ -258,61 +267,51 @@
     {{-- AJAX form submission for Add Category --}}
     <script>
         $(document).ready(function() {
+            let isCancelClicked = false;
+
+            // Track if the cancel button is clicked
+            $('.cancel-btn').on('click', function() {
+                isCancelClicked = true;
+            });
+
             $('#addCategoryModal form').submit(function(e) {
+                if (isCancelClicked) {
+                    isCancelClicked = false; // Reset flag
+                    return; // Prevent validation if cancel button was clicked
+                }
+
                 e.preventDefault(); // Prevent default form submission
 
-                // Get form data
                 var formData = $(this).serialize();
 
                 $.ajax({
-                    url: $(this).attr('action'), // URL for form submission
-                    method: $(this).attr('method'), // Use POST method
-                    data: formData, // Form data
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: formData,
+                    beforeSend: function() {
+                        $('.is-invalid').removeClass('is-invalid');
+                        $('.invalid-feedback').remove();
+                    },
                     success: function(response) {
                         if (response.success) {
-                            // Configure Toastr
-                            toastr.options = {
-                                closeButton: true,
-                                debug: false,
-                                newestOnTop: true,
-                                progressBar: true,
-                                positionClass: "toast-top-right",
-                                preventDuplicates: true,
-                                timeOut: 5000, // Display duration of the toast (5 seconds)
-                                extendedTimeOut: 1000,
-                                showEasing: "swing",
-                                hideEasing: "linear",
-                                showMethod: "fadeIn",
-                                hideMethod: "fadeOut"
-                            };
-
-                            // Show success toast
                             toastr.success(response.success, 'Success');
 
-                            // Close modal and reload page after 2 seconds
                             setTimeout(function() {
-                                $('#addCategoryModal').modal('hide'); // Close modal
-                                location.reload(); // Reload the page
+                                $('#addCategoryModal').modal('hide');
+                                $('#addCategoryModal form')[0].reset();
+                                location.reload(); // Refresh to reflect changes
                             }, 2000);
                         }
                     },
                     error: function(xhr) {
-                        // Remove existing validation feedback
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) { // Validation error
+                        if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;
-
                             for (var field in errors) {
-                                // Highlight the field with error
                                 var inputField = $(`[name="${field}"]`);
                                 inputField.addClass('is-invalid');
-
-                                // Add error message
                                 inputField.after(
                                     `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
+                                );
                             }
                         } else {
                             toastr.error('An unexpected error occurred. Please try again.',
@@ -320,6 +319,13 @@
                         }
                     }
                 });
+            });
+
+            // Reset form and validation errors when modal is closed
+            $('#addCategoryModal').on('hidden.bs.modal', function() {
+                $(this).find('form')[0].reset();
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
             });
         });
     </script>
@@ -428,7 +434,7 @@
                                 inputField.addClass('is-invalid');
                                 inputField.after(
                                     `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
+                                );
                             }
                         } else {
                             toastr.error('An unexpected error occurred. Please try again.',

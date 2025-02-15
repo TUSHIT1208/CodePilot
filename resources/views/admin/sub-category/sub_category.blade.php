@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    sub-categoty
+    Subcategory
 @endsection
 @section('content')
     <!-- Body Start -->
@@ -15,16 +15,27 @@
                 <div class="col-md-12">
                     <div class="card_dash1">
                         <div class="row mt-2">
-                            <div class="col-lg-12 col-md-4 col-sm-6 text-end">
+                            <div
+                                class="col-lg-12 col-md-4 col-sm-6 text-end d-flex justify-content-end align-items-center gap-2">
                                 @if (!$subcategories->isEmpty())
-                                <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
-                            @endif
+                                    <!-- Category Dropdown -->
+                                    <select id="category-filter" class="form-control _dlor1" style="width: 200px;">
+                                        <option value="">-- Filter by Category --</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
+                                @endif
+
                                 <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn"
                                     title="Add a Category">
-                                    <i class="uil uil-plus-circle"></i> Add a Subcategories
+                                    <i class="uil uil-plus-circle"></i> Add Subcategories
                                 </button>
                             </div>
                         </div>
+
 
                         <div class="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
                             <div class="table-responsive mt-30">
@@ -43,23 +54,23 @@
                                     <table class="ucp-table">
                                         <thead>
                                             <tr>
-                                                <th class="text-center ">
+                                                <th class="text-left ">
                                                     <input type="checkbox" id="select-all"> <!-- Select All Checkbox -->
                                                 </th>
 
-                                                <th class="text-center ">category</th>
-                                                <th class="text-center ">Name</th>
-                                                <th class="text-center " scope="col">Description</th>
-                                                <th class="text-center " scope="col">Status</th>
-                                                <th class="text-center " scope="col">Actions</th>
+                                                <th class="text-left ">Name</th>
+                                                <th class="text-left " scope="col">Description</th>
+                                                <th class="text-left ">Category</th>
+                                                <th class="text-left " scope="col">Status</th>
+                                                <th class="text-left " scope="col">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="text-center"></tbody>
+                                        <tbody class="text-left"></tbody>
                                     </table>
                                 @endif
                             </div>
                         </div>
-                       
+
 
                     </div>
                 </div>
@@ -98,7 +109,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="main-btn">Save Changes</button>
+                            <button type="submit" class="main-btn">Update</button>
                         </div>
                     </form>
                 </div>
@@ -110,12 +121,11 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="subcategoryForm" action="{{ route('sub_category.store') }}" method="POST"
+                    <form id="subcategoryForm" action="{{ route('subcategory.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addSubcategoryModalLabel"><i class="uil uil-plus-circle"></i> Add
-                                a
+                            <h5 class="modal-title" id="addSubcategoryModalLabel">Add
                                 New Subcategory</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
@@ -151,8 +161,9 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="main-btn">Add Subcategory</button>
+                            <button type="button" class="main-btn" data-bs-dismiss="modal"
+                                id="cancel-add-modal">Cancel</button>
+                            <button type="submit" class="main-btn">Save</button>
                         </div>
                     </form>
                 </div>
@@ -168,7 +179,12 @@
             var table = $('.ucp-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('sub_category.index') }}",
+                ajax: {
+                    url: "{{ route('subcategory.index') }}",
+                    data: function(d) {
+                        d.category_id = $('#category-filter').val(); // Send selected category ID
+                    }
+                },
                 columns: [{
                         data: 'id',
                         render: function(data) {
@@ -179,16 +195,16 @@
                         searchable: false
                     },
                     {
-                        data: 'category_name',
-                        name: 'category.name'
-                    },
-                    {
                         data: 'name',
                         name: 'name'
                     },
                     {
                         data: 'description',
                         name: 'description'
+                    },
+                    {
+                        data: 'category_name',
+                        name: 'category.name'
                     },
                     {
                         data: 'status',
@@ -203,6 +219,11 @@
                         searchable: false
                     }
                 ]
+            });
+
+            // Trigger table reload when category is selected
+            $('#category-filter').on('change', function() {
+                table.ajax.reload();
             });
 
             $('.ucp-table tbody').on('change', '.item-checkbox', function() {
@@ -272,6 +293,13 @@
     <script>
         $(document).ready(function() {
             // AJAX form submission for Add Category
+
+            $('#cancel-add-modal').on('click', function() {
+                let form = $('#subcategoryForm'); // Get the form
+                form[0].reset(); // Reset form fields
+                form.find('.is-invalid').removeClass('is-invalid'); // Remove error highlights
+                form.find('.invalid-feedback').remove(); // Remove validation messages
+            });
             $('#addCategoryModal form').submit(function(e) {
                 e.preventDefault(); // Prevent default form submission
 
@@ -418,7 +446,7 @@
                 let formData = $(this).serialize();
 
                 $.ajax({
-                    url: `/sub_category/${subcategoryId}`,
+                    url: `/subcategory/${subcategoryId}`,
                     method: 'PUT',
                     data: formData,
                     success: function(response) {
@@ -442,7 +470,7 @@
                                 inputField.addClass('is-invalid');
                                 inputField.after(
                                     `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
+                                );
                             }
                         } else {
                             toastr.error('An unexpected error occurred. Please try again.',

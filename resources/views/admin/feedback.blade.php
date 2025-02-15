@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-feedback
+Feedback
 @endsection
 @section('content')
 <div class="wrapper">

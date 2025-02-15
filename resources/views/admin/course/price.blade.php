@@ -3,7 +3,7 @@
         <div class="title-icon">
             <h3 class="title"><i class="uil uil-usd-square"></i>Price</h3>
         </div>
-        <div class="course__form">
+       <div class="course__form">
             <div class="price-block">
                 <div class="row">
                     <div class="col-md-12">
@@ -66,21 +66,5 @@
                 </div>
             </div>
         </div>
-        </div>
-</div>
-<div class="step-tab-panel step-tab-location" id="tab_step5">
-    <div class="tab-from-content">
-        <div class="title-icon">
-            <h3 class="title"><i class="uil uil-upload"></i>Submit</h3>
-        </div>
-    </div>
-    <div class="publish-block">
-        <i class="far fa-edit"></i>
-        <p>Your course is in a draft state. Students cannot view, purchase or enroll in this course. For students that are already enrolled, this course will not appear on their student Dashboard.</p>
-    </div>
-</div>
-<div class="step-footer step-tab-pager">
-    <button data-direction="prev" class="btn btn-default steps_btn">PREVIOUS</button>
-    <button data-direction="next" class="btn btn-default steps_btn">Next</button>
-    <button data-direction="finish" class="btn btn-default steps_btn">Submit for Review</button>
+     </div>
 </div>

@@ -10,12 +10,6 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('admin.explore') }}" class="menu--link" title="Explore">
-                        <i class='uil uil-search menu--icon'></i>
-                        <span class="menu--label">Explore</span>
-                    </a>
-                </li>
-                <li class="menu--item">
                     <a href="{{ route('admin.saved.course') }}" class="menu--link" title="Saved Courses">
                         <i class="uil uil-heart-alt menu--icon"></i>
                         <span class="menu--label">Saved Courses</span>
@@ -91,30 +85,8 @@
                 </li>
             </ul>
         </div>
-        <div class="left_section">
-            <ul>
-                <li class="menu--item">
-                    <a href="{{ route('instructorList') }}" class="menu--link active" title="Browse Instructors">
-                        <i class='uil uil-plus-circle menu--icon'></i>
-                        <span class="menu--label">Browse Instructors</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
         <div class="left_section pt-2">
             <ul>
-                <li class="menu--item">
-                    <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
-                        <i class='uil uil-file menu--icon'></i>
-                        <span class="menu--label">Frequently asked questions</span>
-                    </a>
-                </li>
-                <li class="menu--item">
-                    <a href="{{route('learningpath.index')}}" class="menu--link" title="FAQ">
-                        <i class='uil uil-file menu--icon'></i>
-                        <span class="menu--label">Learning Path</span>
-                    </a>
-                </li>
                 <li class="menu--item">
                     <a href="{{asset('setting')}}" class="menu--link" title="Setting">
                         <i class='uil uil-cog menu--icon'></i>
@@ -146,4 +118,39 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get all menu links
+        let menuLinks = document.querySelectorAll(".menu--item .menu--link");
+
+        // Function to remove active class from all links
+        function removeActiveClass() {
+            menuLinks.forEach(link => {
+                link.classList.remove("active");
+            });
+        }
+
+        // Add click event to each menu link
+        menuLinks.forEach(link => {
+            link.addEventListener("click", function () {
+                removeActiveClass(); // Remove active class from all links
+                this.classList.add("active"); // Add active class to clicked link
+
+                // Store the active link in localStorage
+                localStorage.setItem("activeMenu", this.getAttribute("href"));
+            });
+        });
+
+        // Retain the active class on page reload
+        let activeMenu = localStorage.getItem("activeMenu");
+        if (activeMenu) {
+            menuLinks.forEach(link => {
+                if (link.getAttribute("href") === activeMenu) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    });
+</script>
 <!-- Left Sidebar End -->

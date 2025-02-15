@@ -9,7 +9,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2 class="st_title"><i class="uil uil-folder-plus"></i> Learner's</h2>
+                        <h2 class="st_title"><i class="uil uil-folder-plus"></i> Learners</h2>
                     </div>
                 </div>
                 <div class="container-fluid">
@@ -41,19 +41,15 @@
                                         <table class="ucp-table" id="myTable">
                                             <thead class="ucp-table">
                                                 <tr>
-                                                    <th class="text-center ucp-tabler">
+                                                    <th class="text-left ucp-tabler">
                                                         <input type="checkbox" id="select-all">
                                                     </th>
-                                                    <th class="text-center ucp-table">Username</th>
-                                                    <th class="text-center ucp-table">profile</th>
-                                                    <th class="text-center ucp-table" scope="col">first_name</th>
-                                                    <th class="text-center ucp-table" scope="col">middle_name</th>
-                                                    <th class="text-center ucp-table" scope="col">last_name</th>
-                                                    <th class="text-center ucp-table" scope="col">email</th>
-                                                    <th class="text-center ucp-table" scope="col">phone</th>
-                                                    <th class="text-center ucp-table" scope="col">date of birth</th>
-                                                    <th class="text-center ucp-table" scope="col">status</th>
-                                                    <th class="text-center ucp-table" scope="col">action</th>
+                                                    <th class="text-left ucp-table">Profile</th>
+                                                    <th class="text-left ucp-table" scope="col">Full name</th>
+                                                    <th class="text-left ucp-table" scope="col">Email</th>
+                                                    <th class="text-left ucp-table" scope="col">Phone</th>
+                                                    <th class="text-left ucp-table" scope="col">Status</th>
+                                                    <th class="text-left ucp-table" scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -104,26 +100,22 @@
 
                         <div class="mb-3">
                             <label for="editLearnerLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control _dlor1" id="editLearnerLastName" name="last_name"
-                                required>
+                            <input type="text" class="form-control _dlor1" id="editLearnerLastName" name="last_name">
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control _dlor1" id="editLearnerEmail" name="email"
-                                required>
+                            <input type="email" class="form-control _dlor1" id="editLearnerEmail" name="email">
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerPhone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control _dlor1" id="editLearnerPhone" name="phone_number"
-                                required>
+                            <input type="tel" class="form-control _dlor1" id="editLearnerPhone" name="phone_number">
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerDob" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control _dlor1" id="editLearnerDob" name="date_of_birth"
-                                required>
+                            <input type="date" class="form-control _dlor1" id="editLearnerDob" name="date_of_birth">
                         </div>
 
                         <div class="modal-footer">
@@ -194,26 +186,14 @@
                         searchable: false
                     },
                     {
-                        data: 'username',
-                        name: 'username'
-                    },
-                    {
                         data: 'profile',
                         name: 'profile',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'first_name',
-                        name: 'first_name'
-                    },
-                    {
-                        data: 'middle_name',
-                        name: 'middle_name'
-                    },
-                    {
-                        data: 'last_name',
-                        name: 'last_name'
+                        data: 'full_name',
+                        name: 'full_name'
                     },
                     {
                         data: 'email',
@@ -222,10 +202,6 @@
                     {
                         data: 'phone_number',
                         name: 'phone_number'
-                    },
-                    {
-                        data: 'date_of_birth',
-                        name: 'date_of_birth'
                     },
                     {
                         data: 'status',
