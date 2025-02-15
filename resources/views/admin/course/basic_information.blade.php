@@ -266,7 +266,7 @@
                     </div>
                 </div>  
                 <div class="">
-                    <button type="submit">next</button>         
+                    <button type="submit" class="main-btn">next</button>         
                 </div>  
                 
                 

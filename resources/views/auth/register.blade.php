@@ -334,7 +334,7 @@
                                         <div class="inline field">
                                             <div class="ui checkbox mncheck">
                                                 <input type="checkbox" tabindex="0" class="hidden">
-                                                <label>I’m in for emails with exciting discounts and personalized
+                                                <label>I'm in for emails with exciting discounts and personalized
                                                     recommendations</label>
                                             </div>
                                         </div>
@@ -383,8 +383,8 @@
                         if (xhr.status === 422) {
                             let errors = xhr.responseJSON.errors;
                             for (let key in errors) {
-                                let input = form.find([name="${key}"]);
-                                let errorMessage = <strong class="text-danger">${errors[key][0]}</strong>;
+                                let input = form.find(`[name="${key}"]`);
+                                let errorMessage = `<strong class="text-danger">${errors[key][0]}</strong>`;
                                 input.closest('.ui.search').append(errorMessage);
                             }
                         } else {

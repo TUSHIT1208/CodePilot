@@ -37,17 +37,26 @@ class UserController extends Controller
                             </div>';
                 })
                 ->addColumn('action', function ($learner) {
-                    return '<a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editdetailsModal' . $learner->id . '">
-                                <i class="uil uil-edit-alt ucp-table"></i>
-                            </a>
-                            <form action="' . route('user.destroy', $learner->id) . '" method="POST" class="delete-form d-inline-block">
-                                ' . csrf_field() . '
-                                ' . method_field('DELETE') . '
-                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-username="' . $learner->username . '">
-                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                </a>
-                            </form>';
-                })
+                    return '
+                    <a href="javascript:void(0);" class="edit-learner gray-s" 
+                        data-id="' . $learner->id . '" 
+                        data-username="' . $learner->username . '" 
+                        data-firstname="' . $learner->first_name . '" 
+                        data-middlename="' . $learner->middle_name . '" 
+                        data-lastname="' . $learner->last_name . '" 
+                        data-email="' . $learner->email . '" 
+                        data-phone="' . $learner->phone_number . '" 
+                        data-dob="' . $learner->date_of_birth . '" 
+                        data-bs-toggle="modal" data-bs-target="#editUserModal">
+                        <i class="uil uil-edit-alt ucp-table"></i>
+                    </a>
+                    <form action="' . route('user.destroy', $learner->id) . '" method="POST" class="delete-form d-inline-block">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <a href="javascript:void(0);" title="Delete" class="gray-s delete-btn" data-username="' . $learner->username . '">
+                            <i class="uil uil-trash-alt ucp-table"></i>
+                        </a>
+                    </form>';
+                })                               
                 ->rawColumns(['profile', 'status', 'action'])
                 ->make(true); // Return DataTable JSON response
         }
@@ -79,18 +88,26 @@ class UserController extends Controller
                             </div>';
                 })
                 ->addColumn('action', function ($instructor) {
-                    return '<a href="#" title="Edit" class="gray-s" data-bs-toggle="modal" data-bs-target="#editUserModal' . $instructor->id . '">
-                                <i class="uil uil-edit-alt ucp-table"></i>
-                            </a>
-                            <form action="' . route('user.destroy', $instructor->id) . '" method="POST" class="delete-form d-inline-block">
-                                ' . csrf_field() . '
-                                ' . method_field('DELETE') . '
-                                <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-username="' . $instructor->username . '">
-                                    <i class="uil uil-trash-alt ucp-table"></i>
-                                </a>
-                            </form>';
-                })                
-                
+                    return '
+                    <a href="javascript:void(0);" class="edit-instructor gray-s" 
+                        data-id="' . $instructor->id . '" 
+                        data-username="' . $instructor->username . '" 
+                        data-firstname="' . $instructor->first_name . '" 
+                        data-middlename="' . $instructor->middle_name . '" 
+                        data-lastname="' . $instructor->last_name . '" 
+                        data-email="' . $instructor->email . '" 
+                        data-phone="' . $instructor->phone_number . '" 
+                        data-dob="' . $instructor->date_of_birth . '" 
+                        data-bs-toggle="modal" data-bs-target="#editUserModal">
+                        <i class="uil uil-edit-alt ucp-table"></i>
+                    </a>
+                    <form action="' . route('user.destroy', $instructor->id) . '" method="POST" class="delete-form d-inline-block">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <a href="javascript:void(0);" title="Delete" class="gray-s delete-btn" data-username="' . $instructor->username . '">
+                            <i class="uil uil-trash-alt ucp-table"></i>
+                        </a>
+                    </form>';
+                })                                              
                 ->rawColumns(['profile', 'status', 'action'])
                 ->make(true);
         }
@@ -180,9 +197,8 @@ class UserController extends Controller
             'skills' => $request->skill,
         ]);
         return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
-
-       
     }
+
     public function store_learner(Request $request)
     {
         // Validate the incoming request
@@ -229,10 +245,8 @@ class UserController extends Controller
         }
 
 
-        // Start transaction to ensure atomicity
-        \DB::beginTransaction();
-
-        try {
+       
+        
             // Create the user record
             $user = User::create([
                 'username' => $request->username,
@@ -251,19 +265,9 @@ class UserController extends Controller
             LearnerProfile::create([
                 'user_id' => $user->id,
             ]);
-
-            // Commit the transaction
-            \DB::commit();
-
-            return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
-
-        } catch (\Exception $e) {
-            // Rollback the transaction in case of error
-            \DB::rollback();
-
-            return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
-        }
+            return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
     }
+
     public function show(string $id)
     {
         $adminData = User::find($id);
@@ -410,17 +414,19 @@ class UserController extends Controller
 
     public function bulkDelete(Request $request)
     {
-        $ids = $request->ids;
-
-        if (!$ids || !is_array($ids)) {
-            return response()->json(['error' => 'Invalid request.'], 400);
-        }
-
         try {
-            User::whereIn('id', $ids)->delete();
-            return response()->json(['success' => 'Selected users deleted successfully.']);
+            // Validate that 'ids' is an array
+            $request->validate([
+                'ids' => 'required|array',
+                'ids.*' => 'exists:users,id', // Ensure each ID exists in the users table
+            ]);
+
+            // Delete users where ID is in the array
+            User::whereIn('id', $request->ids)->delete();
+
+            return response()->json(['success' => 'Selected instructors deleted successfully.']);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to delete users.'], 500);
+            return response()->json(['error' => 'An error occurred while deleting instructors.'], 500);
         }
     }
 }

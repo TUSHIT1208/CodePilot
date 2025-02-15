@@ -75,9 +75,9 @@
         </div>
     </div>
 </div>
-{{-- <div class="step-footer step-tab-pager">
-    <button data-direction="prev" class="btn btn-default steps_btn">PREVIOUS</button>
-    <button data-direction="next" class="btn btn-default steps_btn">Next</button>
-    <button data-direction="finish" class="btn btn-default steps_btn">Submit for Review</button>
-</div> --}}
+<div class="step-footer step-tab-pager">
+    <button data-direction="prev" class="main-btn">PREVIOUS</button>
+    <button data-direction="next" class="main-btn">Next</button>
+    <button data-direction="finish" class="main-btn">Submit for Review</button>
+</div>
 @endsection

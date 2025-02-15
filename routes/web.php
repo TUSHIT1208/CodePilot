@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SubCategoryController;                         
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\LearnerProfileController;
 use App\Http\Controllers\LearningPathController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
@@ -27,7 +30,6 @@ Route::get('/review', function () {
     return view('admin.review');
 })->name('admin.review')->middleware('auth');
 
-
 Route::get('/analyics', function () {
     return view('admin.analycis');
 })->name('admin.analyics')->middleware('auth');
@@ -44,11 +46,9 @@ Route::get('/payout', function () {
     return view('admin.payout');
 })->name('admin.payout')->middleware('auth');
 
-
 Route::get('/statement', function () {
     return view('admin.statement');
 })->name('admin.statement')->middleware('auth');
-
 
 Route::get('/feedback', function () {
     return view('admin.feedback');
@@ -74,7 +74,7 @@ Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
 })->name('learner.dashboard')->middleware('auth');
 
-Route::resource('user', UserController::class)->middleware('auth');
+Route::resource('user', UserController::class);
 route::get('user/{id}', [UserController::class, 'destroy']);
 Route::post('/users/bulk-delete', [UserController::class, 'bulkDelete'])->name('user.bulk-delete');
 
@@ -118,3 +118,7 @@ Route::post('/faqs/bulk-delete', [FaqController::class, 'bulkDelete'])->name('fa
 
 Route::resource('learningpath', LearningPathController::class)->middleware('auth');
 Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDelete'])->name('learningpath.bulk-delete');
+
+Route::resource('test', TestController::class);
+Route::resource('course', CourseController::class);
+Route::resource('video', VideoController::class);
