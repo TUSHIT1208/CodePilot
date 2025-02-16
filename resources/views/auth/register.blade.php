@@ -334,7 +334,7 @@
                                         <div class="inline field">
                                             <div class="ui checkbox mncheck">
                                                 <input type="checkbox" tabindex="0" class="hidden">
-                                                <label>I’m in for emails with exciting discounts and personalized
+                                                <label>I'm in for emails with exciting discounts and personalized
                                                     recommendations</label>
                                             </div>
                                         </div>
@@ -376,7 +376,10 @@
                     contentType: false,
                     success: function (response) {
                         // Redirect to the login page with a success message
-                        window.location.href = "{{ route('login') }}?success=" + encodeURIComponent('Registration successful! Please log in.');
+                        
+                        setTimeout(() => {
+                            window.location.href = "{{ route('login') }}?success=" + encodeURIComponent('Registration successful! Please log in.');
+                        }, 5000);
                     },
                     error: function (xhr) {
                         // Handle validation errors from the server

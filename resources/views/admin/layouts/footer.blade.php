@@ -14,7 +14,7 @@
                                 </a>
                             </li>
                             <li>
-                                <p>© 2024 <strong>Cursus</strong>. All Rights Reserved.</p>
+                                <p>© 2024 <strong>Code Pilot</strong>. All Rights Reserved.</p>
                             </li>
                         </ul>
                     </div>

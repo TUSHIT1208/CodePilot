@@ -1,14 +1,14 @@
-@extends('admin.setting.master')
+@extends('admin.layouts.master')
 
 @section('title') Explore Courses @endsection
 
 @section('content')
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container-fluid">			
+        <div class="container-fluid">		
             <div class="row">
                 <div class="col-xl-12 col-lg-8">
-                    <div class="section3125">
+                    <div class="section3125 mt-3">
                         <div class="explore_search">
                             <div class="ui search focus">
                                 <div class="ui left icon input swdh11">
@@ -17,7 +17,10 @@
                                 </div>
                             </div>
                         </div>							
-                    </div>							
+                    </div>						
+                </div>
+                <div class="text-end mt-3">
+                    <a href="{{ route('course.create') }}" class="upload_btn" title="Create New Course">Create New Course</a>
                 </div>
                 <div class="col-md-12">
                     <div class="_14d25">

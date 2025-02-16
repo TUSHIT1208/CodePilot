@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-cource
+Cource
 @endsection
 @section('content')
 <div class="wrapper">

@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\SubCategoryController;                         
 
+
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -29,7 +30,6 @@ Route::get('/course', function () {
 Route::get('/review', function () {
     return view('admin.review');
 })->name('admin.review')->middleware('auth');
-
 
 Route::get('/analyics', function () {
     return view('admin.analycis');
@@ -47,11 +47,9 @@ Route::get('/payout', function () {
     return view('admin.payout');
 })->name('admin.payout')->middleware('auth');
 
-
 Route::get('/statement', function () {
     return view('admin.statement');
 })->name('admin.statement')->middleware('auth');
-
 
 Route::get('/feedback', function () {
     return view('admin.feedback');
@@ -83,7 +81,7 @@ Route::post('/users/bulk-delete', [UserController::class, 'bulkDelete'])->name('
 
 route::get('user/{id}', [UserController::class, 'edit']);
 
-Route::get('/instructorList', [UserController::class, 'instructorList'])->name('instructorList')->middleware('auth');
+Route::get('/instructor', [UserController::class, 'instructorList'])->name('instructorList')->middleware('auth');
 
 Route::post('/admin/update-user-status', [UserController::class, 'updateUserStatus'])->name('update.user.status');
 
@@ -111,8 +109,8 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 Route::resource('category', CategoryController::class)->middleware('auth');
 Route::post('/categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk-delete');
 Route::post('/categories/update-status', action: [CategoryController::class, 'updateStatus'])->name('categories.update-status');
-
-Route::resource('sub_category', SubCategoryController::class)->middleware('auth');
+    
+Route::resource('subcategory', SubCategoryController::class)->middleware('auth');
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
 
@@ -121,6 +119,7 @@ Route::post('/faqs/bulk-delete', [FaqController::class, 'bulkDelete'])->name('fa
 
 Route::resource('learningpath', LearningPathController::class)->middleware('auth');
 Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDelete'])->name('learningpath.bulk-delete');
+
 
 Route::resource('course', CourseController::class);
 

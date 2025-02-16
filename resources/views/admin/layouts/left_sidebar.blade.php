@@ -3,42 +3,42 @@
         <div class="left_section">
             <ul>
                 <li class="menu--item">
-                    <a href="{{ route('admin.dashboard') }}" class="menu--link active" title="Dashboard">
+                    <a href="{{ route('admin.dashboard') }}" class="menu--link" title="Dashboard">
                         <i class="uil uil-apps menu--icon"></i>
                         <span class="menu--label">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu--item">
+                {{-- <li class="menu--item">
                     <a href="#" class="menu--link" title="Courses">
                         <i class='uil uil-book-alt menu--icon'></i>
                         <span class="menu--label">Courses</span>
                     </a>
-                </li>
-                <li class="menu--item">
+                 </li> --}}
+                {{--<li class="menu--item">
                     <a href="{{route('admin.analyics')}}" class="menu--link" title="Analyics">
                         <i class='uil uil-analysis menu--icon'></i>
                         <span class="menu--label">Analyics</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="menu--item">
                     <a href="{{ route('category.index')}}" class="menu--link" title="Create Course">
                         <i class="uil uil-folder-plus menu--icon"></i>
-                        <span class="menu--label">Create Category</span>
+                        <span class="menu--label">Category</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('sub_category.index')}}" class="menu--link" title="Create Course">
+                    <a href="{{ route('subcategory.index')}}" class="menu--link" title="Create Course">
                         <i class="uil uil-folder-open menu--icon"></i>
-                        <span class="menu--label">Create SubCategory</span>
+                        <span class="menu--label">SubCategory</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('course.create')}}" class="menu--link" title="Create Course">
-                        <i class='uil uil-plus-circle menu--icon'></i>
-                        <span class="menu--label">Create Course</span>
+                    <a href="{{ route('admin.explore') }}" class="menu--link" title="Explore">
+                        <i class='uil uil-search menu--icon'></i>
+                        <span class="menu--label">Course</span>
                     </a>
                 </li>
-                <li class="menu--item">
+                {{--<li class="menu--item">
                     <a href="{{route('admin.certificate')}}" class="menu--link" title="My Certificates">
                         <i class='uil uil-award menu--icon'></i>
                         <span class="menu--label">My Certificates</span>
@@ -67,11 +67,17 @@
                         <i class='uil uil-file-alt menu--icon'></i>
                         <span class="menu--label">Statements</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="menu--item">
                     <a href="{{ route('user.index') }}" class="menu--link" title="Verification">
                         <i class='uil uil-check-circle menu--icon'></i>
-                        <span class="menu--label">learner</span>
+                        <span class="menu--label">Learners</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{ route('instructorList') }}" class="menu--link" title="Browse Instructors">
+                        <i class='uil uil-plus-circle menu--icon'></i>
+                        <span class="menu--label">Instructors</span>
                     </a>
                 </li>
             </ul>
@@ -84,7 +90,54 @@
                         <span class="menu--label">Setting</span>
                     </a>
                 </li>
+                <li class="menu--item">
+                    <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">Frequently asked questions</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{route('learningpath.index')}}" class="menu--link" title="FAQ">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">Learning Path</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get all menu links
+        let menuLinks = document.querySelectorAll(".menu--item .menu--link");
+
+        // Function to remove active class from all links
+        function removeActiveClass() {
+            menuLinks.forEach(link => {
+                link.classList.remove("active");
+            });
+        }
+
+        // Add click event to each menu link
+        menuLinks.forEach(link => {
+            link.addEventListener("click", function () {
+                removeActiveClass(); // Remove active class from all links
+                this.classList.add("active"); // Add active class to clicked link
+
+                // Store the active link in localStorage
+                localStorage.setItem("activeMenu", this.getAttribute("href"));
+            });
+        });
+
+        // Retain the active class on page reload
+        let activeMenu = localStorage.getItem("activeMenu");
+        if (activeMenu) {
+            menuLinks.forEach(link => {
+                if (link.getAttribute("href") === activeMenu) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    });
+</script>

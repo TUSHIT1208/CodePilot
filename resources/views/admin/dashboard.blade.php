@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
-@section('title')
-deshbord
-@endsection
+
+@section('title') Dashboard @endsection
+
 @section('content')
 <div class="wrapper">
     <div class="sa4d25">

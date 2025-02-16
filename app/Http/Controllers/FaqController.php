@@ -12,29 +12,30 @@ class FaqController extends Controller
     {
         if ($request->ajax()) {
             $data = Faq::select('id', 'question', 'answer');
+
             return DataTables::of($data)
-            
                 ->addColumn('actions', function ($row) {
-                    return '<a class="edit-btn gray-s" data-id="' . $row->id . '" 
-                            data-question="' . htmlspecialchars($row->question, ENT_QUOTES) . '" 
-                            data-answer="' . htmlspecialchars($row->answer, ENT_QUOTES) . '">
-                            <i class="uil uil-edit-alt ucp-table"></i>
-                        </a>
-                        <form action="' . route('faq.destroy', $row->id) . '" method="POST" class="delete-form d-inline-block">
-                            ' . csrf_field() . '
-                            ' . method_field('DELETE') . '
-                            <a href="javascript:;" title="Delete" class="gray-s delete-btn" data-id="' . $row->id . '">
+                    return '
+                            <a href="javascript:void(0);" class="edit-btn gray-s" data-id="' . $row->id . '" 
+                                data-question="' . htmlspecialchars($row->question, ENT_QUOTES) . '" 
+                                data-answer="' . htmlspecialchars($row->answer, ENT_QUOTES) . '">
+                                <i class="uil uil-edit-alt ucp-table" title="Edit"></i>
+                            </a>
+                            <form action="' . route('faq.destroy', $row->id) . '" method="POST" class="delete-form d-inline-block">
+                        ' . csrf_field() . method_field('DELETE') . '
+                    
+                            <a href="javascript:;" class="delete-btn gray-s" data-id="' . $row->id . '" title="Delete">
                                 <i class="uil uil-trash-alt ucp-table"></i>
                             </a>
                         </form>';
                 })
-                ->rawColumns(['checkbox', 'actions'])
+                ->rawColumns(['actions']) // No 'checkbox' column found, so removed it
                 ->make(true);
         }
-        $faqs = faq::paginate(3);
+
+        $faqs = Faq::paginate(3); // Ensure 'Faq' starts with uppercase (model name)
         return view('admin.faq.list_faq', compact('faqs'));
     }
-
 
     public function store(Request $request)
     {
@@ -64,7 +65,8 @@ class FaqController extends Controller
             'answer' => $request->answer,
         ]);
 
-        return response()->json(['success' => 'FAQ updated successfully!']);;
+        return response()->json(['success' => 'FAQ updated successfully!']);
+        ;
     }
 
     public function destroy(string $id)

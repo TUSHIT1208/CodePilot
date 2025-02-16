@@ -20,7 +20,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('admin.course.basic_information');
+        return view('admin.course.create_new_course');
         // return redirect('/course');
     }
 

@@ -1,5 +1,3 @@
-@extends('admin.course.create_new_course')
-@section('step1')
 <div class="step-tab-panel step-tab-gallery" id="tab_step2">
     <div class="tab-from-content">
         <div class="title-icon">
@@ -75,9 +73,3 @@
         </div>
     </div>
 </div>
-<div class="step-footer step-tab-pager">
-    <button data-direction="prev" class="btn btn-default steps_btn">PREVIOUS</button>
-    {{-- <button data-direction="next" class="btn btn-default steps_btn">Next</button> --}}
-    <button data-direction="finish" class="btn btn-default steps_btn">Submit for Review</button>
-</div>
-@endsection

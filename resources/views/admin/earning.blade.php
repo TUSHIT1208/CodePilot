@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-earning
+Earning
 @endsection
 @section('content')
 

@@ -33,7 +33,7 @@ class CategoryController extends Controller
                 })
                 ->editColumn('status', function ($category) {
                     return '
-                        <div class="toggle-button mt-2 text-center">
+                        <div class="toggle-button mt-2 text-left">
                         <input type="checkbox" class="toggle-input" 
                             id="toggle' . $category->id . '" 
                             data-id="' . $category->id . '" 
