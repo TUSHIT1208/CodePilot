@@ -263,7 +263,7 @@
                                         $('#bulk-delete-btn').prop('disabled', true);
                                         setTimeout(function() {
                                             location
-                                        .reload(); // Reload the page
+                                                .reload(); // Reload the page
                                         }, 2000);
                                     } else {
                                         toastr.error(response.error ||

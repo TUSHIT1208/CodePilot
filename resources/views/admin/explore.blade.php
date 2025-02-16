@@ -20,7 +20,7 @@
                     </div>						
                 </div>
                 <div class="text-end mt-3">
-                    <button class="main-btn" title="Create New Course"><a href="{{route('course.create') }}">Create New Course</a></button>
+                    <a href="{{ route('course.create') }}" class="upload_btn" title="Create New Course">Create New Course</a>
                 </div>
                 <div class="col-md-12">
                     <div class="_14d25">
