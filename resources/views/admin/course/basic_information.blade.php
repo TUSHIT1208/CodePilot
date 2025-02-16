@@ -7,7 +7,7 @@
             <div class="title-icon">
                 <h3 class="title"><i class="uil uil-info-circle"></i>Basic Information</h3>
             </div>
-            <form action="{{ route('course.store')}}" method="POST">
+            <form id="courseForm" action="{{ route('course.store')}}" method="POST">
                 @csrf
                 <div class="course__form">
                     <div class="general_info10">
@@ -266,7 +266,7 @@
                     </div>
                 </div>  
                 <div class="">
-                    <button type="submit">next</button>         
+                    <button type="submit" class="main-btn">next</button>         
                 </div>  
                 
                 

@@ -1,4 +1,6 @@
-@include('admin.layouts.master')
+@extends('admin.layouts.master')
+@section('title') Course  @endsection
+@section('content')
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container">			
@@ -47,7 +49,6 @@
                             <div class="step-content">
                                 {{-- @include('admin.course.basic_information') --}}
                                 @yield('step1')
-                                @yield('step2')
                                 {{-- @include('admin.course.test') --}}
                                 {{-- @include('admin.course.media')
                                 @include('admin.course.price')     --}}
@@ -109,3 +110,4 @@
 			$( ".sortable" ).disableSelection();
 		});
 	</script>
+@endsection

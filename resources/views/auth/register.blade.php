@@ -383,8 +383,8 @@
                         if (xhr.status === 422) {
                             let errors = xhr.responseJSON.errors;
                             for (let key in errors) {
-                                let input = form.find([name="${key}"]);
-                                let errorMessage = <strong class="text-danger">${errors[key][0]}</strong>;
+                                let input = form.find(`[name="${key}"]`);
+                                let errorMessage = `<strong class="text-danger">${errors[key][0]}</strong>`;
                                 input.closest('.ui.search').append(errorMessage);
                             }
                         } else {
@@ -397,7 +397,6 @@
 
     </script>
 
-    <script src="js/jquery-3.7.1.min.js"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/OwlCarousel/owl.carousel.js"></script>

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, shrink-to-fit=9">
   <meta name="description" content="Cursus - Change Password">
   <meta name="author" content="Gambolthemes">
-  <title>Cursus - Change Password</title>
+  <title>CodePilot - Change Password</title>
 
   <!-- Favicon Icon -->
   <link rel="icon" type="image/png" href="{{ asset('images/fav.png') }}">
@@ -22,7 +22,8 @@
   <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet">
 
   <!-- Vendor Stylesheets -->
-  <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('vendor/fontawesome-free/css/all.
+  min.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/OwlCarousel/assets/owl.carousel.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/OwlCarousel/assets/owl.theme.default.min.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">

@@ -17,7 +17,7 @@
                     <div class="row mt-2">
                         <div class="col-sm-12 text-end">
                             @if(!$instructors->isEmpty())
-                                <button id="bulk-delete-btn" class="btn" disabled>Delete Selected</button>
+                                <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
                             @endif
                         </div>
                     </div>
@@ -183,105 +183,151 @@
 <!-- DataTables & Bulk Delete Script -->
 <script>
     $(document).ready(function () {
-        let table = $('.ucp-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('instructorList') }}",
-            columns: [
-                {
-                    data: 'id',
-                    render: function (data) {
-                        return '<input type="checkbox" class="learner-checkbox" value="' + data + '">';
-                    },
-                    orderable: false,
-                    searchable: false
+    let table = $('.ucp-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('instructorList') }}",
+        columns: [
+            {
+                data: 'id',
+                render: function (data) {
+                    return '<input type="checkbox" class="learner-checkbox" value="' + data + '">';
                 },
-                { data: 'username', name: 'username' },
-                { data: 'profile', name: 'profile', orderable: false, searchable: false },
-                { data: 'first_name', name: 'first_name' },
-                { data: 'middle_name', name: 'middle_name' },
-                { data: 'last_name', name: 'last_name' },
-                { data: 'email', name: 'email' },
-                { data: 'phone_number', name: 'phone_number' },
-                { data: 'date_of_birth', name: 'date_of_birth' },
-                { data: 'status', name: 'status', orderable: false, searchable: false },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
-            ]
-        });
+                orderable: false,
+                searchable: false
+            },
+            { data: 'username', name: 'username' },
+            { data: 'profile', name: 'profile', orderable: false, searchable: false },
+            { data: 'first_name', name: 'first_name' },
+            { data: 'middle_name', name: 'middle_name' },
+            { data: 'last_name', name: 'last_name' },
+            { data: 'email', name: 'email' },
+            { data: 'phone_number', name: 'phone_number' },
+            { data: 'date_of_birth', name: 'date_of_birth' },
+            { data: 'status', name: 'status', orderable: false, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
 
-        $("#dt-length-0").addClass('form-control form-control-sm');
+    $("#dt-length-0").addClass('form-control form-control-sm');
 
-        // Select/Deselect All Checkboxes
-        $('#select-all').on('change', function () {
-            $('.learner-checkbox').prop('checked', $(this).prop('checked'));
-            toggleBulkDeleteButton();
-        });
+    // Select/Deselect All Checkboxes
+    $('#select-all').on('change', function () {
+        $('.learner-checkbox').prop('checked', $(this).prop('checked'));
+        toggleBulkDeleteButton();
+    });
 
-        // Handle individual checkbox selection
-        $('.ucp-table tbody').on('change', '.learner-checkbox', function () {
-            let allChecked = $('.learner-checkbox').length === $('.learner-checkbox:checked').length;
-            $('#select-all').prop('checked', allChecked);
-            toggleBulkDeleteButton();
-        });
+    // Handle individual checkbox selection
+    $('.ucp-table tbody').on('change', '.learner-checkbox', function () {
+        let allChecked = $('.learner-checkbox').length === $('.learner-checkbox:checked').length;
+        $('#select-all').prop('checked', allChecked);
+        toggleBulkDeleteButton();
+    });
 
-        // Enable/Disable Bulk Delete Button
-        function toggleBulkDeleteButton() {
-            let anyChecked = $('.learner-checkbox:checked').length > 0;
-            $('#bulk-delete-btn').prop('disabled', !anyChecked);
+    // Enable/Disable Bulk Delete Button
+    function toggleBulkDeleteButton() {
+        let anyChecked = $('.learner-checkbox:checked').length > 0;
+        $('#bulk-delete-btn').prop('disabled', !anyChecked);
+    }
+
+    // AJAX Setup for CSRF Token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
+    });
 
-        // AJAX Setup for CSRF Token
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+    // Bulk Delete Functionality
+    $('#bulk-delete-btn').on('click', function () {
+        let selectedIds = $('.learner-checkbox:checked').map(function () {
+            return $(this).val();
+        }).get();
 
-        // Bulk Delete Functionality
-        $('#bulk-delete-btn').on('click', function () {
-            let selectedIds = $('.learner-checkbox:checked').map(function () {
-                return $(this).val();
-            }).get();
-
-            console.log("Selected IDs:", selectedIds); // Debugging
-
-            if (selectedIds.length > 0) {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: `You are about to delete ${selectedIds.length} users. This action cannot be undone.`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete them!',
-                    cancelButtonText: 'Cancel',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '{{ route("user.bulk-delete") }}',
-                            type: 'POST',
-                            data: { ids: selectedIds },
-                            success: function (response) {
-                                console.log("Response:", response); // Debugging
-                                if (response.success) {
-                                    toastr.success(response.success, 'Success');
-                                    $('#select-all').prop('checked', false);
-                                    $('#bulk-delete-btn').prop('disabled', true);
-                                    table.ajax.reload(); // Reload DataTable properly
-                                } else {
-                                    toastr.error(response.error || 'Failed to delete.', 'Error');
-                                }
-                            },
-                            error: function (xhr) {
-                                console.log("AJAX Error:", xhr.responseText); // Debugging
-                                toastr.error('An error occurred. Please try again.', 'Error');
+        if (selectedIds.length > 0) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: `You are about to delete ${selectedIds.length} users. This action cannot be undone.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete them!',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '{{ route("user.bulk-delete") }}',
+                        type: 'POST',
+                        data: { ids: selectedIds },
+                        success: function (response) {
+                            if (response.success) {
+                                toastr.success(response.success, 'Success');
+                                $('#select-all').prop('checked', false);
+                                $('#bulk-delete-btn').prop('disabled', true);
+                                table.ajax.reload(); // Reload DataTable properly
+                            } else {
+                                toastr.error(response.error || 'Failed to delete.', 'Error');
                             }
-                        });
-                    }
-                });
+                        },
+                        error: function (xhr) {
+                            toastr.error('An error occurred. Please try again.', 'Error');
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    // Delete Confirmation for Individual User
+    $(document).on("click", ".delete-btn", function (e) {
+        e.preventDefault(); // Prevent default action
+
+        var form = $(this).closest(".delete-form"); // Get the closest delete form
+        var username = $(this).data("username"); // Get the username
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are about to delete ${username}. This action cannot be undone.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "Cancel",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); // Submit the form if confirmed
             }
         });
     });
+
+    // Toggle User Status Script
+    $('.ucp-table').on('change', '.toggle-input', function () {
+        var userId = $(this).data('user-id');
+        var isActive = $(this).prop('checked') ? 1 : 0;
+
+        $.ajax({
+            url: '/admin/update-user-status',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                user_id: userId,
+                is_active: isActive
+            },
+            success: function (response) {
+                if (response.success) {
+                    toastr.success('Status updated successfully.');
+                } else {
+                    toastr.error('Error updating status.');
+                }
+            },
+            error: function () {
+                toastr.error('An error occurred. Please try again.');
+            }
+        });
+    });
+});
+
 </script>
 
 <!-- JavaScript for Delete Confirmation -->

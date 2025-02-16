@@ -20,7 +20,7 @@
    @include('admin.layouts.header')
 @include('admin.layouts.left_sidebar')
 
-@yield(section: 'content')
+@yield(section: 'content')  
 
 @include('admin.layouts.vendor-script')
 

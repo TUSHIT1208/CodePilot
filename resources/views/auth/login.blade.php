@@ -100,48 +100,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <script>
-        // Check if there is a success message in the session
         @if(session('success'))
             toastr.options = {
                 closeButton: true,
                 debug: false,
                 newestOnTop: true,
                 progressBar: true,
-                positionClass: "toast-bottom-right",  // Toast notification position
+                positionClass: "toast-bottom-right",
                 preventDuplicates: true,
-                timeOut: 5000,  // Display duration of the toast (3 seconds)
+                timeOut: 5000,
                 extendedTimeOut: 1000,
                 showEasing: "swing",
                 hideEasing: "linear",
                 showMethod: "fadeIn",
-                hideMethod: "fadeOut"
+                hideMethod: "fadeOut",
+                onShown: function() {
+                    $(".toast-success").css("background-color", "#28a745").css("color", "#fff");
+                }
             };
-            
-            // Show success toast notification with the session message
+    
             toastr.success("{{ session('success') }}", "Success");
         @endif
     
-        // You can also handle other session messages if needed
         @if(session('error'))
             toastr.options = {
                 closeButton: true,
                 debug: false,
                 newestOnTop: true,
                 progressBar: true,
-                positionClass: "toast-top-right",  // Toast notification position
+                positionClass: "toast-top-right",
                 preventDuplicates: true,
-                timeOut: 5000,  // Display duration of the toast (3 seconds)
+                timeOut: 5000,
                 extendedTimeOut: 1000,
                 showEasing: "swing",
                 hideEasing: "linear",
                 showMethod: "fadeIn",
-                hideMethod: "fadeOut"
+                hideMethod: "fadeOut",
+                onShown: function() {
+                    $(".toast-error").css("background-color", "#dc3545").css("color", "#fff");
+                }
             };
-            
-            // Show error toast notification with the session message
+    
             toastr.error("{{ session('error') }}", "Error");
         @endif
     </script>
+    
     
     
 </body>

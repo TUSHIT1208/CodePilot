@@ -9,7 +9,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('admin.course') }}" class="menu--link" title="Courses">
+                    <a href="#" class="menu--link" title="Courses">
                         <i class='uil uil-book-alt menu--icon'></i>
                         <span class="menu--label">Courses</span>
                     </a>
@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="#" class="menu--link" title="Create Course">
+                    <a href="{{ route('course.create')}}" class="menu--link" title="Create Course">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Create Course</span>
                     </a>
