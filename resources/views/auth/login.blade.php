@@ -115,7 +115,10 @@
                 showMethod: "fadeIn",
                 hideMethod: "fadeOut",
                 onShown: function() {
-                    $(".toast-success").css("background-color", "#28a745").css("color", "#fff");
+                    $(".toast-success").css({
+                        'background-color': '#28a745', // Green for success
+                        'opacity': '1'  // Adjust opacity
+                    });;
                 }
             };
     
@@ -125,7 +128,6 @@
         @if(session('error'))
             toastr.options = {
                 closeButton: true,
-                debug: false,
                 newestOnTop: true,
                 progressBar: true,
                 positionClass: "toast-top-right",
@@ -137,7 +139,10 @@
                 showMethod: "fadeIn",
                 hideMethod: "fadeOut",
                 onShown: function() {
-                    $(".toast-error").css("background-color", "#dc3545").css("color", "#fff");
+                    $(".toast-error").css({
+                        'background-color': '#dc3545', // red for info
+                        'opacity': '1'
+                    });;
                 }
             };
     

@@ -23,4 +23,9 @@ class category extends Model
     {
         return $this->hasMany(sub_category::class);
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

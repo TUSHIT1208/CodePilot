@@ -17,7 +17,7 @@
                         <div class="row mt-2">
                             <div class="col-lg-12 col-md-12 col-sm-12 text-end">
                                 @if (!$learningpath->isEmpty())
-                                    <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
+                                    <button id="bulk-delete-btn" class="main-btn">Delete Selected</button>
                                 @endif
                                 <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn"
                                     title="Add a Category">
@@ -172,8 +172,29 @@
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
-                "timeOut": "5000", // 5 seconds
-                "extendedTimeOut": "2000" // Additional time when hovered
+                "timeOut": "5000",
+                "extendedTimeOut": "2000",
+                "positionClass": "toast-top-right",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "onShown": function() {
+                    $('.toast-success').css({
+                        'background-color': '#28a745', // Green for success
+                        'opacity': '1'  // Adjust opacity
+                    });
+                    $('.toast-error').css({
+                        'background-color': '#dc3545', // Red for error
+                        'opacity': '1'
+                    });
+                    $('.toast-warning').css({
+                        'background-color': '#ffc107', // Yellow for warning
+                        'opacity': '1'
+                    });
+                    $('.toast-info').css({
+                        'background-color': '#17a2b8', // Blue for info
+                        'opacity': '1'
+                    });
+                }
             };
 
             // Handle individual checkbox selection
@@ -223,12 +244,12 @@
                                 },
                                 success: function(response) {
                                     if (response.success) {
-                                        toastr.success(response.success, "Success");
+                                        
 
                                         // Delay the page refresh to allow Toastr to be displayed
                                         setTimeout(function() {
                                             location.reload();
-                                        }, 3000); // Refresh after 3 seconds
+                                        }, 0000); // Refresh after 0 seconds
 
                                         $("#select-all").prop("checked", false);
                                         $("#bulk-delete-btn").prop("disabled", true);
@@ -341,8 +362,8 @@
                 text: 'This action cannot be undone!',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -355,12 +376,7 @@
                         },
                         success: function(response) {
                             if (response.success) {
-                                toastr.success(response.success, "Success");
-
-                                // Delay page reload so Toastr can be seen
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 2000);
+                                location.reload();
                             } else {
                                 toastr.error("Something went wrong!", "Error");
                             }

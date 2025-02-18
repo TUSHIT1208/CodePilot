@@ -15,16 +15,19 @@ class FaqController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('actions', function ($row) {
-                    return '<div class="action-icons">
-                            <a href="javascript:;" class="edit-btn" data-id="' . $row->id . '" 
+                    return '
+                            <a href="javascript:void(0);" class="edit-btn gray-s" data-id="' . $row->id . '" 
                                 data-question="' . htmlspecialchars($row->question, ENT_QUOTES) . '" 
                                 data-answer="' . htmlspecialchars($row->answer, ENT_QUOTES) . '">
                                 <i class="uil uil-edit-alt ucp-table" title="Edit"></i>
                             </a>
-                            <a href="javascript:;" class="delete-btn" data-id="' . $row->id . '" title="Delete">
+                            <form action="' . route('faq.destroy', $row->id) . '" method="POST" class="delete-form d-inline-block">
+                        ' . csrf_field() . method_field('DELETE') . '
+                    
+                            <a href="javascript:;" class="delete-btn gray-s" data-id="' . $row->id . '" title="Delete">
                                 <i class="uil uil-trash-alt ucp-table"></i>
                             </a>
-                        </div>';
+                        </form>';
                 })
                 ->rawColumns(['actions']) // No 'checkbox' column found, so removed it
                 ->make(true);

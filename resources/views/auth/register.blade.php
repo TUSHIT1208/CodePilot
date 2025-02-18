@@ -400,7 +400,6 @@
 
     </script>
 
-    <script src="js/jquery-3.7.1.min.js"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/OwlCarousel/owl.carousel.js"></script>

@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\SubCategoryController;                         
-use App\Http\Controllers\FaqController;
-use App\Http\Controllers\LearnerProfileController;
-use App\Http\Controllers\LearningPathController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\LearningPathController;
+use App\Http\Controllers\LearnerProfileController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\SubCategoryController;                         
+
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
@@ -119,6 +120,16 @@ Route::post('/faqs/bulk-delete', [FaqController::class, 'bulkDelete'])->name('fa
 Route::resource('learningpath', LearningPathController::class)->middleware('auth');
 Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDelete'])->name('learningpath.bulk-delete');
 
-Route::resource('test', TestController::class);
+
 Route::resource('course', CourseController::class);
+
+Route::resource('test', TestController::class);
+
 Route::resource('video', VideoController::class);
+
+// Add this route to handle the AJAX request for subcategories
+Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
+
+Route::get('/course/test', function () {
+    return view('admin.course.test');
+})->name('course.test')->middleware('auth');
