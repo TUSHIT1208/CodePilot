@@ -83,14 +83,12 @@
 
                         <div class="mb-3">
                             <label for="editLearnerUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control _dlor1" id="editLearnerUsername" name="username"
-                                required>
+                            <input type="text" class="form-control _dlor1" id="editLearnerUsername" name="username">
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control _dlor1" id="editLearnerFirstName" name="first_name"
-                                required>
+                            <input type="text" class="form-control _dlor1" id="editLearnerFirstName" name="first_name">
                         </div>
 
                         <div class="mb-3">
@@ -130,8 +128,8 @@
 
     {{-- Prevent default form submission with validation --}}
     <script>
-        $(document).ready(function() {
-            $('form.needs-validation').on('submit', function(e) {
+        $(document).ready(function () {
+            $('form.needs-validation').on('submit', function (e) {
                 e.preventDefault();
 
                 var form = $(this);
@@ -143,22 +141,22 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
+                    success: function (response) {
                         // Display success message if update is successful
                         $('#editdetailsModal' + response.id).modal('hide'); // Close the modal
-                        setTimeout(function() {
+                        setTimeout(function () {
                             $('#addCategoryModal').modal('hide'); // Close modal
                             location.reload(); // Reload the page
                         }, 2000);
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         // Clear previous error messages
                         form.find('.invalid-feedback').remove();
                         form.find('.is-invalid').removeClass('is-invalid');
 
                         // Handle validation errors
                         var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(field, message) {
+                        $.each(errors, function (field, message) {
                             $('#' + field).addClass('is-invalid');
                             $('#' + field).after('<div class="invalid-feedback">' +
                                 message + '</div>');
@@ -171,62 +169,62 @@
 
     {{-- Datatable and bilk delete --}}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let table = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('user.index') }}",
                 columns: [{
-                        data: 'id',
-                        render: function(data) {
-                            return '<input type="checkbox" class="learner-checkbox" value="' +
-                                data + '">';
-                        },
-                        orderable: false,
-                        searchable: false
+                    data: 'id',
+                    render: function (data) {
+                        return '<input type="checkbox" class="learner-checkbox" value="' +
+                            data + '">';
                     },
-                    {
-                        data: 'profile',
-                        name: 'profile',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'full_name',
-                        name: 'full_name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'phone_number',
-                        name: 'phone_number'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    }
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'profile',
+                    name: 'profile',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'full_name',
+                    name: 'full_name'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'phone_number',
+                    name: 'phone_number'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
                 ]
             });
 
             // Event delegation for dynamically loaded checkboxes
-            $('#myTable tbody').on('change', '.learner-checkbox', function() {
+            $('#myTable tbody').on('change', '.learner-checkbox', function () {
                 let allChecked = $('.learner-checkbox').length === $('.learner-checkbox:checked').length;
                 $('#select-all').prop('checked', allChecked);
                 toggleBulkDeleteButton();
             });
 
             // Select All Functionality
-            $('#select-all').on('change', function() {
+            $('#select-all').on('change', function () {
                 $('.learner-checkbox').prop('checked', $(this).prop('checked'));
                 toggleBulkDeleteButton();
             });
@@ -238,8 +236,8 @@
             }
 
             // Bulk Delete Functionality
-            $('#bulk-delete-btn').on('click', function() {
-                let selectedIds = $('.learner-checkbox:checked').map(function() {
+            $('#bulk-delete-btn').on('click', function () {
+                let selectedIds = $('.learner-checkbox:checked').map(function () {
                     return $(this).val();
                 }).get();
 
@@ -262,7 +260,7 @@
                                     _token: '{{ csrf_token() }}',
                                     ids: selectedIds,
                                 },
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success) {
                                         toastr.success(response.success, 'Success');
                                         $('#select-all').prop('checked', false);
@@ -274,7 +272,7 @@
                                             'Failed to delete.', 'Error');
                                     }
                                 },
-                                error: function() {
+                                error: function () {
                                     toastr.error('An error occurred. Please try again.',
                                         'Error');
                                 }
@@ -288,8 +286,8 @@
 
     <!-- JavaScript for Delete Confirmation -->
     <script>
-        $(document).ready(function() {
-            $(document).on("click", ".delete-btn", function(e) {
+        $(document).ready(function () {
+            $(document).on("click", ".delete-btn", function (e) {
                 e.preventDefault(); // Prevent default action
 
                 var form = $(this).closest(".delete-form"); // Get the closest delete form
@@ -315,9 +313,9 @@
 
     {{-- Handle toggle change event --}}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Use event delegation for dynamically loaded elements
-            $(document).on('change', '.toggle-input', function() {
+            $(document).on('change', '.toggle-input', function () {
                 var toggleButton = $(this); // Store reference to toggle
                 var userId = toggleButton.data('user-id');
                 var isActive = toggleButton.prop('checked') ? 1 : 0;
@@ -331,7 +329,7 @@
                         user_id: userId,
                         is_active: isActive
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             toastr.success('Status updated successfully.');
                         } else {
@@ -340,7 +338,7 @@
 
                         }
                     },
-                    error: function() {
+                    error: function () {
                         alert('Error updating status');
                         toggleButton.prop('checked', !isActive); // Revert toggle on error
                     }
@@ -351,8 +349,8 @@
 
     {{-- Open Edit Modal and Populate Data --}}
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.edit-learner', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.edit-learner', function () {
                 let id = $(this).data('id');
                 let username = $(this).data('username');
                 let firstname = $(this).data('firstname');
@@ -377,6 +375,68 @@
 
                 // Show the modal
                 $('#editLearnerModal').modal('show');
+            });
+        });
+    </script>
+    <script>
+        function validateUserForm(formId) {
+            let form = document.getElementById(formId);
+            let isValid = true;
+
+            // Clear previous errors
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+            const fields = [
+                { name: "username", regex: /^[a-zA-Z0-9_]{3,20}$/, message: "Username must be 3-20 characters (letters, numbers, underscores)." },
+                { name: "first_name", regex: /^[A-Za-z]{2,}$/, message: "First name must contain only letters and be at least 2 characters." },
+                { name: "last_name", regex: /^[A-Za-z]{2,}$/, message: "Last name must contain only letters and be at least 2 characters." },
+                { name: "middle_name", regex: /^[A-Za-z]*$/, message: "Middle name must contain only letters.", optional: true },
+                { name: "email", regex: /^\S+@\S+\.\S+$/, message: "Please enter a valid email address." },
+                { name: "phone_number", regex: /^\d{10}$/, message: "Phone number must be exactly 10 digits." },
+                { name: "date_of_birth", isDate: true, message: "Date of birth must be in the past.", optional: true }
+            ];
+
+            fields.forEach(field => {
+                let input = form.querySelector(`[name="${field.name}"]`);
+                if (!input) return;
+
+                let value = input.value.trim();
+                let isValidField = true;
+
+                if (!field.optional || value !== "") {
+                    if (field.isDate) {
+                        if (new Date(value) >= new Date()) {
+                            isValidField = false;
+                        }
+                    } else if (!field.regex.test(value)) {
+                        isValidField = false;
+                    }
+                }
+
+                if (!isValidField) {
+                    isValid = false;
+                    input.classList.add('is-invalid');
+                    let errorMessage = `<div class="invalid-feedback">${field.message}</div>`;
+                    input.insertAdjacentHTML('afterend', errorMessage);
+                }
+            });
+
+            return isValid;
+        }
+
+        // Apply validation on form submission
+        document.addEventListener("DOMContentLoaded", function () {
+            // document.getElementById('instructorEditForm').addEventListener('submit', function (event) {
+            //     if (!validateUserForm('instructorEditForm')) {
+            //         event.preventDefault();
+            //     }
+            // });
+
+            document.getElementById('learnerEditForm').addEventListener('submit', function (event) {
+                if (!validateUserForm('learnerEditForm')) {
+                    event.preventDefault();
+                }
             });
         });
     </script>

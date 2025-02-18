@@ -1,12 +1,12 @@
 @include('admin.layouts.master')
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container">			
+        <div class="container">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-analysis"></i> Create New Course</h2>
-                </div>					
-            </div>				
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="course_tabs_1">
@@ -21,7 +21,7 @@
                                 <li>
                                     <a href="#tab_step2">
                                         <span class="number"></span>
-                                        <span class="step-name">Curriculum</span>
+                                        <span class="step-name">Test</span>
                                     </a>
                                 </li>
                                 <li>
@@ -56,7 +56,9 @@
                                     </div>
                                     <div class="publish-block">
                                         <i class="far fa-edit"></i>
-                                        <p>Your course is in a draft state. Students cannot view, purchase or enroll in this course. For students that are already enrolled, this course will not appear on their student Dashboard.</p>
+                                        <p>Your course is in a draft state. Students cannot view, purchase or enroll in
+                                            this course. For students that are already enrolled, this course will not
+                                            appear on their student Dashboard.</p>
                                     </div>
                                 </div>
                             </div>
@@ -71,49 +73,49 @@
             </div>
         </div>
     </div>
-<script>
-		ClassicEditor.create( document.querySelector( '#editor1' ) )
-		.then( editor => {
-			window.editor1 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
+    <script>
+        ClassicEditor.create(document.querySelector('#editor1'))
+            .then(editor => {
+                window.editor1 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
 
-		ClassicEditor.create( document.querySelector( '#editor2' ) )
-		.then( editor => {
-			window.editor2 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-		
-		ClassicEditor.create( document.querySelector( '#editor3' ) )
-		.then( editor => {
-			window.editor3 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-		
-		ClassicEditor.create( document.querySelector( '#editor4' ) )
-		.then( editor => {
-			window.editor4 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-	</script> 
-	<script>
-		$('#add-course-tab').steps({
-		  onFinish: function () {
-			alert('Wizard Completed');
-		  }
-		});		
-	</script>
-	<script>
-		$( function() {
-			$( ".sortable" ).sortable();
-			$( ".sortable" ).disableSelection();
-		});
-	</script>
+        ClassicEditor.create(document.querySelector('#editor2'))
+            .then(editor => {
+                window.editor2 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        ClassicEditor.create(document.querySelector('#editor3'))
+            .then(editor => {
+                window.editor3 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        ClassicEditor.create(document.querySelector('#editor4'))
+            .then(editor => {
+                window.editor4 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+    </script>
+    <script>
+        $('#add-course-tab').steps({
+            onFinish: function () {
+                alert('Wizard Completed');
+            }
+        });		
+    </script>
+    <script>
+        $(function () {
+            $(".sortable").sortable();
+            $(".sortable").disableSelection();
+        });
+    </script>
