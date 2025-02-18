@@ -133,3 +133,9 @@ Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCateg
 Route::get('/course/test', function () {
     return view('admin.course.test');
 })->name('course.test')->middleware('auth');
+
+Route::get('/course/basic-information', function () {
+    return view('admin.course.basic_information');
+})->name('course.basic-information');
+
+Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit');

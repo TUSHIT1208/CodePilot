@@ -48,10 +48,6 @@ class CourseController extends Controller
         return response()->json([]);
     }
 
-
-
-
-
     /**
      * Store a newly created resource in storage.
      */
@@ -94,6 +90,9 @@ class CourseController extends Controller
             'requirement' => $request->requirement,
             'course_level' => $request->course_level,
         ]);
+
+    // Store the course ID in the session
+        session()->put('course_id', $course->id);
         // if ($course) {
             //return response()->json(['success' => 'Subcategory status updated successfully.']);
         // }
@@ -113,18 +112,48 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(course $course)
+    public function edit($id)
     {
-        //
+        $course = Course::findOrFail($id); // Fetch course by ID
+        $categories = Category::all(); // Fetch all categories
+        $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
+
+        return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
     }
 
+    // public function showCreateCourseForm()
+    // {
+    //     // Retrieve the course data stored in session or use a default empty object
+    //     $course = session('course', (object)[]);  // Default to empty object if no session exists
+        
+    //     // Pass the course to the view
+    //     return view('admin.course.create_new_course', compact('course'));
+    // }
+    
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, course $course)
+    public function update(Request $request, $id)
     {
-        //
+        $course = Course::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:100|unique:courses,title,' . $id,
+            'description' => 'required|string',
+            'course_description' => 'required|string',
+            'learn_in_course' => 'required|string',
+            'requirement' => 'required|string',
+            'course_level' => 'required|in:Beginner,Intermediate,Expert',
+            'course_type' => 'required|in:text,video',
+            'category_id' => 'required|exists:categories,id',
+            'sub_category_id' => 'required|exists:sub_categories,id'
+        ]);
+
+        $course->update($request->all());
+
+        return redirect()->back()->with('success','course updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
