@@ -13,4 +13,9 @@ class sub_category extends Model
     {
         return $this->belongsTo(category::class);
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

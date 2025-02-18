@@ -1,263 +1,181 @@
-<div class="step-tab-panel step-tab-info active" id="tab_step1"> 
+<div class="step-tab-panel step-tab-info active" id="tab_step1">
     <div class="tab-from-content">
         <div class="title-icon">
             <h3 class="title"><i class="uil uil-info-circle"></i>Basic Information</h3>
         </div>
         <div class="course__form">
             <div class="general_info10">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">															
-                        <div class="ui search focus mt-30 lbel25">
-                            <label>Course Title*</label>
-                            <div class="ui left icon input swdh19">
-                                <input class="prompt srch_explore" type="text" placeholder="Course title here" name="title" data-purpose="edit-course-title" maxlength="60" id="main[title]" value="">															
-                                <div class="badge_num">60</div>
-                            </div>
-                            <div class="help-block">(Please make this a maximum of 100 characters and unique.)</div>
-                        </div>									
-                    </div>
-                    <div class="col-lg-12 col-md-12">															
-                        <div class="ui search focus lbel25 mt-30">	
-                            <label>Short Description*</label>
-                            <div class="ui form swdh30">
-                                <div class="field">
-                                    <textarea rows="3" name="description" id="" placeholder="Item description here..."></textarea>
+                <form action="{{ route('course.store') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus mt-30 lbel25">
+                                <label>Course Title*</label>
+                                <div class="ui left icon input swdh19">
+                                    <input class="prompt srch_explore @error('title') is-invalid @enderror" type="text" placeholder="Course title here" name="title" maxlength="60" value="{{ old('title') }}">
+                                    <div class="badge_num">60</div>
                                 </div>
-                            </div>
-                            <div class="help-block">220 words</div>
-                        </div>								
-                    </div>
-                    <div class="col-lg-12 col-md-12">
+                                @error('title')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="help-block">(Please make this a maximum of 100 characters and unique.)</div>
+                            </div>                                 
+                        </div>
+
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label>Short Description*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea rows="3" name="description" class="form-control @error('description') is-invalid @enderror" placeholder="Item description here...">{{ old('description') }}</textarea>
+                                    </div>
+                                </div>
+                                @error('description')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="help-block">220 words</div>
+                            </div>                                 
+                        </div>
+
                         <div class="course_des_textarea mt-30 lbel25">
                             <label>Course Description*</label>
                             <div class="text-editor">
-                                <textarea class="form_textarea_1 ht-4" placeholder="Item description here" style="display:none;"></textarea>
-                                <div id="editor1"></div>
+                                <textarea id="editor1" class="form-control @error('course_description') is-invalid @enderror" 
+                                          name="course_description" placeholder="Item description here">{{ old('course_description') }}</textarea>
                             </div>
+                            @error('course_description')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">															
-                        <div class="ui search focus lbel25 mt-30">	
-                            <label>What will students learn in your course?*</label>
-                            <div class="ui form swdh30">
-                                <div class="field">
-                                    <textarea rows="3" name="description" id="" placeholder=""></textarea>
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label>What will students learn in your course?*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea rows="3" name="learn_in_course" class="form-control @error('learn_in_course') is-invalid @enderror" placeholder="">{{ old('learn_in_course') }}</textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="help-block">Student will gain this skills, knowledge after completing this course. (One per line).</div>
-                        </div>								
-                    </div>
-                    <div class="col-lg-6 col-md-12">															
-                        <div class="ui search focus lbel25 mt-30">	
-                            <label>Requirements*</label>
-                            <div class="ui form swdh30">
-                                <div class="field">
-                                    <textarea rows="3" name="description" id="" placeholder=""></textarea>
+                                @error('learn_in_course')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="help-block">Student will gain these skills and knowledge after completing this course. (One per line).</div>
+                            </div>                                 
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label>Requirements*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea rows="3" name="requirement" class="form-control @error('requirement') is-invalid @enderror" placeholder="">{{ old('requirement') }}</textarea>
+                                    </div>
                                 </div>
+                                @error('requirement')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="help-block">What knowledge, technology, tools required by users to start this course. (One per line).</div>
+                            </div>                                 
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="mt-30 lbel25">
+                                <label>Course Level*</label>
                             </div>
-                            <div class="help-block">What knowledge, technology, tools required by users to start this course. (One per line).</div>
-                        </div>								
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="mt-30 lbel25">
-                            <label>Course Level*</label>
+                            <select class="selectpicker _dlor1 form-control @error('course_level') is-invalid @enderror" title="Select Course level" name="course_level" id="selectlevel" data-live-search="true">
+                                <option value="" selected hidden>Select Course Level</option>
+                                <option>Beginner</option>
+                                <option>Intermediate</option>
+                                <option>Expert</option>
+                            </select>
+                            @error('course_level')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <select class="selectpicker _dlor1 form-control" title="Select Category" name="selectcategory" id="selectcategory" data-live-search="true">
-                            <option value="1">Beginner</option>
-                            <option value="2">Intermediate</option>
-                            <option value="3">Expert</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                        <div class="mt-30 lbel25">
-                            <label>Audio Language*</label>
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="mt-30 lbel25">
+                                <label>Course Type*</label>
+                            </div>
+                            <select class="selectpicker _dlor1 form-control @error('course_type') is-invalid @enderror" title="Select Course Type" name="course_type" id="selectcourse_type" data-live-search="true">
+                                <option value="" selected hidden>Select Course type</option>
+                                <option value="text" {{ old('course_type') == 'text' ? 'selected' : '' }}>Text</option>
+                                <option value="video" {{ old('course_type') == 'video' ? 'selected' : '' }}>Video</option>
+                            </select>
+                            @error('course_type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <select class="selectpicker _dlor1 form-control" title="Select Category" name="selectcategory" id="selectcategory" data-live-search="true">
-                            <option>English</option>															
-                            <option>Español</option>
-                            <option>Português</option>
-                            <option>日本語</option>
-                            <option>Deutsch</option>
-                            <option>Français</option>
-                            <option>Türkçe</option>
-                            <option>Italiano</option>
-                            <option>हिन्दी</option>
-                            <option>Polski</option>
-                            <option>Tamil</option>
-                            <option>मराठी</option>
-                            <option>Telugu</option>														
-                            <option>Română</option>														
-                        </select>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="mt-30 lbel25">
-                            <label>Close Caption*</label>
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="mt-30 lbel25">
+                                <label>Course Category*</label>
+                            </div>
+                            <select class="selectpicker form-control @error('category_id') is-invalid @enderror" name="category_id" id="selectcategory" onchange="loadSubCategories()">
+                                <option value="" selected hidden>Select Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-                        <select class="selectpicker _dlor1 form-control" title="Select Category" name="selectcategory" id="selectcategory" data-live-search="true">
-                            <option>English</option>															
-                            <option>Español</option>
-                            <option>Português</option>
-                            <option>Italiano</option>
-                            <option>Français</option>
-                            <option>Polski</option>
-                            <option>Deutsch</option>
-                            <option>Bahasa Indonesia</option>
-                            <option>ภาษาไทย</option>
-                            <option>हिन्दी</option>
-                            <option>Tamil</option>
-                            <option>मराठी</option>
-                            <option>Telugu</option>														
-                        </select>
+
+                        <!-- Subcategory Selection -->
+                        <div class="col-lg-6 col-md-6">
+                            <div class="mt-30 lbel25">
+                                <label>Sub Category*</label>
+                            </div>
+                            <select class="selectpicker form-control @error('sub_category_id') is-invalid @enderror" name="sub_category_id" id="selectsub_category" data-live-search="true">
+                                <option value="" selected hidden>Select Sub-category</option>
+                            </select>
+                            @error('sub_category_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div> 
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="mt-30 lbel25">
-                            <label>Course Category*</label>
-                        </div>
-                        <select class="selectpicker _dlor1 form-control" title="Select Category" name="selectcategory" id="selectcategory" data-live-search="true">
-                            <optgroup label="Development">
-                                <option value="1">Web Development</option>
-                                <option value="2">Data Science</option>
-                                <option value="3">Programming Languages</option>
-                                <option value="4">Mobile Apps</option>
-                                <option value="5">Game Development</option>
-                                <option value="6">Databases</option>
-                                <option value="7">Software Testing</option>
-                                <option value="8">Software Engineering</option>
-                                <option value="9">Development Tools</option>
-                                <option value="10">E-Commerce</option>
-                            </optgroup>
-                            <optgroup label="Business">
-                                <option value="11">Finance</option>
-                                <option value="12">Entrepreneurship</option>
-                                <option value="13">Communications</option>
-                                <option value="14">Management</option>
-                                <option value="15">Sales</option>
-                                <option value="16">Strategy</option>
-                                <option value="17">Operations</option>
-                                <option value="18">Project Management</option>
-                                <option value="19">Business Law</option>
-                                <option value="20">Data &amp; Analytics</option>
-                                <option value="21">Home Business</option>
-                                <option value="22">Human Resources</option>
-                                <option value="23">Industry</option>
-                                <option value="24">Media</option>
-                                <option value="25">Real Estate</option>
-                                <option value="26">Other</option>
-                            </optgroup>
-                            <optgroup label="Finance &amp; Accounting">
-                                <option value="27">Accounting &amp; Bookkeeping</option>
-                                <option value="28">Compliance</option>
-                                <option value="29">Cryptocurrency &amp; Blockchain</option>
-                                <option value="30">Economics</option>
-                                <option value="31">Finance</option>
-                                <option value="32">Finance Cert &amp; Exam Prep</option>
-                                <option value="33">Financial Modeling &amp; Analysis</option>
-                                <option value="34">Investing &amp; Trading</option>
-                                <option value="35">Money Management Tools</option>
-                                <option value="36">Taxes</option>
-                                <option value="37">Other Finance &amp; Economics</option>
-                            </optgroup>
-                            <optgroup label="IT &amp; Software">
-                                <option value="38">IT Certification</option>
-                                <option value="39">Network &amp; Security</option>
-                                <option value="40"> Hardware</option>
-                                <option value="41">Operating Systems</option>
-                                <option value="42">Other</option>
-                            </optgroup>
-                            <optgroup label="Office Productivity">
-                                <option value="43">Microsoft</option>
-                                <option value="44">Apple</option>
-                                <option value="45">Google</option>
-                                <option value="46">SAP</option>
-                                <option value="47">Oracle</option>
-                            </optgroup>
-                            <optgroup label="Personal Development">
-                                <option value="48">Personal Transformation</option>
-                                <option value="49">Productivity</option>
-                                <option value="50">Leadership</option>
-                                <option value="51">Personal Finance</option>
-                                <option value="52">Career Development</option>
-                                <option value="53">Parenting &amp; Relationships</option>
-                                <option value="54">Happiness</option>
-                                <option value="55">Religion &amp; Spirituality</option>
-                                <option value="56">Personal Brand Building</option>
-                                <option value="57">Creativity</option>
-                                <option value="58">Influence</option>
-                                <option value="59">Self Esteem</option>
-                                <option value="60">Stress Management</option>
-                                <option value="61">Memory &amp; Study Skills</option>
-                                <option value="62">Motivation</option>
-                                <option value="63">Other</option>
-                            </optgroup>
-                            <optgroup label="Design">
-                                <option value="64">Web Design</option>
-                                <option value="65">Graphic Design</option>
-                                <option value="66">Design Tools</option>
-                                <option value="67">User Experience</option>
-                                <option value="68">Game Design</option>
-                                <option value="69">Design Thinking</option>
-                                <option value="70">3D &amp; Animation</option>
-                                <option value="71">Fashion</option>
-                                <option value="72">Architectural Design</option>
-                                <option value="73">Interior Design</option>
-                            </optgroup>
-                            <optgroup label="Marketing">
-                                <option value="74">Digital Marketing</option>
-                                <option value="75">Search Engine Optimization</option>
-                                <option value="76">Social Media Marketing</option>
-                                <option value="77">Branding</option>
-                                <option value="78">Marketing Fundamentals</option>
-                                <option value="79">Analytics &amp; Automation</option>
-                                <option value="80">Public Relations</option>
-                                <option value="81">Advertising</option>
-                                <option value="82">Video &amp; Mobile Marketing</option>
-                                <option value="83">Content Marketing</option>
-                                <option value="84">Growth Hacking</option>
-                                <option value="85">Affiliate Marketing</option>
-                                <option value="86">Product Marketing</option>
-                            </optgroup>
-                            <optgroup label="Lifestyle">
-                                <option value="87">Arts &amp; Crafts</option>
-                                <option value="88">Food &amp; Beverage</option>
-                                <option value="89">Beauty &amp; Makeup</option>
-                                <option value="90">Travel</option>
-                                <option value="91">Gaming</option>
-                                <option value="92">Home Improvement</option>
-                                <option value="93">Pet Care &amp; Training</option>
-                            </optgroup>
-                            <optgroup label="Photography">
-                                <option value="94">Digital Photography</option>
-                                <option value="95">Photography Fundamentals</option>
-                                <option value="96">Portraits</option>
-                                <option value="97">Photography Tools</option>
-                                <option value="98">Commercial Photography</option>
-                                <option value="100">Video Design</option>
-                            </optgroup>
-                            <optgroup label="Health &amp; Fitness">
-                                <option value="101">Fitness</option>
-                                <option value="102">General Health</option>
-                                <option value="103">Sports</option>
-                                <option value="104">Nutrition</option>
-                                <option value="105">Yoga</option>
-                                <option value="106">Mental Health</option>
-                                <option value="107">Dieting</option>
-                                <option value="108">Self Defense</option>
-                                <option value="109">Safety &amp; First Aid</option>
-                                <option value="110">Dance</option>
-                                <option value="111">Meditation</option>
-                            </optgroup>
-                            <optgroup label="Music">
-                                <option value="112">Instruments</option>
-                                <option value="113">Production</option>
-                                <option value="114">Music Fundamentals</option>
-                                <option value="115">Vocal</option>
-                                <option value="116">Music Techniques</option>
-                                <option value="117">Music Software</option>
-                            </optgroup>
-                        </select>																
-                    </div>															
-                </div>
+
+                    <button type="submit" class="main-btn" id="submitButton">Next</button>
+                </form>                                               
             </div>
+
+            <script>
+                // Function to load subcategories based on selected category
+                function loadSubCategories() {
+                    var categoryId = document.getElementById("selectcategory").value;
+
+                    if (!categoryId) {
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/admin/course/subcategories',  // Ensure this route exists
+                        type: 'GET',
+                        data: { category_id: categoryId },
+                        success: function(response) {
+                            var subCategorySelect = $('#selectsub_category');
+                            subCategorySelect.empty();  
+                            subCategorySelect.append('<option value="">Select Sub-category</option>');
+
+                            if (response.length) {
+                                response.forEach(function(subCategory) {
+                                    subCategorySelect.append('<option value="' + subCategory.id + '">' + subCategory.name + '</option>');
+                                });
+                            } else {
+                                subCategorySelect.append('<option value="">No subcategories available</option>');
+                            }
+
+                            subCategorySelect.selectpicker('refresh'); 
+                        },
+                        error: function() {
+                            console.log('Error fetching subcategories');
+                        }
+                    });
+                }
+            </script>
         </div>
     </div>
 </div>

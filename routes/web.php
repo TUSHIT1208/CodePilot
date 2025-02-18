@@ -126,3 +126,10 @@ Route::resource('course', CourseController::class);
 Route::resource('test', TestController::class);
 
 Route::resource('video', VideoController::class);
+
+// Add this route to handle the AJAX request for subcategories
+Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
+
+Route::get('/course/test', function () {
+    return view('admin.course.test');
+})->name('course.test')->middleware('auth');

@@ -67,45 +67,93 @@
                                 <button data-direction="next" class="main-btn">Next</button>
                                 <button data-direction="finish" class="main-btn">Submit for Review</button>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script>
-		ClassicEditor.create( document.querySelector( '#editor1' ) )
-		.then( editor => {
-			window.editor1 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
 
-		ClassicEditor.create( document.querySelector( '#editor2' ) )
-		.then( editor => {
-			window.editor2 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-		
-		ClassicEditor.create( document.querySelector( '#editor3' ) )
-		.then( editor => {
-			window.editor3 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-		
-		ClassicEditor.create( document.querySelector( '#editor4' ) )
-		.then( editor => {
-			window.editor4 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-	</script> 
+    <script>
+// Initialize CKEditor instances
+ClassicEditor.create(document.querySelector('#editor1'))
+    .then(editor => {
+        window.editor1 = editor;
+    })
+    .catch(err => {
+        console.error(err.stack);
+    });
+
+ClassicEditor.create(document.querySelector('#editor2'))
+    .then(editor => {
+        window.editor2 = editor;
+    })
+    .catch(err => {
+        console.error(err.stack);
+    });
+
+ClassicEditor.create(document.querySelector('#editor3'))
+    .then(editor => {
+        window.editor3 = editor;
+    })
+    .catch(err => {
+        console.error(err.stack);
+    });
+
+ClassicEditor.create(document.querySelector('#editor4'))
+    .then(editor => {
+        window.editor4 = editor;
+    })
+    .catch(err => {
+        console.error(err.stack);
+    });
+
+// Steps wizard initialization
+$('#add-course-tab').steps({
+    onFinish: function() {
+        alert('Wizard Completed');
+    }
+});
+
+// Make sortable
+$(function() {
+    $(".sortable").sortable();
+    $(".sortable").disableSelection();
+});
+
+// Triggering the next button for both Basic Information and Course Creation
+$(document).ready(function() {
+    // Basic Information Next button click
+    $('#submitButton').on('click', function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        // Send the form data via AJAX
+        var formData = $(this).closest('form').serialize();
+
+        $.ajax({
+            url: "{{ route('course.store') }}", // Hardcoded URL for the course.store route
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    // After receiving the success response, trigger the next step
+                    $('#add-course-tab .step-footer button[data-direction="next"]').click();
+                } else {
+                    // Handle any error response here
+                    alert('There was an issue with the submission: ' + response.error || 'Unknown error');
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle AJAX error if needed
+                console.error(error);
+            }
+        });
+    });
+});
+
+    </script>
+    
 	<script>
 		$('#add-course-tab').steps({
 		  onFinish: function () {
