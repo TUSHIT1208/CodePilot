@@ -30,7 +30,7 @@ class course extends Model
 
     public function test()
     {
-        return $this->belongsTo(test::class);
+        return $this->hasMany(test::class);
     }
 
 }

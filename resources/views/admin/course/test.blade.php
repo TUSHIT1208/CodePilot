@@ -1,16 +1,12 @@
 <div class="step-tab-panel step-tab-gallery" id="tab_step2">
     <div class="tab-from-content">
         <div class="title-icon">
-            <h3 class="title"><i class="uil uil-notebooks"></i>Test</h3>
+            <h3 class="title"><i class="uil uil-notebooks"></i>Curriculum</h3>
         </div>
         <div class="curriculum-section">
             <div class="row">
                 <div class="col-md-12">
-                    {{-- <div class="curriculum-add-item">
-                        <h4 class="section-title mt-0"><i class="fas fa-th-list me-2"></i>Curriculum</h4>
-                        <button class="main-btn color btn-hover ml-left add-section-title" data-bs-toggle="modal"
-                            data-bs-target="#add_section_model">New Section</button>
-                    </div> --}}
+
                     <div class="added-section-item">
                         <div class="section-header">
                             <h4><i class="fas fa-bars me-2"></i>Introduction</h4>
@@ -38,17 +34,7 @@
                             </div>
                         </div>
                         <div class="section-group-list sortable">
-                            {{-- <div class="section-list-item">
-                                <div class="section-item-title">
-                                    <i class="fas fa-file-alt me-2"></i>
-                                    <span class="section-item-title-text">lecture Title</span>
-                                </div>
-                                <button type="button" class="section-item-tools"><i class="fas fa-edit"></i></button>
-                                <button type="button" class="section-item-tools"><i
-                                        class="fas fa-trash-alt"></i></button>
-                                <button type="button" class="section-item-tools ml-auto"><i
-                                        class="fas fa-bars"></i></button>
-                            </div> --}}
+
                             <div class="section-list-item">
                                 <div class="section-item-title">
                                     <i class="fas fa-stream me-2"></i>
@@ -73,9 +59,7 @@
                             </div>
                         </div>
                         <div class="section-add-item-wrap p-3">
-                            {{-- <button class="add_lecture" data-bs-toggle="modal"
-                                data-bs-target="#add_lecture_model"><i
-                                    class="far fa-plus-square me-2"></i>Lecture</button> --}}
+
                             <button class="add_quiz" data-bs-toggle="modal" data-bs-target="#add_quiz_model"><i
                                     class="far fa-plus-square me-2"></i>Quiz</button>
                             <button class="add_assignment" data-bs-toggle="modal"
@@ -89,7 +73,9 @@
     </div>
 </div>
 
-{{-- add quiz and & W --}}
+
+
+<!-- Add Quiz Start -->
 <div class="modal fade" id="add_quiz_model" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -117,19 +103,33 @@
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane fade show active" id="nav-quizbasic" role="tabpanel">
-                                        <div class="new-section">
-                                            <div class="form_group mt-30">
-                                                <label class="label25">Quiz Title*</label>
-                                                <input class="form_input_1" type="text" placeholder="Title here">
+                                        <form method="POST" action="{{ route('test.store') }}">
+                                            @csrf
+                                            <div class="new-section">
+                                                <div class="form_group mt-30">
+                                                    <label class="label25">id*</label>
+                                                    <input class="form_input_1" type="text" name="course_id"
+                                                        placeholder="id" required>
+                                                </div>
+                                                <div class="form_group mt-30">
+                                                    <label class="label25">Quiz Title*</label>
+                                                    <input class="form_input_1" type="text" name="test_title"
+                                                        placeholder="Title here" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="ui search focus lbel25 mt-30">
-                                            <label>Description*</label>
-                                            <div class="text-editor">
-                                                <div id="editor3"></div>
+                                            <div class="ui search focus lbel25 mt-30">
+                                                <label>Passing Marks*</label>
+                                                <input class="form_input_1" type="text" name="passing_mark"
+                                                    placeholder="Passing Mark here" required>
                                             </div>
-                                        </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="main-btn cancel"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="main-btn" id="nextButton">Next</button>
+                                            </div>
+                                        </form>
                                     </div>
+
                                     <div class="tab-pane fade" id="nav-questions" role="tabpanel">
                                         <div class="lecture-video-dt mt-30">
                                             <div class="add-ques-dt">
@@ -395,63 +395,14 @@
                                                                 class="fas fa-save me-2"></i>Save Question</button>
                                                     </div>
                                                 </div>
-                                                <div class="added-ques">
-                                                    <div class="section-group-list ps-0 pe-0 sortable">
-                                                        <div class="section-list-item">
-                                                            <div class="section-item-title">
-                                                                <i class="far fa-dot-circle me-2"></i>
-                                                                <span class="section-item-title-text">Question
-                                                                    Title</span>
-                                                            </div>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-trash-alt"></i></button>
-                                                            <button type="button" class="section-item-tools ml-auto"><i
-                                                                    class="fas fa-bars"></i></button>
-                                                        </div>
-                                                        <div class="section-list-item">
-                                                            <div class="section-item-title">
-                                                                <i class="far fa-check-circle me-2"></i>
-                                                                <span class="section-item-title-text">Question
-                                                                    Title</span>
-                                                            </div>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-trash-alt"></i></button>
-                                                            <button type="button" class="section-item-tools ml-auto"><i
-                                                                    class="fas fa-bars"></i></button>
-                                                        </div>
-                                                        <div class="section-list-item">
-                                                            <div class="section-item-title">
-                                                                <i class="far fa-edit me-2"></i>
-                                                                <span class="section-item-title-text">Question
-                                                                    Title</span>
-                                                            </div>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-trash-alt"></i></button>
-                                                            <button type="button" class="section-item-tools ml-auto"><i
-                                                                    class="fas fa-bars"></i></button>
-                                                        </div>
-                                                        <div class="section-list-item">
-                                                            <div class="section-item-title">
-                                                                <i class="far fa-file-alt me-2"></i>
-                                                                <span class="section-item-title-text">Question
-                                                                    Title</span>
-                                                            </div>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-edit"></i></button>
-                                                            <button type="button" class="section-item-tools"><i
-                                                                    class="fas fa-trash-alt"></i></button>
-                                                            <button type="button" class="section-item-tools ml-auto"><i
-                                                                    class="fas fa-bars"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                             </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="main-btn cancel"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="main-btn"
+                                                id="nextToSettingsButton">Next</button>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="nav-setting" role="tabpanel">
@@ -512,6 +463,11 @@
                                                             answer in this quiz.</span>
                                                     </div>
                                                 </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="main-btn cancel"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="main-btn">Save</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -521,118 +477,50 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            {{-- <div class="modal-footer">
                 <button type="button" class="main-btn cancel" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="main-btn">Add Quiz</button>
-            </div>
+                <button type="button" class="main-btn">Next</button>
+            </div> --}}
         </div>
     </div>
 </div>
+<!-- Add Quiz End -->
 
+<script>
+    document.getElementById('nextButton').addEventListener('click', function () {
+        // Hide the basic tab
+        document.querySelector('#nav-quizbasic').classList.remove('show', 'active');
+        // Show the questions tab
+        document.querySelector('#nav-questions').classList.add('show', 'active');
 
-<!-- Add Assignment Start and & W-->
-<div class="modal fade" id="add_assignment_model" tabindex="-1" aria-labelledby="lectureModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lectureModalLabel">Add Assignment</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="new-section-block main-form">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="new-section">
-                                <div class="form_group">
-                                    <label class="label25">Assignment Title*</label>
-                                    <input class="form_input_1" type="text" placeholder="Assignment title here">
-                                </div>
-                                <div class="form_group mt-30">
-                                    <label class="label25">Description*</label>
-                                    <div class="text-editor">
-                                        <div id="editor4"></div>
-                                    </div>
-                                </div>
-                                <div class="form_group mt-30">
-                                    <div class="row g-4">
-                                        <div class="col-lg-4 mt-30">
-                                            <label class="label25">Time Duration*</label>
-                                            <div class="row no-gutters">
-                                                <div class="col-6">
-                                                    <input class="form_input_1" type="number" value="0" placeholder="">
-                                                </div>
-                                                <div class="col-6 pl-2">
-                                                    <select
-                                                        class="ui hj145 dropdown cntry152 assignment prompt srch_explore">
-                                                        <option value="">Select</option>
-                                                        <option>Weeks</option>
-                                                        <option>Days</option>
-                                                        <option>Hours</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <span class="alt-text">Assignment time duration, set 0 for no limit.</span>
-                                        </div>
-                                        <div class="col-lg-4 mt-30">
-                                            <label class="label25">Total Number*</label>
-                                            <input class="form_input_1" type="number" value="10" placeholder="">
-                                            <span class="alt-text">Maximum points a student can score</span>
-                                        </div>
-                                        <div class="col-lg-4 mt-30">
-                                            <label class="label25">Minimum Pass Number*</label>
-                                            <input class="form_input_1" type="number" value="5" placeholder="">
-                                            <span class="alt-text">Minimum points required for the student to pass this
-                                                assignment.</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="assgn152 mt-30 pt-30">
-                                    <div class="row g-6">
-                                        <div class="col-lg-6 mt-30">
-                                            <label class="label25">Upload attachment limit*</label>
-                                            <input class="form_input_1" type="text" value="1" placeholder="">
-                                            <span class="alt-text">Maximum attachment size limit</span>
-                                        </div>
-                                        <div class="col-lg-6 mt-30">
-                                            <label class="label25">Maximum attachment size limit</label>
-                                            <input class="form_input_1" type="text" value="10" placeholder="">
-                                            <span class="alt-text">Define maximum attachment size in MB</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="upload-file-dt mt-30">
-                                    <div class="upload-btn">
-                                        <input class="uploadBtn-main-input" type="file"
-                                            id="AssignmentFile__input--source">
-                                        <label for="AssignmentFile__input--source" title="Zip"><i
-                                                class="far fa-plus-square me-2"></i>Attachment</label>
-                                    </div>
-                                    <span class="uploadBtn-main-file">Supports: jpg, jpeg, png, pdf or .zip</span>
-                                    <div class="add-attachments-dt">
-                                        <div class="attachment-items">
-                                            <div class="attachment_id">Uploaded ID: 5</div>
-                                            <button class="cancel-btn" type="button"><i
-                                                    class="fas fa-trash-alt"></i></button>
-                                        </div>
-                                        <div class="attachment-items">
-                                            <div class="attachment_id">Uploaded ID: 6</div>
-                                            <button class="cancel-btn" type="button"><i
-                                                    class="fas fa-trash-alt"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="main-btn cancel" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="main-btn">Add Assignment</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Add Assignment End -->
+        // Remove active class from all tabs
+        const tabs = document.querySelectorAll('.nav-link');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+            tab.setAttribute('aria-selected', 'false');
+        });
+
+        // Add active class to the questions tab
+        const questionsTab = document.querySelector('a[href="#nav-questions"]');
+        questionsTab.classList.add('active');
+        questionsTab.setAttribute('aria-selected', 'true');
+    });
+    document.getElementById('nextToSettingsButton').addEventListener('click', function () {
+        // Hide the questions tab
+        document.querySelector('#nav-questions').classList.remove('show', 'active');
+        // Show the settings tab
+        document.querySelector('#nav-setting').classList.add('show', 'active');
+
+        // Remove active class from all tabs
+        const tabs = document.querySelectorAll('.nav-link');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+            tab.setAttribute('aria-selected', 'false');
+        });
+
+        // Add active class to the settings tab
+        const settingsTab = document.querySelector('a[href="#nav-setting"]');
+        settingsTab.classList.add('active');
+        settingsTab.setAttribute('aria-selected', 'true');
+    });
+</script>

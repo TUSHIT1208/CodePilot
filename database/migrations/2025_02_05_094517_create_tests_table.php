@@ -15,8 +15,9 @@ return new class extends Migration {
             $table->foreignId('course_id')->constrained('courses')->onDelete('cascade');
             $table->string('test_title');
             $table->integer('passing_mark');
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamps(); // This adds both 'created_at' and 'updated_at'
         });
+
     }
 
     /**

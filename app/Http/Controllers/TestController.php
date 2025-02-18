@@ -28,7 +28,20 @@ class TestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate input
+        $request->validate([
+            'test_title' => 'required|string|max:255',
+            'passing_mark' => 'required|numeric|min:0',
+        ]);
+
+        // Insert into the database
+        Test::create([
+            'course_id' => $request->input('course_id'),
+            'test_title' => $request->input('test_title'),
+            'passing_mark' => $request->input('passing_mark'),
+        ]);
+
+        return response()->json(['success' => 'Test added successfully!']);
     }
 
     /**

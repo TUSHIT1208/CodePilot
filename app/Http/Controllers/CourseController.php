@@ -95,9 +95,9 @@ class CourseController extends Controller
             'course_level' => $request->course_level,
         ]);
         // if ($course) {
-            return response()->json(['success' => 'Subcategory status updated successfully.']);
+            //return response()->json(['success' => 'Subcategory status updated successfully.']);
         // }
-        //return redirect()->back();
+        return redirect()->back()->with('success','course inserted successfully');
         // return redirect()->route('course.test');
         // return view('admin.course.test');
     }

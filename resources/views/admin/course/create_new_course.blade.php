@@ -23,7 +23,7 @@
                                 <li>
                                     <a href="#tab_step2">
                                         <span class="number"></span>
-                                        <span class="step-name">Test</span>
+                                        <span class="step-name">Curriculum</span>
                                     </a>
                                 </li>
                                 <li>
@@ -126,34 +126,12 @@
 
         // Triggering the next button for both Basic Information and Course Creation
         $(document).ready(function () {
-            // Basic Information Next button click
-            $('#submitButton').on('click', function (e) {
-                e.preventDefault(); // Prevent default form submission
-
-                // Send the form data via AJAX
-                var formData = $(this).closest('form').serialize();
-
-                $.ajax({
-                    url: "{{ route('course.store') }}", // Hardcoded URL for the course.store route
-                    method: 'POST',
-                    data: formData,
-                    success: function (response) {
-                        if (response.success) {
-                            // After receiving the success response, trigger the next step
-                            $('#add-course-tab .step-footer button[data-direction="next"]').click();
-                        } else {
-                            // Handle any error response here
-                            alert('There was an issue with the submission: ' + response.error || 'Unknown error');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle AJAX error if needed
-                        console.error(error);
-                    }
-                });
-            });
+            // Check if the success message exists in the session (after redirect)
+            if ('{{ session('success') }}') {
+                // Trigger the next button automatically after receiving success
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            }
         });
-
     </script>
 
     <script>

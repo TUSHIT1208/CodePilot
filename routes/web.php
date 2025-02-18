@@ -12,7 +12,7 @@ use App\Http\Controllers\LearningPathController;
 use App\Http\Controllers\LearnerProfileController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\SubCategoryController;                         
+use App\Http\Controllers\SubCategoryController;
 
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
@@ -109,7 +109,7 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 Route::resource('category', CategoryController::class)->middleware('auth');
 Route::post('/categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk-delete');
 Route::post('/categories/update-status', action: [CategoryController::class, 'updateStatus'])->name('categories.update-status');
-    
+
 Route::resource('subcategory', SubCategoryController::class)->middleware('auth');
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
