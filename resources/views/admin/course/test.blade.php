@@ -70,12 +70,17 @@
                 </div>
 
             </div>
-            <div class="mt-5">
-                @if (session()->has('course_id'))
+            <div class="mt-5 row">
+                <div class="col-lg-6">
+                    @if (session()->has('course_id'))
                     <a href="{{ route('course.edit', ['course' => session('course_id')]) }}" class="upload_btn">
                         Previous
                     </a>
                 @endif
+                </div>
+                <div class="col-lg-6 text-end">
+                    <button id="test_next" class="main-btn">Next</button>
+                </div>
             </div>
 
         </div>

@@ -20,6 +20,26 @@ use App\Http\Controllers\SubCategoryController;
 
 
 
+Route::get('/',function(){
+    return view('frontside.about');
+})->name('about');
+
+Route::get('/blog',function(){
+    return view('frontside.blog');
+})->name('blog');
+
+Route::get('/company',function(){
+    return view('frontside.company');
+})->name('company');
+
+Route::get('/carrer',function(){
+    return view('frontside.carrer');
+})->name('carrer');
+
+Route::get('/press',function(){
+    return view('frontside.press');
+})->name('press');   
+
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
