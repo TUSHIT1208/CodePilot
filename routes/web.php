@@ -133,9 +133,6 @@ Route::resource('test', TestController::class);
 route::resource('testquestion', TestQuestionController::class);
 
 route::resource('testoption', TestOptionController::class);
-Route::get('/options/count/{questionId}', function ($questionId) {
-    return response()->json(['count' => TestOption::where('question_id', $questionId)->count()]);
-});
 
 Route::resource('video', VideoController::class);
 

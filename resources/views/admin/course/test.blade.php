@@ -619,24 +619,28 @@
     });
 </script>
 
-<script>document.addEventListener('DOMContentLoaded', function () {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         const optionForm = document.querySelector('.ans-box form'); // Select the option form
         const questionForm = document.querySelector('#question-form'); // Select the question form
         const addButton = document.getElementById('add-option-btn'); // Add option button
         const optionsContainer = document.querySelector('.ans-box .row'); // Container for options
 
-        function checkOptionCount() {
-            let questionId = {{ session()->get('question_id') }};
+        function loadOptions() {
+            let questionId = "{{ session()->get('question_id') }}"; // Ensure questionId is properly formatted
 
-            axios.get(`/options/count/${questionId}`)
+            axios.get(`/options/list/${questionId}`)  // Fetch options dynamically
                 .then(response => {
-                    if (response.data.count >= 4) {
-                        resetEntireForm(); // Reset entire form when four options are added
+                    optionsContainer.innerHTML = response.data; // Update options without reloading the page
+
+                    if (response.data.optionCount >= 4) {
+                        optionForm.reset(); // Reset only the option form
+                        addButton.disabled = true; // Disable button when 4 options exist
                     } else {
                         addButton.disabled = false;
                     }
                 })
-                .catch(error => console.error('Error fetching option count:', error));
+                .catch(error => console.error('Error fetching options:', error));
         }
 
         optionForm.addEventListener('submit', function (e) {
@@ -647,8 +651,8 @@
             axios.post(optionForm.action, formData)
                 .then(response => {
                     if (response.status === 201) {
-                        optionForm.reset(); // Reset the option form after submission
-                        checkOptionCount(); // Check count again
+                        loadOptions(); // Reload only the options list
+                        optionForm.reset(); // Reset the form fields
                     }
                 })
                 .catch(error => {
@@ -664,7 +668,9 @@
             axios.post(questionForm.action, formData)
                 .then(response => {
                     if (response.status === 201) {
-                        resetEntireForm(); // Reset entire form after adding a new question
+                        questionForm.reset(); // Reset the question form
+                        optionsContainer.innerHTML = ''; // Clear options for new question
+                        addButton.disabled = false; // Enable add button for new options
                     }
                 })
                 .catch(error => {
@@ -672,14 +678,6 @@
                 });
         });
 
-        function resetEntireForm() {
-            questionForm.reset(); // Reset question form
-            optionForm.reset(); // Reset option form
-            optionsContainer.innerHTML = ''; // Clear all existing options
-            addButton.disabled = false; // Re-enable the add button
-        }
-
-        checkOptionCount(); // Initial check on page load
+        loadOptions(); // Load options when the page is ready
     });
-
 </script>
