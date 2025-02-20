@@ -121,14 +121,6 @@ class CourseController extends Controller
         return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
     }
 
-    // public function showCreateCourseForm()
-    // {
-    //     // Retrieve the course data stored in session or use a default empty object
-    //     $course = session('course', (object)[]);  // Default to empty object if no session exists
-        
-    //     // Pass the course to the view
-    //     return view('admin.course.create_new_course', compact('course'));
-    // }
     
     /**
      * Update the specified resource in storage.
