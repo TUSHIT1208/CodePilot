@@ -82,12 +82,13 @@
 
                         <div class="mb-3">
                             <label for="editUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control _dlor1" id="editUsername" name="username" required>
+                            <input type="text" class="form-control _dlor1" id="editUsername" name="username">
+
                         </div>
 
                         <div class="mb-3">
                             <label for="editFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control _dlor1" id="editFirstName" name="first_name" required>
+                            <input type="text" class="form-control _dlor1" id="editFirstName" name="first_name">
                         </div>
 
                         <div class="mb-3">
@@ -97,23 +98,22 @@
 
                         <div class="mb-3">
                             <label for="editLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control _dlor1" id="editLastName" name="last_name" required>
+                            <input type="text" class="form-control _dlor1" id="editLastName" name="last_name">
                         </div>
 
                         <div class="mb-3">
                             <label for="editEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control _dlor1" id="editEmail" name="email" required>
+                            <input type="email" class="form-control _dlor1" id="editEmail" name="email">
                         </div>
 
                         <div class="mb-3">
                             <label for="editPhone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control _dlor1" id="editPhone" name="phone_number" required>
+                            <input type="tel" class="form-control _dlor1" id="editPhone" name="phone_number">
                         </div>
 
                         <div class="mb-3">
                             <label for="editDob" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control _dlor1" id="editDob" name="date_of_birth"
-                                required>
+                            <input type="date" class="form-control _dlor1" id="editDob" name="date_of_birth">
                         </div>
 
                         <div class="modal-footer">
@@ -128,8 +128,8 @@
 
     {{-- Prevent default form validation submission --}}
     <script>
-        $(document).ready(function() {
-            $('form.needs-validation').on('submit', function(e) {
+        $(document).ready(function () {
+            $('form.needs-validation').on('submit', function (e) {
                 e.preventDefault();
 
                 var form = $(this);
@@ -141,19 +141,19 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
+                    success: function (response) {
                         // Display success message if update is successful
                         $('#editdetailsModal' + response.id).modal('hide'); // Close the modal
                         location.reload(); // Optionally reload the page to reflect changes
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         // Clear previous error messages
                         form.find('.invalid-feedback').remove();
                         form.find('.is-invalid').removeClass('is-invalid');
 
                         // Handle validation errors
                         var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(field, message) {
+                        $.each(errors, function (field, message) {
                             $('#' + field).addClass('is-invalid');
                             $('#' + field).after('<div class="invalid-feedback">' +
                                 message + '</div>');
@@ -166,50 +166,50 @@
 
     <!-- DataTables & Bulk Delete Script -->
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let table = $('#instructor-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('instructorList') }}", // Adjust this route
                 columns: [{
-                        data: 'id',
-                        render: function(data) {
-                            return '<input type="checkbox" class="instructor-checkbox" value="' +
-                                data + '">';
-                        },
-                        orderable: false,
-                        searchable: false
+                    data: 'id',
+                    render: function (data) {
+                        return '<input type="checkbox" class="instructor-checkbox" value="' +
+                            data + '">';
                     },
-                    {
-                        data: 'profile',
-                        name: 'profile',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'full_name',
-                        name: 'full_name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'phone_number',
-                        name: 'phone_number'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    }
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'profile',
+                    name: 'profile',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'full_name',
+                    name: 'full_name'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'phone_number',
+                    name: 'phone_number'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
                 ]
             });
             // Set global Toastr options
@@ -242,14 +242,14 @@
             };
 
             // Handle "Select All" checkbox
-            $('#instructor-table tbody').on('change', '.instructor-checkbox', function() {
+            $('#instructor-table tbody').on('change', '.instructor-checkbox', function () {
                 let allChecked = $('.instructor-checkbox').length === $('.instructor-checkbox:checked')
                     .length;
                 $('#select-all').prop('checked', allChecked);
                 toggleBulkDeleteButton();
             });
 
-            $('#select-all').on('change', function() {
+            $('#select-all').on('change', function () {
                 $('.instructor-checkbox').prop('checked', $(this).prop('checked'));
                 toggleBulkDeleteButton();
             });
@@ -260,8 +260,8 @@
             }
 
             // Bulk Delete Functionality
-            $('#bulk-delete-btn').on('click', function() {
-                let selectedIds = $('.instructor-checkbox:checked').map(function() {
+            $('#bulk-delete-btn').on('click', function () {
+                let selectedIds = $('.instructor-checkbox:checked').map(function () {
                     return $(this).val();
                 }).get();
                 // ✅ Show error Toastr if no category is selected
@@ -289,11 +289,11 @@
                                     _token: '{{ csrf_token() }}',
                                     ids: selectedIds,
                                 },
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success) {
                                         $('#select-all').prop('checked', false);
                                         $('#bulk-delete-btn').prop('disabled', true);
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             location
                                                 .reload(); // Reload the page
                                         }, 2000);
@@ -302,7 +302,7 @@
                                             'Failed to delete.', 'Error');
                                     }
                                 },
-                                error: function() {
+                                error: function () {
                                     toastr.error('An error occurred. Please try again.',
                                         'Error');
                                 }
@@ -316,8 +316,8 @@
 
     <!-- JavaScript for Delete Confirmation -->
     <script>
-        $(document).ready(function() {
-            $(document).on("click", ".delete-btn", function(e) {
+        $(document).ready(function () {
+            $(document).on("click", ".delete-btn", function (e) {
                 e.preventDefault(); // Prevent default action
 
                 var form = $(this).closest(".delete-form"); // Get the closest delete form
@@ -343,8 +343,8 @@
 
     <!-- Toggle User Status Script -->
     <script>
-        $(document).ready(function() {
-            $('.ucp-table').on('change', '.toggle-input', function() {
+        $(document).ready(function () {
+            $('.ucp-table').on('change', '.toggle-input', function () {
                 var userId = $(this).data('user-id');
                 var isActive = $(this).prop('checked') ? 1 : 0;
 
@@ -356,14 +356,14 @@
                         user_id: userId,
                         is_active: isActive
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             toastr.success('Status updated successfully.');
                         } else {
                             toastr.error('Error updating status.');
                         }
                     },
-                    error: function() {
+                    error: function () {
                         toastr.error('An error occurred. Please try again.');
                     }
                 });
@@ -373,8 +373,8 @@
 
     {{-- Open Edit Modal and Populate Data --}}
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.edit-instructor', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.edit-instructor', function () {
                 let id = $(this).data('id');
                 let username = $(this).data('username');
                 let firstname = $(this).data('firstname');
@@ -402,4 +402,61 @@
             });
         });
     </script>
+    <script>
+        function validateUserForm(formId) {
+            let form = document.getElementById(formId);
+            let isValid = true;
+
+            // Clear previous errors
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+            form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+            const fields = [
+                { name: "username", regex: /^[a-zA-Z0-9_]{3,20}$/, message: "Username must be 3-20 characters (letters, numbers, underscores)." },
+                { name: "first_name", regex: /^[A-Za-z]{2,}$/, message: "First name must contain only letters and be at least 2 characters." },
+                { name: "last_name", regex: /^[A-Za-z]{2,}$/, message: "Last name must contain only letters and be at least 2 characters." },
+                { name: "middle_name", regex: /^[A-Za-z]*$/, message: "Middle name must contain only letters.", optional: true },
+                { name: "email", regex: /^\S+@\S+\.\S+$/, message: "Please enter a valid email address." },
+                { name: "phone_number", regex: /^\d{10}$/, message: "Phone number must be exactly 10 digits." },
+                { name: "date_of_birth", isDate: true, message: "Date of birth must be in the past.", optional: true }
+            ];
+
+            fields.forEach(field => {
+                let input = form.querySelector(`[name="${field.name}"]`);
+                if (!input) return;
+
+                let value = input.value.trim();
+                let isValidField = true;
+
+                if (!field.optional || value !== "") {
+                    if (field.isDate) {
+                        if (new Date(value) >= new Date()) {
+                            isValidField = false;
+                        }
+                    } else if (!field.regex.test(value)) {
+                        isValidField = false;
+                    }
+                }
+
+                if (!isValidField) {
+                    isValid = false;
+                    input.classList.add('is-invalid');
+                    let errorMessage = `<div class="invalid-feedback">${field.message}</div>`;
+                    input.insertAdjacentHTML('afterend', errorMessage);
+                }
+            });
+
+            return isValid;
+        }
+
+        // Apply validation on form submission
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('instructorEditForm').addEventListener('submit', function (event) {
+                if (!validateUserForm('instructorEditForm')) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
 @endsection

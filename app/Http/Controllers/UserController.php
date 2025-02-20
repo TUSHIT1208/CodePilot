@@ -74,7 +74,7 @@ class UserController extends Controller
                 ->orderColumn('full_name', function ($query, $order) {
                     $query->orderByRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) {$order}");
                 })
-                ->rawColumns(['profile', 'status', 'action','full_name'])
+                ->rawColumns(['profile', 'status', 'action', 'full_name'])
                 ->make(true); // Return DataTable JSON response
         }
 
@@ -142,7 +142,7 @@ class UserController extends Controller
                 ->orderColumn('full_name', function ($query, $order) {
                     $query->orderByRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) {$order}");
                 })
-                ->rawColumns(['profile', 'status', 'action','full_name'])
+                ->rawColumns(['profile', 'status', 'action', 'full_name'])
                 ->make(true);
         }
 
