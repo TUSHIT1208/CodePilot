@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\test;
+use App\Models\TestQuestion;
 use Illuminate\Http\Request;
 
-class TestController extends Controller
+class TestQuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class TestController extends Controller
      */
     public function create()
     {
-        return view('admin.course.test');
+        //
     }
 
     /**
@@ -28,32 +28,34 @@ class TestController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the incoming request data
         $request->validate([
-            'test_title' => 'required|string|max:255',
-            'passing_mark' => 'required|numeric|min:0',
+            'question_text' => 'required|string|max:255',
+            'score' => 'required|numeric|min:0',
         ]);
 
-        // Insert into the database
-        $test = Test::create([
-            'course_id' => session()->get('course_id'), // Get course_id from session
-            'test_title' => $request->input('test_title'),
-            'passing_mark' => $request->input('passing_mark'),
+        // Create a new test question
+        $testquestion = TestQuestion::create([
+            'test_id' => session()->get('test_id'),
+            'question_text' => $request->question_text,
+            'score' => $request->score,
         ]);
 
-        // Store test_id in session after successful insertion
-        session()->put('test_id', $test->id);
+        session()->put('question_id', $testquestion->id);
 
+        // Return a JSON response to be handled by the front-end
         return response()->json([
             'success' => true,
-            'message' => 'Test added successfully!',
-            'test_id' => $test->id
+            'message' => 'Question added successfully!',
         ]);
+
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(test $test)
+    public function show(TestQuestion $testQuestion)
     {
         //
     }
@@ -61,7 +63,7 @@ class TestController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(test $test)
+    public function edit(TestQuestion $testQuestion)
     {
         //
     }
@@ -69,7 +71,7 @@ class TestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, test $test)
+    public function update(Request $request, TestQuestion $testQuestion)
     {
         //
     }
@@ -77,7 +79,7 @@ class TestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(test $test)
+    public function destroy(TestQuestion $testQuestion)
     {
         //
     }

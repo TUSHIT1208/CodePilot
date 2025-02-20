@@ -46,7 +46,7 @@
                                 </li>
                             </ul>
                             <div class="step-content">
-                                @include('admin.course.basic_information')									
+                                @include('admin.course.basic_information') 									    
                                 @include('admin.course.test')
                                 @include('admin.course.media')								
                                 @include('admin.course.price')								
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="step-footer step-tab-pager mb-3">
+                            <div class="step-footer step-tab-pager">
                                 <button data-direction="prev" class="main-btn">PREVIOUS</button>
                                 <button data-direction="next" class="main-btn">Next</button>
                                 <button data-direction="finish" class="main-btn">Submit for Review</button>
@@ -77,6 +77,18 @@
         </div>
     </div>
 
+    {{-- hide button --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select all buttons inside the step-footer
+            var buttons = document.querySelectorAll('.step-footer .main-btn');
+
+            buttons.forEach(function (button) {
+                button.style.visibility = "hidden"; // Hide each button
+            });
+        });
+
+    </script>
     <script>
         // Initialize CKEditor instances
         ClassicEditor.create(document.querySelector('#editor1'))
@@ -131,20 +143,9 @@
                 // Trigger the next button automatically after receiving success
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             }
-        });
-    </script>
-
-    <script>
-        $('#add-course-tab').steps({
-            onFinish: function () {
-                alert('Wizard Completed');
+            if (course) {
+                $('#add-course-tab .step-footer button[data-direction="prev"]').click();
             }
-        });		
-    </script>
-    <script>
-        $(function () {
-            $(".sortable").sortable();
-            $(".sortable").disableSelection();
         });
     </script>
     {{-- @endsection --}}

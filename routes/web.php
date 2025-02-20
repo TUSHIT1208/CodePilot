@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\TestOptionController;
+use App\Http\Controllers\TestQestionController;
+use App\Http\Controllers\TestQuestionController;
+use App\Models\TestOption;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\TestController;
@@ -13,6 +17,7 @@ use App\Http\Controllers\LearnerProfileController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\SubCategoryController;
+
 
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
@@ -125,6 +130,13 @@ Route::resource('course', CourseController::class);
 
 Route::resource('test', TestController::class);
 
+route::resource('testquestion', TestQuestionController::class);
+
+route::resource('testoption', TestOptionController::class);
+Route::get('/options/count/{questionId}', function ($questionId) {
+    return response()->json(['count' => TestOption::where('question_id', $questionId)->count()]);
+});
+
 Route::resource('video', VideoController::class);
 
 // Add this route to handle the AJAX request for subcategories
@@ -133,3 +145,9 @@ Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCateg
 Route::get('/course/test', function () {
     return view('admin.course.test');
 })->name('course.test')->middleware('auth');
+
+Route::get('/course/basic-information', function () {
+    return view('admin.course.basic_information');
+})->name('course.basic-information');
+
+Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit');

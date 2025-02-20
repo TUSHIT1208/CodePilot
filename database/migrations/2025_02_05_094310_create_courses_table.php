@@ -28,7 +28,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
-            $table->enum('course_type', ['Text', 'Video']);
+            $table->enum('course_type', ['text', 'video']);
             $table->string('title');
             $table->text('description');
             $table->text('course_description');

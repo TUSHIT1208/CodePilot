@@ -17,4 +17,10 @@ class test extends Model
     {
         return $this->belongsTo(course::class);
     }
+
+    public function testquestion()
+    {
+        return $this->hasMany(TestQuestion::class);
+    }
+
 }
