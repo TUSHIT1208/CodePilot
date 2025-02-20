@@ -26,7 +26,7 @@
                                         @endforeach
                                     </select>
 
-                                    <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
+                                    <button id="bulk-delete-btn" class="main-btn">Delete Selected</button>
                                 @endif
 
                                 <button data-bs-toggle="modal" data-bs-target="#addCategoryModal" class="main-btn"
@@ -220,7 +220,34 @@
                     }
                 ]
             });
-
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "5000",
+                "extendedTimeOut": "2000",
+                "positionClass": "toast-top-right",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "onShown": function() {
+                    $('.toast-success').css({
+                        'background-color': '#28a745', // Green for success
+                        'opacity': '1'  // Adjust opacity
+                    });
+                    $('.toast-error').css({
+                        'background-color': '#dc3545', // Red for error
+                        'opacity': '1'
+                    });
+                    $('.toast-warning').css({
+                        'background-color': '#ffc107', // Yellow for warning
+                        'opacity': '1'
+                    });
+                    $('.toast-info').css({
+                        'background-color': '#17a2b8', // Blue for info
+                        'opacity': '1'
+                    });
+                }
+            };
+            
             // Trigger table reload when category is selected
             $('#category-filter').on('change', function() {
                 table.ajax.reload();
@@ -246,6 +273,11 @@
                 let selectedIds = $('.item-checkbox:checked').map(function() {
                     return $(this).val();
                 }).get();
+                // ✅ Show error Toastr if no category is selected
+                if (selectedIds.length === 0) {
+                    toastr.warning("Please select at least one Sub-category to delete.", "Warning");
+                    return; // Stop further execution
+                }
 
                 if (selectedIds.length > 0) {
                     Swal.fire({
@@ -268,7 +300,7 @@
                                 },
                                 success: function(response) {
                                     if (response.success) {
-                                        toastr.success(response.success, 'Success');
+                                        
                                         $('#select-all').prop('checked', false);
                                         $('#bulk-delete-btn').prop('disabled', true);
                                         location

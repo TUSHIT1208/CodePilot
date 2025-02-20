@@ -11,6 +11,8 @@
     @include('admin.layouts.head-css')
     <script src="{{ asset('js/vertical-responsive-menu.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
 </head>
 
 @section('body')
@@ -20,7 +22,7 @@
    @include('admin.layouts.header')
 @include('admin.layouts.left_sidebar')
 
-@yield(section: 'content')
+@yield(section: 'content')  
 
 @include('admin.layouts.vendor-script')
 

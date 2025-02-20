@@ -18,7 +18,7 @@
                             <div class="row mt-2">
                                 <div class="col-lg-12 text-end">
                                     @if (!$learners->isEmpty())
-                                        <button id="bulk-delete-btn" class="main-btn" disabled>Delete Selected</button>
+                                        <button id="bulk-delete-btn" class="main-btn">Delete Selected</button>
                                     @endif
                                 </div>
                             </div>
@@ -217,6 +217,34 @@
                     }
                 ]
             });
+            // Set global Toastr options
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "5000",
+                "extendedTimeOut": "2000",
+                "positionClass": "toast-top-right",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "onShown": function() {
+                    $('.toast-success').css({
+                        'background-color': '#28a745', // Green for success
+                        'opacity': '1'  // Adjust opacity
+                    });
+                    $('.toast-error').css({
+                        'background-color': '#dc3545', // Red for error
+                        'opacity': '1'
+                    });
+                    $('.toast-warning').css({
+                        'background-color': '#ffc107', // Yellow for warning
+                        'opacity': '1'
+                    });
+                    $('.toast-info').css({
+                        'background-color': '#17a2b8', // Blue for info
+                        'opacity': '1'
+                    });
+                }
+            };
 
             // Event delegation for dynamically loaded checkboxes
             $('#myTable tbody').on('change', '.learner-checkbox', function() {
@@ -243,6 +271,12 @@
                     return $(this).val();
                 }).get();
 
+                // ✅ Show error Toastr if no category is selected
+                if (selectedIds.length === 0) {
+                    toastr.warning("Please select at least one Learner to delete.", "Warning");
+                    return; // Stop further execution
+                }
+
                 if (selectedIds.length > 0) {
                     Swal.fire({
                         title: 'Are you sure?',
@@ -264,7 +298,6 @@
                                 },
                                 success: function(response) {
                                     if (response.success) {
-                                        toastr.success(response.success, 'Success');
                                         $('#select-all').prop('checked', false);
                                         $('#bulk-delete-btn').prop('disabled', true);
                                         location

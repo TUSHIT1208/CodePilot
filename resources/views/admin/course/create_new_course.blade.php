@@ -1,4 +1,6 @@
 @include('admin.layouts.master')
+{{-- @section('title') Course  @endsection
+@section('content') --}}
 <div class="wrapper">
     <div class="sa4d25">
         <div class="container">			
@@ -44,7 +46,7 @@
                                 </li>
                             </ul>
                             <div class="step-content">
-                                @include('admin.course.basic_information')									
+                                @include('admin.course.basic_information') 									    
                                 @include('admin.course.test')
                                 @include('admin.course.media')								
                                 @include('admin.course.price')								
@@ -65,55 +67,87 @@
                                 <button data-direction="next" class="main-btn">Next</button>
                                 <button data-direction="finish" class="main-btn">Submit for Review</button>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script>
-		ClassicEditor.create( document.querySelector( '#editor1' ) )
-		.then( editor => {
-			window.editor1 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
 
-		ClassicEditor.create( document.querySelector( '#editor2' ) )
-		.then( editor => {
-			window.editor2 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-		
-		ClassicEditor.create( document.querySelector( '#editor3' ) )
-		.then( editor => {
-			window.editor3 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-		
-		ClassicEditor.create( document.querySelector( '#editor4' ) )
-		.then( editor => {
-			window.editor4 = editor;
-		} )
-		.catch( err => {
-			console.error( err.stack );
-		} );
-	</script> 
-	<script>
-		$('#add-course-tab').steps({
-		  onFinish: function () {
-			alert('Wizard Completed');
-		  }
-		});		
-	</script>
-	<script>
-		$( function() {
-			$( ".sortable" ).sortable();
-			$( ".sortable" ).disableSelection();
-		});
-	</script>
+{{-- hide button --}}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select all buttons inside the step-footer
+    var buttons = document.querySelectorAll('.step-footer .main-btn');
+
+    buttons.forEach(function(button) {
+        button.style.visibility = "hidden"; // Hide each button
+    });
+});
+
+</script>
+    <script>
+        // Initialize CKEditor instances
+        ClassicEditor.create(document.querySelector('#editor1'))
+            .then(editor => {
+                window.editor1 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        ClassicEditor.create(document.querySelector('#editor2'))
+            .then(editor => {
+                window.editor2 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        ClassicEditor.create(document.querySelector('#editor3'))
+            .then(editor => {
+                window.editor3 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        ClassicEditor.create(document.querySelector('#editor4'))
+            .then(editor => {
+                window.editor4 = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+
+        // Steps wizard initialization
+        $('#add-course-tab').steps({
+            onFinish: function() {
+                alert('Wizard Completed');
+            }
+        });
+
+        // Make sortable
+        $(function() {
+            $(".sortable").sortable();
+            $(".sortable").disableSelection();
+        });
+
+        // Triggering the next button for both Basic Information and Course Creation
+        $(document).ready(function() {
+            // Check if the success message exists in the session (after redirect)
+            if ('{{ session('success') }}') {
+                // Trigger the next button automatically after receiving success
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            }
+            if ('{{ session('success_vid') }}') {
+                // Trigger the next button automatically after receiving success
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            }
+            if (course) {
+                $('#add-course-tab .step-footer button[data-direction="prev"]').click();
+            }
+        });
+    </script>
+{{-- @endsection --}}
