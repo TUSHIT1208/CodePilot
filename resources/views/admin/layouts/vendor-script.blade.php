@@ -1,4 +1,3 @@
-
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/OwlCarousel/owl.carousel.js') }}"></script>
 <script src="{{ asset('vendor/semantic/semantic.min.js') }}"></script>
@@ -17,3 +16,6 @@
 
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

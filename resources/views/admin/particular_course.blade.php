@@ -1,4 +1,4 @@
-@extends('admin.setting.master')
+@extends('admin.layouts.master')
 
 @section('title') View saved course @endsection
 

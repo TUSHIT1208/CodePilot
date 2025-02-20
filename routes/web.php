@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\TestOptionController;
+use App\Http\Controllers\TestQestionController;
+use App\Http\Controllers\TestQuestionController;
+use App\Models\TestOption;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\TestController;
@@ -12,7 +16,8 @@ use App\Http\Controllers\LearningPathController;
 use App\Http\Controllers\LearnerProfileController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\SubCategoryController;                         
+use App\Http\Controllers\SubCategoryController;
+
 
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
@@ -109,7 +114,7 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 Route::resource('category', CategoryController::class)->middleware('auth');
 Route::post('/categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk-delete');
 Route::post('/categories/update-status', action: [CategoryController::class, 'updateStatus'])->name('categories.update-status');
-    
+
 Route::resource('subcategory', SubCategoryController::class)->middleware('auth');
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
@@ -124,6 +129,13 @@ Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDe
 Route::resource('course', CourseController::class);
 
 Route::resource('test', TestController::class);
+
+route::resource('testquestion', TestQuestionController::class);
+
+route::resource('testoption', TestOptionController::class);
+Route::get('/options/count/{questionId}', function ($questionId) {
+    return response()->json(['count' => TestOption::where('question_id', $questionId)->count()]);
+});
 
 Route::resource('video', VideoController::class);
 

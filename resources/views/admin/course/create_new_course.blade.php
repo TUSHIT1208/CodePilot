@@ -1,14 +1,14 @@
 @include('admin.layouts.master')
-{{-- @section('title') Course  @endsection
+{{-- @section('title') Course @endsection
 @section('content') --}}
 <div class="wrapper">
     <div class="sa4d25">
-        <div class="container">			
+        <div class="container">
             <div class="row">
-                <div class="col-lg-12">	
+                <div class="col-lg-12">
                     <h2 class="st_title"><i class="uil uil-analysis"></i> Create New Course</h2>
-                </div>					
-            </div>				
+                </div>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="course_tabs_1">
@@ -58,7 +58,9 @@
                                     </div>
                                     <div class="publish-block">
                                         <i class="far fa-edit"></i>
-                                        <p>Your course is in a draft state. Students cannot view, purchase or enroll in this course. For students that are already enrolled, this course will not appear on their student Dashboard.</p>
+                                        <p>Your course is in a draft state. Students cannot view, purchase or enroll in
+                                            this course. For students that are already enrolled, this course will not
+                                            appear on their student Dashboard.</p>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +69,7 @@
                                 <button data-direction="next" class="main-btn">Next</button>
                                 <button data-direction="finish" class="main-btn">Submit for Review</button>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -75,18 +77,18 @@
         </div>
     </div>
 
-{{-- hide button --}}
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Select all buttons inside the step-footer
-    var buttons = document.querySelectorAll('.step-footer .main-btn');
+    {{-- hide button --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select all buttons inside the step-footer
+            var buttons = document.querySelectorAll('.step-footer .main-btn');
 
-    buttons.forEach(function(button) {
-        button.style.visibility = "hidden"; // Hide each button
-    });
-});
+            buttons.forEach(function (button) {
+                button.style.visibility = "hidden"; // Hide each button
+            });
+        });
 
-</script>
+    </script>
     <script>
         // Initialize CKEditor instances
         ClassicEditor.create(document.querySelector('#editor1'))
@@ -123,19 +125,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Steps wizard initialization
         $('#add-course-tab').steps({
-            onFinish: function() {
+            onFinish: function () {
                 alert('Wizard Completed');
             }
         });
 
         // Make sortable
-        $(function() {
+        $(function () {
             $(".sortable").sortable();
             $(".sortable").disableSelection();
         });
 
         // Triggering the next button for both Basic Information and Course Creation
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Check if the success message exists in the session (after redirect)
             if ('{{ session('success') }}') {
                 // Trigger the next button automatically after receiving success
@@ -146,4 +148,4 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     </script>
-{{-- @endsection --}}
+    {{-- @endsection --}}
