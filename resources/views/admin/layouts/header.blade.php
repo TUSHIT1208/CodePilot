@@ -8,6 +8,7 @@
 		<span class="collapse_menu--label"></span>
 	</button>
 	<div class="main_logo" id="logo">
+		<h1>CodePilot</h1>
 		{{-- <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a> --}}
 		{{-- <a href="index.html"><img class="logo-inverse" src="{{ asset('images/logo.png') }}" alt=""></a> --}}
 	</div>

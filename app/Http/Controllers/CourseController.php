@@ -96,7 +96,7 @@ class CourseController extends Controller
         // if ($course) {
             //return response()->json(['success' => 'Subcategory status updated successfully.']);
         // }
-        return redirect()->back()->with('success','course inserted successfully');
+        return redirect()->route('course.edit', $course->id)->with('success', 'Course inserted successfully');
         // return redirect()->route('course.test');
         // return view('admin.course.test');
     }

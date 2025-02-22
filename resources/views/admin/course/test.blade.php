@@ -245,9 +245,9 @@
 
                                                                             </div>
                                                                             <div class="col-lg-12 col-md-12">
-                                                                                <div class="option-item">
+                                                                                <div class="option-item footer">
                                                                                     <div class="opt-title">
-                                                                                        <h4>1. Option</h4>
+                                                                                        <h4>Option</h4>
                                                                                         <span class="opt-del"><i
                                                                                                 class="fas fa-trash-alt"></i></span>
                                                                                     </div>
@@ -308,8 +308,8 @@
                                                                                 class="main-btn color btn-hover mt-30">Add
                                                                                 Option</button>
                                                                         </div>
-                                                                        <div class="col-lg-12 col-md-12">
-                                                                            <div class="option-item">
+                                                                        <div class="col-lg-12 col-md-12 ">
+                                                                            <div class="option-item ">
                                                                                 <div class="opt-title">
                                                                                     <h4>1. Option</h4>
                                                                                     <span class="opt-del"><i
