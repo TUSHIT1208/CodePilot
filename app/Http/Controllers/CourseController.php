@@ -17,7 +17,8 @@ class CourseController extends Controller
     public function index()
     {
         try {
-            $courses = Course::with(['courseAttachment', 'user'])->get();
+            $courses = Course::with(['courseattachment', 'user'])->get();
+            //return $courses;
 
             Log::info('Fetched courses successfully', ['courses_count' => $courses->count()]);
 
@@ -159,15 +160,7 @@ class CourseController extends Controller
                 'url' => $request->introduction_video,
                 'thumbnail_url' => $request->introduction_thumbnail,
             ]);
-    
-            $Thumbnail = null;
-            if ($request->hasFile('video_thumbnail')) {
-                $Thumbnail = $request->file('video_thumbnail');
-                $videoThumbnailName = time() . '.' . $Thumbnail->getClientOriginalExtension();
-                $Thumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
-            } else {
-                $videoThumbnailName = null;
-            }
+
             Log::info('Course created successfully', ['course_id' => $course->id]);
 
             return redirect()->route('course.edit', $course->id)->with('success', 'Course inserted successfully');
@@ -229,16 +222,16 @@ class CourseController extends Controller
         $course->update($request->all());
 
         return redirect()->back()->with('success','course updated successfully');
-     }catch (\Exception $e) {
-            Log::error('Error inserting course', [
-                'message' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-                'trace' => $e->getTraceAsString()
-            ]);
+        }catch (\Exception $e) {
+                Log::error('Error inserting course', [
+                    'message' => $e->getMessage(),
+                    'line' => $e->getLine(),
+                    'file' => $e->getFile(),
+                    'trace' => $e->getTraceAsString()
+                ]);
 
-            return redirect()->back()->with('error', 'An error occurred while updateing the course.');
-        }
+                return redirect()->back()->with('error', 'An error occurred while updateing the course.');
+            }
     }
 
 

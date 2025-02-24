@@ -29,7 +29,8 @@
                                 <div class="col-lg-3 col-md-4">
                                     <div class="fcrse_1 mt-30">
                                         <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
-                                            <img src="{{ asset($course->thumbnail_url ?: 'images/courses/img-2.jpg') }}" alt="">
+                                            <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/courses/img-2.jpg') }}" alt="Course Thumbnail">
+
                                             <div class="course-overlay">
                                                 @if($course->is_active)
                                                     <div class="badge_seller">Active</div>
@@ -56,6 +57,7 @@
                                             <div class="vdtodt">
                                                 <span class="vdt14">50 views</span>
                                                 <span class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
+                                                
                                             </div>
                                             <a href="{{ route('course.show', $course->id) }}" class="crse14s">{{ $course->title }}</a>
                                             <a href="#" class="crse-cate">{{ $course->category->name ?? 'Uncategorized' }}</a>

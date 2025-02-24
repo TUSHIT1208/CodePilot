@@ -249,7 +249,7 @@
                                 </div>       
                             </div>
                         </div>
-                    @endif
+                    @endif  
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
                 </form>
 
