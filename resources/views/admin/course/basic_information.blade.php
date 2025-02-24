@@ -162,7 +162,94 @@
                             </select>
                             <div class="invalid-feedback">Course Sub-Category is required.</div>
                         </div> 
+                        <div class="col-lg-6 col-md-6">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="title-field">Meta Keyword*</label>
+                                <div class="ui left icon">
+                                    <input type="text" name="meta_keyword" id="meta_keyword-field"  
+                                           class="prompt srch_explore form-control"  
+                                           placeholder="Course meta keyword here"   
+                                           required minlength="3" maxlength="255"
+                                           value="{{ old('title', $course->meta_keyword ?? '') }}">
+                                    <div class="invalid-feedback">Course Meta Keyword must be between 3 and 255 characters.</div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="col-lg-6 col-md-6">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="title-field">Meta Title*</label>
+                                <div class="ui left icon">
+                                    <input type="text" name="meta title" id="meta-title-field"  
+                                           class="prompt srch_explore form-control"  
+                                           placeholder="Course meta title here"   
+                                           required minlength="3" maxlength="255"
+                                           value="{{ old('meta_title', $course->meta_title ?? '') }}">
+                                    <div class="invalid-feedback">Course Meta Title must be between 3 and 255 characters.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="description-field">Meta Description*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea rows="3" name="meta_description" 
+                                                  class="form-control" 
+                                                  id="meta-description-field"
+                                                  required minlength="10" maxlength="1000"
+                                                  placeholder="Item meta description here...">{{ old('meta_description', $course->meta_description ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Meta Description must be between 10 and 1000 characters.</div>
+                                    </div>
+                                </div>
+                                
+                            </div>                                 
+                        </div>
+    
                     </div>
+                    @if (!request()->route('course'))
+                        {{-- media --}}
+                        <div class="mp4 intro-box" style="display: block;">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="mt-30 lbel25">
+                                        <label>Upload Video*</label>
+                                    </div>
+                                    <div class="upload-file-dt mt-28">
+                                        <div class="upload-btn">
+                                            <input class="uploadBtn-main-input" type="file" id="IntroFile__input--source"
+                                                name="introduction_video" accept=".mp4" required>
+                                            <label for="IntroFile__input--source" title="Zip">Upload Video</label>
+                                            
+                                        </div>
+                                        <span class="uploadBtn-main-file">File Format: .mp4</span>
+                                        <span class="uploaded-id"></span>
+                                        <div class="invalid-feedback">Please upload a valid .mp4 video file.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="mt-30 lbel25">
+                                        <label>Course Thumbnail*</label>
+                                    </div>
+                                    <div class="thumb-item">
+                                        <img src="{{ asset('images/thumbnail-demo.jpg') }}" alt="">
+                                        <div class="thumb-dt">
+                                            <div class="upload-btn">
+                                                <input class="uploadBtn-main-input" type="file"
+                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" required>
+                                                <label for="ThumbFile__input--source" title="Zip">Choose
+                                                    Thumbnail</label>
+                                            </div>
+                                            <span class="uploadBtn-main-file">Size: 590x300 pixels. Supports:
+                                                jpg,jpeg, or png</span>
+                                            <div class="invalid-feedback">Please upload a valid thumbnail (jpg, jpeg, png).</div>
+                                        </div>
+                                    </div>
+                                </div>       
+                            </div>
+                        </div>
+                    @endif
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
                 </form>
 
