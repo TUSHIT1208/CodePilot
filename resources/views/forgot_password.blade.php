@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, shrink-to-fit=9">
 	<meta name="description" content="Gambolthemes">
 	<meta name="author" content="Gambolthemes">
-	<title>Cursus - Forgot Password</title>
+	<title>CodePilot - Forgot Password</title>
 
 	<!-- Favicon Icon -->
 	<link rel="icon" type="image/png" href="{{ asset('images/fav.png') }}">
@@ -57,7 +57,7 @@
 					</form>
 					<p class="mb-0 mt-30">Go Back <a href="{{ route('login')}}">Sign In</a></p>
 				</div>
-				<div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>Cursus</strong>. All
+				<div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>CodePilot</strong>. All
 					Rights Reserved.</div>
 			</div>
 		</div>

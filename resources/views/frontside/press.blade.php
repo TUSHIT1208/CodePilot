@@ -25,7 +25,7 @@
                                 <li>
                                     <div class="help_link">
                                         <p>Learn More</p>
-                                        <a href="#">Cursus Help Center</a>
+                                        <a href="#">CodePilot Help Center</a>
                                     </div>
                                 </li>
                             </ul>
@@ -33,9 +33,9 @@
                     </div>
                     <div class="col-lg-9 col-md-7">
                         <div class="press_news">
-                            <h2>Cursus in the News</h2>
+                            <h2>CodePilot in the News</h2>
                             <p>For media interviews and inquiries, please send an email to <a
-                                    href="#">press@cursus.com</a></p>
+                                    href="#">press@CodePilot.com</a></p>
                             <div class="press_item mt-35">
                                 <div class="vdtopress">March 10, 2020</div>
                                 <h4>Press News Title</h4>
@@ -68,7 +68,7 @@
 
                         <div class="press_news mb-50">
                             <h2>Press Releases</h2>
-                            <p>For Release from Cursus </p>
+                            <p>For Release from CodePilot </p>
                             <div class="press_item mt-35">
                                 <div class="vdtopress">March 10, 2020</div>
                                 <a href="#" class="press_title">Press Release Title</a>

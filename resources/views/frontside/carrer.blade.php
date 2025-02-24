@@ -18,7 +18,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="title484">
-							<h2>Working at Cursus</h2>
+							<h2>Working at CodePilot</h2>
 							<img class="line-title" src="images/line.svg" alt="">
 							<p>Phasellus ex mauris, rhoncus quis posuere sit amet, ultricies nec lorem. Vivamus vestibulum porta urna, in placerat lectus facilisis sit amet. Vestibulum non mauris augue. Maecenas arcu magna, aliquam imperdiet tempor nec, lobortis ac erat. Aliquam vel magna tortor. Cras ornare, enim eu tristique tristique, orci nisl blandit mi, at dignissim velit leo nec metus.</p >
 							<a href="#cr458" class="joblink">Check Out Our Open Roles</a>
@@ -85,7 +85,7 @@
 					<div class="col-lg-12">
 						<div class="title589 text-center">
 							<h2>Benefits</h2>
-							<p>Cursus culture is something special, and to complement and support that culture we have some amazing benefits.</p>
+							<p>CodePilot culture is something special, and to complement and support that culture we have some amazing benefits.</p>
 							<img class="line-title" src="images/line.svg" alt="">
 						</div>
 					</div>
@@ -154,7 +154,7 @@
 					<div class="col-lg-12">
 						<div class="title589 mb-20 text-center">
 							<h2>Open Roles</h2>
-							<p>Cursus is a fast growing company and we're expanding both our Punjab office and international offices.</p>
+							<p>CodePilot is a fast growing company and we're expanding both our Punjab office and international offices.</p>
 							<img class="line-title" src="images/line.svg" alt="">
 						</div>
 					</div>

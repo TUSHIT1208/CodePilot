@@ -113,7 +113,7 @@
                 <li><a href="terms_of_use.html">Terms</a></li>
             </ul>
             <div class="left_footer_content">
-                <p>© 2024 <strong>Cursus</strong>. All Rights Reserved.</p>
+                <p>© 2024 <strong>CodePilot</strong>. All Rights Reserved.</p>
             </div>
         </div>
     </div>

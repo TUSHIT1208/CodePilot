@@ -66,7 +66,7 @@
                                     <span><i class="uil uil-cog"></i></span>Setting
                                 </a>
                                 <ul class="_bty149 mt-5">
-                                    <li><button class="studio-link-btn btn500"><a href="{{ route('admin.dashboard') }}">Cursus Studio</a></button></li>
+                                    <li><button class="studio-link-btn btn500"><a href="{{ route('admin.dashboard') }}">CodePilot Studio</a></button></li>
                                     <li><button class="msg125 btn500"><a href="{{ route('setting') }}">Edit</a></button></li>
                                 </ul>
 
@@ -116,7 +116,7 @@
                                             Suspendisse pulvinar dictum pellentesque. Vestibulum at sagittis lectus, sit
                                             amet aliquam turpis. In quis elit tempus, semper justo vitae, lacinia massa.
                                             Etiam sagittis quam quis fermentum lacinia. Curabitur blandit sapien et
-                                            risus congue viverra. Mauris auctor risus sit amet cursus sollicitudin.
+                                            risus congue viverra. Mauris auctor risus sit amet CodePilot sollicitudin.
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat
                                             sodales massa, in viverra dolor condimentum ut. In imperdiet, justo nec
                                             volutpat blandit, tellus justo tempor quam, sed pretium nibh nunc nec

@@ -1949,7 +1949,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6">
                     <div class="item_f3">
-                        <a href="#" class="btn1542">Teach on Cursus</a>
+                        <a href="#" class="btn1542">Teach on CodePilot</a>
                         <div class="lng_btn">
                             <div class="ui language bottom right pointing dropdown floating" id="languages" data-content="Select Language">
                                 <a href="#"><i class='uil uil-globe lft'></i>Language<i class='uil uil-angle-down rgt'></i></a>
@@ -2070,7 +2070,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <p>© 2024 <strong>Cursus</strong>. All Rights Reserved.</p>
+                                        <p>© 2024 <strong>CodePilot</strong>. All Rights Reserved.</p>
                                     </li>
                                 </ul>
                             </div>

@@ -64,10 +64,10 @@
 
         <!-- Edit Category Modal -->
         <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
-            aria-hidden="true">
+            aria-hidden="true" novalidate>
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="editCategoryForm">
+                    <form id="editCategoryForm" class="needs-validation" novalidate>
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="edit_category_id" name="category_id">
@@ -84,8 +84,8 @@
                             <div class="mb-3">
                                 <label for="edit_category_name" class="form-label">Category Name</label>
                                 <input type="text" class="form-control _dlor1" id="edit_category_name"
-                                    name="category_name" placeholder="Enter the category name">
-                                <div class="invalid-feedback" id="edit_category_name_error"></div>
+                                    name="category_name" placeholder="Enter the category name" required>
+                                <div class="invalid-feedback"></div>
                             </div>
 
                             <!-- Category Description Field -->
@@ -93,7 +93,7 @@
                                 <label for="edit_category_description" class="form-label">Category Description</label>
                                 <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4"
                                     placeholder="Enter the category description n ( OPTIONAL )"></textarea>
-                                <div class="invalid-feedback" id="edit_category_description_error"></div>
+                                <div class="invalid-feedback"></div>
                             </div>
                         </div>
 
@@ -107,34 +107,30 @@
         </div>
 
         <!-- Modal for Adding Category -->
-        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('category.store') }}" method="POST">
+                    <form action="{{ route('category.store') }}" method="POST" class="needs-validation" novalidate>
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="addCategoryModalLabel">
                                 Add New Category
                             </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Category Name Field -->
                             <div class="mb-3">
                                 <label for="category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control _dlor1" id="name" name="category_name"
-                                    placeholder="Enter the category name">
-                                <div class="invalid-feedback" id="category_name_error"></div>
+                                <input type="text" class="form-control _dlor1" id="name" name="category_name" placeholder="Enter the category name" required>
+                                <div class="invalid-feedback"></div>
                             </div>
 
                             <!-- Category Description Field -->
                             <div class="mb-3">
                                 <label for="category_description" class="form-label">Category Description</label>
                                 <textarea class="form-control _dlor1" id="description" name="category_description" rows="4"
-                                    placeholder="Enter the category description n ( OPTIONAL )"></textarea>
-                                <div class="invalid-feedback" id="category_description_error"></div>
+                                    placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -146,10 +142,24 @@
             </div>
         </div>
 
+
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
-
+    {{-- vaildation --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector(".needs-validation");
+    
+            form.addEventListener("submit", function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add("was-validated");
+            }, false);
+        });
+    </script>
 
     {{-- Dispplay list using datatable with bulk delete --}}
     <script>

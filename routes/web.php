@@ -80,9 +80,6 @@ Route::get('/feedback', function () {
     return view('admin.feedback');
 })->name('admin.feedback');
 
-Route::get('/explore/course', function () {
-    return view('admin.explore');
-})->name('admin.explore')->middleware('auth');
 
 Route::get('admin/saved/course', function () {
     return view('admin.saved_courses');
@@ -170,4 +167,4 @@ Route::get('/course/basic-information', function () {
     return view('admin.course.basic_information');
 })->name('course.basic-information');
 
-Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit');
+Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit')->middleware('auth');

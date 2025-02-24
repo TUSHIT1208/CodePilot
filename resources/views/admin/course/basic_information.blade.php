@@ -35,9 +35,9 @@
                                     <input type="text" name="title" id="title-field"  
                                            class="prompt srch_explore form-control"  
                                            placeholder="Course title here"   
-                                           required minlength="3" maxlength="100"
+                                           required minlength="3" maxlength="255"
                                            value="{{ old('title', $course->title ?? '') }}">
-                                    <div class="invalid-feedback">Course Title must be between 3 and 100 characters.</div>
+                                    <div class="invalid-feedback">Course Title must be between 3 and 255 characters.</div>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                                 <option value="Intermediate" {{ old('course_level', $course->course_level ?? '') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
                                 <option value="Expert" {{ old('course_level', $course->course_level ?? '') == 'Expert' ? 'selected' : '' }}>Expert</option>
                             </select>
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-feedback">Course Level is required.</div>
                         </div>
                 
                         <div class="col-lg-6 col-md-12">
@@ -126,7 +126,7 @@
                                 <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
                                 <option value="video" {{ old('course_type', $course->course_type ?? '') == 'video' ? 'selected' : '' }}>Video</option>
                             </select>
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-feedback">Course Type is required.</div>
                         </div>
                         
                         <div class="col-lg-6 col-md-12">
@@ -149,7 +149,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-feedback">Course Category is required.</div>
                         </div>
                         
                         <!-- Subcategory Selection -->
@@ -160,7 +160,7 @@
                             <select class="selectpicker _dlor1 form-control" name="sub_category_id" id="selectsub_category" data-live-search="true" required>
                                 <option value="" selected hidden>Select Sub-category</option>
                             </select>
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-feedback">Course Sub-Category is required.</div>
                         </div> 
                     </div>
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
@@ -224,3 +224,8 @@
         </div>
     </div>
 </div>
+<style>
+    .form-control.is-invalid, .was-validated .form-control:invalid{
+        border-color:#dc3545 !important;
+    }
+</style>

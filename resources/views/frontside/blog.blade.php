@@ -63,7 +63,7 @@
                                 <li>
                                     <div class="help_link">
                                         <p>Learn More</p>
-                                        <a href="#">Cursus Help Center</a>
+                                        <a href="#">CodePilot Help Center</a>
                                     </div>
                                 </li>
                             </ul>

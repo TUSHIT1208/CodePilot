@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>Cursus - Sign Up Next Step</title>
+    <title>CodePilot - Sign Up Next Step</title>
 
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{{ asset('images/fav.png') }}">
@@ -65,7 +65,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="instructor-signup-tab" role="tabpanel"
                                 aria-labelledby="instructor-tab">
-                                <h2>Welcome to Cursus</h2>
+                                <h2>Welcome to CodePilot</h2>
                                 <p>Sign Up and Create Course!</p>
                                 <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
@@ -217,7 +217,7 @@
                             </div>
                             <div class="tab-pane fade" id="student-signup-tab" role="tabpanel"
                                 aria-labelledby="student-tab">
-                                <h2>Welcome to Cursus</h2>
+                                <h2>Welcome to CodePilot</h2>
                                 <p>Sign Up and Start Learning!</p>
                                 <form action="{{ route('user.store_learner')}}" method="POST"
                                     enctype="multipart/form-data">
@@ -347,7 +347,7 @@
                         </div>
                         <p class="mb-0 mt-30">Already have an account? <a href="{{ route('login')}}">Log In</a></p>
                     </div>
-                    <div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>Cursus</strong>. All
+                    <div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>CodePilot</strong>. All
                         Rights Reserved.</div>
                 </div>
             </div>

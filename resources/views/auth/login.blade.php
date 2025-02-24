@@ -48,7 +48,7 @@
                 <div class="col-lg-6 col-md-8">
                     <div class="sign_form">
                         <h2>Welcome Back</h2>
-                        <p>Log In to Your Cursus Account!</p>
+                        <p>Log In to Your Codepilot Account!</p>
 
                         <!-- Login Form -->
                         <form action="{{ route('login_check') }}" method="POST">
@@ -81,7 +81,7 @@
                                 Up</a></p>
                     </div>
                     <div class="sign_footer"><img src="{{ asset('images/sign_logo.png') }}" alt="">© 2024
-                        <strong>Cursus</strong>. All Rights Reserved.
+                        <strong>CodePilot</strong>. All Rights Reserved.
                     </div>
                 </div>
             </div>
