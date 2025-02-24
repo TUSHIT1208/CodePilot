@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, shrink-to-fit=9">
-  <meta name="description" content="Cursus - Change Password">
+  <meta name="description" content="CodePilot - Change Password">
   <meta name="author" content="Gambolthemes">
   <title>CodePilot - Change Password</title>
 
@@ -107,7 +107,7 @@
 
           <p class="mb-0 mt-30">Go Back <a href="{{ route('login')}}">Sign In</a></p>
         </div>
-        <div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>Cursus</strong>. All Rights
+        <div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>CodePilot</strong>. All Rights
           Reserved.</div>
       </div>
     </div>

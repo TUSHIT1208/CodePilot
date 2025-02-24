@@ -30,9 +30,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="vhls140">
-                                    <h4>Cursus</h4>
+                                    <h4>CodePilot</h4>
                                     <ul>
-                                        <li><div class="vdt-list">Cursus LTD</div></li>
+                                        <li><div class="vdt-list">CodePilot LTD</div></li>
                                         <li><div class="vdt-list">#1234, Shahid karnail Singh Nagar,</div></li>
                                         <li><div class="vdt-list">Near MBD Mall,</div></li>
                                         <li><div class="vdt-list">141001</div></li>

@@ -140,7 +140,7 @@
                                             </div>												
                                             <div class="col-md-4">
                                                 <a href="#" class="value_props51">																											
-                                                    Cursus Course Quality Checklist																												
+                                                    CodePilot Course Quality Checklist																												
                                                 </a>
                                             </div>
                                             <div class="col-md-4">
@@ -150,7 +150,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <a href="#" class="value_props51">																											
-                                                    Instructor Promotional Agreements and Cursus Deals																												
+                                                    Instructor Promotional Agreements and CodePilot Deals																												
                                                 </a>
                                             </div>
                                             <div class="col-md-4">
@@ -181,7 +181,7 @@
                                                     </div>
                                                     <div class="value_content">
                                                         <h4>Getting Started</h4>
-                                                        <p>Learn how Cursus works and how to start learning.</p>
+                                                        <p>Learn how CodePilot works and how to start learning.</p>
                                                     </div>
                                                 </a>
                                             </div>
@@ -256,7 +256,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <a href="#" class="value_props51">																											
-                                                    Cursus FAQ 																													
+                                                    CodePilot FAQ 																													
                                                 </a>
                                             </div>
                                             <div class="col-md-4">

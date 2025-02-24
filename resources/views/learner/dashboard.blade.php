@@ -77,7 +77,7 @@
 										</a>
 										<div class="fcrse_content">
 											<a href="#" class="crsedt145 mt-15">COVID-19 Updates - April 7</a>
-											<p class="news_des45">Ut porttitor mi vel orci cursus, nec elementum neque
+											<p class="news_des45">Ut porttitor mi vel orci CodePilot, nec elementum neque
 												malesuada. Phasellus imperdiet quam gravida pharetra aliquet. Integer
 												vel ligula eget nisl dignissim hendrerit.</p>
 											<div class="auth1lnkprce">
@@ -92,7 +92,7 @@
 				</div>
 				<div class="col-xl-4 col-lg-6 col-md-6">
 					<div class="section3125 mt-50">
-						<h4 class="item_title">What's new in Cursus?</h4>
+						<h4 class="item_title">What's new in CodePilot?</h4>
 						<div class="la5lo1">
 							<div class="fcrse_1">
 								<div class="fcrse_content">
@@ -130,7 +130,7 @@
 										</a>
 									</li>
 									<li>
-										<p>© 2024 <strong>Cursus</strong>. All Rights Reserved.</p>
+										<p>© 2024 <strong>CodePilot</strong>. All Rights Reserved.</p>
 									</li>
 								</ul>
 							</div>

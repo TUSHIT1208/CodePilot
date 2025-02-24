@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title>Cursus - All Instructor</title>
+    <title>CodePilot - All Instructor</title>
     @include('learner.setting.head-css')
 </head>
 

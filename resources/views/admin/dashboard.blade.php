@@ -223,7 +223,7 @@
                                         </a>
                                         <div class="fcrse_content">
                                             <a href="#" class="crsedt145 mt-15">COVID-19 Updates - April 7</a>
-                                            <p class="news_des45">Ut porttitor mi vel orci cursus, nec elementum neque
+                                            <p class="news_des45">Ut porttitor mi vel orci CodePilot, nec elementum neque
                                                 malesuada. Phasellus imperdiet quam gravida pharetra aliquet. Integer
                                                 vel ligula eget nisl dignissim hendrerit.</p>
                                             <div class="auth1lnkprce">
@@ -283,7 +283,7 @@
                         </div>
                     </div>
                     <div class="section3125 mt-50">
-                        <h4 class="item_title">What's new in Cursus</h4>
+                        <h4 class="item_title">What's new in CodePilot</h4>
                         <div class="la5lo1">
                             <div class="fcrse_1">
                                 <div class="fcrse_content">

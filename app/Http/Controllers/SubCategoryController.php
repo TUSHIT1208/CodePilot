@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\category;
-use App\Models\sub_category;
+use App\Models\Category;
+use App\Models\Sub_Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -42,7 +42,7 @@ class SubCategoryController extends Controller
                                     <i class="uil uil-trash-alt ucp-table"></i>
                                 </a>
                             </form>';
-                    })                        
+                    })
                     ->editColumn('status', function ($subcategory) {
                         return '
                             <div class="toggle-button mt-2 text-center">
@@ -54,7 +54,7 @@ class SubCategoryController extends Controller
                                     <span class="toggle-circle"></span>
                                 </label>
                             </div>';
-                    })                    
+                    })
                     ->rawColumns(['category_name', 'status', 'action'])
                     ->make(true);
             }
@@ -64,23 +64,20 @@ class SubCategoryController extends Controller
 
             return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));
         } catch (Exception $e) {
+            Log::error('Error fetching subcategories: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred while fetching the subcategories. Please try again later.'], 500);
         }
     }
 
-    public function create()
-    {
-        //
-    }
     public function store(Request $request)
     {
-        
+        try {
             $request->validate([
                 'category_id' => 'required|exists:categories,id',
                 'subcategory_name' => 'required|string|max:255',
                 'subcategory_description' => 'nullable|string',
             ]);
-        try {
+
             Sub_Category::create([
                 'category_id' => $request->category_id,
                 'name' => $request->subcategory_name,
@@ -90,46 +87,47 @@ class SubCategoryController extends Controller
             return response()->json(['success' => 'SubCategory added successfully!']);
         } catch (Exception $e) {
             Log::error('Error adding subcategory: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while adding the subscategory. Please try again later.']);
+            return response()->json(['error' => 'An error occurred while adding the subcategory. Please try again later.'], 500);
         }
-    }
-
-    public function show(sub_category $sub_category)
-    {
-        //
-    }
-
-    public function edit(sub_category $sub_category)
-    {
-        //
     }
 
     public function update(Request $request, $id)
     {
+        try {
             $validatedData = $request->validate([
-                'subcategory_name_edit' => 'required|string|max:255', 
-                'subcategory_description_edit' => 'nullable|string',   
+                'subcategory_name_edit' => 'required|string|max:255',
+                'subcategory_description_edit' => 'nullable|string',
             ]);
 
-            $subcategory = sub_category::findOrFail($id);
-    
+            $subcategory = Sub_Category::findOrFail($id);
             $subcategory->update([
-                'name' => $validatedData['subcategory_name_edit'],  
-                'description' => $validatedData['subcategory_description_edit'], 
+                'name' => $validatedData['subcategory_name_edit'],
+                'description' => $validatedData['subcategory_description_edit'],
             ]);
-        
+
             return response()->json(['success' => 'Subcategory updated successfully.']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Subcategory not found.'], 404);
+        } catch (Exception $e) {
+            Log::error('Error updating subcategory: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while updating the subcategory. Please try again later.'], 500);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        $category = Sub_Category::find($id);
-        $category->delete();
-        return redirect()->back()->with('success', 'SubCategory deleted successfully!');
+        try {
+            $category = Sub_Category::findOrFail($id);
+            $category->delete();
+            return redirect()->back()->with('success', 'SubCategory deleted successfully!');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'SubCategory not found.');
+        } catch (Exception $e) {
+            Log::error('Error deleting subcategory: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while deleting the subcategory. Please try again later.');
+        }
     }
+
     public function updateSubCategoryStatus(Request $request)
     {
         try {
@@ -138,21 +136,28 @@ class SubCategoryController extends Controller
             $subCategory->save();
 
             return response()->json(['success' => 'Subcategory status updated successfully.']);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Subcategory not found.'], 404);
         } catch (Exception $e) {
+            Log::error('Error updating subcategory status: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to update subcategory status.'], 500);
         }
     }
 
-
     public function bulkDelete(Request $request)
     {
-        $ids = $request->input('ids', []);
+        try {
+            $ids = $request->input('ids', []);
 
-        if (!empty($ids)) {
-            sub_category::whereIn('id', $ids)->delete();
-            return response()->json(['success' => 'Sub-categories deleted successfully.']);
+            if (!empty($ids)) {
+                Sub_Category::whereIn('id', $ids)->delete();
+                return response()->json(['success' => 'Sub-categories deleted successfully.']);
+            }
+
+            return response()->json(['error' => 'No sub-categories selected for deletion.'], 400);
+        } catch (Exception $e) {
+            Log::error('Error deleting subcategories: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while deleting subcategories. Please try again later.'], 500);
         }
-
-        return response()->json(['error' => 'No sub-categories selected for deletion.'],400);
     }
 }

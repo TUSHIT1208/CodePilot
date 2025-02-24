@@ -88,8 +88,30 @@
             });
         });
 
-    </script>
-    <script>
+        // step_js
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     var stepLinks = document.querySelectorAll(".step-steps li a");
+
+        //     stepLinks.forEach(function (link) {
+        //         link.addEventListener("click", function (event) {
+        //             var isBasicCompleted = sessionStorage.getItem("basic_completed");
+                    
+        //             if (!isBasicCompleted && link.getAttribute("href") !== "#tab_step1") {
+        //                 event.preventDefault();
+        //                 alert("Please complete the Basic Information step first.");
+
+        //                 // Forcefully redirect to Basic tab after alert
+        //                 setTimeout(function () {
+        //                     document.querySelector('[href="#tab_step1"]').click();
+        //                 }, 0);
+        //             }
+        //         });
+        //     });
+
+        //     document.getElementById("basic_form").addEventListener("submit", function () {
+        //         sessionStorage.setItem("basic_completed", "true");
+        //     });
+        // });
         // Initialize CKEditor instances
         ClassicEditor.create(document.querySelector('#editor1'))
             .then(editor => {
@@ -98,31 +120,6 @@
             .catch(err => {
                 console.error(err.stack);
             });
-
-        ClassicEditor.create(document.querySelector('#editor2'))
-            .then(editor => {
-                window.editor2 = editor;
-            })
-            .catch(err => {
-                console.error(err.stack);
-            });
-
-        ClassicEditor.create(document.querySelector('#editor3'))
-            .then(editor => {
-                window.editor3 = editor;
-            })
-            .catch(err => {
-                console.error(err.stack);
-            });
-
-        ClassicEditor.create(document.querySelector('#editor4'))
-            .then(editor => {
-                window.editor4 = editor;
-            })
-            .catch(err => {
-                console.error(err.stack);
-            });
-
         // Steps wizard initialization
         $('#add-course-tab').steps({
             onFinish: function () {
@@ -146,10 +143,11 @@
             $('#test_next').click(function () {
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             });
-            if ('{{ session('success_vid') }}') {
-                // Trigger the next button automatically after receiving success
-                $('#add-course-tab .step-footer button[data-direction="next"]').click();
-            }
+            
+            // if ('{{ session('success_vid') }}') {
+            //     // Trigger the next button automatically after receiving success
+            //     $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            // }
             if (course) {
                 $('#add-course-tab .step-footer button[data-direction="prev"]').click();
             }

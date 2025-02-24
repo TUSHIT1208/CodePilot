@@ -8,6 +8,7 @@
 		<span class="collapse_menu--label"></span>
 	</button>
 	<div class="main_logo" id="logo">
+		<h1>CodePilot</h1>
 		{{-- <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a> --}}
 		{{-- <a href="index.html"><img class="logo-inverse" src="{{ asset('images/logo.png') }}" alt=""></a> --}}
 	</div>
@@ -140,7 +141,7 @@
 							</span>
 						</a>
 					</div>
-					<a href="{{ route('admin.dashboard') }}" class="item channel_item">Cursus dashboard</a>
+					<a href="{{ route('admin.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
 					<a href="{{ route('setting') }}" class="item channel_item">Setting</a>
 					<a href="{{ route('admin.help') }}" class="item channel_item">Help</a>
 					<a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>

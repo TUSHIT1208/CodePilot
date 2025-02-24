@@ -3,52 +3,56 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\category;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $categories = Category::select(['id', 'name', 'description', 'is_active']);
-
-            return DataTables::of($categories)
-                ->addColumn('action', function ($category) {
-                    return '
-                    <a href="javascript:void(0);" class="edit-category gray-s" 
-                    data-id="' . $category->id . '" 
-                    data-name="' . $category->name . '" 
-                    data-description="' . $category->description . '">
-                        <i class="uil uil-edit-alt ucp-table"></i>
-                    </a>
-                    <form action="' . route('category.destroy', $category->id) . '" method="POST" class="delete-form d-inline-block">
-                        ' . csrf_field() . method_field('DELETE') . '
-                        <a href="javascript:void(0);" title="Delete" class="gray-s delete-btn" data-username="' . $category->name . '">
-                            <i class="uil uil-trash-alt ucp-table"></i>
+        try {
+            if ($request->ajax()) {
+                $categories = Category::select(['id', 'name', 'description', 'is_active']);
+                return DataTables::of($categories)
+                    ->addColumn('action', function ($category) {
+                        return '
+                        <a href="javascript:void(0);" class="edit-category gray-s" 
+                        data-id="' . $category->id . '" 
+                        data-name="' . $category->name . '" 
+                        data-description="' . $category->description . '">
+                            <i class="uil uil-edit-alt ucp-table"></i>
                         </a>
-                    </form>';
-                })
-                ->editColumn('status', function ($category) {
-                    return '
-                        <div class="toggle-button mt-2 text-left">
-                        <input type="checkbox" class="toggle-input" 
-                            id="toggle' . $category->id . '" 
-                            data-id="' . $category->id . '" 
-                            ' . ($category->is_active ? 'checked' : '') . '>
-                        <label for="toggle' . $category->id . '" class="toggle-label">
-                            <span class="toggle-circle"></span>
-                        </label>
-                    </div>';
-                })
-                ->rawColumns(['action', 'status'])                               
-                ->make(true);
-        }
+                        <form action="' . route('category.destroy', $category->id) . '" method="POST" class="delete-form d-inline-block">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <a href="javascript:void(0);" title="Delete" class="gray-s delete-btn" data-username="' . $category->name . '">
+                                <i class="uil uil-trash-alt ucp-table"></i>
+                            </a>
+                        </form>';
+                    })
+                    ->editColumn('status', function ($category) {
+                        return '
+                            <div class="toggle-button mt-2 text-left">
+                            <input type="checkbox" class="toggle-input" 
+                                id="toggle' . $category->id . '" 
+                                data-id="' . $category->id . '" 
+                                ' . ($category->is_active ? 'checked' : '') . '>
+                            <label for="toggle' . $category->id . '" class="toggle-label">
+                                <span class="toggle-circle"></span>
+                            </label>
+                        </div>';
+                    })
+                    ->rawColumns(['action', 'status'])                                
+                    ->make(true);
+            }
 
-        $categories = Category::all();
-        return view('admin.category.category',compact('categories'));
+            $categories = Category::all();
+            return view('admin.category.category', compact('categories'));
+        } catch (Exception $e) {
+            Log::error('Error fetching categories: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while fetching categories.'], 500);
+        }
     }
 
     public function store(Request $request)
@@ -59,16 +63,17 @@ class CategoryController extends Controller
         ]);
 
         try {
-            Category::create([
+            $category = Category::create([
                 'name' => $request->input('category_name'),
                 'description' => $request->input('category_description'),
                 'is_active' => true,
             ]);
 
+            Log::info('Category added: ', ['id' => $category->id, 'name' => $category->name]);
             return response()->json(['success' => 'Category added successfully!']);
         } catch (Exception $e) {
-            \Log::error('Error while adding category: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while adding the category. Please try again later.']);
+            Log::error('Error while adding category: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while adding the category.'], 500);
         }
     }
 
@@ -79,40 +84,65 @@ class CategoryController extends Controller
             'category_description' => 'nullable|string'
         ]);
 
-        $category->update([
-            'name' => $request->category_name,
-            'description' => $request->category_description
-        ]);
-
-        return response()->json(['success' => 'Category updated successfully!']);
+        try {
+            $category->update([
+                'name' => $request->category_name,
+                'description' => $request->category_description
+            ]);
+            Log::info('Category updated: ', ['id' => $category->id, 'name' => $category->name]);
+            return response()->json(['success' => 'Category updated successfully!']);
+        } catch (Exception $e) {
+            Log::error('Error updating category: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while updating the category.'], 500);
+        }
     }
 
     public function destroy(string $id)
     {
-        $category = Category::find($id);
-        $category->delete();
-        return redirect()->back()->with('success', 'Category deleted successfully!');
+        try {
+            $category = Category::find($id);
+            if (!$category) {
+                return redirect()->back()->with('error', 'Category not found.');
+            }
+            $category->delete();
+            Log::info('Category deleted: ', ['id' => $id]);
+            return redirect()->back()->with('success', 'Category deleted successfully!');
+        } catch (Exception $e) {
+            Log::error('Error deleting category: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while deleting the category.');
+        }
     }
 
     public function updateStatus(Request $request)
     {
-        $category = Category::find($request->category_id);
-        if (!$category) {
-            return response()->json(['error' => 'Category not found.'], 404);
+        try {
+            $category = Category::find($request->category_id);
+            if (!$category) {
+                return response()->json(['error' => 'Category not found.'], 404);
+            }
+            $category->is_active = $request->is_active;
+            $category->save();
+            Log::info('Category status updated: ', ['id' => $category->id, 'status' => $category->is_active]);
+            return response()->json(['success' => 'Category status updated successfully!']);
+        } catch (Exception $e) {
+            Log::error('Error updating category status: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while updating the category status.'], 500);
         }
-        $category->is_active = $request->is_active;
-        $category->save();
-
-        return response()->json(['success' => 'Category status updated successfully!']);
     }
 
     public function bulkDelete(Request $request)
     {
-        $ids = $request->input('ids', []);
-        if (!empty($ids)) {
-            Category::whereIn('id', $ids)->delete();
-            return response()->json(['success' => 'Categories deleted successfully.']);
+        try {
+            $ids = $request->input('ids', []);
+            if (!empty($ids)) {
+                Category::whereIn('id', $ids)->delete();
+                Log::info('Bulk delete executed: ', ['ids' => $ids]);
+                return response()->json(['success' => 'Categories deleted successfully.']);
+            }
+            return response()->json(['error' => 'No categories selected.']);
+        } catch (Exception $e) {
+            Log::error('Error bulk deleting categories: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while deleting categories.'], 500);
         }
-        return response()->json(['success' => 'Selected users have been deleted successfully.']);
     }
 }

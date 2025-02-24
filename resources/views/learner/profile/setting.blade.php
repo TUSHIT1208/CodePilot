@@ -25,8 +25,8 @@
                                                 <di class="tab-pane fade show active" id="pills-account" role="tabpanel"
                                                         aria-labelledby="pills-account-tab">
                                                         <div class="account_setting">
-                                                                <h4>Your Cursus Account</h4>
-                                                                <p>This is your public presence on Cursus. You need a
+                                                                <h4>Your CodePilot Account</h4>
+                                                                <p>This is your public presence on CodePilot. You need a
                                                                         account to upload your paid
                                                                         courses, comment on courses, purchased by
                                                                         students, or earning.</p>
@@ -146,7 +146,7 @@
                                                                                                                                         like,
                                                                                                                                         "Engineer
                                                                                                                                         at
-                                                                                                                                        Cursus"
+                                                                                                                                        CodePilot"
                                                                                                                                         or
                                                                                                                                         "Architect."
                                                                                                                                 </div>

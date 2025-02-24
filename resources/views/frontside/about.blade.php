@@ -14,7 +14,7 @@
                     <div class="col-lg-12">
                         <div class="title589 text-center">
                             <h2>Our Features</h2>
-                            <p>On Cursus, you have access to:</p>
+                            <p>On CodePilot, you have access to:</p>
                             <img class="line-title" src="images/line.svg" alt="">
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     <div class="col-lg-12">
                         <div class="title589 text-center">
                             <h2>Our Global Reach</h2>
-                            <p>Cursus is the leading global marketplace for teaching and learning, connecting millions of
+                            <p>CodePilot is the leading global marketplace for teaching and learning, connecting millions of
                                 students to the skills they need to succeed.</p>
                             <img class="line-title" src="images/line.svg" alt="">
                         </div>
@@ -144,7 +144,7 @@
                                 Cras porta dapibus est, quis malesuada ex iaculis at. Vestibulum egestas tortor in urna
                                 tempor, in fermentum lectus bibendum. In leo leo, bibendum at pharetra at, tincidunt in
                                 nulla. In vel malesuada nulla, sed tincidunt neque. Phasellus at massa vel sem aliquet
-                                sodales non in magna. Ut tempus ipsum sagittis neque cursus euismod. Vivamus luctus
+                                sodales non in magna. Ut tempus ipsum sagittis neque CodePilot euismod. Vivamus luctus
                                 elementum tortor, ac aliquet dolor vehicula et.</p>
                             <a href="#" class="crer_btn_link">Join Our Team</a>
                         </div>

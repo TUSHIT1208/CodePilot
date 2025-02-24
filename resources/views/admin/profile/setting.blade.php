@@ -39,8 +39,8 @@
                                                 <div class="tab-pane fade show active" id="pills-account" role="tabpanel"
                                                         aria-labelledby="pills-account-tab">
                                                         <div class="account_setting">
-                                                                <h4>Your Cursus Account</h4>
-                                                                <p>This is your public presence on Cursus. You need a
+                                                                <h4>Your CodePilot Account</h4>
+                                                                <p>This is your public presence on CodePilot. You need a
                                                                         account to upload your paid
                                                                         courses, comment on courses, purchased by
                                                                         students, or earning.</p>
@@ -160,7 +160,7 @@
                                                                                                                                         like,
                                                                                                                                         "Engineer
                                                                                                                                         at
-                                                                                                                                        Cursus"
+                                                                                                                                        CodePilot"
                                                                                                                                         or
                                                                                                                                         "Architect."
                                                                                                                                 </div>
@@ -298,12 +298,12 @@
                                                                                 </div>
                                                                                 <div class="ui toggle checkbox _1457s2">
                                                                                         <input type="checkbox" name="stream_ss5" checked>
-                                                                                        <label>Send me emails about my Cursus activity and updates I requested</label>
-                                                                                        <p class="ml5">If this setting is turned off, Cursus may still send you messages regarding your account, required service announcements, legal notifications, and privacy matters</p>
+                                                                                        <label>Send me emails about my CodePilot activity and updates I requested</label>
+                                                                                        <p class="ml5">If this setting is turned off, CodePilot may still send you messages regarding your account, required service announcements, legal notifications, and privacy matters</p>
                                                                                 </div>
                                                                                 <div class="ui toggle checkbox _1457s2">
                                                                                         <input type="checkbox" name="stream_ss6">
-                                                                                        <label>Promotions, course recommendations, and helpful resources from Cursus.</label>
+                                                                                        <label>Promotions, course recommendations, and helpful resources from CodePilot.</label>
                                                                                 </div>
                                                                                 <div class="ui toggle checkbox _1457s2">
                                                                                         <input type="checkbox" name="stream_ss7">
@@ -1194,7 +1194,7 @@
                                         <div class="tab-pane fade" id="pills-api" role="tabpanel" aria-labelledby="pills-api-tab">								
                                                 <div class="account_setting">
                                                         <h4>Affiliate API</h4>
-                                                        <p>The Cursus Affiliate API exposes functionalities of Cursus to help developers build client applications and integrations with Cursus. <br>To see more details, please visit <a href="#">Cursus Affiliate API</a></p>
+                                                        <p>The CodePilot Affiliate API exposes functionalities of CodePilot to help developers build client applications and integrations with CodePilot. <br>To see more details, please visit <a href="#">CodePilot Affiliate API</a></p>
                                                 </div>
                                                 <button class="main-btn">Request Affiliate API Client</button>
                                                 <div class="nt_apt"><i class="uil uil-info-circle"></i> You don't have any API clients yet.</div>								

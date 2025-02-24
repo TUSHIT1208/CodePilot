@@ -15,7 +15,7 @@
 						<div class="title484">
 							<h2>Our Origins</h2>
 							<img class="line-title" src="images/line.svg" alt="">
-							<p>Cursus was founded in 2020 by computer science instructor with a vision to provide anyone, anywhere with access to the world’s best education. Now many instructors put their courses online for anyone to take and taught more learners in a few months than they could over an entire lifetime in the classroom. Today, Cursus has expanded to reach more than 40 million people and 2,300 businesses around the world. On Cursus you can find online courses, instructors, and certificates from Cursus.</p >				
+							<p>CodePilot was founded in 2020 by computer science instructor with a vision to provide anyone, anywhere with access to the world’s best education. Now many instructors put their courses online for anyone to take and taught more learners in a few months than they could over an entire lifetime in the classroom. Today, CodePilot has expanded to reach more than 40 million people and 2,300 businesses around the world. On CodePilot you can find online courses, instructors, and certificates from CodePilot.</p >				
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -33,7 +33,7 @@
 					<div class="col-lg-12">
 						<div class="title589 text-center">
 							<h2>Our Offices</h2>
-							<p>Cursus branches around the world</p >
+							<p>CodePilot branches around the world</p >
 							<img class="line-title" src="images/line.svg" alt="">
 						</div>
 					</div>

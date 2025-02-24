@@ -5,85 +5,102 @@
         </div>
         <div class="course__form">
             <div class="general_info10">
-                <form action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}" method="POST">
+                <form action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}" method="POST" id="courseForm" novalidate class="needs-validation">
                     @csrf
                     @if(isset($course))
                         @method('PUT')
                     @endif
                     <div class="row">
-                        <div class="col-lg-12 col-md-12">
+                        {{-- <div class="col-lg-12 col-md-12">
                             <div class="ui search focus mt-30 lbel25">
-                                <label>Course Title*</label>
+                                <label for="title-field">Course Title*</label>
                                 <div class="ui left icon input swdh19">
-                                    <input class="prompt srch_explore @error('title') is-invalid @enderror" type="text" 
-                                           placeholder="Course title here" name="title" maxlength="60" 
+                                    <input type="text" 
+                                           class="prompt srch_explore form-control" 
+                                           id="title-field"
+                                           placeholder="Course title here" 
+                                           name="title" 
+                                           required minlength="10" maxlength="100"
                                            value="{{ old('title', $course->title ?? '') }}">
-                                    <div class="badge_num">60</div>
+                                    <div class="invalid-feedback">Course Title must be between 10 and 100 characters.</div>
                                 </div>
-                                @error('title')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                                 <div class="help-block">(Please make this a maximum of 100 characters and unique.)</div>
                             </div>                                 
-                        </div>
-                
+                        </div> --}}
+
                         <div class="col-lg-12 col-md-12">
                             <div class="ui search focus lbel25 mt-30">
-                                <label>Short Description*</label>
+                                <label for="title-field">Course Title*</label>
+                                <div class="ui left icon">
+                                    <input type="text" name="title" id="title-field"  
+                                           class="prompt srch_explore form-control"  
+                                           placeholder="Course title here"   
+                                           required minlength="3" maxlength="255"
+                                           value="{{ old('title', $course->title ?? '') }}">
+                                    <div class="invalid-feedback">Course Title must be between 3 and 255 characters.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="description-field">Short Description*</label>
                                 <div class="ui form swdh30">
                                     <div class="field">
                                         <textarea rows="3" name="description" 
-                                                  class="form-control @error('description') is-invalid @enderror"
+                                                  class="form-control" 
+                                                  id="description-field"
+                                                  required minlength="10" maxlength="1000"
                                                   placeholder="Item description here...">{{ old('description', $course->description ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Short Description must be between 10 and 1000 characters.</div>
                                     </div>
                                 </div>
-                                @error('description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                                <div class="help-block">220 words</div>
+                                
                             </div>                                 
                         </div>
+                        
                 
                         <div class="course_des_textarea mt-30 lbel25">
                             <label>Course Description*</label>
                             <div class="text-editor">
-                                <textarea id="editor1" class="form-control @error('course_description') is-invalid @enderror" 
-                                          name="course_description" placeholder="Item description here">{{ old('course_description', $course->course_description ?? '') }}</textarea>
+                                <textarea id="editor1" class="form-control" 
+                                          name="course_description" placeholder="Item description here" required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
                             </div>
-                            @error('course_description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="invalid-feedback">Course Description is required.</div>
                         </div>
                 
+                         <!-- What will students learn? -->
                         <div class="col-lg-6 col-md-12">
                             <div class="ui search focus lbel25 mt-30">
-                                <label>What will students learn in your course?*</label>
+                                <label for="learn-field">What will students learn in your course?*</label>
                                 <div class="ui form swdh30">
                                     <div class="field">
                                         <textarea rows="3" name="learn_in_course" 
-                                                  class="form-control @error('learn_in_course') is-invalid @enderror"
-                                                  placeholder="">{{ old('learn_in_course', $course->learn_in_course ?? '') }}</textarea>
+                                                class="form-control"
+                                                id="learn-field"
+                                                required minlength="10" maxlength="1000"
+                                                placeholder="Enter learning outcomes...">{{ old('learn_in_course', $course->learn_in_course ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Learning outcomes must be between 10 and 1000 characters.</div>
                                     </div>
                                 </div>
-                                @error('learn_in_course')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>                                 
                         </div>
                 
+                         <!-- Requirements -->
                         <div class="col-lg-6 col-md-12">
                             <div class="ui search focus lbel25 mt-30">
-                                <label>Requirements*</label>
+                                <label for="requirement-field">Requirements*</label>
                                 <div class="ui form swdh30">
                                     <div class="field">
                                         <textarea rows="3" name="requirement" 
-                                                  class="form-control @error('requirement') is-invalid @enderror"
-                                                  placeholder="">{{ old('requirement', $course->requirement ?? '') }}</textarea>
+                                                class="form-control"
+                                                id="requirement-field"
+                                                required minlength="10" maxlength="1000"
+                                                placeholder="Enter course requirements...">{{ old('requirement', $course->requirement ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Requirements must be between 10 and 1000 characters.</div>
                                     </div>
                                 </div>
-                                @error('requirement')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>                                 
                         </div>
                 
@@ -91,37 +108,32 @@
                             <div class="mt-30 lbel25">
                                 <label>Course Level*</label>
                             </div>
-                            <select class="selectpicker _dlor1 form-control @error('course_level') is-invalid @enderror"
-                                    name="course_level" id="selectlevel">
+                            <select class="selectpicker _dlor1 form-control" name="course_level" id="selectlevel" required>
                                 <option value="" hidden>Select Course Level</option>
                                 <option value="Beginner" {{ old('course_level', $course->course_level ?? '') == 'Beginner' ? 'selected' : '' }}>Beginner</option>
                                 <option value="Intermediate" {{ old('course_level', $course->course_level ?? '') == 'Intermediate' ? 'selected' : '' }}>Intermediate</option>
                                 <option value="Expert" {{ old('course_level', $course->course_level ?? '') == 'Expert' ? 'selected' : '' }}>Expert</option>
                             </select>
-                            @error('course_level')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="invalid-feedback">Course Level is required.</div>
                         </div>
                 
                         <div class="col-lg-6 col-md-12">
                             <div class="mt-30 lbel25">
                                 <label>Course Type*</label>
                             </div>
-                            <select class="selectpicker _dlor1 form-control @error('course_type') is-invalid @enderror"
-                                    name="course_type" id="selectcourse_type">
+                            <select class="selectpicker _dlor1 form-control" name="course_type" id="selectcourse_type" required>
                                 <option value="" hidden>Select Course type</option>
                                 <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
                                 <option value="video" {{ old('course_type', $course->course_type ?? '') == 'video' ? 'selected' : '' }}>Video</option>
                             </select>
-                            @error('course_type')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="invalid-feedback">Course Type is required.</div>
                         </div>
+                        
                         <div class="col-lg-6 col-md-12">
                             <div class="mt-30 lbel25">
                                 <label>Category Name*</label>
                             </div>
-                            <select class="selectpicker _dlor1 form-control @error('category_id') is-invalid @enderror" name="category_id" id="selectcategory" onchange="loadSubCategories()">
+                            <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory" onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
                                 @if(isset($subcategories))
                                 @foreach($subcategories as $subcategory)
@@ -137,68 +149,170 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div class="invalid-feedback">Course Category is required.</div>
                         </div>
+                        
                         <!-- Subcategory Selection -->
                         <div class="col-lg-6 col-md-6">
                             <div class="mt-30 lbel25">
                                 <label>Sub Category*</label>
                             </div>
-                            <select class="selectpicker _dlor1 form-control @error('sub_category_id') is-invalid @enderror" name="sub_category_id" id="selectsub_category" data-live-search="true">
+                            <select class="selectpicker _dlor1 form-control" name="sub_category_id" id="selectsub_category" data-live-search="true" required>
                                 <option value="" selected hidden>Select Sub-category</option>
                             </select>
-                            @error('sub_category_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="invalid-feedback">Course Sub-Category is required.</div>
                         </div> 
+                        <div class="col-lg-6 col-md-6">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="title-field">Meta Keyword*</label>
+                                <div class="ui left icon">
+                                    <input type="text" name="meta_keyword" id="meta_keyword-field"  
+                                           class="prompt srch_explore form-control"  
+                                           placeholder="Course meta keyword here"   
+                                           required minlength="3" maxlength="255"
+                                           value="{{ old('title', $course->meta_keyword ?? '') }}">
+                                    <div class="invalid-feedback">Course Meta Keyword must be between 3 and 255 characters.</div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="col-lg-6 col-md-6">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="title-field">Meta Title*</label>
+                                <div class="ui left icon">
+                                    <input type="text" name="meta title" id="meta-title-field"  
+                                           class="prompt srch_explore form-control"  
+                                           placeholder="Course meta title here"   
+                                           required minlength="3" maxlength="255"
+                                           value="{{ old('meta_title', $course->meta_title ?? '') }}">
+                                    <div class="invalid-feedback">Course Meta Title must be between 3 and 255 characters.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="description-field">Meta Description*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea rows="3" name="meta_description" 
+                                                  class="form-control" 
+                                                  id="meta-description-field"
+                                                  required minlength="10" maxlength="1000"
+                                                  placeholder="Item meta description here...">{{ old('meta_description', $course->meta_description ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Meta Description must be between 10 and 1000 characters.</div>
+                                    </div>
+                                </div>
+                                
+                            </div>                                 
+                        </div>
+    
                     </div>
+                    @if (!request()->route('course'))
+                        {{-- media --}}
+                        <div class="mp4 intro-box" style="display: block;">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="mt-30 lbel25">
+                                        <label>Upload Video*</label>
+                                    </div>
+                                    <div class="upload-file-dt mt-28">
+                                        <div class="upload-btn">
+                                            <input class="uploadBtn-main-input" type="file" id="IntroFile__input--source"
+                                                name="introduction_video" accept=".mp4" required>
+                                            <label for="IntroFile__input--source" title="Zip">Upload Video</label>
+                                            
+                                        </div>
+                                        <span class="uploadBtn-main-file">File Format: .mp4</span>
+                                        <span class="uploaded-id"></span>
+                                        <div class="invalid-feedback">Please upload a valid .mp4 video file.</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="mt-30 lbel25">
+                                        <label>Course Thumbnail*</label>
+                                    </div>
+                                    <div class="thumb-item">
+                                        <img src="{{ asset('images/thumbnail-demo.jpg') }}" alt="">
+                                        <div class="thumb-dt">
+                                            <div class="upload-btn">
+                                                <input class="uploadBtn-main-input" type="file"
+                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" required>
+                                                <label for="ThumbFile__input--source" title="Zip">Choose
+                                                    Thumbnail</label>
+                                            </div>
+                                            <span class="uploadBtn-main-file">Size: 590x300 pixels. Supports:
+                                                jpg,jpeg, or png</span>
+                                            <div class="invalid-feedback">Please upload a valid thumbnail (jpg, jpeg, png).</div>
+                                        </div>
+                                    </div>
+                                </div>       
+                            </div>
+                        </div>
+                    @endif
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
                 </form>
-                                                               
-            </div>
 
-            <script>
-                function loadSubCategories() {
-                    var categoryId = document.getElementById("selectcategory").value;
-                    var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
-            
-                    if (!categoryId) {
-                        return;
-                    }
-            
-                    $.ajax({
-                        url: '{{ url("admin/course/subcategories") }}',
-                        type: 'GET',
-                        data: { category_id: categoryId },
-                        success: function(response) {
-                            var subCategorySelect = $('#selectsub_category');
-                            subCategorySelect.empty();
-                            subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
-            
-                            if (response.length) {
-                                response.forEach(function(subCategory) {
-                                    var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
-                                    subCategorySelect.append('<option value="' + subCategory.id + '" ' + selected + '>' + subCategory.name + '</option>');
-                                });
-                            } else {
-                                subCategorySelect.append('<option value="">No subcategories available</option>');
+                <script>
+                    function loadSubCategories() {
+                        var categoryId = document.getElementById("selectcategory").value;
+                        var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
+                
+                        if (!categoryId) {
+                            return;
+                        }
+                
+                        $.ajax({
+                            url: '{{ url("admin/course/subcategories") }}',
+                            type: 'GET',
+                            data: { category_id: categoryId },
+                            success: function(response) {
+                                var subCategorySelect = $('#selectsub_category');
+                                subCategorySelect.empty();
+                                subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
+                
+                                if (response.length) {
+                                    response.forEach(function(subCategory) {
+                                        var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
+                                        subCategorySelect.append('<option value="' + subCategory.id + '" ' + selected + '>' + subCategory.name + '</option>');
+                                    });
+                                } else {
+                                    subCategorySelect.append('<option value="">No subcategories available</option>');
+                                }
+                
+                                subCategorySelect.selectpicker('refresh');
+                            },
+                            error: function() {
+                                console.log('Error fetching subcategories');
                             }
-            
-                            subCategorySelect.selectpicker('refresh');
-                        },
-                        error: function() {
-                            console.log('Error fetching subcategories');
+                        });
+                    }
+                
+                    $(document).ready(function() {
+                        // Auto-load subcategories when editing a course
+                        if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
+                            loadSubCategories();
                         }
                     });
-                }
-            
-                $(document).ready(function() {
-                    // Auto-load subcategories when editing a course
-                    if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
-                        loadSubCategories();
-                    }
-                });
-            </script>
-            
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const form = document.querySelector(".needs-validation");
+
+                        form.addEventListener("submit", function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add("was-validated");
+                        }, false);
+                    });
+                </script>
+            </div>
         </div>
     </div>
 </div>
+<style>
+    .form-control.is-invalid, .was-validated .form-control:invalid{
+        border-color:#dc3545 !important;
+    }
+</style>

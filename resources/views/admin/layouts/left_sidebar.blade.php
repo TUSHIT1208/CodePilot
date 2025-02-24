@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('admin.explore') }}" class="menu--link" title="Explore">
+                    <a href="{{ route('course.index') }}" class="menu--link" title="Explore">
                         <i class='uil uil-search menu--icon'></i>
                         <span class="menu--label">Course</span>
                     </a>

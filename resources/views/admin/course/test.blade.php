@@ -75,13 +75,12 @@
                         <a href="{{ route('course.edit', ['course' => session('course_id')]) }}" class="upload_btn">
                             Previous
                         </a>
-                    @endif
+                    @endif 
                 </div>
                 <div class="col-lg-6 text-end">
                     <button id="test_next" class="main-btn">Next</button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

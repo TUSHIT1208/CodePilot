@@ -6,6 +6,8 @@ use App\Models\course;
 use App\Models\category;
 use App\Models\sub_category;
 use Illuminate\Http\Request;
+use App\Models\courseAttachment;
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
@@ -14,8 +16,25 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $courses = Course::with(['courseAttachment', 'user'])->get();
+
+            Log::info('Fetched courses successfully', ['courses_count' => $courses->count()]);
+
+            return view('admin.course.list', compact('courses'));
+
+        } catch (\Exception $e) {
+            Log::error('Error fetching courses', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'Failed to load courses.');
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -23,29 +42,51 @@ class CourseController extends Controller
 
     public function create(Request $request)
     {
-        // Get all categories
-        $categories = Category::all();
+        try {
+            // Get all categories
+            $categories = Category::all();
 
-        // If category is selected, fetch corresponding subcategories
-        $subCategories = [];
+            // If category is selected, fetch corresponding subcategories
+            $subCategories = [];
 
-        if ($request->has('category_id')) {
-            $subCategories = Sub_Category::where('category_id', $request->category_id)->get();
+            if ($request->has('category_id')) {
+                $subCategories = Sub_Category::where('category_id', $request->category_id)->get();
+            }
+
+            return view('admin.course.create_new_course', compact('categories', 'subCategories'));
+        } catch (\Exception $e) {
+            Log::error('Error fetching courses', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'Failed to load courses.');
         }
-
-        return view('admin.course.create_new_course', compact('categories', 'subCategories'));
     }
 
     public function getSubCategories(Request $request)
     {
-        $categoryId = $request->input('category_id');
+        try {
+            $categoryId = $request->input('category_id');
 
-        if ($categoryId) {
-            $subCategories = Sub_Category::where('category_id', $categoryId)->get();
-            return response()->json($subCategories);
+            if ($categoryId) {
+                $subCategories = Sub_Category::where('category_id', $categoryId)->get();
+                return response()->json($subCategories);
+            }
+
+            return response()->json([]);
+        } catch (\Exception $e) {
+            Log::error('Error inserting course', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'An error occurred while inserting the course.');
         }
-
-        return response()->json([]);
     }
 
     /**
@@ -53,51 +94,94 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|max:60',
-            'description' => 'required|max:255',
-            'course_description' => 'required',  // Assuming you need to store full description
-            'category_id' => 'required|exists:categories,id',
-            'sub_category_id' => 'required|exists:sub_categories,id',
-            'course_type' => 'required|in:video,text',  // Example types, adjust to your needs
-            'meta_keyword' => 'nullable|string|max:255',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string|max:255',
-            'learn_in_course' => 'required|string|max:255',
-            'requirement' => 'required|string|max:255',
-            'course_level' => 'required|string|max:255',
-        ]);
-        //dd($request->all()); 
+        try {
+            $validated = $request->validate([
+                'title' => 'required|max:60',
+                'description' => 'required',
+                'course_description' => 'required',
+                'category_id' => 'required|exists:categories,id',
+                'sub_category_id' => 'required|exists:sub_categories,id',
+                'course_type' => 'required|in:video,text',
+                'meta_keyword' => 'required|string|max:255',
+                'meta_title' => 'required|string|max:255',
+                'meta_description' => 'required',
+                'learn_in_course' => 'required',
+                'requirement' => 'required',
+                'course_level' => 'required',
+                'introduction_thumbnail' => 'required',
+                'introduction_video' => 'required'
+            ]);
 
+            Log::info('Validated request data', ['data' => $validated]);
 
-        $course = Course::create([
-            'user_id' => auth()->id(),
-            'category_id' => $request->category_id,
-            'sub_category_id' => $request->sub_category_id,
-            'meta_keyword' => $request->meta_keyword ?? '',
-            'meta_title' => $request->meta_title ?? '',
-            'meta_description' => $request->meta_description ?? '',
-            'price' => $request->price ?? 0,
-            'discount' => $request->discount ?? null,
-            'thumbnail_url' => $request->thumbnail_url ?? '',
-            'is_active' => 1,
-            'published_at' => null, // Set published_at as NULL by default
-            'course_type' => $request->course_type,
-            'title' => $request->title,
-            'description' => $request->description ?? '',
-            'course_description' => $request->course_description,
-            'learn_in_course' => $request->learn_in_course,
-            'requirement' => $request->requirement,
-            'course_level' => $request->course_level,
-        ]);
+            $course = Course::create([
+                'user_id' => auth()->id(),
+                'category_id' => $request->category_id,
+                'sub_category_id' => $request->sub_category_id,
+                'meta_keyword' => $request->meta_keyword ?? '',
+                'meta_title' => $request->meta_title ?? '',
+                'meta_description' => $request->meta_description ?? '',
+                'price' => $request->price ?? 0,
+                'discount' => $request->discount ?? null,
+                'thumbnail_url' => $request->thumbnail_url ?? '',
+                'is_active' => 1,
+                'published_at' => null,
+                'course_type' => $request->course_type,
+                'title' => $request->title,
+                'description' => $request->description ?? '',
+                'course_description' => $request->course_description,
+                'learn_in_course' => $request->learn_in_course,
+                'requirement' => $request->requirement,
+                'course_level' => $request->course_level,
+            ]);
 
-        // Store the course ID in the session
-        session()->put('course_id', $course->id);
-        // if ($course) {
-        //return response()->json(['success' => 'Subcategory status updated successfully.']);
-        // }
-        return redirect()->route('course.edit', $course->id)->with('success', 'Course insertedsuccessfully');        // return redirect()->route('course.test');
-        // return view('admin.course.test');
+            Log::info('Course created successfully', ['course_id' => $course->id]);
+
+            if ($request->hasFile('introduction_video')) {
+                $videoUrl = $request->file('introduction_video');
+                $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
+                $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
+            } else {
+                $videoUrlName = null;
+            }
+
+            if ($request->hasFile('introduction_thumbnail')) {
+                $videoThumbnail = $request->file('introduction_thumbnail');
+                $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
+                $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
+            } else {
+                $videoThumbnailName = null;
+            }
+
+            courseAttachment::create([
+                'course_id' => $course->id,
+                'type' => 'video',
+                'url' => $request->introduction_video,
+                'thumbnail_url' => $request->introduction_thumbnail,
+            ]);
+
+            $Thumbnail = null;
+            if ($request->hasFile('video_thumbnail')) {
+                $Thumbnail = $request->file('video_thumbnail');
+                $videoThumbnailName = time() . '.' . $Thumbnail->getClientOriginalExtension();
+                $Thumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
+            } else {
+                $videoThumbnailName = null;
+            }
+            Log::info('Course created successfully', ['course_id' => $course->id]);
+
+            return redirect()->route('course.edit', $course->id)->with('success', 'Course inserted successfully');
+
+        } catch (\Exception $e) {
+            Log::error('Error inserting course', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'An error occurred while inserting the course.');
+        }
     }
 
     /**
@@ -126,23 +210,35 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $course = Course::findOrFail($id);
+        try {
+            $course = Course::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|string|max:100|unique:courses,title,' . $id,
-            'description' => 'required|string',
-            'course_description' => 'required|string',
-            'learn_in_course' => 'required|string',
-            'requirement' => 'required|string',
-            'course_level' => 'required|in:Beginner,Intermediate,Expert',
-            'course_type' => 'required|in:text,video',
-            'category_id' => 'required|exists:categories,id',
-            'sub_category_id' => 'required|exists:sub_categories,id'
-        ]);
+            $validated = $request->validate([
+                'title' => 'required|string|max:100|unique:courses,title,' . $id,
+                'description' => 'required|string',
+                'course_description' => 'required|string',
+                'learn_in_course' => 'required|string',
+                'requirement' => 'required|string',
+                'course_level' => 'required|in:Beginner,Intermediate,Expert',
+                'course_type' => 'required|in:text,video',
+                'category_id' => 'required|exists:categories,id',
+                'sub_category_id' => 'required|exists:sub_categories,id'
 
-        $course->update($request->all());
+            ]);
+            Log::info('Validated request data', ['data' => $validated]);
+            $course->update($request->all());
 
-        return redirect()->back()->with('success', 'course updated successfully');
+            return redirect()->back()->with('success', 'course updated successfully');
+        } catch (\Exception $e) {
+            Log::error('Error inserting course', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'An error occurred while updateing the course.');
+        }
     }
 
 

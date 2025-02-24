@@ -29,7 +29,7 @@
                                                 <p class="t-heading">Earnings</p>
                                             </th>
                                             <th>
-                                                <p class="t-heading">Cursus Fees</p>
+                                                <p class="t-heading">CodePilot Fees</p>
                                             </th>
                                         </tr>
                                     </thead>
