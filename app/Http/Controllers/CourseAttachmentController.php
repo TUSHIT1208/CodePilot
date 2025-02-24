@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TestQuestion;
+use App\Models\courseAttachment;
 use Illuminate\Http\Request;
 
-class TestQuestionController extends Controller
+class CourseAttachmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,14 +28,13 @@ class TestQuestionController extends Controller
      */
     public function store(Request $request)
     {
-
-
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(TestQuestion $testQuestion)
+    public function show(courseAttachment $courseAttachment)
     {
         //
     }
@@ -43,7 +42,7 @@ class TestQuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TestQuestion $testQuestion)
+    public function edit(courseAttachment $courseAttachment)
     {
         //
     }
@@ -51,7 +50,7 @@ class TestQuestionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TestQuestion $testQuestion)
+    public function update(Request $request, courseAttachment $courseAttachment)
     {
         //
     }
@@ -59,7 +58,7 @@ class TestQuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TestQuestion $testQuestion)
+    public function destroy(courseAttachment $courseAttachment)
     {
         //
     }

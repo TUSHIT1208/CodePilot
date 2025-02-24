@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class video extends Model
+class courseAttachment extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
+
     public function course(){
         return $this->belongsTo(course::class);
-    }
-
-    public function code() {
-        return $this->hasMany(video_code::class);
     }
 }

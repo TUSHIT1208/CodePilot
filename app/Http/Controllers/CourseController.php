@@ -21,11 +21,11 @@ class CourseController extends Controller
      * Show the form for creating a new resource.
      */
 
-     public function create(Request $request)
+    public function create(Request $request)
     {
         // Get all categories
         $categories = Category::all();
-        
+
         // If category is selected, fetch corresponding subcategories
         $subCategories = [];
 
@@ -68,8 +68,8 @@ class CourseController extends Controller
             'course_level' => 'required|string|max:255',
         ]);
         //dd($request->all()); 
-    
-        
+
+
         $course = Course::create([
             'user_id' => auth()->id(),
             'category_id' => $request->category_id,
@@ -91,13 +91,12 @@ class CourseController extends Controller
             'course_level' => $request->course_level,
         ]);
 
-    // Store the course ID in the session
+        // Store the course ID in the session
         session()->put('course_id', $course->id);
         // if ($course) {
-            //return response()->json(['success' => 'Subcategory status updated successfully.']);
+        //return response()->json(['success' => 'Subcategory status updated successfully.']);
         // }
-        return redirect()->back()->with('success','course inserted successfully');
-        // return redirect()->route('course.test');
+        return redirect()->route('course.edit', $course->id)->with('success', 'Course insertedsuccessfully');        // return redirect()->route('course.test');
         // return view('admin.course.test');
     }
 
@@ -121,15 +120,7 @@ class CourseController extends Controller
         return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
     }
 
-    // public function showCreateCourseForm()
-    // {
-    //     // Retrieve the course data stored in session or use a default empty object
-    //     $course = session('course', (object)[]);  // Default to empty object if no session exists
-        
-    //     // Pass the course to the view
-    //     return view('admin.course.create_new_course', compact('course'));
-    // }
-    
+
     /**
      * Update the specified resource in storage.
      */
@@ -151,7 +142,7 @@ class CourseController extends Controller
 
         $course->update($request->all());
 
-        return redirect()->back()->with('success','course updated successfully');
+        return redirect()->back()->with('success', 'course updated successfully');
     }
 
 

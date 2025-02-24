@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('videos', function (Blueprint $table) {
+        Schema::create('course_attachments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('instructor_id')->default(0)->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');  
-            $table->foreignId('admin_id')->default(0)->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');  
             $table->foreignId('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');  
-            $table->string('video_title');
-            $table->text('description')->nullable();
-            $table->text('video_url');
+            $table->enum('type', ['video', 'document', 'image', 'other']);
+            $table->string('url');
             $table->string('thumbnail_url')->nullable();
             $table->timestamps();
         });
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('videos');
+        Schema::dropIfExists('course_attachments');
     }
 };

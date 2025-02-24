@@ -143,9 +143,17 @@
                 // Trigger the next button automatically after receiving success
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             }
+            $('#test_next').click(function () {
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            });
+            if ('{{ session('success_vid') }}') {
+                // Trigger the next button automatically after receiving success
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            }
             if (course) {
                 $('#add-course-tab .step-footer button[data-direction="prev"]').click();
             }
+
         });
     </script>
     {{-- @endsection --}}

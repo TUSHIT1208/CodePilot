@@ -9,7 +9,7 @@ class test extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['course_id', 'test_title', 'passing_mark', 'created_at'];
+    protected $guarded = [];
 
     public $timestamps = false; // Disable 'updated_at' and 'created_at' management
 
