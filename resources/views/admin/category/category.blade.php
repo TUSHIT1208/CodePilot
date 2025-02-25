@@ -63,8 +63,7 @@
         </div>
 
         <!-- Edit Category Modal -->
-        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
-            aria-hidden="true" novalidate>
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true" novalidate>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form id="editCategoryForm" class="needs-validation" novalidate>
@@ -73,9 +72,7 @@
                         <input type="hidden" id="edit_category_id" name="category_id">
 
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editCategoryModalLabel">
-                                Edit Category
-                            </h5>
+                            <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
@@ -83,17 +80,14 @@
                             <!-- Category Name Field -->
                             <div class="mb-3">
                                 <label for="edit_category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control _dlor1" id="edit_category_name"
-                                    name="category_name" placeholder="Enter the category name" required>
-                                <div class="invalid-feedback"></div>
+                                <input type="text" class="form-control" id="edit_category_name" name="category_name" placeholder="Enter the category name" required>
+                                <div class="invalid-feedback">Please provide a category name.</div>
                             </div>
 
                             <!-- Category Description Field -->
                             <div class="mb-3">
                                 <label for="edit_category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4"
-                                    placeholder="Enter the category description n ( OPTIONAL )"></textarea>
-                                <div class="invalid-feedback"></div>
+                                <textarea class="form-control" id="edit_category_description" name="category_description" rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
 
@@ -113,28 +107,22 @@
                     <form action="{{ route('category.store') }}" method="POST" class="needs-validation" novalidate>
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addCategoryModalLabel">
-                                Add New Category
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Category Name Field -->
                             <div class="mb-3">
                                 <label for="category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control _dlor1" id="name" name="category_name" placeholder="Enter the category name" required>
-                                <div class="invalid-feedback"></div>
+                                <input type="text" class="form-control" id="category_name" name="category_name"  placeholder="Enter the category name" required>
+                                <div class="invalid-feedback">Please enter a category name.</div>
                             </div>
-
-                            <!-- Category Description Field -->
                             <div class="mb-3">
                                 <label for="category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control _dlor1" id="description" name="category_description" rows="4"
-                                    placeholder="Enter the category description ( OPTIONAL )"></textarea>
+                                <textarea class="form-control" id="category_description" name="category_description" rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
                             <button type="submit" class="main-btn">Save</button>
                         </div>
                     </form>
@@ -142,22 +130,24 @@
             </div>
         </div>
 
-
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
     {{-- vaildation --}}
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const form = document.querySelector(".needs-validation");
-    
-            form.addEventListener("submit", function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add("was-validated");
-            }, false);
+       // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
+       document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".needs-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
         });
     </script>
 
@@ -255,12 +245,8 @@
 
                 // ✅ Show error Toastr if no category is selected
                 if (selectedIds.length === 0) {
-                    toastr.warning("Please select at least one Category to delete.", "Warning", {
-                        onShown: function() {
-                            $('.toast-warning').css('background-color', 'orange'); // Ensure yellow background
-                        }
-                    });
-                    return; // Stop further execution
+                    toastr.warning("Please select at least one Sub-category to delete.", "Warning");
+                    return;
                 }
 
                 Swal.fire({
@@ -310,69 +296,69 @@
     {{-- AJAX form submission for Add Category --}}
     <script>
         $(document).ready(function() {
-            let isCancelClicked = false;
+    let isCancelClicked = false;
 
-            // Track if the cancel button is clicked
-            $('.cancel-btn').on('click', function() {
-                isCancelClicked = true;
-            });
+    // Track if the cancel button is clicked
+    $('.cancel-btn').on('click', function() {
+        isCancelClicked = true;
+        $('#addCategoryModal').modal('hide'); // Close modal properly
+    });
 
-            $('#addCategoryModal form').submit(function(e) {
-                if (isCancelClicked) {
-                    isCancelClicked = false; // Reset flag
-                    return; // Prevent validation if cancel button was clicked
-                }
+    $('#addCategoryModal form').submit(function(e) {
+        if (isCancelClicked) {
+            isCancelClicked = false; // Reset flag
+            return; // Do not proceed with validation or submission
+        }
 
-                e.preventDefault(); // Prevent default form submission
+        e.preventDefault(); // Prevent default form submission
+        var formData = $(this).serialize();
 
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    method: $(this).attr('method'),
-                    data: formData,
-                    beforeSend: function() {
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            toastr.success(response.success, 'Success');
-
-                            setTimeout(function() {
-                                $('#addCategoryModal').modal('hide');
-                                $('#addCategoryModal form')[0].reset();
-                                location.reload(); // Refresh to reflect changes
-                            }, 2000);
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            var errors = xhr.responseJSON.errors;
-                            for (var field in errors) {
-                                var inputField = $(`[name="${field}"]`);
-                                inputField.addClass('is-invalid');
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
-                            }
-                        } else {
-                            toastr.error('An unexpected error occurred. Please try again.',
-                                'Error');
-                        }
-                    }
-                });
-            });
-
-            // Reset form and validation errors when modal is closed
-            $('#addCategoryModal').on('hidden.bs.modal', function() {
-                $(this).find('form')[0].reset();
+        $.ajax({
+            url: $(this).attr('action'),
+            method: $(this).attr('method'),
+            data: formData,
+            beforeSend: function() {
                 $('.is-invalid').removeClass('is-invalid');
                 $('.invalid-feedback').remove();
-            });
-        });
-    </script>
+            },
+            success: function(response) {
+                if (response.success) {
+                    $('#addCategoryModal').modal('hide');
+                    toastr.success(response.success, 'Success');
 
+                    // Refresh immediately instead of delaying for 5 seconds
+                    setTimeout(function() {
+                        location.reload();
+                    }, 1000);
+                }
+            },
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    var errors = xhr.responseJSON.errors;
+                    for (var field in errors) {
+                        var inputField = $(`[name="${field}"]`);
+                        inputField.addClass('is-invalid');
+                        inputField.after(
+                            `<div class="invalid-feedback">${errors[field][0]}</div>`
+                        );
+                    }
+                } else {
+                    toastr.error('An unexpected error occurred. Please try again.', 'Error');
+                }
+            }
+        });
+    });
+
+    // Reset form and validation errors when modal is closed
+    $('#addCategoryModal').on('hidden.bs.modal', function() {
+        $(this).find('form')[0].reset();
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
+        isCancelClicked = false; // Ensure cancel flag is reset
+    });
+});
+
+    </script>
     <!-- JavaScript for Delete Confirmation -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {

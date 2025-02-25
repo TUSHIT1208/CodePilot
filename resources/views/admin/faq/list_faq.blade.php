@@ -63,10 +63,11 @@
             </div>
         </div>
 
+        <!-- Edit FAQ Modal -->
         <div class="modal fade" id="editFaqModal" tabindex="-1" aria-labelledby="editFaqModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="editFaqForm" method="POST">
+                    <form id="editFaqForm" method="POST" class="needs-validation" novalidate>
                         @csrf
                         @method('PUT')
                         <div class="modal-header">
@@ -77,11 +78,13 @@
                             <input type="hidden" id="editFaqId" name="faq_id">
                             <div class="mb-3">
                                 <label for="editFaqQuestion" class="form-label">Question</label>
-                                <input type="text" class="form-control _dlor1" id="editFaqQuestion" name="question">
+                                <input type="text" class="form-control" id="editFaqQuestion" name="question" required>
+                                <div class="invalid-feedback">Please provide a question.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="editFaqAnswer" class="form-label">Answer</label>
-                                <textarea class="form-control _dlor1" id="editFaqAnswer" name="answer" rows="4"></textarea>
+                                <textarea class="form-control" id="editFaqAnswer" name="answer" rows="4" required></textarea>
+                                <div class="invalid-feedback">Please provide an answer.</div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -94,34 +97,29 @@
         </div>
 
 
-        <!-- Modal for Adding Category -->
-        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
-            aria-hidden="true">
+        <!-- Modal for Adding FAQ -->
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('faq.store') }}" method="POST">
-                        @csrf`
+                    <form action="{{ route('faq.store') }}" method="POST" class="needs-validation" novalidate>
+                        @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addCategoryModalLabel">
-                                Add New Faq
-                            </h5>
+                            <h5 class="modal-title" id="addCategoryModalLabel">Add New FAQ</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Category Name Field -->
+                            <!-- Question Field -->
                             <div class="mb-3">
-                                <label for="category_name" class="form-label">Question</label>
-                                <input type="text" class="form-control _dlor1" id="name" name="question"
-                                    placeholder="Enter the question">
-                                <div class="invalid-feedback" id="category_name_error"></div>
+                                <label for="name" class="form-label">Question</label>
+                                <input type="text" class="form-control" id="name" name="question" placeholder="Enter the question" required>
+                                <div class="invalid-feedback">Please provide a question.</div>
                             </div>
 
-                            <!-- Category Description Field -->
+                            <!-- Answer Field -->
                             <div class="mb-3">
-                                <label for="category_description" class="form-label">Answer</label>
-                                <textarea class="form-control _dlor1" id="description" name="answer" rows="4"
-                                    placeholder="Enter the answer"></textarea>
-                                <div class="invalid-feedback" id="category_description_error"></div>
+                                <label for="description" class="form-label">Answer</label>
+                                <textarea class="form-control" id="description" name="answer" rows="4" placeholder="Enter the answer" required></textarea>
+                                <div class="invalid-feedback">Please provide an answer.</div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -136,7 +134,22 @@
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
-
+<script>
+     // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
+     document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".needs-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
+        });
+</script>
     <script>
         $(document).ready(function() {
             let table = $('#ucp-table').DataTable({
@@ -297,13 +310,14 @@
 
                         if (response.success) {
                             console.log("Toastr should trigger now.");
+                            $('#addCategoryModal').modal('hide');
                             toastr.success(response.success,
                                 'Success'); // Ensure this line runs
 
                             setTimeout(function() {
-                                $('#addCategoryModal').modal('hide');
+                                
                                 window.location.reload();
-                            }, 2000);
+                            }, 5000);
                         } else {
                             console.log("Error condition met.");
                             toastr.error('Something went wrong!', 'Error');
@@ -325,10 +339,7 @@
                                     `<div class="invalid-feedback">${errors[field][0]}</div>`
                                 );
                             }
-                        } else {
-                            toastr.error('An unexpected error occurred. Please try again.',
-                                'Error');
-                        }
+                        } 
                     }
                 });
             });
@@ -405,9 +416,7 @@
                         if (response.success) {
                             location.reload();
                             
-                        } else {
-                            toastr.error("Something went wrong!", "Error");
-                        }
+                        } 
                     },
                     error: function(xhr) {
                         $(".is-invalid").removeClass("is-invalid");
@@ -423,10 +432,7 @@
                                     `<div class="invalid-feedback">${errors[field][0]}</div>`
                                 );
                             }
-                        } else {
-                            toastr.error("An unexpected error occurred. Please try again.",
-                                "Error");
-                        }
+                        } 
                     }
                 });
             });

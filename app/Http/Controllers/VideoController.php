@@ -22,62 +22,31 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
-        if (!session()->has('course_id')) {
-            return redirect()->back()->with('error', 'Course ID is missing.');
-        }
-        
-        $courseId = session('course_id');
-
-        if ($request->hasFile('introduction_video')) {
-            $videoUrl = $request->file('introduction_video');
+        if ($request->hasFile('playlist_video')) {
+            $videoUrl = $request->file('playlist_video');
             $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
             $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
         } else {
             $videoUrlName = null;
         }
 
-        if ($request->hasFile('introduction_thumbnail')) {
-            $videoThumbnail = $request->file('introduction_thumbnail');
+        if ($request->hasFile('playlist_thumbnail')) {
+            $videoThumbnail = $request->file('playlist_thumbnail');
             $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
             $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
         } else {
             $videoThumbnailName = null;
         }
 
-        courseAttachment::create([
-            'course_id' => $courseId,
-            'type' => 'video',
-            'url' => $request->introduction_video,
-            'thumbnail_url' => $request->introduction_thumbnail,
-        ]);
-
-        $Thumbnail = null;
-        if ($request->hasFile('video_thumbnail')) {
-            $Thumbnail = $request->file('video_thumbnail');
-            $videoThumbnailName = time() . '.' . $Thumbnail->getClientOriginalExtension();
-            $Thumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
-        } else {
-            $videoThumbnailName = null;
-        }
-
-        $video = Video::create([
-            'admin_id' => Auth::user()->id,
-            'course_id' => $courseId,
+        Video::create([
+            'user_id' => Auth::user()->id,
+            'course_id' => $request->course_id,
             'video_title' => $request->video_title,
             'description' => $request->video_discription,
-            'video_url' => $request->video_url,
-            'thumbnail_url' => $request->video_thumbnail,
+            'video_url' => $videoUrlName,
+            'thumbnail_url' =>$videoThumbnailName,
         ]);
 
-        $video = video_code::create([
-            'video_id' => $video->id, 
-            'code_title' => $request->code_title, 
-            'code_text' => $request->code,
-        ]);
-
-        session()->put('video_id', $video->id);
-
-        return redirect()->back()->with('success_vid','course inserted successfully');
     }
 
     public function show(video $video)

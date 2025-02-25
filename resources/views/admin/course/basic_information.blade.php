@@ -311,8 +311,3 @@
         </div>
     </div>
 </div>
-<style>
-    .form-control.is-invalid, .was-validated .form-control:invalid{
-        border-color:#dc3545 !important;
-    }
-</style>

@@ -87,7 +87,7 @@ class SubCategoryController extends Controller
             return response()->json(['success' => 'SubCategory added successfully!']);
         } catch (Exception $e) {
             Log::error('Error adding subcategory: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while adding the subcategory. Please try again later.'], 500);
+            // return response()->json(['error' => 'An error occurred while adding the subcategory. Please try again later.'], 500);
         }
     }
 
