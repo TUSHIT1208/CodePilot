@@ -5,7 +5,7 @@
         </div>
         <div class="course__form">
             <div class="general_info10">
-                <form action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}" method="POST" id="courseForm" novalidate class="needs-validation">
+                <form action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}" method="POST" id="courseForm" novalidate class="needs-validation" enctype="multipart/form-data">
                     @csrf
                     @if(isset($course))
                         @method('PUT')
@@ -206,9 +206,10 @@
                                 
                             </div>                                 
                         </div>
-    
+                        
                     </div>
-                    @if (!request()->route('course'))
+
+                    {{-- @if (!request()->route('course')) --}}
                         {{-- media --}}
                         <div class="mp4 intro-box" style="display: block;">
                             <div class="row">
@@ -219,9 +220,15 @@
                                     <div class="upload-file-dt mt-28">
                                         <div class="upload-btn">
                                             <input class="uploadBtn-main-input" type="file" id="IntroFile__input--source"
-                                                name="introduction_video" accept=".mp4" required>
+                                                name="introduction_video" accept=".mp4"value="{{ old('url', $course->url ?? '') }}" required>
                                             <label for="IntroFile__input--source" title="Zip">Upload Video</label>
-                                            
+                                            <!-- Show Existing Video -->
+                                            @if(isset($course->courseattachment->url))
+                                                <video width="100%" controls>
+                                                    <source src="{{ asset('courseVideo/' . $course->courseattachment->url) }}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            @endif
                                         </div>
                                         <span class="uploadBtn-main-file">File Format: .mp4</span>
                                         <span class="uploaded-id"></span>
@@ -233,7 +240,8 @@
                                         <label>Course Thumbnail*</label>
                                     </div>
                                     <div class="thumb-item">
-                                        <img src="{{ asset('images/thumbnail-demo.jpg') }}" alt="">
+                                        <!-- Show Existing Thumbnail -->
+                                        <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/thumbnail-demo.jpg') }}" alt="Course Thumbnail" id="thumbnail-preview">
                                         <div class="thumb-dt">
                                             <div class="upload-btn">
                                                 <input class="uploadBtn-main-input" type="file"
@@ -249,8 +257,18 @@
                                 </div>       
                             </div>
                         </div>
-                    @endif  
-                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+                    {{-- @endif   --}}
+                   
+                    <div class="mt-5 row">
+                        <div class="col-lg-6">
+                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+                        </div>
+                        @if (request()->route('course'))
+                            <div class="col-lg-6 text-end">
+                                <button id="basic_next" class="main-btn">Next</button>
+                            </div>
+                        @endif
+                    </div>
                 </form>
 
                 <script>
@@ -311,3 +329,12 @@
         </div>
     </div>
 </div>
+<script>
+    function previewThumbnail(event) {
+        var output = document.getElementById('thumbnail-preview');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src) // Free up memory
+        }
+    }
+</script>

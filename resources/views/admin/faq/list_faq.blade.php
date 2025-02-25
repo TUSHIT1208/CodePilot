@@ -67,7 +67,7 @@
         <div class="modal fade" id="editFaqModal" tabindex="-1" aria-labelledby="editFaqModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="editFaqForm" method="POST" class="needs-validation" novalidate>
+                    <form id="editFaqForm" method="POST" novalidate class="needs-validation">
                         @csrf
                         @method('PUT')
                         <div class="modal-header">
@@ -78,13 +78,13 @@
                             <input type="hidden" id="editFaqId" name="faq_id">
                             <div class="mb-3">
                                 <label for="editFaqQuestion" class="form-label">Question</label>
-                                <input type="text" class="form-control" id="editFaqQuestion" name="question" required>
-                                <div class="invalid-feedback">Please provide a question.</div>
+                                <input type="text" class="form-control _dlor1" id="editFaqQuestion" name="question" placeholder="Enter Question" required>
+                                <div class="invalid-feedback">Please enter the question.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="editFaqAnswer" class="form-label">Answer</label>
-                                <textarea class="form-control" id="editFaqAnswer" name="answer" rows="4" required></textarea>
-                                <div class="invalid-feedback">Please provide an answer.</div>
+                                <textarea class="form-control _dlor1" id="editFaqAnswer" name="answer" rows="4" placeholder="Enter Answer" required></textarea>
+                                <div class="invalid-feedback">Please enter the answer.</div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -96,30 +96,26 @@
             </div>
         </div>
 
-
-        <!-- Modal for Adding FAQ -->
+        <!-- Add FAQ Modal -->
         <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('faq.store') }}" method="POST" class="needs-validation" novalidate>
+                    <form method="POST" novalidate id="addFaqForm" class="needs-validation">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="addCategoryModalLabel">Add New FAQ</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Question Field -->
                             <div class="mb-3">
-                                <label for="name" class="form-label">Question</label>
-                                <input type="text" class="form-control" id="name" name="question" placeholder="Enter the question" required>
-                                <div class="invalid-feedback">Please provide a question.</div>
+                                <label for="addQuestion" class="form-label">Question</label>
+                                <input type="text" class="form-control" id="addQuestion" name="question" placeholder="Enter Question" required>
+                                <div class="invalid-feedback">Please enter the question.</div>
                             </div>
-
-                            <!-- Answer Field -->
                             <div class="mb-3">
-                                <label for="description" class="form-label">Answer</label>
-                                <textarea class="form-control" id="description" name="answer" rows="4" placeholder="Enter the answer" required></textarea>
-                                <div class="invalid-feedback">Please provide an answer.</div>
+                                <label for="addAnswer" class="form-label">Answer</label>
+                                <textarea class="form-control" id="addAnswer" name="answer" placeholder="Enter Answer" rows="4" required></textarea>
+                                <div class="invalid-feedback">Please enter the answer.</div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -131,24 +127,131 @@
             </div>
         </div>
 
+
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
-<script>
-     // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
-     document.addEventListener("DOMContentLoaded", function () {
-            var forms = document.querySelectorAll(".needs-validation");
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener("submit", function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
+    <script>
+        $(document).ready(function() {
+            // Add FAQ Submission
+            $('#addFaqForm').submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                if (!this.checkValidity()) {
+                    e.stopPropagation(); // Stop the form from submitting if invalid
+                } else {
+                    var formData = $(this).serialize(); // Serialize the form data
+
+                    $.ajax({
+                        url: $(this).attr('action'), // Get the action URL from the form
+                        method: 'POST',
+                        data: formData,
+                        success: function(response) {
+                            if (response.success) {
+                                toastr.success(response.success, 'Success');
+                                $('#addCategoryModal').modal('hide'); // Hide the modal
+                                setTimeout(function() {
+                                    location.reload(); // Reload the page after a short delay
+                                }, 1000);
+                            } else {
+                                toastr.error('Something went wrong!', 'Error');
+                            }
+                        },
+                        error: function(xhr) {
+                            $('.is-invalid').removeClass('is-invalid');
+                            $('.invalid-feedback').remove();
+
+                            if (xhr.status === 422) {
+                                var errors = xhr.responseJSON.errors;
+
+                                for (var field in errors) {
+                                    var inputField = $(`[name="${field}"]`);
+                                    inputField.addClass('is-invalid');
+                                    inputField.after(
+                                        `<div class="invalid-feedback">${errors[field][0]}</div>`
+                                    );
+                                }
+                            } else {
+                                toastr.error('An error occurred. Please try again.', 'Error');
+                            }
                         }
-                        form.classList.add("was-validated");
-                    }, false);
-                });
+                    });
+                }
+                this.classList.add('was-validated'); // Add validation class
+            });
+
+            // Edit FAQ Submission
+            // Edit FAQ Submission
+            $('#editFaqForm').submit(function(e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                // Check if the form is valid
+                if (!this.checkValidity()) {
+                    e.stopPropagation(); // Stop the form from submitting if invalid
+                } else {
+                    var formData = $(this).serialize(); // Serialize the form data
+
+                    $.ajax({
+                        url: $(this).attr('action'), // Get the action URL from the form
+                        method: 'POST',
+                        data: formData,
+                        success: function(response) {
+                            if (response.success) {
+                                //toastr.success(response.success, 'Success');
+                                $('#editFaqModal').modal('hide'); // Hide the modal
+                                setTimeout(function() {
+                                    location.reload(); // Reload the page after a short delay
+                                }, 0000);
+                            } else {
+                                toastr.error('Something went wrong!', 'Error');
+                            }
+                        },
+                        error: function(xhr) {
+                            $('.is-invalid').removeClass('is-invalid');
+                            $('.invalid-feedback').remove();
+
+                            if (xhr.status === 422) {
+                                var errors = xhr.responseJSON.errors;
+
+                                for (var field in errors) {
+                                    var inputField = $(`[name="${field}"]`);
+                                    inputField.addClass('is-invalid');
+                                    inputField.after(
+                                        `<div class="invalid-feedback">${errors[field][0]}</div>`
+                                    );
+                                }
+                            } else {
+                                toastr.error('An error occurred. Please try again.', 'Error');
+                            }
+                        }
+                    });
+                }
+                this.classList.add('was-validated'); // Add validation class
+            });
+
+            // Handle Edit Button Click
+            $(document).on("click", ".edit-btn", function() {
+                let id = $(this).data("id");
+                let question = $(this).data("question");
+                let answer = $(this).data("answer");
+
+                // Populate the modal fields
+                $("#editFaqId").val(id);
+                $("#editFaqQuestion").val(question);
+                $("#editFaqAnswer").val(answer);
+
+                // Set form action dynamically
+                $("#editFaqForm").attr("action", "/faq/" + id);
+
+                // Reset validation messages
+                $(".is-invalid").removeClass("is-invalid");
+                $(".invalid-feedback").remove();
+
+                // Show the modal
+                $("#editFaqModal").modal("show");
+            });
         });
+    
 </script>
     <script>
         $(document).ready(function() {
@@ -286,67 +389,7 @@
         });
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('.main-btn[data-bs-dismiss="modal"]').on('click', function() {
-                // Reset the form fields and remove validation errors
-                $('#addCategoryModal form')[0].reset();
-                $('.is-invalid').removeClass('is-invalid');
-                $('.invalid-feedback').remove();
-            });
-
-            $('#addCategoryModal form').submit(function(e) {
-                e.preventDefault();
-
-                var formData = $(this).serialize();
-                console.log("Submitting form data:", formData); // Debugging log
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    method: $(this).attr('method'),
-                    data: formData,
-                    success: function(response) {
-                        console.log("Server response:", response); // Debugging log
-
-                        if (response.success) {
-                            console.log("Toastr should trigger now.");
-                            $('#addCategoryModal').modal('hide');
-                            toastr.success(response.success,
-                                'Success'); // Ensure this line runs
-
-                            setTimeout(function() {
-                                
-                                window.location.reload();
-                            }, 5000);
-                        } else {
-                            console.log("Error condition met.");
-                            toastr.error('Something went wrong!', 'Error');
-                        }
-                    },
-                    error: function(xhr) {
-                        console.error(xhr.responseText);
-
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) {
-                            var errors = xhr.responseJSON.errors;
-
-                            for (var field in errors) {
-                                var inputField = $(`[name="${field}"]`);
-                                inputField.addClass('is-invalid');
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
-                            }
-                        } 
-                    }
-                });
-            });
-        });
-    </script>
-
-    <!-- JavaScript for Delete Confirmation -->
+    <!-- JavaScript for Delete Confirmation --> 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Event delegation for dynamically loaded buttons
@@ -376,7 +419,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Handle Edit Button Click
             $(document).on("click", ".edit-btn", function() {
@@ -437,5 +480,5 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 @endsection

@@ -80,14 +80,14 @@
                             <!-- Category Name Field -->
                             <div class="mb-3">
                                 <label for="edit_category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control" id="edit_category_name" name="category_name" placeholder="Enter the category name" required>
+                                <input type="text" class="form-control _dlor1" id="edit_category_name" name="category_name" placeholder="Enter the category name" required>
                                 <div class="invalid-feedback">Please provide a category name.</div>
                             </div>
 
                             <!-- Category Description Field -->
                             <div class="mb-3">
                                 <label for="edit_category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control" id="edit_category_description" name="category_description" rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
+                                <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
 
@@ -113,12 +113,12 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control" id="category_name" name="category_name"  placeholder="Enter the category name" required>
+                                <input type="text" class="form-control _dlor1" id="category_name" name="category_name"  placeholder="Enter the category name" required>
                                 <div class="invalid-feedback">Please enter a category name.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control" id="category_description" name="category_description" rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
+                                <textarea class="form-control _dlor1" id="category_description" name="category_description" rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">

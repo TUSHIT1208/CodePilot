@@ -93,7 +93,7 @@
                 <li class="menu--item">
                     <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
                         <i class='uil uil-file menu--icon'></i>
-                        <span class="menu--label">Frequently asked questions</span>
+                        <span class="menu--label">FAQ's</span>
                     </a>
                 </li>
                 <li class="menu--item">

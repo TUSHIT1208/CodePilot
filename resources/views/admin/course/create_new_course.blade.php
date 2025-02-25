@@ -143,6 +143,10 @@
             $('#test_next').click(function () {
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             });
+
+            $('#basic_next').click(function () {
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            });
             
             // if ('{{ session('success_vid') }}') {
             //     // Trigger the next button automatically after receiving success

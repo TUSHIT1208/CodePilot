@@ -73,13 +73,13 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="edit-name" class="form-label">Learning Path Name</label>
-                                <input type="text" class="form-control" id="edit-name" name="name" placeholder="Enter the path name" required>
+                                <input type="text" class="form-control _dlor1" id="edit-name" name="name" placeholder="Enter the path name" required>
                                 <div class="invalid-feedback">Please provide a path name.</div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="edit-description" class="form-label">Description</label>
-                                <textarea class="form-control" id="edit-description" name="description" rows="3" placeholder="Enter the description (OPTIONAL)"></textarea>
+                                <textarea class="form-control _dlor1" id="edit-description" name="description" rows="3" placeholder="Enter the description (OPTIONAL)"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -106,14 +106,14 @@
                             <!-- Path Name Field -->
                             <div class="mb-3">
                                 <label for="name" class="form-label">Path Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter the path name" required>
+                                <input type="text" class="form-control _dlor1" id="name" name="name" placeholder="Enter the path name" required>
                                 <div class="invalid-feedback">Please provide a path name.</div>
                             </div>
 
                             <!-- Path Description Field -->
                             <div class="mb-3">
                                 <label for="description" class="form-label">Learning Path Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter the description (OPTIONAL)"></textarea>
+                                <textarea class="form-control _dlor1" id="description" name="description" rows="4" placeholder="Enter the description (OPTIONAL)"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
