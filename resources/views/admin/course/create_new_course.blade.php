@@ -154,6 +154,12 @@
                 // Trigger the next button automatically after receiving success
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             }
+
+            if ('{{ session('success_price') }}') {
+                // Trigger the next button automatically after receiving success
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            }
+
             $('#test_next').click(function () {
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             });

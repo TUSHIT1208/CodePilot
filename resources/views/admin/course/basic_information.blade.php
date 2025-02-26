@@ -249,7 +249,7 @@
                                         <div class="thumb-dt">
                                             <div class="upload-btn">
                                                 <input class="uploadBtn-main-input" type="file"
-                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" value="{{ old('thumbnail_url', $course->courseattachment->thumbnail_url ?? '') }}" {{ isset($course) ? '' : 'required' }}>
+                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" {{ isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
                                                 <label for="ThumbFile__input--source" title="Zip">Choose
                                                     Thumbnail</label>
                                             </div>

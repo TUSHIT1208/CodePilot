@@ -5,8 +5,8 @@
         </div>
         <div class="course__form">
             @if (isset($course))
-                    <form action="{{  route('course.price', ['course' => $course->id]) }}" method="POST" class="price-validation"
-                        novalidate>
+                    <form action="{{  route('course.price', ['course' => $course->id]) }}" method="POST"
+                        class="price-validation" novalidate>
 
                         @csrf
 
@@ -90,6 +90,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <p id="price-success"></p>
                                                 <button type="submit" class="main-btn mt-3" id="priceButton">Save</button>
                                             </div>
                                         </div>
@@ -118,28 +119,77 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector(".price-validation");
-        console.log("form=>", form)
-        form.addEventListener("submit", function (event) {
-            debugger;
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
+        const priceInput = document.getElementById("price");
+        const discountInput = document.getElementById("discount");
+        const submitButton = document.getElementById("priceButton");
+
+        // Function to check validation before submitting
+        function validateForm() {
+            let isValid = true;
             form.classList.add("was-validated");
 
-            // Ensure discount is not greater than price
-            const priceInput = document.getElementById('price');
-            const discountInput = document.getElementById('discount');
+            // Price validation
+            if (!priceInput.value || priceInput.value < 0 || priceInput.value > 99999999.99) {
+                priceInput.classList.add("is-invalid");
+                isValid = false;
+            } else {
+                priceInput.classList.remove("is-invalid");
+            }
 
-            discountInput.addEventListener('input', function () {
-                if (parseFloat(discountInput.value) > parseFloat(priceInput.value)) {
-                    discountInput.setCustomValidity('Discount cannot be greater than the price.');
-                } else {
-                    discountInput.setCustomValidity('');
-                }
-            });
+            // Discount validation (must be <= price)
+            if (!discountInput.value || discountInput.value < 0 || discountInput.value > 99999999.99 || parseFloat(discountInput.value) > parseFloat(priceInput.value)) {
+                discountInput.classList.add("is-invalid");
+                discountInput.setCustomValidity("Discount cannot be greater than the price.");
+                isValid = false;
+            } else {
+                discountInput.classList.remove("is-invalid");
+                discountInput.setCustomValidity("");
+            }
 
-        }, false);
+            return isValid;
+        }
+
+        // Trigger validation on input change
+        priceInput.addEventListener("input", validateForm);
+        discountInput.addEventListener("input", validateForm);
+
+        // Submit event listener
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            if (!validateForm()) {
+                return; // Stop if validation fails
+            }
+
+            let formData = new FormData(form);
+            submitButton.disabled = true; // Disable button to prevent multiple submissions
+
+            fetch("{{ route('course.price', ['course' => $course->id]) }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Accept": "application/json",
+                },
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        $("#price-success").text("Price Added successfully!");
+                        // alert("Price updated successfully!");
+                        form.reset();
+                        form.classList.remove("was-validated");
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Something went wrong. Please try again.");
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                });
+        });
     });
-
 </script>
