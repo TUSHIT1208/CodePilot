@@ -3,17 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Models\video;
-use App\Models\video_code;
 use Illuminate\Http\Request;
-use App\Models\courseAttachment;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class VideoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $videos = Video::select(['id', 'video_title', 'description', 'thumbnail_url', 'video_url', 'created_at']);
+            return DataTables::of($videos)
+                ->addColumn('thumbnail_url', function ($video) {
+                    return '<img src="/courseThumbnail/' . $video->thumbnail_url . '" alt="Thumbnail" style="width:50px; height:50px; border-radius:8px;">';
+                })
+                ->addColumn('video_url', function ($video) {
+                    return '<video width="100" height="50" controls>
+                            <source src="/courseVideo/' . $video->video_url . '" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>';
+                })
+                ->addColumn('action', function ($video) {
+                    return '<a class="gray-s deleteVideo" data-id="' . $video->id . '">
+                            <i class="uil uil-trash"></i>
+                        </a>';
+                })
+                ->rawColumns(['thumbnail_url', 'video_url', 'action'])
+                ->make(true);
+        }
     }
+
 
     public function create()
     {
@@ -22,31 +42,47 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
+
+        // Validate the request
+        $request->validate([
+            'video_title' => 'required|string|max:255',
+            'video_discription' => 'required|string',
+            'playlist_video' => 'required|file|mimes:mp4|max:20480', // Max size 20MB
+            'playlist_thumbnail' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Max size 2MB
+        ]);
+
+
+        // // Store the video
+        // $videoPath = $request->file('playlist_video')->store('videos', 'public');
+        // $thumbnailPath = $request->file('playlist_thumbnail')->store('thumbnails', 'public');
+
         if ($request->hasFile('playlist_video')) {
             $videoUrl = $request->file('playlist_video');
-            $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
-            $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
+            $videoPath = time() . '.' . $videoUrl->getClientOriginalExtension();
+            $videoUrl->move(public_path('/courseVideo/'), $videoPath);
         } else {
             $videoUrlName = null;
         }
 
         if ($request->hasFile('playlist_thumbnail')) {
             $videoThumbnail = $request->file('playlist_thumbnail');
-            $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
-            $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
+            $thumbnailPath = time() . '.' . $videoThumbnail->getClientOriginalExtension();
+            $videoThumbnail->move(public_path('/courseThumbnail/'), $thumbnailPath);
         } else {
             $videoThumbnailName = null;
         }
 
-        Video::create([
-            'user_id' => Auth::user()->id,
-            'course_id' => $request->course_id,
-            'video_title' => $request->video_title,
-            'description' => $request->video_discription,
-            'video_url' => $videoUrlName,
-            'thumbnail_url' =>$videoThumbnailName,
-        ]);
+        // Create a new video record
+        $video = new Video();
+        $video->user_id = auth()->id(); // Assuming the user is authenticated
+        $video->course_id = $request->course_id; // Assuming you have a course_id field
+        $video->video_title = $request->video_title;
+        $video->description = $request->video_discription;
+        $video->video_url = $videoPath;
+        $video->thumbnail_url = $thumbnailPath;
+        $video->save();
 
+        return response()->json(['success' => 'Video uploaded successfully!']);
     }
 
     public function show(video $video)
@@ -56,13 +92,7 @@ class VideoController extends Controller
 
     public function edit($id)
     {
-        $videoId = session('video_id');
-
-        $course_attachment = courseAttachment::with('course')->where('course_id',$id)->get();
-        $video = video::with('course')->where('course_id',$id)->get();
-        $video_code = video_code::with('video')->where('video_id',$videoId)->get();
-
-        return view('admin.course.media',compact('course_attachment','video','video_code'));
+        //
     }
 
 
@@ -72,8 +102,24 @@ class VideoController extends Controller
     }
 
 
-    public function destroy(video $video)
+    public function destroy($id)
     {
-        //
+        $video = Video::find($id);
+        if (!$video) {
+            return response()->json(['error' => 'Video not found!'], 404);
+        }
+
+        // Delete files from storage (optional)
+        if (File::exists(public_path('courseThumbnail/' . $video->thumbnail_url))) {
+            File::delete(public_path('courseThumbnail/' . $video->thumbnail_url));
+        }
+        if (File::exists(public_path('courseVideo/' . $video->video_url))) {
+            File::delete(public_path('courseVideo/' . $video->video_url));
+        }
+
+        $video->delete();
+
+        return response()->json(['success' => 'Video deleted successfully!']);
     }
+
 }
