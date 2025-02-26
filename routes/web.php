@@ -168,3 +168,5 @@ Route::get('/course/basic-information', function () {
 })->name('course.basic-information');
 
 Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit')->middleware('auth');
+
+route::post('course/price/{course}',[CourseController::class, 'price'])->name('course.price')->middleware('auth');

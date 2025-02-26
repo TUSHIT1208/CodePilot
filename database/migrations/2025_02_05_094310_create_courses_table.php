@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('meta_description');
             $table->decimal('price', 10, 2)->default(0);
             $table->decimal('discount', 10, 2)->nullable();
-            $table->text('thumbnail_url');
+           
             $table->boolean('is_active')->default(true);
             $table->dateTime('published_at')->nullable();
             $table->timestamps();

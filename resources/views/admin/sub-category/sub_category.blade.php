@@ -215,33 +215,32 @@
                         }, 5000);
                     }
                 },
-                error: function(xhr) {
-                    // Remove existing validation feedback
-                    $('.is-invalid').removeClass('is-invalid');
-                    $('.invalid-feedback').remove();
+                // error: function(xhr) {
+                //     // Remove existing validation feedback
+                //     $('.is-invalid').removeClass('is-invalid');
+                //     $('.invalid-feedback').remove();
 
-                    if (xhr.status === 422) { // Validation error
-                        var errors = xhr.responseJSON.errors;
+                //     if (xhr.status === 422) { // Validation error
+                //         var errors = xhr.responseJSON.errors;
 
-                        for (var field in errors) {
-                            // Highlight the field with error
-                            var inputField = $('input[name="' + field +
-                                '"], select[name="' + field + '"], textarea[name="' +
-                                field + '"]');
-                            inputField.addClass('is-invalid');
+                //         for (var field in errors) {
+                //             // Highlight the field with error
+                //             var inputField = $('input[name="' + field +
+                //                 '"], select[name="' + field + '"], textarea[name="' +
+                //                 field + '"]');
+                //             inputField.addClass('is-invalid');
 
-                            // Add error message
-                            inputField.after('<div class="invalid-feedback">' + errors[
-                                field][0] + '</div>');
-                        }
-                    } else {
-                        toastr.error('An unexpected error occurred. Please try again.',
-                            'Error');
-                    }
-                }
+                //             // Add error message
+                //             inputField.after('<div class="invalid-feedback">' + errors[
+                //                 field][0] + '</div>');
+                //         }
+                //     } else {
+                //         toastr.error('An unexpected error occurred. Please try again.',
+                //             'Error');
+                //     }
+                // }
             });
         });
-
     </script>
 
     <script>
@@ -477,24 +476,24 @@
                                 location.reload();
                             }, 0000);
                         }
-                    },
-                    error: function (xhr) {
-                        // Remove existing validation feedback
-                        $(".is-invalid").removeClass("is-invalid");
-                        $(".invalid-feedback").remove();
+                    }
+                    // error: function (xhr) {
+                    //     // Remove existing validation feedback
+                    //     $(".is-invalid").removeClass("is-invalid");
+                    //     $(".invalid-feedback").remove();
     
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
+                    //     if (xhr.status === 422) {
+                    //         let errors = xhr.responseJSON.errors;
     
-                            for (let field in errors) {
-                                let inputField = $('input[name="' + field + '"], textarea[name="' + field + '"]');
-                                inputField.addClass("is-invalid");
+                    //         for (let field in errors) {
+                    //             let inputField = $('input[name="' + field + '"], textarea[name="' + field + '"]');
+                    //             inputField.addClass("is-invalid");
     
-                                // Append error message
-                                inputField.after('<div class="invalid-feedback">' + errors[field][0] + "</div>");
-                            }
-                        } 
-                    },
+                    //             // Append error message
+                    //             inputField.after('<div class="invalid-feedback">' + errors[field][0] + "</div>");
+                    //         }
+                    //     } 
+                    // },
                 });
             });
         });

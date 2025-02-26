@@ -170,19 +170,6 @@
                         // Display success message if update is successful
                         $('#editdetailsModal' + response.id).modal('hide'); // Close the modal
                         location.reload(); // Optionally reload the page to reflect changes
-                    },
-                    error: function (xhr) {
-                        // Clear previous error messages
-                        form.find('.invalid-feedback').remove();
-                        form.find('.is-invalid').removeClass('is-invalid');
-
-                        // Handle validation errors
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function (field, message) {
-                            $('#' + field).addClass('is-invalid');
-                            $('#' + field).after('<div class="invalid-feedback">' +
-                                message + '</div>');
-                        });
                     }
                 });
             });
@@ -427,61 +414,6 @@
             });
         });
     </script>
-    <script>
-        function validateUserForm(formId) {
-            let form = document.getElementById(formId);
-            let isValid = true;
 
-            // Clear previous errors
-            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-            form.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
-
-            const fields = [
-                { name: "username", regex: /^[a-zA-Z0-9_]{3,20}$/, message: "Username must be 3-20 characters (letters, numbers, underscores)." },
-                { name: "first_name", regex: /^[A-Za-z]{2,}$/, message: "First name must contain only letters and be at least 2 characters." },
-                { name: "last_name", regex: /^[A-Za-z]{2,}$/, message: "Last name must contain only letters and be at least 2 characters." },
-                { name: "middle_name", regex: /^[A-Za-z]*$/, message: "Middle name must contain only letters.", optional: true },
-                { name: "email", regex: /^\S+@\S+\.\S+$/, message: "Please enter a valid email address." },
-                { name: "phone_number", regex: /^\d{10}$/, message: "Phone number must be exactly 10 digits." },
-                { name: "date_of_birth", isDate: true, message: "Date of birth must be in the past.", optional: true }
-            ];
-
-            fields.forEach(field => {
-                let input = form.querySelector(`[name="${field.name}"]`);
-                if (!input) return;
-
-                let value = input.value.trim();
-                let isValidField = true;
-
-                if (!field.optional || value !== "") {
-                    if (field.isDate) {
-                        if (new Date(value) >= new Date()) {
-                            isValidField = false;
-                        }
-                    } else if (!field.regex.test(value)) {
-                        isValidField = false;
-                    }
-                }
-
-                if (!isValidField) {
-                    isValid = false;
-                    input.classList.add('is-invalid');
-                    let errorMessage = `<div class="invalid-feedback">${field.message}</div>`;
-                    input.insertAdjacentHTML('afterend', errorMessage);
-                }
-            });
-
-            return isValid;
-        }
-
-        // Apply validation on form submission
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById('instructorEditForm').addEventListener('submit', function (event) {
-                if (!validateUserForm('instructorEditForm')) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>
 
 @endsection

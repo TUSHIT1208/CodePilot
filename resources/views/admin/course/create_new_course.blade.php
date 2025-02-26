@@ -62,6 +62,18 @@
                                             this course. For students that are already enrolled, this course will not
                                             appear on their student Dashboard.</p>
                                     </div>
+                                    <div class="mt-5 row">
+                                        <div class="col-lg-6">
+                                            {{-- @if (request()->route('course'))
+                                            <a href="{{ route('course.edit', ['course' => request()->route('course')]) }}" class="upload_btn">
+                                                Previous
+                                            </a>
+                                        @endif --}}
+                                        </div>
+                                        <div class="col-lg-6 text-end">
+                                            <button id="final_submit" class="main-btn">Submit for Review</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="step-footer step-tab-pager">
@@ -123,7 +135,8 @@
         // Steps wizard initialization
         $('#add-course-tab').steps({
             onFinish: function () {
-                alert('Wizard Completed');
+                alert('Course Completed');
+                
             }
         });
 
@@ -147,14 +160,23 @@
             $('#basic_next').click(function () {
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             });
+
+            $('#media_next').click(function () {
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            });
+
+            $('#price_next').click(function () {
+                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            });
             
-            // if ('{{ session('success_vid') }}') {
-            //     // Trigger the next button automatically after receiving success
-            //     $('#add-course-tab .step-footer button[data-direction="next"]').click();
-            // }
+            $('#final_submit').click(function () {
+                $('#add-course-tab .step-footer button[data-direction="finish"]').click();
+            });
+            
             if (course) {
                 $('#add-course-tab .step-footer button[data-direction="prev"]').click();
             }
+
 
         });
     </script>

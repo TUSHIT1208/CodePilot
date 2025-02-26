@@ -170,20 +170,20 @@
                         setTimeout(function () {
                             location.reload(); // Reload the page
                         }, 0000);
-                    },
-                    error: function (xhr) {
-                        // Clear previous error messages
-                        form.find('.invalid-feedback').remove();
-                        form.find('.is-invalid').removeClass('is-invalid');
+                    // },
+                    // error: function (xhr) {
+                    //     // Clear previous error messages
+                    //     form.find('.invalid-feedback').remove();
+                    //     form.find('.is-invalid').removeClass('is-invalid');
 
-                        // Handle validation errors
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function (field, message) {
-                            $('#' + field).addClass('is-invalid');
-                            $('#' + field).after('<div class="invalid-feedback">' +
-                                message + '</div>');
-                        });
-                    }
+                    //     // Handle validation errors
+                    //     var errors = xhr.responseJSON.errors;
+                    //     $.each(errors, function (field, message) {
+                    //         $('#' + field).addClass('is-invalid');
+                    //         $('#' + field).after('<div class="invalid-feedback">' +
+                    //             message + '</div>');
+                    //     });
+                    // }
                 });
             });
         });
@@ -433,7 +433,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         function validateUserForm(formId) {
             let form = document.getElementById(formId);
             let isValid = true;
@@ -494,5 +494,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endsection

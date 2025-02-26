@@ -3,8 +3,14 @@
         <div class="title-icon">
             <h3 class="title"><i class="uil uil-usd-square"></i>Price</h3>
         </div>
-       <div class="course__form">
-            <div class="price-block">
+        <div class="course__form">
+            @if (isset($course))
+            <form action="{{  route('course.price',['course'=> $course->id]) }}" method="POST" class="price-validation" novalidate>
+
+                @csrf
+           
+                {{-- @method('PUT') --}}
+              <div class="price-block">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="course-main-tabs">
@@ -32,39 +38,95 @@
                                         <p>If the course is free, if student require to enroll your course, if not required enroll, if students required sign in to your website to take this course.</p>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="nav-paid" role="tabpanel">
-                                    <div class="license_pricing mt-30">
-                                        <label class="label25">Regular Price*</label>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                                <div class="loc_group">
-                                                    <div class="ui left icon input swdh19">
-                                                        <input class="prompt srch_explore" type="text" placeholder="$0" name="" id="" value="">															
+                                   
+
+                                    <div class="tab-pane" id="nav-paid" role="tabpanel">
+                                        <div class="license_pricing mt-30">
+                                            <label class="label25">Regular Price*</label>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                                    <div class="loc_group">
+                                                        <div class="ui left icon input swdh19">
+                                                            <input class="prompt form-control" type="number" placeholder="$0" name="price" id="price" value="" required><br>
+                                                            <div class="invalid-feedback">
+                                                                Please enter a valid price (minimum: 0.00).
+                                                            </div>
+                                                            														
+                                                        </div>
+                                                        <span class="slry-dt">USD</span>
+                                                      
                                                     </div>
-                                                    <span class="slry-dt">USD</span>
+                                                   
                                                 </div>
-                                            </div>
-                                        </div>																		
-                                    </div>
-                                    <div class="license_pricing mt-30 mb-30">
-                                        <label class="label25">Discount Price*</label>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                                <div class="loc_group">
-                                                    <div class="ui left icon input swdh19">
-                                                        <input class="prompt srch_explore" type="text" placeholder="$0" name="" id="" value="">															
+                                            </div>																		
+                                        </div>
+                                        <div class="license_pricing mt-30 mb-30">
+                                            <label class="label25">Discount Price*</label>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                                    <div class="loc_group">
+                                                        <div class="ui left icon input swdh19">
+                                                            <input class="prompt form-control" type="number" placeholder="$0" name="discount" id="discount" value="" required>															
+                                                            <span class="invalid-feedback">
+                                                                Discount price must be a valid number and not greater than the regular price.
+                                                            </span>
+                                                        </div>
+                                                        <span class="slry-dt">USD</span>
+                                                      
                                                     </div>
-                                                    <span class="slry-dt">USD</span>
                                                 </div>
-                                            </div>
-                                        </div>																		
+                                            </div>																		
+                                        </div>
+                                        <button type="submit" class="main-btn mt-3" id="priceButton">Save</button>
                                     </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
+        @endif
      </div>
+     <div class="mt-5 row">
+        <div class="col-lg-6">
+            {{-- @if (request()->route('course'))
+            <a href="{{ route('course.edit', ['course' => request()->route('course')]) }}" class="upload_btn">
+                Previous
+            </a>
+        @endif --}}
+        </div>
+        <div class="col-lg-6 text-end">
+            <button id="price_next" class="main-btn">Next</button>
+        </div>
+    </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector(".price-validation");
+console.log("form=>",form)
+        form.addEventListener("submit", function (event) {
+             debugger;
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+
+            // Ensure discount is not greater than price
+            const priceInput = document.getElementById('price');
+            const discountInput = document.getElementById('discount');
+
+            discountInput.addEventListener('input', function () {
+                if (parseFloat(discountInput.value) > parseFloat(priceInput.value)) {
+                    discountInput.setCustomValidity('Discount cannot be greater than the price.');
+                } else {
+                    discountInput.setCustomValidity('');
+                }
+            });
+
+        }, false);
+    });
+
+</script>

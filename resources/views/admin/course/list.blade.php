@@ -24,8 +24,18 @@
                 </div>
                 <div class="col-md-12">
                     <div class="_14d25">
-                        <div class="row">
-                            @foreach($courses as $course)
+                        <div class="row mt-5">
+                            @if ($courses->isEmpty())
+                                    <!-- No Records Found -->
+                                    <div class="no-categories-container text-center fade-in-animation footer">
+                                        <i class="uil uil-folder-minus bounce-effect"
+                                            style="font-size: 50px; color: #d1d1d1;"></i>
+                                        <h3 class="mt-3 scale-in-text" style="color: #777;">No Course Found</h3>
+                                        <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
+                                            Course yet. Add one now to get started!</p>
+                                    </div>
+                                @else
+                                @foreach($courses as $course)
                                 <div class="col-lg-3 col-md-4">
                                     <div class="fcrse_1 mt-30">
                                         <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
@@ -70,6 +80,7 @@
                                     </div>
                                 </div>
                             @endforeach
+                            @endif
                             <div class="col-md-12">
                                 <div class="main-loader mt-50">													
                                     <div class="spinner">

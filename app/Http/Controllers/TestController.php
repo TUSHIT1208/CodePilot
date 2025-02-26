@@ -41,12 +41,12 @@ class TestController extends Controller
         ]);
 
         // Store test_id in session after successful insertion
-        session()->put('test_id', $test->id);
+        // session()->put('test_id', $test->id);
 
         return response()->json([
             'success' => true,
             'message' => 'Test added successfully!',
-            'test_id' => $test->id
+            'test_id' => $request->course_id
         ]);
     }
 

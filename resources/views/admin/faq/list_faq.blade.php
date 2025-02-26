@@ -109,12 +109,12 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="addQuestion" class="form-label">Question</label>
-                                <input type="text" class="form-control" id="addQuestion" name="question" placeholder="Enter Question" required>
+                                <input type="text" class="form-control _dlor1" id="addQuestion" name="question" placeholder="Enter Question" required>
                                 <div class="invalid-feedback">Please enter the question.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="addAnswer" class="form-label">Answer</label>
-                                <textarea class="form-control" id="addAnswer" name="answer" placeholder="Enter Answer" rows="4" required></textarea>
+                                <textarea class="form-control _dlor1" id="addAnswer" name="answer" placeholder="Enter Answer" rows="4" required></textarea>
                                 <div class="invalid-feedback">Please enter the answer.</div>
                             </div>
                         </div>
@@ -131,6 +131,26 @@
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
+    <script>
+       
+        // Bootstrap Form Validation
+        (function () {
+            'use strict';
+            var forms = document.querySelectorAll('.needs-validation');
+
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    
+    </script>
+    
     <script>
         $(document).ready(function() {
             // Add FAQ Submission
@@ -156,32 +176,35 @@
                             } else {
                                 toastr.error('Something went wrong!', 'Error');
                             }
-                        },
-                        error: function(xhr) {
-                            $('.is-invalid').removeClass('is-invalid');
-                            $('.invalid-feedback').remove();
-
-                            if (xhr.status === 422) {
-                                var errors = xhr.responseJSON.errors;
-
-                                for (var field in errors) {
-                                    var inputField = $(`[name="${field}"]`);
-                                    inputField.addClass('is-invalid');
-                                    inputField.after(
-                                        `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
-                                }
-                            } else {
-                                toastr.error('An error occurred. Please try again.', 'Error');
-                            }
                         }
+                        // error: function(xhr) {
+                        //     $('.is-invalid').removeClass('is-invalid');
+                        //     $('.invalid-feedback').remove();
+
+                        //     if (xhr.status === 422) {
+                        //         var errors = xhr.responseJSON.errors;
+
+                        //         for (var field in errors) {
+                        //             var inputField = $(`[name="${field}"]`);
+                        //             inputField.addClass('is-invalid');
+                        //             inputField.after(
+                        //                 `<div class="invalid-feedback">${errors[field][0]}</div>`
+                        //             );
+                        //         }
+                        //     } else {
+                        //         toastr.error('An error occurred. Please try again.', 'Error');
+                        //     }
+                        // }
                     });
                 }
                 this.classList.add('was-validated'); // Add validation class
-            });
+            }); 
+        });
+    
+</script>
 
-            // Edit FAQ Submission
-            // Edit FAQ Submission
+<script>
+     // Edit FAQ Submission
             $('#editFaqForm').submit(function(e) {
                 e.preventDefault(); // Prevent the default form submission
 
@@ -205,25 +228,25 @@
                             } else {
                                 toastr.error('Something went wrong!', 'Error');
                             }
-                        },
-                        error: function(xhr) {
-                            $('.is-invalid').removeClass('is-invalid');
-                            $('.invalid-feedback').remove();
-
-                            if (xhr.status === 422) {
-                                var errors = xhr.responseJSON.errors;
-
-                                for (var field in errors) {
-                                    var inputField = $(`[name="${field}"]`);
-                                    inputField.addClass('is-invalid');
-                                    inputField.after(
-                                        `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
-                                }
-                            } else {
-                                toastr.error('An error occurred. Please try again.', 'Error');
-                            }
                         }
+                        // error: function(xhr) {
+                        //     $('.is-invalid').removeClass('is-invalid');
+                        //     $('.invalid-feedback').remove();
+
+                        //     if (xhr.status === 422) {
+                        //         var errors = xhr.responseJSON.errors;
+
+                        //         for (var field in errors) {
+                        //             var inputField = $(`[name="${field}"]`);
+                        //             inputField.addClass('is-invalid');
+                        //             inputField.after(
+                        //                 `<div class="invalid-feedback">${errors[field][0]}</div>`
+                        //             );
+                        //         }
+                        //     } else {
+                        //         toastr.error('An error occurred. Please try again.', 'Error');
+                        //     }
+                        // }
                     });
                 }
                 this.classList.add('was-validated'); // Add validation class
@@ -243,15 +266,9 @@
                 // Set form action dynamically
                 $("#editFaqForm").attr("action", "/faq/" + id);
 
-                // Reset validation messages
-                $(".is-invalid").removeClass("is-invalid");
-                $(".invalid-feedback").remove();
-
                 // Show the modal
                 $("#editFaqModal").modal("show");
             });
-        });
-    
 </script>
     <script>
         $(document).ready(function() {
@@ -419,66 +436,4 @@
         });
     </script>
 
-    {{-- <script>
-        $(document).ready(function() {
-            // Handle Edit Button Click
-            $(document).on("click", ".edit-btn", function() {
-                let id = $(this).data("id");
-                let question = $(this).data("question");
-                let answer = $(this).data("answer");
-
-                // Populate the modal fields
-                $("#editFaqId").val(id);
-                $("#editFaqQuestion").val(question);
-                $("#editFaqAnswer").val(answer);
-
-                // Set form action dynamically
-                $("#editFaqForm").attr("action", "/faq/" + id);
-
-                // Reset validation messages
-                $(".is-invalid").removeClass("is-invalid");
-                $(".invalid-feedback").remove();
-
-                // Show the modal
-                $("#editFaqModal").modal("show");
-            });
-
-            // Handle Edit Form Submission with AJAX
-            $("#editFaqForm").submit(function(e) {
-                e.preventDefault();
-
-                let form = $(this);
-                let formData = form.serialize();
-                let actionUrl = form.attr("action");
-
-                $.ajax({
-                    url: actionUrl,
-                    type: "POST",
-                    data: formData,
-                    success: function(response) {
-                        if (response.success) {
-                            location.reload();
-                            
-                        } 
-                    },
-                    error: function(xhr) {
-                        $(".is-invalid").removeClass("is-invalid");
-                        $(".invalid-feedback").remove();
-
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-
-                            for (let field in errors) {
-                                let inputField = $(`[name="${field}"]`);
-                                inputField.addClass("is-invalid");
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
-                            }
-                        } 
-                    }
-                });
-            });
-        });
-    </script> --}}
 @endsection

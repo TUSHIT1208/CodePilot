@@ -28,7 +28,7 @@
 }
 
 .toggle-input:checked+.toggle-label {
-    background-color: #4CAF50;
+    background-color: #ed2a26;
 }
 
 .toggle-input:checked+.toggle-label .toggle-circle {

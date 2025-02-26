@@ -125,8 +125,7 @@ class CourseController extends Controller
                 'meta_title' => $request->meta_title ?? '',
                 'meta_description' => $request->meta_description ?? '',
                 'price' => $request->price ?? 0,
-                'discount' => $request->discount ?? null,
-                'thumbnail_url' => $request->thumbnail_url ?? '',
+                'discount' => $request->discount ?? null,                
                 'is_active' => 1,
                 'published_at' => null,
                 'course_type' => $request->course_type,
@@ -247,12 +246,14 @@ class CourseController extends Controller
             $thumbnail = $request->file('introduction_thumbnail');
             $thumbnailName = time() . '_' . $thumbnail->getClientOriginalName();
             $thumbnail->move(public_path('courseThumbnail'), $thumbnailName);
-    
+            
             $course->courseattachment()->updateOrCreate(
                 ['course_id' => $course->id],
                 ['thumbnail_url' => $thumbnailName]
             );
         }
+
+        
         
         return redirect()->back()->with('success','course updated successfully');
         }catch (\Exception $e) {
@@ -267,7 +268,19 @@ class CourseController extends Controller
         }
     }
     
-    
+    public function price(Request $request, Course $course){
+        $request->validate([
+            'price' => 'required|numeric|min:0|max:99999999.99', // Ensures price is within valid decimal(10,2) range
+            'discount' => 'required|numeric|min:0|max:99999999.99|lte:price', // Ensures discount is valid and less than or equal to price
+        ]);
+        log::info($course);
+        $course->update([
+            'price' => $request->input('price'),
+            'discount' => $request->input('discount')
+        ]);
+        log::info('update');
+        return redirect()->back()->with('success_price', 'Course price updated successfully.');
+    }
     /**
      * Update the specified resource in storage.
      */

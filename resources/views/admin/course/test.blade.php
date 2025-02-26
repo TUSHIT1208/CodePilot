@@ -118,6 +118,9 @@
                                     <div class="tab-pane fade show active" id="nav-quizbasic" role="tabpanel">
                                         <form id="testForm">
                                             @csrf
+                                            @if (isset($course))
+                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+                    @endif
                                             <div class="new-section">
                                                 <!-- Quiz Title -->
                                                 <div class="form_group mt-30">

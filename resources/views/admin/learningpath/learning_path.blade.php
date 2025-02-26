@@ -61,7 +61,7 @@
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="editForm" class="needs-validation" novalidate>
+                    <form id="editForm" class="edit-validation" novalidate>
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="edit-id">
@@ -131,6 +131,20 @@
     // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
     document.addEventListener("DOMContentLoaded", function () {
             var forms = document.querySelectorAll(".needs-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".edit-validation");
             Array.prototype.slice.call(forms)
                 .forEach(function (form) {
                     form.addEventListener("submit", function (event) {
@@ -315,27 +329,27 @@
                                 location.reload(); // Reload the page
                             }, 5000);
                         }
-                    },
-                    error: function(xhr) {
-                        // Remove existing validation feedback
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) { // Validation error
-                            var errors = xhr.responseJSON.errors;
-
-                            for (var field in errors) {
-                                // Highlight the field with error
-                                var inputField = $(`[name="${field}"]`);
-                                inputField.addClass('is-invalid');
-
-                                // Add error message
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
-                            }
-                        } 
                     }
+                    // error: function(xhr) {
+                    //     // Remove existing validation feedback
+                    //     $('.is-invalid').removeClass('is-invalid');
+                    //     $('.invalid-feedback').remove();
+
+                    //     if (xhr.status === 422) { // Validation error
+                    //         var errors = xhr.responseJSON.errors;
+
+                    //         for (var field in errors) {
+                    //             // Highlight the field with error
+                    //             var inputField = $(`[name="${field}"]`);
+                    //             inputField.addClass('is-invalid');
+
+                    //             // Add error message
+                    //             inputField.after(
+                    //                 `<div class="invalid-feedback">${errors[field][0]}</div>`
+                    //                 );
+                    //         }
+                    //     } 
+                    // }
                 });
             });
         });
@@ -378,10 +392,61 @@
         });
     </script>
 
+    {{-- add lerningpath --}}
+    <script>
+        $(document).ready(function() {
+            $('.main-btn[data-bs-dismiss="modal"]').on('click', function() {
+                // Reset form fields
+                $('#addCategoryModal form')[0].reset();
+                $('#editForm')[0].reset();
+
+                // Remove validation errors
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+            });
+
+            // AJAX form submission for Add Category
+            $('#addCategoryModal form').submit(function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                // Get form data
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'), // URL for form submission
+                    method: $(this).attr('method'), // Use POST method
+                    data: formData, // Form data
+                    success: function(response) {
+                        if (response.success) {
+                            
+                            $('#addCategoryModal').modal('hide'); // Close modal
+                            // Show success toast
+                            toastr.success(response.success, 'Success');
+
+                            // Close modal and reload page after 2 seconds
+                            setTimeout(function() {
+                                location.reload(); // Reload the page
+                            }, 5000);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
     {{-- edit --}}
     <script>
         $(document).ready(function() {
+            $('.main-btn[data-bs-dismiss="modal"]').on('click', function() {
+                // Reset form fields
+                $('#addCategoryModal form')[0].reset();
+                $('#editForm')[0].reset();
+
+                // Remove validation errors
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+            });
+            
             // Open Edit Modal and Fill Data
             $(document).on('click', '.edit-btn', function() {
                 let id = $(this).data('id');
@@ -391,10 +456,6 @@
                 $('#edit-id').val(id);
                 $('#edit-name').val(name);
                 $('#edit-description').val(description);
-
-                // Clear validation errors
-                $('.is-invalid').removeClass('is-invalid');
-                $('.invalid-feedback').remove();
 
                 $('#editModal').modal('show'); // Open modal
             });
@@ -422,24 +483,7 @@
                             setTimeout(function() {
                                 location.reload();
                             }, 0000); // Refresh after 3 seconds
-                        } else {
-                            toastr.error("Something went wrong!", "Error");
-                        }
-                    },
-                    error: function(xhr) {
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            for (let field in errors) {
-                                let inputField = $(`#edit-${field}`);
-                                inputField.addClass('is-invalid');
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
-                            }
-                        }   
+                        } 
                     }
                 });
             });
