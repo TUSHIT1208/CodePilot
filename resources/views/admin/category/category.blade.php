@@ -335,22 +335,22 @@
                                     location.reload();
                                 }, 1000);
                             }
-                        },
-                        error: function (xhr) {
-                            if (xhr.status === 422) {
-                                var errors = xhr.responseJSON.errors;
-                                for (var field in errors) {
-                                    var inputField = $([name = "${field}"]);
-                                    inputField.addClass('is-invalid');
-                                    inputField.after(
-                                        <div class="invalid-feedback">${errors[field][0]}</div>
-                                    );
-                                }
-                            } else {
-                                toastr.error('An unexpected error occurred. Please try again.',
-                                    'Error');
-                            }
                         }
+                        // error: function(xhr) {
+                        //     if (xhr.status === 422) {
+                        //         var errors = xhr.responseJSON.errors;
+                        //         for (var field in errors) {
+                        //             var inputField = $([name="${field}"]);
+                        //             inputField.addClass('is-invalid');
+                        //             inputField.after(
+                        //                 <div class="invalid-feedback">${errors[field][0]}</div>
+                        //             );
+                        //         }
+                        //     } else {
+                        //         toastr.error('An unexpected error occurred. Please try again.',
+                        //             'Error');
+                        //     }
+                        // }
                     });
                 }
             });
@@ -414,7 +414,7 @@
         });
     </script>
 
-    {{-- Open Edit Modal and Populate Data --}}
+    {{-- Open Edit Mod al and Populate Data --}}
     <script>
         $(document).ready(function () {
             $(document).on('click', '.edit-category', function () {
