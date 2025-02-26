@@ -71,10 +71,10 @@
             </div>
             <div class="mt-5 row">
                 <div class="col-lg-6">
-                    @if (session()->has('course_id'))
-                        <a href="{{ route('course.edit', ['course' => session('course_id')]) }}" class="upload_btn">
-                            Previous
-                        </a>
+                    @if (request()->route('course'))
+                    <a href="{{ route('course.edit', ['course' => request()->route('course')]) }}" class="upload_btn">
+                        Previous
+                    </a>
                     @endif
                 </div>
                 <div class="col-lg-6 text-end">

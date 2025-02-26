@@ -262,18 +262,21 @@
                             </div>
                         </div>
                     {{-- @endif   --}}
-                   
+                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+{{--                    
                     <div class="mt-5 row">
-                        <div class="col-lg-6">
-                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+                        <div class="col-lg-12">
                         </div>
-                        <div class="col-lg-6 text-end">
-                            @if (request()->route('course'))
-                                <button id="basic_next" class="main-btn mt-3">Next</button>
-                            @endif
-                        </div>
-                    </div>
+                        
+                    </div> --}}
                 </form>
+                <div class="row">
+                    <div class="col-lg-12 text-end">
+                        @if (request()->route('course'))
+                            <button id="basic_next" class="main-btn mt-3">Next</button>
+                        @endif
+                    </div>
+                </div>
 
                 <script>
                     function loadSubCategories() {
