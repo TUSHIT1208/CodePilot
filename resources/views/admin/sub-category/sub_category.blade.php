@@ -36,7 +36,6 @@
                             </div>
                         </div>
 
-
                         <div class="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
                             <div class="table-responsive mt-30">
                                 @if ($subcategories->isEmpty())
@@ -47,7 +46,6 @@
                                         <h3 class="mt-3 scale-in-text" style="color: #777;">No SubCategories Found</h3>
                                         <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
                                             Sub-categories yet. Add one now to get started!</p>
-
                                     </div>
                                 @else
                                     <!-- Display Table When Data Exists -->
@@ -57,7 +55,6 @@
                                                 <th class="text-left ">
                                                     <input type="checkbox" id="select-all"> <!-- Select All Checkbox -->
                                                 </th>
-
                                                 <th class="text-left ">Name</th>
                                                 <th class="text-left " scope="col">Description</th>
                                                 <th class="text-left ">Category</th>
@@ -71,11 +68,8 @@
                             </div>
                         </div>
 
-
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -84,11 +78,11 @@
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form id="edit-subcategory-form" method="POST">
+                    <!-- Note: The form action will be set dynamically when opening the modal -->
+                    <form id="edit-subcategory-form" method="POST" class="needs-validation" novalidate>
                         @csrf
                         @method('PUT')
                         <input type="hidden" id="subcategory_id" name="subcategory_id">
-
                         <div class="modal-header">
                             <h5 class="modal-title" id="editSubcategoryModalLabel">Edit Subcategory</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -97,14 +91,18 @@
                             <div class="mb-3">
                                 <label for="subcategory_name" class="form-label">Subcategory Name</label>
                                 <input type="text" class="form-control _dlor1" id="subcategory_name"
-                                    name="subcategory_name_edit" placeholder="Enter the subcategory name">
-                                <div class="invalid-feedback"></div>
+                                    name="subcategory_name_edit" placeholder="Enter the subcategory name" required>
+                                <div class="invalid-feedback">
+                                    Please provide a subcategory name.
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="subcategory_description" class="form-label">Subcategory Description</label>
                                 <textarea class="form-control _dlor1" id="subcategory_description" name="subcategory_description_edit" rows="4"
                                     placeholder="Enter the subcategory description (OPTIONAL)"></textarea>
-                                <div class="invalid-feedback"></div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid description.
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -122,18 +120,17 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form id="subcategoryForm" action="{{ route('subcategory.store') }}" method="POST"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data" class="needs-validation" novalidate>
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addSubcategoryModalLabel">Add
-                                New Subcategory</h5>
+                            <h5 class="modal-title" id="addSubcategoryModalLabel">Add New Subcategory</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="category_id" class="form-label">Select Category</label>
-                                <select class="form-control _dlor1" id="category_id" name="category_id">
+                                <select class="form-control _dlor1" id="category_id" name="category_id" required>
                                     <option value="">-- Select a Category --</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
@@ -142,27 +139,30 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                <div class="invalid-feedback">
+                                    Please select a category.
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="subcategory_name" class="form-label">Subcategory Name</label>
                                 <input type="text" class="form-control _dlor1" id="subcategory_name"
                                     name="subcategory_name" value="{{ old('subcategory_name') }}"
-                                    placeholder="Enter the subcategory name">
-                                <div class="invalid-feedback" id="subcategory_name_error"></div>
+                                    placeholder="Enter the subcategory name" required>
+                                <div class="invalid-feedback">
+                                    Please provide a subcategory name.
+                                </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="subcategory_description" class="form-label">Subcategory Description</label>
                                 <textarea class="form-control _dlor1" id="subcategory_description" name="subcategory_description" rows="4"
-                                    placeholder="Enter the subcategory description ( OPTIONAL )">{{ old('subcategory_description') }}</textarea>
-                                <div class="invalid-feedback" id="subcategory_description_error"></div>
+                                    placeholder="Enter the subcategory description (OPTIONAL)">{{ old('subcategory_description') }}</textarea>                                    
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="main-btn" data-bs-dismiss="modal"
-                                id="cancel-add-modal">Cancel</button>
+                            <button type="button" class="main-btn" data-bs-dismiss="modal" id="cancel-add-modal">Cancel</button>
                             <button type="submit" class="main-btn">Save</button>
                         </div>
                     </form>
@@ -173,6 +173,75 @@
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
+
+    <!-- Bootstrap Client-Side Validation Script -->
+    <script>
+        // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
+        document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".needs-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
+        });
+
+        // add subcategory toaster
+        $('#addCategoryModal form').submit(function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: $(this).attr('action'), // URL for form submission
+                method: $(this).attr('method'), // Use POST method
+                data: formData, // Form data
+                success: function(response) {
+                    if (response.success) {
+                        // Show success Toastr message
+                        toastr.success(response.success, 'Success');
+
+                        $('#addCategoryModal').modal('hide'); // Close modal
+
+                        // Reload the page after 2 seconds
+                        setTimeout(function() {
+                            location.reload(); // Reload the page
+                        }, 5000);
+                    }
+                },
+                // error: function(xhr) {
+                //     // Remove existing validation feedback
+                //     $('.is-invalid').removeClass('is-invalid');
+                //     $('.invalid-feedback').remove();
+
+                //     if (xhr.status === 422) { // Validation error
+                //         var errors = xhr.responseJSON.errors;
+
+                //         for (var field in errors) {
+                //             // Highlight the field with error
+                //             var inputField = $('input[name="' + field +
+                //                 '"], select[name="' + field + '"], textarea[name="' +
+                //                 field + '"]');
+                //             inputField.addClass('is-invalid');
+
+                //             // Add error message
+                //             inputField.after('<div class="invalid-feedback">' + errors[
+                //                 field][0] + '</div>');
+                //         }
+                //     } else {
+                //         toastr.error('An unexpected error occurred. Please try again.',
+                //             'Error');
+                //     }
+                // }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -188,8 +257,7 @@
                 columns: [{
                         data: 'id',
                         render: function(data) {
-                            return '<input type="checkbox" class="item-checkbox" value="' + data +
-                                '">';
+                            return '<input type="checkbox" class="item-checkbox" value="' + data + '">';
                         },
                         orderable: false,
                         searchable: false
@@ -230,24 +298,24 @@
                 "hideMethod": "fadeOut",
                 "onShown": function() {
                     $('.toast-success').css({
-                        'background-color': '#28a745', // Green for success
-                        'opacity': '1'  // Adjust opacity
+                        'background-color': '#28a745',
+                        'opacity': '1'
                     });
                     $('.toast-error').css({
-                        'background-color': '#dc3545', // Red for error
+                        'background-color': '#dc3545',
                         'opacity': '1'
                     });
                     $('.toast-warning').css({
-                        'background-color': '#ffc107', // Yellow for warning
+                        'background-color': '#ffc107',
                         'opacity': '1'
                     });
                     $('.toast-info').css({
-                        'background-color': '#17a2b8', // Blue for info
+                        'background-color': '#17a2b8',
                         'opacity': '1'
                     });
                 }
             };
-            
+
             // Trigger table reload when category is selected
             $('#category-filter').on('change', function() {
                 table.ajax.reload();
@@ -273,143 +341,54 @@
                 let selectedIds = $('.item-checkbox:checked').map(function() {
                     return $(this).val();
                 }).get();
-                // ✅ Show error Toastr if no category is selected
                 if (selectedIds.length === 0) {
                     toastr.warning("Please select at least one Sub-category to delete.", "Warning");
-                    return; // Stop further execution
+                    return;
                 }
-
-                if (selectedIds.length > 0) {
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: `You are about to delete ${selectedIds.length} items. This action cannot be undone.`,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Yes, delete them!',
-                        cancelButtonText: 'Cancel',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: '{{ route('subcategories.bulk-delete') }}',
-                                type: 'POST',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    ids: selectedIds,
-                                },
-                                success: function(response) {
-                                    if (response.success) {
-                                        
-                                        $('#select-all').prop('checked', false);
-                                        $('#bulk-delete-btn').prop('disabled', true);
-                                        location
-                                            .reload(); // Reload the entire page after delete
-                                    } else {
-                                        toastr.error(response.error ||
-                                            'Failed to delete.', 'Error');
-                                    }
-                                },
-                                error: function() {
-                                    toastr.error('An error occurred. Please try again.',
-                                        'Error');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `You are about to delete ${selectedIds.length} items. This action cannot be undone.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('subcategories.bulk-delete') }}',
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selectedIds,
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    $('#select-all').prop('checked', false);
+                                    $('#bulk-delete-btn').prop('disabled', true);
+                                    location.reload();
+                                } else {
+                                    toastr.error(response.error || 'Failed to delete.', 'Error');
                                 }
-                            });
-                        }
-                    });
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            // AJAX form submission for Add Category
-
-            $('#cancel-add-modal').on('click', function() {
-                let form = $('#subcategoryForm'); // Get the form
-                form[0].reset(); // Reset form fields
-                form.find('.is-invalid').removeClass('is-invalid'); // Remove error highlights
-                form.find('.invalid-feedback').remove(); // Remove validation messages
-            });
-            $('#addCategoryModal form').submit(function(e) {
-                e.preventDefault(); // Prevent default form submission
-
-                // Get form data
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: $(this).attr('action'), // URL for form submission
-                    method: $(this).attr('method'), // Use POST method
-                    data: formData, // Form data
-                    success: function(response) {
-                        if (response.success) {
-                            // Configure Toastr
-                            toastr.options = {
-                                closeButton: true,
-                                debug: false,
-                                newestOnTop: true,
-                                progressBar: true,
-                                positionClass: "toast-top-right",
-                                preventDuplicates: true,
-                                timeOut: 5000, // Display duration of the toast (5 seconds)
-                                extendedTimeOut: 1000,
-                                showEasing: "swing",
-                                hideEasing: "linear",
-                                showMethod: "fadeIn",
-                                hideMethod: "fadeOut"
-                            };
-
-                            // Show success toast
-                            toastr.success(response.success, 'Success');
-
-                            $('#addCategoryModal').modal('hide'); // Close modal
-
-                            // Reload page after 2 seconds
-                            setTimeout(function() {
-                                location.reload(); // Reload the page
-                            }, 2000);
-                        }
-                    },
-                    error: function(xhr) {
-                        // Remove existing validation feedback
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) { // Validation error
-                            var errors = xhr.responseJSON.errors;
-
-                            for (var field in errors) {
-                                // Highlight the field with error
-                                var inputField = $('input[name="' + field +
-                                    '"], select[name="' + field + '"], textarea[name="' +
-                                    field + '"]');
-                                inputField.addClass('is-invalid');
-
-                                // Add error message
-                                inputField.after('<div class="invalid-feedback">' + errors[
-                                    field][0] + '</div>');
+                            },
+                            error: function() {
+                                toastr.error('An error occurred. Please try again.', 'Error');
                             }
-                        } else {
-                            toastr.error('An unexpected error occurred. Please try again.',
-                                'Error');
-                        }
+                        });
                     }
                 });
             });
         });
     </script>
 
-
-    <!-- JavaScript for Delete Confirmation -->
+    <!-- Delete Confirmation Script -->
     <script>
         $(document).ready(function() {
             $(document).on("click", ".delete-btn", function(e) {
-                e.preventDefault(); // Prevent default action
-
-                var form = $(this).closest(".delete-form"); // Get the closest delete form
-                var subcategoryName = $(this).data("name"); // Get the subcategory name
-
+                e.preventDefault();
+                var form = $(this).closest(".delete-form");
+                var subcategoryName = $(this).data("name");
                 Swal.fire({
                     title: "Are you sure?",
                     text: `You are about to delete ${subcategoryName}. This action cannot be undone.`,
@@ -421,25 +400,25 @@
                     cancelButtonText: "Cancel",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit(); // Submit the form if confirmed
+                        form.submit();
                     }
                 });
             });
         });
     </script>
 
+    <!-- Toggle Subcategory Status Script -->
     <script>
         $(document).ready(function() {
             $(document).on('change', '.toggle-input', function() {
                 let subCategoryId = $(this).data('id');
                 let isActive = $(this).is(':checked') ? 1 : 0;
-
                 $.ajax({
-                    url: '{{ route('update.subcategory.status') }}', // Corrected route name
+                    url: '{{ route('update.subcategory.status') }}',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        sub_category_id: subCategoryId, // Corrected parameter name
+                        sub_category_id: subCategoryId,
                         is_active: isActive
                     },
                     success: function(response) {
@@ -453,64 +432,72 @@
         });
     </script>
 
+    <!-- Edit Subcategory Modal Setup -->
     <script>
-        $(document).ready(function() {
-            // Open the Edit Subcategory Modal
-            $(document).on('click', '.edit-category', function() {
-                let subcategoryId = $(this).data('id');
-                let subcategoryName = $(this).data('name');
-                let subcategoryDescription = $(this).data('description');
-
+        $(document).ready(function () {
+            // Open the Edit Subcategory Modal and set the form action dynamically
+            $(document).on("click", ".edit-category", function () {
+                let subcategoryId = $(this).data("id");
+                let subcategoryName = $(this).data("name");
+                let subcategoryDescription = $(this).data("description");
+    
                 // Populate the modal fields
-                $('#subcategory_id').val(subcategoryId);
-                $('#subcategory_name').val(subcategoryName);
-                $('#subcategory_description').val(subcategoryDescription);
-
+                $("#subcategory_id").val(subcategoryId);
+                $("#subcategory_name").val(subcategoryName);
+                $("#subcategory_description").val(subcategoryDescription);
+    
+                // Set the form action dynamically
+                let actionUrl = "{{ url('subcategory') }}/" + subcategoryId;
+                $("#edit-subcategory-form").attr("action", actionUrl);
+    
                 // Show the modal
-                $('#editSubcategoryModal').modal('show');
+                $("#editSubcategoryModal").modal("show");
             });
-
-            // Handle Update Subcategory Submission via AJAX
-            $('#edit-subcategory-form').submit(function(e) {
-                e.preventDefault();
-
-                let subcategoryId = $('#subcategory_id').val();
-                let formData = $(this).serialize();
-
+    
+            // Handle the form submission via AJAX
+            $("#edit-subcategory-form").submit(function (e) {
+                e.preventDefault(); // Prevent the default form submission
+    
+                let form = $(this);
+                let formData = form.serialize();
+    
                 $.ajax({
-                    url: `/subcategory/${subcategoryId}`,
-                    method: 'PUT',
+                    url: form.attr("action"),
+                    method: "POST",
                     data: formData,
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
-                            toastr.success(response.success, 'Success');
-
-                            // Close modal and reload table
-                            $('#editSubcategoryModal').modal('hide');
-                            location.reload();
-                        }
-                    },
-                    error: function(xhr) {
-                        $('#edit-subcategory-form').find('.is-invalid').removeClass(
-                            'is-invalid');
-                        $('#edit-subcategory-form').find('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            for (let field in errors) {
-                                let inputField = $(`[name="${field}"]`);
-                                inputField.addClass('is-invalid');
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
-                            }
-                        } else {
-                            toastr.error('An unexpected error occurred. Please try again.',
-                                'Error');
+                            
+    
+                            $("#editSubcategoryModal").modal("hide");
+    
+                            // Reload the page after a short delay
+                            setTimeout(function () {
+                                location.reload();
+                            }, 0000);
                         }
                     }
+                    // error: function (xhr) {
+                    //     // Remove existing validation feedback
+                    //     $(".is-invalid").removeClass("is-invalid");
+                    //     $(".invalid-feedback").remove();
+    
+                    //     if (xhr.status === 422) {
+                    //         let errors = xhr.responseJSON.errors;
+    
+                    //         for (let field in errors) {
+                    //             let inputField = $('input[name="' + field + '"], textarea[name="' + field + '"]');
+                    //             inputField.addClass("is-invalid");
+    
+                    //             // Append error message
+                    //             inputField.after('<div class="invalid-feedback">' + errors[field][0] + "</div>");
+                    //         }
+                    //     } 
+                    // },
                 });
             });
         });
     </script>
+    
+    
 @endsection

@@ -30,6 +30,15 @@
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
+    
+<style>
+    /* .was-validated .form-control:invalid{
+        border:none;
+    }
+    .was-validated .form-control:valid{
+        border:none;
+    } */
+</style>
 </head>
 
 <body>
@@ -51,31 +60,57 @@
                         <p>Log In to Your Codepilot Account!</p>
 
                         <!-- Login Form -->
-                        <form action="{{ route('login_check') }}" method="POST">
+                        <form action="{{ route('login_check') }}" method="POST" class="needs-validation" novalidate>
                             @csrf
+                        
+                            <!-- Email Input -->
                             <div class="ui search focus mt-15">
                                 <div class="ui left icon input swdh95">
-                                    <input class="prompt srch_explore" type="email" name="email"
-                                        value="{{ old('email') }}" id="id_email" maxlength="64"
-                                        placeholder="Email Address">
+                                    <input 
+                                        class="prompt srch_explore form-control" 
+                                        type="email" 
+                                        name="email" 
+                                        value="{{ old('email') }}" 
+                                        id="id_email" 
+                                        maxlength="64" 
+                                        placeholder="Email Address" 
+                                        required>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid email address.
+                                        </div>
                                     <i class="uil uil-envelope icon icon2"></i>
                                 </div>
-                                @error('email')
+                                
+                                {{-- @error('email')
                                     <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                @enderror --}}
                             </div>
+                        
+                            <!-- Password Input -->
                             <div class="ui search focus mt-15">
                                 <div class="ui left icon input swdh95">
-                                    <input class="prompt srch_explore" type="password" name="password" id="id_password"
-                                        maxlength="64" placeholder="Password">
+                                    <input 
+                                        class="form-control prompt srch_explore" 
+                                        type="password" 
+                                        name="password" 
+                                        id="id_password" 
+                                        maxlength="64" 
+                                        placeholder="Password" 
+                                        required>
                                     <i class="uil uil-key-skeleton-alt icon icon2"></i>
+                                    <div class="invalid-feedback">
+                                        Please enter your password.
+                                    </div>
+                                    
                                 </div>
-                                @error('password')
+                                {{-- @error('password')
                                     <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                @enderror --}}
                             </div>
+                        
                             <button class="login-btn" type="submit">Sign In</button>
                         </form>
+                        
                         <p class="sgntrm145">Or <a href="{{ route('forgot_password') }}">Forgot Password</a>.</p>
                         <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="{{ route('register') }}">Sign
                                 Up</a></p>
@@ -88,7 +123,24 @@
         </div>
     </div>
     <!-- Signup End -->
-
+    <script>
+        (function () {
+            'use strict';
+    
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.querySelector('.needs-validation');
+    
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            }, false);
+        })();
+    </script>
+    
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/OwlCarousel/owl.carousel.js') }}"></script>

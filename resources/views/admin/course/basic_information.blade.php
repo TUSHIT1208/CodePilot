@@ -5,7 +5,7 @@
         </div>
         <div class="course__form">
             <div class="general_info10">
-                <form action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}" method="POST" id="courseForm" novalidate class="needs-validation">
+                <form action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}" method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
                     @csrf
                     @if(isset($course))
                         @method('PUT')
@@ -206,9 +206,10 @@
                                 
                             </div>                                 
                         </div>
-    
+                        
                     </div>
-                    @if (!request()->route('course'))
+
+                    {{-- @if (!request()->route('course')) --}}
                         {{-- media --}}
                         <div class="mp4 intro-box" style="display: block;">
                             <div class="row">
@@ -219,12 +220,22 @@
                                     <div class="upload-file-dt mt-28">
                                         <div class="upload-btn">
                                             <input class="uploadBtn-main-input" type="file" id="IntroFile__input--source"
-                                                name="introduction_video" accept=".mp4" required>
-                                            <label for="IntroFile__input--source" title="Zip">Upload Video</label>
-                                            
+                                                name="introduction_video" accept=".mp4"
+                                                value="{{ old('url', $course->courseattachment->url ?? '') }}"
+                                                {{ isset($course) ? '' : 'required' }} onchange="previewVideo(event)">
+                                            <label for="IntroFile__input--source" title="Zip">Upload Video</label> 
+                                    
+                                            <!-- Video Preview Section -->
+                                            <video width="100%" id="video-preview" controls {{ isset($course->courseattachment->url) ? '' : 'hidden' }}>
+                                                <source id="video-source" 
+                                                    src="{{ isset($course->courseattachment->url) ? asset('courseVideo/' . $course->courseattachment->url) : '' }}" 
+                                                    type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
                                         </div>
+                                        
                                         <span class="uploadBtn-main-file">File Format: .mp4</span>
-                                        <span class="uploaded-id"></span>
+                                        
                                         <div class="invalid-feedback">Please upload a valid .mp4 video file.</div>
                                     </div>
                                 </div>
@@ -233,24 +244,35 @@
                                         <label>Course Thumbnail*</label>
                                     </div>
                                     <div class="thumb-item">
-                                        <img src="{{ asset('images/thumbnail-demo.jpg') }}" alt="">
+                                        <!-- Show Existing Thumbnail -->
+                                        <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/thumbnail-demo.jpg') }}" alt="Course Thumbnail" id="thumbnail-preview">
                                         <div class="thumb-dt">
                                             <div class="upload-btn">
                                                 <input class="uploadBtn-main-input" type="file"
-                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" required>
+                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" value="{{ old('thumbnail_url', $course->courseattachment->thumbnail_url ?? '') }}" {{ isset($course) ? '' : 'required' }}>
                                                 <label for="ThumbFile__input--source" title="Zip">Choose
                                                     Thumbnail</label>
                                             </div>
                                             <span class="uploadBtn-main-file">Size: 590x300 pixels. Supports:
                                                 jpg,jpeg, or png</span>
-                                            <div class="invalid-feedback">Please upload a valid thumbnail (jpg, jpeg, png).</div>
+                                            
                                         </div>
                                     </div>
                                 </div>       
                             </div>
                         </div>
-                    @endif
-                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+                    {{-- @endif   --}}
+                   
+                    <div class="mt-5 row">
+                        <div class="col-lg-6">
+                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+                        </div>
+                        <div class="col-lg-6 text-end">
+                            @if (request()->route('course'))
+                                <button id="basic_next" class="main-btn mt-3">Next</button>
+                            @endif
+                        </div>
+                    </div>
                 </form>
 
                 <script>
@@ -294,9 +316,9 @@
                             loadSubCategories();
                         }
                     });
-
+                // validation
                     document.addEventListener("DOMContentLoaded", function () {
-                        const form = document.querySelector(".needs-validation");
+                        const form = document.querySelector(".basic-validation");
 
                         form.addEventListener("submit", function (event) {
                             if (!form.checkValidity()) {
@@ -311,8 +333,38 @@
         </div>
     </div>
 </div>
-<style>
-    .form-control.is-invalid, .was-validated .form-control:invalid{
-        border-color:#dc3545 !important;
+<script>
+    function previewThumbnail(event) {
+        var output = document.getElementById('thumbnail-preview');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function() {
+            URL.revokeObjectURL(output.src) // Free up memory
+        }
     }
+     // Listen for changes on the video file input
+     function previewVideo(event) {
+        const file = event.target.files[0];
+        if (file && file.type === "video/mp4") {
+            const videoPreview = document.getElementById("video-preview");
+            const videoSource = document.getElementById("video-source");
+            const url = URL.createObjectURL(file);
+
+            videoSource.src = url;
+            videoPreview.load();
+            videoPreview.hidden = false;
+        } else {
+            alert("Please upload a valid .mp4 video file.");
+        }
+    
+    
+}
+</script>
+
+<style>
+    .was-validated .form-control:invalid{
+        border-color: #dc3545 !important;
+    }
+    /* .was-validated .form-control:valid{
+        border:none;
+    } */
 </style>

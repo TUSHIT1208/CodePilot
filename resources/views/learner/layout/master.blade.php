@@ -12,12 +12,12 @@
 </head>
 
 @section('body')
-	@include('admin.layouts.body')
+@include('admin.layouts.body')
 @show
-	@include('learner.layout.header')
-	@include('learner.layout.sidebar')	
+@include('learner.layout.header')
+@include('learner.layout.sidebar')	
 
-	@include('learner.layout.vendor-script')
+@include('learner.layout.vendor-script')
 </body>
 
 </html>

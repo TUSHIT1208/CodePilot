@@ -88,41 +88,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     
     <script>
-        // If there is a success session, show a success toast notification
-        @if (session('success'))
-            toastr.options = {
-                closeButton: true,
-                debug: false,
-                newestOnTop: true,
-                progressBar: true,
-                positionClass: "toast-top-right",  // Toast notification position
-                preventDuplicates: true,
-                timeOut: 7000,  // Display duration of the toast (5 seconds)
-                extendedTimeOut: 1000,
-                showEasing: "swing",
-                hideEasing: "linear",
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut"
+		// Set global Toastr options
+		toastr.options = {
+			"closeButton": true,
+			"progressBar": true,
+			"timeOut": "5000",
+			"extendedTimeOut": "2000",
+			"positionClass": "toast-top-right",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut",
+			"onShown": function() {
+				$('.toast-success').css({
+					'background-color': '#28a745', // Green for success
+					'opacity': '1'  // Adjust opacity
+				});
+				$('.toast-error').css({
+					'background-color': '#dc3545', // Red for error
+					'opacity': '1'
+				});
+				$('.toast-warning').css({
+					'background-color': '#ffc107', // Yellow for warning
+					'opacity': '1'
+				});
+				$('.toast-info').css({
+					'background-color': '#17a2b8', // Blue for info
+					'opacity': '1'
+                    });
+                }
             };
+			@if (session('success'))
+			// If there is a success session, show a success toast notification
             
             // Show success toast notification with the session message
             toastr.success("{{ session('success') }}", "Success");
         @elseif(session('error'))
-            toastr.options = {
-                closeButton: true,
-                debug: false,
-                newestOnTop: true,
-                progressBar: true,
-                positionClass: "toast-top-right",  // Toast notification position
-                preventDuplicates: true,
-                timeOut: 7000,  // Display duration of the toast (5 seconds)
-                extendedTimeOut: 1000,
-                showEasing: "swing",
-                hideEasing: "linear",
-                showMethod: "fadeIn",
-                hideMethod: "fadeOut"
-            };
-
+            
             // Show error toast notification with the session message
             toastr.error("{{ session('error') }}", "Error");
         @endif

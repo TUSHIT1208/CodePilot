@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\video;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -35,47 +36,31 @@ class VideoController extends Controller
 
     public function store(Request $request)
     {
-
-        // Validate the request
-        $request->validate([
-            'video_title' => 'required|string|max:255',
-            'video_discription' => 'required|string',
-            'playlist_video' => 'required|file|mimes:mp4|max:20480', // Max size 20MB
-            'playlist_thumbnail' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Max size 2MB
-        ]);
-
-
-        // // Store the video
-        // $videoPath = $request->file('playlist_video')->store('videos', 'public');
-        // $thumbnailPath = $request->file('playlist_thumbnail')->store('thumbnails', 'public');
-
         if ($request->hasFile('playlist_video')) {
             $videoUrl = $request->file('playlist_video');
-            $videoPath = time() . '.' . $videoUrl->getClientOriginalExtension();
-            $videoUrl->move(public_path('/courseVideo/'), $videoPath);
+            $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
+            $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
         } else {
             $videoUrlName = null;
         }
 
         if ($request->hasFile('playlist_thumbnail')) {
             $videoThumbnail = $request->file('playlist_thumbnail');
-            $thumbnailPath = time() . '.' . $videoThumbnail->getClientOriginalExtension();
-            $videoThumbnail->move(public_path('/courseThumbnail/'), $thumbnailPath);
+            $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
+            $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
         } else {
             $videoThumbnailName = null;
         }
 
-        // Create a new video record
-        $video = new Video();
-        $video->user_id = auth()->id(); // Assuming the user is authenticated
-        $video->course_id = $request->course_id; // Assuming you have a course_id field
-        $video->video_title = $request->video_title;
-        $video->description = $request->video_discription;
-        $video->video_url = $videoPath;
-        $video->thumbnail_url = $thumbnailPath;
-        $video->save();
+        Video::create([
+            'user_id' => Auth::user()->id,
+            'course_id' => $request->course_id,
+            'video_title' => $request->video_title,
+            'description' => $request->video_discription,
+            'video_url' => $videoUrlName,
+            'thumbnail_url' => $videoThumbnailName,
+        ]);
 
-        return response()->json(['success' => 'Video uploaded successfully!']);
     }
 
     public function show(video $video)

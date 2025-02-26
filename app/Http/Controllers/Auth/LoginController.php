@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,11 +19,12 @@ class LoginController extends Controller
     }
     public function login_check(request $request)
     {
+        
         $userData = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-
+        try{
         if (Auth::attempt($userData)) {
             $user = Auth::user();
 
@@ -38,7 +40,12 @@ class LoginController extends Controller
         } else {
             return back()->with('error', 'Invalid Email or Password');
         }
+        }catch (\Exception $e) {
+            Log::error('Error updating category: ' . $e->getMessage());
+            // return response()->json(['error' => 'An error occurred while updating the category.'], 500);
+        }
     }
+    
     public function logout()
     {
         Auth::logout();

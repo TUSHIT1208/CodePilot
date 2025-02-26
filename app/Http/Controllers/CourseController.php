@@ -17,7 +17,8 @@ class CourseController extends Controller
     public function index()
     {
         try {
-            $courses = Course::with(['courseAttachment', 'user'])->get();
+            $courses = Course::with(['courseattachment', 'user'])->get();
+            //return $courses;
 
             Log::info('Fetched courses successfully', ['courses_count' => $courses->count()]);
 
@@ -94,7 +95,9 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
+        ini_set('memory_limit', '12G'); // Increase memory limit
         try {
+
             $validated = $request->validate([
                 'title' => 'required|max:60',
                 'description' => 'required',
@@ -108,8 +111,8 @@ class CourseController extends Controller
                 'learn_in_course' => 'required',
                 'requirement' => 'required',
                 'course_level' => 'required',
-                'introduction_thumbnail' => 'required',
-                'introduction_video' => 'required'
+                'introduction_thumbnail' => 'required|file|mimes:jpg,jpeg,png|max:2048000', // 2GB limit
+                'introduction_video' => 'required|file|mimes:mp4,mov,avi,wmv|max:2048000', // 2GB limit
             ]);
 
             Log::info('Validated request data', ['data' => $validated]);
@@ -123,7 +126,6 @@ class CourseController extends Controller
                 'meta_description' => $request->meta_description ?? '',
                 'price' => $request->price ?? 0,
                 'discount' => $request->discount ?? null,
-                'thumbnail_url' => $request->thumbnail_url ?? '',
                 'is_active' => 1,
                 'published_at' => null,
                 'course_type' => $request->course_type,
@@ -133,41 +135,37 @@ class CourseController extends Controller
                 'learn_in_course' => $request->learn_in_course,
                 'requirement' => $request->requirement,
                 'course_level' => $request->course_level,
+
             ]);
 
             Log::info('Course created successfully', ['course_id' => $course->id]);
 
+            log::info($request->hasFile('introduction_video'));
             if ($request->hasFile('introduction_video')) {
                 $videoUrl = $request->file('introduction_video');
                 $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
+                log::info($videoUrlName);
                 $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
             } else {
                 $videoUrlName = null;
             }
-
+            log::info($videoUrlName);
             if ($request->hasFile('introduction_thumbnail')) {
                 $videoThumbnail = $request->file('introduction_thumbnail');
                 $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
+                log::info($videoThumbnailName);
                 $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
             } else {
                 $videoThumbnailName = null;
             }
-
+            log::info($videoThumbnailName);
             courseAttachment::create([
                 'course_id' => $course->id,
                 'type' => 'video',
-                'url' => $request->introduction_video,
-                'thumbnail_url' => $request->introduction_thumbnail,
+                'url' => $videoUrlName,
+                'thumbnail_url' => $videoThumbnailName,
             ]);
 
-            $Thumbnail = null;
-            if ($request->hasFile('video_thumbnail')) {
-                $Thumbnail = $request->file('video_thumbnail');
-                $videoThumbnailName = time() . '.' . $Thumbnail->getClientOriginalExtension();
-                $Thumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
-            } else {
-                $videoThumbnailName = null;
-            }
             Log::info('Course created successfully', ['course_id' => $course->id]);
 
             return redirect()->route('course.edit', $course->id)->with('success', 'Course inserted successfully');
@@ -197,36 +195,74 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        $course = Course::findOrFail($id); // Fetch course by ID
+        $course = Course::with('courseattachment')->findOrFail($id); // Load course with attachments
+        //return $course;
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
 
         return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Course $course)
     {
         try {
-            $course = Course::findOrFail($id);
-
             $validated = $request->validate([
-                'title' => 'required|string|max:100|unique:courses,title,' . $id,
-                'description' => 'required|string',
+                'title' => 'required|string|min:3|max:255',
+                'description' => 'required|string|min:10|max:1000',
                 'course_description' => 'required|string',
-                'learn_in_course' => 'required|string',
-                'requirement' => 'required|string',
-                'course_level' => 'required|in:Beginner,Intermediate,Expert',
-                'course_type' => 'required|in:text,video',
+                'learn_in_course' => 'required|string|min:10|max:1000',
+                'requirement' => 'required|string|min:10|max:1000',
+                'course_level' => 'required|string|in:Beginner,Intermediate,Expert',
+                'course_type' => 'required|string|in:text,video',
                 'category_id' => 'required|exists:categories,id',
-                'sub_category_id' => 'required|exists:sub_categories,id'
+                'sub_category_id' => 'required|exists:sub_categories,id',
+                'meta_keyword' => 'required|string|min:3|max:255',
+                'meta_title' => 'required|string|min:3|max:255',
+                'meta_description' => 'required|string|min:10|max:1000',
 
             ]);
             Log::info('Validated request data', ['data' => $validated]);
-            $course->update($request->all());
+            // ✅ Update course details
+            $course->update($request->only([
+                'title',
+                'description',
+                'course_description',
+                'learn_in_course',
+                'requirement',
+                'course_level',
+                'course_type',
+                'category_id',
+                'sub_category_id',
+                'meta_keyword',
+                'meta_title',
+                'meta_description'
+            ]));
+
+            // ✅ Handle Video Upload
+            if ($request->hasFile('introduction_video')) {
+                $video = $request->file('introduction_video');
+                $videoName = time() . '_' . $video->getClientOriginalName();
+                $video->move(public_path('courseVideo'), $videoName);
+
+                $course->courseattachment()->updateOrCreate(
+                    ['course_id' => $course->id],
+                    ['url' => $videoName]
+                );
+            }
+
+            // ✅ Handle Thumbnail Upload
+            if ($request->hasFile('introduction_thumbnail')) {
+                $thumbnail = $request->file('introduction_thumbnail');
+                $thumbnailName = time() . '_' . $thumbnail->getClientOriginalName();
+                $thumbnail->move(public_path('courseThumbnail'), $thumbnailName);
+
+                $course->courseattachment()->updateOrCreate(
+                    ['course_id' => $course->id],
+                    ['thumbnail_url' => $thumbnailName]
+                );
+            }
+
+
 
             return redirect()->back()->with('success', 'course updated successfully');
         } catch (\Exception $e) {
@@ -240,6 +276,84 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'An error occurred while updateing the course.');
         }
     }
+
+    public function price(Request $request, Course $course)
+    {
+        $request->validate([
+            'price' => 'required|numeric|min:0|max:99999999.99', // Ensures price is within valid decimal(10,2) range
+            'discount' => 'required|numeric|min:0|max:99999999.99|lte:price', // Ensures discount is valid and less than or equal to price
+        ]);
+        log::info($course);
+        $course->update([
+            'price' => $request->input('price'),
+            'discount' => $request->input('discount')
+        ]);
+        log::info('update');
+        return redirect()->back()->with('success_price', 'Course price updated successfully.');
+    }
+    /**
+     * Update the specified resource in storage.
+     */
+    // public function update(Request $request, $id)
+    // {
+    //     try{
+    //     $course = Course::findOrFail($id);
+
+    //     $validated =$request->validate([
+    //         'title' => 'required|string|max:100|unique:courses,title,' . $id,
+    //         'description' => 'required|string',
+    //         'course_description' => 'required|string',
+    //         'learn_in_course' => 'required|string',
+    //         'requirement' => 'required|string',
+    //         'course_level' => 'required|in:Beginner,Intermediate,Expert',
+    //         'course_type' => 'required|in:text,video',
+    //         'category_id' => 'required|exists:categories,id',
+    //         'sub_category_id' => 'required|exists:sub_categories,id'
+
+    //     ]);
+    //     Log::info('Validated request data', ['data' => $validated]);
+    //     $course->update($request->all());
+
+    //     if ($request->hasFile('introduction_video')) {
+    //         $videoFile = $request->file('introduction_video');
+    //         $videoPath = time() . '.' . $videoFile->getClientOriginalExtension();
+    //         $videoFile->move(public_path('/courseVideo/'), $videoPath);
+    //     } else {
+    //         $videoPath = $course->courseattachment->url ?? null; // Keep existing if not updated
+    //     }
+    //     logger($videoPath);
+    //     // Handle thumbnail file upload if provided
+    //     if ($request->hasFile('introduction_thumbnail')) {
+    //         $thumbnailFile = $request->file('introduction_thumbnail');
+    //         $thumbnailPath = time() . '.' . $thumbnailFile->getClientOriginalExtension();
+    //         $thumbnailFile->move(public_path('/courseThumbnail/'), $thumbnailPath);
+    //     } else {
+    //         $thumbnailPath = $course->courseattachment->thumbnail_url ?? null;
+    //     }
+
+    //     // Update or create course attachment
+    //     $attachment = courseAttachment::where('course_id', $course->id)->first();
+
+    //     if ($attachment) {
+    //         $attachment->update([
+    //             'type' => 'video',
+    //             'url' => $videoPath,
+    //             'thumbnail_url' => $thumbnailPath,
+    //         ]);
+    //     }
+
+    //     return redirect()->back()->with('success','course updated successfully');
+    //     }catch (\Exception $e) {
+    //             Log::error('Error inserting course', [
+    //                 'message' => $e->getMessage(),
+    //                 'line' => $e->getLine(),
+    //                 'file' => $e->getFile(),
+    //                 'trace' => $e->getTraceAsString()
+    //             ]);
+
+    //             return redirect()->back()->with('error', 'An error occurred while updateing the course.');
+    //         }
+    // }
 
 
     /**

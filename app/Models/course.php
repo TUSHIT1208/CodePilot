@@ -33,7 +33,11 @@ class course extends Model
         return $this->hasMany(test::class);
     }
 
-    public function courseAttachment(){
-        return $this->hasMany(courseAttachment  ::class);
+    public function courseattachment(){
+        return $this->hasOne(courseAttachment::class);
+    }
+
+    public function video(){
+        return $this->hasMany(video::class);
     }
 }

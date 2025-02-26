@@ -61,67 +61,64 @@
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Edit Learning Path</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="editForm">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" id="edit-id">
+                    <form id="editForm" class="edit-validation" novalidate>
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="edit-id">
 
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit Learning Path</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
                             <div class="mb-3">
                                 <label for="edit-name" class="form-label">Learning Path Name</label>
-                                <input type="text" class="form-control _dlor1" id="edit-name"
-                                    placeholder="Enter the path name">
+                                <input type="text" class="form-control _dlor1" id="edit-name" name="name"
+                                    placeholder="Enter the path name" required>
+                                <div class="invalid-feedback">Please provide a path name.</div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="edit-description" class="form-label">Description</label>
-                                <textarea class="form-control _dlor1" id="edit-description" rows="3"
-                                    placeholder="Enter the category description n ( OPTIONAL )"></textarea>
+                                <textarea class="form-control _dlor1" id="edit-description" name="description" rows="3"
+                                    placeholder="Enter the description (OPTIONAL)"></textarea>
                             </div>
-
-                            <div class="modal-footer">
-                                <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="main-btn">Save LearningPath</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="main-btn">Save Learning Path</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
 
 
-        <!-- Modal for Adding Learning path -->
+        <!-- Modal for Adding Learning Path -->
         <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('learningpath.store') }}" method="POST">
+                    <form action="{{ route('learningpath.store') }}" method="POST" class="needs-validation" novalidate>
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addCategoryModalLabel">
-                                Add New learning path
-                            </h5>
+                            <h5 class="modal-title" id="addCategoryModalLabel">Add New Learning Path</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Category Name Field -->
+                            <!-- Path Name Field -->
                             <div class="mb-3">
-                                <label for="category_name" class="form-label">Path Name</label>
+                                <label for="name" class="form-label">Path Name</label>
                                 <input type="text" class="form-control _dlor1" id="name" name="name"
-                                    placeholder="Enter the path name">
-                                <div class="invalid-feedback" id="category_name_error"></div>
+                                    placeholder="Enter the path name" required>
+                                <div class="invalid-feedback">Please provide a path name.</div>
                             </div>
 
-                            <!-- Category Description Field -->
+                            <!-- Path Description Field -->
                             <div class="mb-3">
-                                <label for="category_description" class="form-label">learning path Descriptio</label>
+                                <label for="description" class="form-label">Learning Path Description</label>
                                 <textarea class="form-control _dlor1" id="description" name="description" rows="4"
-                                    placeholder="Enter the category description n ( OPTIONAL )"></textarea>
-                                <div class="invalid-feedback" id="category_description_error"></div>
+                                    placeholder="Enter the description (OPTIONAL)"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -132,11 +129,39 @@
                 </div>
             </div>
         </div>
-
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
+    <script>
+        // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
+        document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".needs-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
+        });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".edit-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
+        });
+    </script>
     <script>
         $(document).ready(function () {
             let table = $('#learningPathTable').DataTable({
@@ -299,55 +324,37 @@
                     data: formData, // Form data
                     success: function (response) {
                         if (response.success) {
-                            // Configure Toastr
-                            toastr.options = {
-                                closeButton: true,
-                                debug: false,
-                                newestOnTop: true,
-                                progressBar: true,
-                                positionClass: "toast-top-right",
-                                preventDuplicates: true,
-                                timeOut: 5000, // Display duration of the toast (5 seconds)
-                                extendedTimeOut: 1000,
-                                showEasing: "swing",
-                                hideEasing: "linear",
-                                showMethod: "fadeIn",
-                                hideMethod: "fadeOut"
-                            };
 
+                            $('#addCategoryModal').modal('hide'); // Close modal
                             // Show success toast
                             toastr.success(response.success, 'Success');
 
                             // Close modal and reload page after 2 seconds
                             setTimeout(function () {
-                                $('#addCategoryModal').modal('hide'); // Close modal
                                 location.reload(); // Reload the page
-                            }, 2000);
-                        }
-                    },
-                    error: function (xhr) {
-                        // Remove existing validation feedback
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) { // Validation error
-                            var errors = xhr.responseJSON.errors;
-
-                            for (var field in errors) {
-                                // Highlight the field with error
-                                var inputField = $(`[name="${field}"]`);
-                                inputField.addClass('is-invalid');
-
-                                // Add error message
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
-                            }
-                        } else {
-                            toastr.error('An unexpected error occurred. Please try again.',
-                                'Error');
+                            }, 5000);
                         }
                     }
+                    // error: function(xhr) {
+                    //     // Remove existing validation feedback
+                    //     $('.is-invalid').removeClass('is-invalid');
+                    //     $('.invalid-feedback').remove();
+
+                    //     if (xhr.status === 422) { // Validation error
+                    //         var errors = xhr.responseJSON.errors;
+
+                    //         for (var field in errors) {
+                    //             // Highlight the field with error
+                    //             var inputField = $(`[name="${field}"]`);
+                    //             inputField.addClass('is-invalid');
+
+                    //             // Add error message
+                    //             inputField.after(
+                    //                 `<div class="invalid-feedback">${errors[field][0]}</div>`
+                    //                 );
+                    //         }
+                    //     } 
+                    // }
                 });
             });
         });
@@ -390,10 +397,61 @@
         });
     </script>
 
+    {{-- add lerningpath --}}
+    <script>
+        $(document).ready(function () {
+            $('.main-btn[data-bs-dismiss="modal"]').on('click', function () {
+                // Reset form fields
+                $('#addCategoryModal form')[0].reset();
+                $('#editForm')[0].reset();
+
+                // Remove validation errors
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+            });
+
+            // AJAX form submission for Add Category
+            $('#addCategoryModal form').submit(function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                // Get form data
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    url: $(this).attr('action'), // URL for form submission
+                    method: $(this).attr('method'), // Use POST method
+                    data: formData, // Form data
+                    success: function (response) {
+                        if (response.success) {
+
+                            $('#addCategoryModal').modal('hide'); // Close modal
+                            // Show success toast
+                            toastr.success(response.success, 'Success');
+
+                            // Close modal and reload page after 2 seconds
+                            setTimeout(function () {
+                                location.reload(); // Reload the page
+                            }, 5000);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
     {{-- edit --}}
     <script>
         $(document).ready(function () {
+            $('.main-btn[data-bs-dismiss="modal"]').on('click', function () {
+                // Reset form fields
+                $('#addCategoryModal form')[0].reset();
+                $('#editForm')[0].reset();
+
+                // Remove validation errors
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+            });
+
             // Open Edit Modal and Fill Data
             $(document).on('click', '.edit-btn', function () {
                 let id = $(this).data('id');
@@ -403,10 +461,6 @@
                 $('#edit-id').val(id);
                 $('#edit-name').val(name);
                 $('#edit-description').val(description);
-
-                // Clear validation errors
-                $('.is-invalid').removeClass('is-invalid');
-                $('.invalid-feedback').remove();
 
                 $('#editModal').modal('show'); // Open modal
             });
@@ -429,31 +483,11 @@
                     },
                     success: function (response) {
                         if (response.success) {
-                            toastr.success(response.success, "Success");
+                            // toastr.success(response.success, "Success");
                             $('#editModal').modal('hide'); // Close modal
                             setTimeout(function () {
                                 location.reload();
-                            }, 3000); // Refresh after 3 seconds
-                        } else {
-                            toastr.error("Something went wrong!", "Error");
-                        }
-                    },
-                    error: function (xhr) {
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            for (let field in errors) {
-                                let inputField = $(`#edit-${field}`);
-                                inputField.addClass('is-invalid');
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
-                            }
-                        } else {
-                            toastr.error("An unexpected error occurred. Please try again.",
-                                "Error");
+                            }, 0000); // Refresh after 3 seconds
                         }
                     }
                 });

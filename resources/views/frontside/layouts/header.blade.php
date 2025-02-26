@@ -5,15 +5,18 @@
             <div class="col-12">
                 <div class="ml_item">
                     <div class="main_logo main_logo15" id="logo">
-                        <a href="index.html"><img src="images/logo.svg" alt=""></a>
-                        <a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""></a>
+                        <h1>CodePilot</h1>
+                        {{-- <a href="index.html"><img src="images/logo.svg" alt=""></a>
+                        <a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""></a> --}}
                     </div>				
                 </div>				
                 <div class="header_right pr-0">
                     <ul>				
                         <li class="profile-dropdown">
-                            <a href="#" class="opts_account" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                                <img src="images/hd_dp.jpg" alt="">
+                            <a href="#" class="opts_account" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                            aria-expanded="false">
+                            <img src="images/hd_dp.jpg" alt=""
+                                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                             </a>
                             <div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
                                 <div class="night_mode_switch__btn">

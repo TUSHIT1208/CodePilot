@@ -21,19 +21,19 @@
                     </a>
                 </li> --}}
                 <li class="menu--item">
-                    <a href="{{ route('category.index')}}" class="menu--link" title="Create Course">
+                    <a href="{{ route('category.index')}}" class="menu--link" title="Create Category">
                         <i class="uil uil-folder-plus menu--icon"></i>
                         <span class="menu--label">Category</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('subcategory.index')}}" class="menu--link" title="Create Course">
+                    <a href="{{ route('subcategory.index')}}" class="menu--link" title="Create Sub-Category">
                         <i class="uil uil-folder-open menu--icon"></i>
                         <span class="menu--label">SubCategory</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('course.index') }}" class="menu--link" title="Explore">
+                    <a href="{{ route('course.index') }}" class="menu--link" title="Course">
                         <i class='uil uil-search menu--icon'></i>
                         <span class="menu--label">Course</span>
                     </a>
@@ -69,13 +69,13 @@
                     </a>
                 </li> --}}
                 <li class="menu--item">
-                    <a href="{{ route('user.index') }}" class="menu--link" title="Verification">
+                    <a href="{{ route('user.index') }}" class="menu--link" title="Learners">
                         <i class='uil uil-check-circle menu--icon'></i>
                         <span class="menu--label">Learners</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{ route('instructorList') }}" class="menu--link" title="Browse Instructors">
+                    <a href="{{ route('instructorList') }}" class="menu--link" title="Instructors">
                         <i class='uil uil-plus-circle menu--icon'></i>
                         <span class="menu--label">Instructors</span>
                     </a>
@@ -93,11 +93,11 @@
                 <li class="menu--item">
                     <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
                         <i class='uil uil-file menu--icon'></i>
-                        <span class="menu--label">Frequently asked questions</span>
+                        <span class="menu--label">FAQ's</span>
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{route('learningpath.index')}}" class="menu--link" title="FAQ">
+                    <a href="{{route('learningpath.index')}}" class="menu--link" title="Learning Path">
                         <i class='uil uil-file menu--icon'></i>
                         <span class="menu--label">Learning Path</span>
                     </a>

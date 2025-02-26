@@ -73,9 +73,7 @@
                         <input type="hidden" id="edit_category_id" name="category_id">
 
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editCategoryModalLabel">
-                                Edit Category
-                            </h5>
+                            <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
@@ -83,17 +81,17 @@
                             <!-- Category Name Field -->
                             <div class="mb-3">
                                 <label for="edit_category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control _dlor1" id="edit_category_name"
-                                    name="category_name" placeholder="Enter the category name" required>
-                                <div class="invalid-feedback"></div>
+                                <input type="text" class="form-control _dlor1" id="edit_category_name" name="category_name"
+                                    placeholder="Enter the category name" required>
+                                <div class="invalid-feedback">Please provide a category name.</div>
                             </div>
 
                             <!-- Category Description Field -->
                             <div class="mb-3">
                                 <label for="edit_category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4"
-                                    placeholder="Enter the category description n ( OPTIONAL )"></textarea>
-                                <div class="invalid-feedback"></div>
+                                <textarea class="form-control _dlor1" id="edit_category_description"
+                                    name="category_description" rows="4"
+                                    placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
 
@@ -107,34 +105,31 @@
         </div>
 
         <!-- Modal for Adding Category -->
-        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form action="{{ route('category.store') }}" method="POST" class="needs-validation" novalidate>
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addCategoryModalLabel">
-                                Add New Category
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="addCategoryModalLabel">Add New Category</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- Category Name Field -->
                             <div class="mb-3">
                                 <label for="category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control _dlor1" id="name" name="category_name" placeholder="Enter the category name" required>
-                                <div class="invalid-feedback"></div>
+                                <input type="text" class="form-control _dlor1" id="category_name" name="category_name"
+                                    placeholder="Enter the category name" required>
+                                <div class="invalid-feedback">Please enter a category name.</div>
                             </div>
-
-                            <!-- Category Description Field -->
                             <div class="mb-3">
                                 <label for="category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control _dlor1" id="description" name="category_description" rows="4"
-                                    placeholder="Enter the category description ( OPTIONAL )"></textarea>
+                                <textarea class="form-control _dlor1" id="category_description" name="category_description"
+                                    rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="main-btn" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="main-btn" data-bs-dismiss="modal">Cancel</button>
                             <button type="submit" class="main-btn">Save</button>
                         </div>
                     </form>
@@ -142,64 +137,66 @@
             </div>
         </div>
 
-
         @include('admin.layouts.footer')
     </div>
     <!-- Body End -->
     {{-- vaildation --}}
     <script>
+        // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
         document.addEventListener("DOMContentLoaded", function () {
-            const form = document.querySelector(".needs-validation");
-    
-            form.addEventListener("submit", function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add("was-validated");
-            }, false);
+            var forms = document.querySelectorAll(".needs-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
         });
     </script>
 
     {{-- Dispplay list using datatable with bulk delete --}}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let table = $('#category-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('category.index') }}", // Adjust this route
                 columns: [{
-                        data: 'id',
-                        render: function(data) {
-                            return '<input type="checkbox" class="category-checkbox" value="' +
-                                data + '">';
-                        },
-                        orderable: false,
-                        searchable: false
+                    data: 'id',
+                    render: function (data) {
+                        return '<input type="checkbox" class="category-checkbox" value="' +
+                            data + '">';
                     },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'description',
-                        name: 'description'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    }
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
+                {
+                    data: 'status',
+                    name: 'status',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
                 ]
             });
-            
+
             // Set global Toastr options
             toastr.options = {
                 "closeButton": true,
@@ -209,7 +206,7 @@
                 "positionClass": "toast-top-right",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
-                "onShown": function() {
+                "onShown": function () {
                     $('.toast-success').css({
                         'background-color': '#28a745', // Green for success
                         'opacity': '1'  // Adjust opacity
@@ -231,13 +228,13 @@
 
 
             // Handle "Select All" checkbox
-            $('#category-table tbody').on('change', '.category-checkbox', function() {
+            $('#category-table tbody').on('change', '.category-checkbox', function () {
                 let allChecked = $('.category-checkbox').length === $('.category-checkbox:checked').length;
                 $('#select-all').prop('checked', allChecked);
                 toggleBulkDeleteButton();
             });
 
-            $('#select-all').on('change', function() {
+            $('#select-all').on('change', function () {
                 $('.category-checkbox').prop('checked', $(this).prop('checked'));
                 toggleBulkDeleteButton();
             });
@@ -248,19 +245,15 @@
             }
 
             // Bulk Delete Functionality
-            $('#bulk-delete-btn').on('click', function() {
-                let selectedIds = $('.category-checkbox:checked').map(function() {
+            $('#bulk-delete-btn').on('click', function () {
+                let selectedIds = $('.category-checkbox:checked').map(function () {
                     return $(this).val();
                 }).get();
 
                 // ✅ Show error Toastr if no category is selected
                 if (selectedIds.length === 0) {
-                    toastr.warning("Please select at least one Category to delete.", "Warning", {
-                        onShown: function() {
-                            $('.toast-warning').css('background-color', 'orange'); // Ensure yellow background
-                        }
-                    });
-                    return; // Stop further execution
+                    toastr.warning("Please select at least one Sub-category to delete.", "Warning");
+                    return;
                 }
 
                 Swal.fire({
@@ -281,18 +274,18 @@
                                 _token: '{{ csrf_token() }}',
                                 ids: selectedIds,
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 if (response.success) {
                                     $('#select-all').prop('checked', false);
                                     $('#bulk-delete-btn').prop('disabled', true);
                                     location
-                                .reload(); // Reload DataTable full page refresh
+                                        .reload(); // Reload DataTable full page refresh
                                 } else {
                                     toastr.error(response.error || 'Failed to delete.',
                                         'Error');
                                 }
                             },
-                            error: function(xhr) {
+                            error: function (xhr) {
                                 if (xhr.status === 400) {
                                     toastr.error(xhr.responseJSON.error, 'Error');
                                 } else {
@@ -309,74 +302,66 @@
 
     {{-- AJAX form submission for Add Category --}}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let isCancelClicked = false;
 
             // Track if the cancel button is clicked
-            $('.cancel-btn').on('click', function() {
+            $('.cancel-btn').on('click', function () {
                 isCancelClicked = true;
+                $('#addCategoryModal').modal('hide'); // Close modal properly
             });
 
-            $('#addCategoryModal form').submit(function(e) {
-                if (isCancelClicked) {
-                    isCancelClicked = false; // Reset flag
-                    return; // Prevent validation if cancel button was clicked
+            $('#addCategoryModal form').on('submit', function (e) {
+                e.preventDefault();
+
+                var form = $(this)[0];
+                if (form.checkValidity() === false) {
+                    e.stopPropagation();
                 }
 
-                e.preventDefault(); // Prevent default form submission
+                form.classList.add('was-validated'); // Bootstrap's validation classes
 
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    method: $(this).attr('method'),
-                    data: formData,
-                    beforeSend: function() {
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            toastr.success(response.success, 'Success');
-
-                            setTimeout(function() {
+                if (form.checkValidity() === true) {
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        method: $(this).attr('method'),
+                        data: formData,
+                        success: function (response) {
+                            if (response.success) {
                                 $('#addCategoryModal').modal('hide');
-                                $('#addCategoryModal form')[0].reset();
-                                location.reload(); // Refresh to reflect changes
-                            }, 2000);
-                        }
-                    },
-                    error: function(xhr) {
-                        if (xhr.status === 422) {
-                            var errors = xhr.responseJSON.errors;
-                            for (var field in errors) {
-                                var inputField = $(`[name="${field}"]`);
-                                inputField.addClass('is-invalid');
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
+                                toastr.success(response.success, 'Success');
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 1000);
                             }
-                        } else {
-                            toastr.error('An unexpected error occurred. Please try again.',
-                                'Error');
+                        },
+                        error: function (xhr) {
+                            if (xhr.status === 422) {
+                                var errors = xhr.responseJSON.errors;
+                                for (var field in errors) {
+                                    var inputField = $([name = "${field}"]);
+                                    inputField.addClass('is-invalid');
+                                    inputField.after(
+                                        <div class="invalid-feedback">${errors[field][0]}</div>
+                                    );
+                                }
+                            } else {
+                                toastr.error('An unexpected error occurred. Please try again.',
+                                    'Error');
+                            }
                         }
-                    }
-                });
-            });
-
-            // Reset form and validation errors when modal is closed
-            $('#addCategoryModal').on('hidden.bs.modal', function() {
-                $(this).find('form')[0].reset();
-                $('.is-invalid').removeClass('is-invalid');
-                $('.invalid-feedback').remove();
+                    });
+                }
             });
         });
+
     </script>
 
     <!-- JavaScript for Delete Confirmation -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.body.addEventListener("click", function(event) {
+        document.addEventListener("DOMContentLoaded", function () {
+            document.body.addEventListener("click", function (event) {
                 if (event.target.closest(".delete-btn")) {
                     event.preventDefault(); // Prevent default anchor behavior
 
@@ -405,8 +390,8 @@
 
     {{-- Use event delegation to handle dynamically loaded toggle switches --}}
     <script>
-        $(document).ready(function() {
-            $(document).on('change', '.toggle-input', function() {
+        $(document).ready(function () {
+            $(document).on('change', '.toggle-input', function () {
                 let categoryId = $(this).data('id');
                 let isActive = $(this).is(':checked') ? 1 : 0;
 
@@ -418,10 +403,10 @@
                         category_id: categoryId,
                         is_active: isActive
                     },
-                    success: function(response) {
+                    success: function (response) {
                         toastr.success(response.success, 'Success');
                     },
-                    error: function() {
+                    error: function () {
                         toastr.error('Error updating category status.', 'Error');
                     }
                 });
@@ -431,8 +416,8 @@
 
     {{-- Open Edit Modal and Populate Data --}}
     <script>
-        $(document).ready(function() {
-            $(document).on('click', '.edit-category', function() {
+        $(document).ready(function () {
+            $(document).on('click', '.edit-category', function () {
                 let categoryId = $(this).data('id');
                 let categoryName = $(this).data('name');
                 let categoryDescription = $(this).data('description');
@@ -447,7 +432,7 @@
             });
 
             // Handle Update Category Submission via AJAX
-            $('#editCategoryForm').submit(function(e) {
+            $('#editCategoryForm').submit(function (e) {
                 e.preventDefault(); // Prevent default form submission
 
                 let categoryId = $('#edit_category_id').val();
@@ -457,7 +442,7 @@
                     url: `/category/${categoryId}`, // Resourceful route
                     method: 'PUT', // Laravel requires PUT for update
                     data: formData,
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             toastr.success(response.success, 'Success');
 
@@ -465,25 +450,25 @@
                             $('#editCategoryModal').modal('hide');
                             location.reload();
                         }
-                    },
-                    error: function(xhr) {
-                        $('.is-invalid').removeClass('is-invalid');
-                        $('.invalid-feedback').remove();
-
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            for (let field in errors) {
-                                let inputField = $(`[name="${field}"]`);
-                                inputField.addClass('is-invalid');
-                                inputField.after(
-                                    `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                );
-                            }
-                        } else {
-                            toastr.error('An unexpected error occurred. Please try again.',
-                                'Error');
-                        }
                     }
+                    // error: function(xhr) {
+                    //     $('.is-invalid').removeClass('is-invalid');
+                    //     $('.invalid-feedback').remove();
+
+                    //     if (xhr.status === 422) {
+                    //         let errors = xhr.responseJSON.errors;
+                    //         for (let field in errors) {
+                    //             let inputField = $(`[name="${field}"]`);
+                    //             inputField.addClass('is-invalid');
+                    //             inputField.after(
+                    //                 `<div class="invalid-feedback">${errors[field][0]}</div>`
+                    //             );
+                    //         }
+                    //     } else {
+                    //         toastr.error('An unexpected error occurred. Please try again.',
+                    //             'Error');
+                    //     }
+                    // }
                 });
             });
         });

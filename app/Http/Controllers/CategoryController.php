@@ -47,7 +47,7 @@ class CategoryController extends Controller
                     ->make(true);
             }
 
-            $categories = Category::all();
+            $categories = Category::all();  
             return view('admin.category.category', compact('categories'));
         } catch (Exception $e) {
             Log::error('Error fetching categories: ' . $e->getMessage());

@@ -845,11 +845,11 @@ Night Mood
 
 .night-mode .ui.form.swdh30 textarea {
     background: #333;
-    border: 1px solid #242424 !important;
+    border: 1px solid #242424;
 }
 
 .night-mode .ui.form.swdh30 textarea:focus {
-    border: 1px solid #242424 !important;
+    border: 1px solid #242424;
     box-shadow: none;
 	background: #fff;
 }
@@ -2626,4 +2626,8 @@ Night Mood
 
 .night-mode .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
     border-color: #242424 !important;
+}
+
+.night-mode .form-control{
+    
 }

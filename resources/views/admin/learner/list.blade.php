@@ -75,7 +75,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="learnerEditForm" method="POST">
+                    <form id="learnerEditForm" method="POST" class="needs-validation" novalidate>
                         @csrf
                         @method('PUT')
 
@@ -83,12 +83,14 @@
 
                         <div class="mb-3">
                             <label for="editLearnerUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control _dlor1" id="editLearnerUsername" name="username">
+                            <input type="text" class="form-control _dlor1" id="editLearnerUsername" name="username" required>
+                            <div class="invalid-feedback">Please enter a valid username.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control _dlor1" id="editLearnerFirstName" name="first_name">
+                            <input type="text" class="form-control _dlor1" id="editLearnerFirstName" name="first_name" required>
+                            <div class="invalid-feedback">First name is required.</div>
                         </div>
 
                         <div class="mb-3">
@@ -98,22 +100,26 @@
 
                         <div class="mb-3">
                             <label for="editLearnerLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control _dlor1" id="editLearnerLastName" name="last_name">
+                            <input type="text" class="form-control _dlor1" id="editLearnerLastName" name="last_name" required>
+                            <div class="invalid-feedback">Last name is required.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control _dlor1" id="editLearnerEmail" name="email">
+                            <input type="email" class="form-control _dlor1" id="editLearnerEmail" name="email" required>
+                            <div class="invalid-feedback">Please enter a valid email address.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerPhone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control _dlor1" id="editLearnerPhone" name="phone_number">
+                            <input type="tel" class="form-control _dlor1" id="editLearnerPhone" name="phone_number" required>
+                            <div class="invalid-feedback">Phone number is required.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="editLearnerDob" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control _dlor1" id="editLearnerDob" name="date_of_birth">
+                            <input type="date" class="form-control _dlor1" id="editLearnerDob" name="date_of_birth" required>
+                            <div class="invalid-feedback">Date of birth is required.</div>
                         </div>
 
                         <div class="modal-footer">
@@ -125,7 +131,23 @@
             </div>
         </div>
     </div>
-
+<script>
+    (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+</script>
     {{-- Prevent default form submission with validation --}}
     <script>
         $(document).ready(function () {
@@ -143,25 +165,25 @@
                     contentType: false,
                     success: function (response) {
                         // Display success message if update is successful
+                        $('#addCategoryModal').modal('hide'); // Close modal
                         $('#editdetailsModal' + response.id).modal('hide'); // Close the modal
                         setTimeout(function () {
-                            $('#addCategoryModal').modal('hide'); // Close modal
                             location.reload(); // Reload the page
-                        }, 2000);
-                    },
-                    error: function (xhr) {
-                        // Clear previous error messages
-                        form.find('.invalid-feedback').remove();
-                        form.find('.is-invalid').removeClass('is-invalid');
+                        }, 0000);
+                    // },
+                    // error: function (xhr) {
+                    //     // Clear previous error messages
+                    //     form.find('.invalid-feedback').remove();
+                    //     form.find('.is-invalid').removeClass('is-invalid');
 
-                        // Handle validation errors
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function (field, message) {
-                            $('#' + field).addClass('is-invalid');
-                            $('#' + field).after('<div class="invalid-feedback">' +
-                                message + '</div>');
-                        });
-                    }
+                    //     // Handle validation errors
+                    //     var errors = xhr.responseJSON.errors;
+                    //     $.each(errors, function (field, message) {
+                    //         $('#' + field).addClass('is-invalid');
+                    //         $('#' + field).after('<div class="invalid-feedback">' +
+                    //             message + '</div>');
+                    //     });
+                    // }
                 });
             });
         });
@@ -411,7 +433,7 @@
             });
         });
     </script>
-    <script>
+    {{-- <script>
         function validateUserForm(formId) {
             let form = document.getElementById(formId);
             let isValid = true;
@@ -472,5 +494,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endsection
