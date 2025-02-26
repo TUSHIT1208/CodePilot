@@ -329,22 +329,22 @@ class UserController extends Controller
                 'first_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
 
                 'last_name' => 'required|string|regex:/^[A-Za-z]{2,}$/',
-        
+
                 // Username: Alphanumeric with underscores, between 3 and 20 characters
                 'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
-        
+
                 // Email: Standard email format
                 'email' => 'required|email|regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/|unique:users,email',
-        
+
                 // Phone Number: 10 digits
                 'phone_number' => 'required|regex:/^\d{10}$/|unique:users,phone_number',
-        
+
                 // Date of Birth: Valid date format
                 'date_of_birth' => 'required|date',
-        
+
                 // Middle Name: Optional but only letters (if present)
                 'middle_name' => 'nullable|regex:/^[A-Za-z]*$/',
-            ]);        
+            ]);
 
             $user->update([
                 'first_name' => $request->first_name,

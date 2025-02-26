@@ -95,7 +95,7 @@
         //     stepLinks.forEach(function (link) {
         //         link.addEventListener("click", function (event) {
         //             var isBasicCompleted = sessionStorage.getItem("basic_completed");
-                    
+
         //             if (!isBasicCompleted && link.getAttribute("href") !== "#tab_step1") {
         //                 event.preventDefault();
         //                 alert("Please complete the Basic Information step first.");
@@ -143,7 +143,7 @@
             $('#test_next').click(function () {
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
             });
-            
+
             // if ('{{ session('success_vid') }}') {
             //     // Trigger the next button automatically after receiving success
             //     $('#add-course-tab .step-footer button[data-direction="next"]').click();

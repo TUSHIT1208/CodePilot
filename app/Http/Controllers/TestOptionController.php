@@ -28,7 +28,26 @@ class TestOptionController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'option_text' => 'required|string|max:255',
+        ]);
 
+        $questionId = session()->get('question_id');
+        $optionCount = TestOption::where('question_id', $questionId)->count();
+
+        if ($optionCount >= 4) {
+            return response()->json(['message' => 'Maximum options reached'], 400);
+        }
+
+        $is_correct = $request->has('is_correct');
+
+        $option = TestOption::create([
+            'question_id' => 1,
+            'option_text' => $request->option_text,
+            'is_correct' => $is_correct,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Option added successfully!'], 201);
     }
 
 
@@ -60,8 +79,5 @@ class TestOptionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TestOption $testOption)
-    {
-        //
-    }
+
 }

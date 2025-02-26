@@ -138,33 +138,33 @@
     <!-- Body End -->
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let table = $('#learningPathTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('learningpath.index') }}",
                 columns: [{
-                        data: "id",
-                        orderable: false,
-                        searchable: false,
-                        render: function(data) {
-                            return '<input type="checkbox" class="learningpath-checkbox" value="' +
-                                data + '">';
-                        }
-                    },
-                    {
-                        data: "name",
-                        name: "name"
-                    },
-                    {
-                        data: "description",
-                        name: "description"
-                    },
-                    {
-                        data: "actions",
-                        orderable: false,
-                        searchable: false
+                    data: "id",
+                    orderable: false,
+                    searchable: false,
+                    render: function (data) {
+                        return '<input type="checkbox" class="learningpath-checkbox" value="' +
+                            data + '">';
                     }
+                },
+                {
+                    data: "name",
+                    name: "name"
+                },
+                {
+                    data: "description",
+                    name: "description"
+                },
+                {
+                    data: "actions",
+                    orderable: false,
+                    searchable: false
+                }
                 ]
             });
 
@@ -177,7 +177,7 @@
                 "positionClass": "toast-top-right",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
-                "onShown": function() {
+                "onShown": function () {
                     $('.toast-success').css({
                         'background-color': '#28a745', // Green for success
                         'opacity': '1'  // Adjust opacity
@@ -198,7 +198,7 @@
             };
 
             // Handle individual checkbox selection
-            $(document).on("change", ".learningpath-checkbox", function() {
+            $(document).on("change", ".learningpath-checkbox", function () {
                 let allChecked = $(".learningpath-checkbox").length === $(".learningpath-checkbox:checked")
                     .length;
                 $("#select-all").prop("checked", allChecked);
@@ -206,7 +206,7 @@
             });
 
             // Select/Deselect All
-            $("#select-all").on("change", function() {
+            $("#select-all").on("change", function () {
                 $(".learningpath-checkbox").prop("checked", $(this).prop("checked"));
                 toggleBulkDeleteButton();
             });
@@ -218,8 +218,8 @@
             }
 
             // Bulk Delete Functionality
-            $(document).on("click", "#bulk-delete-btn", function() {
-                let selectedIds = $(".learningpath-checkbox:checked").map(function() {
+            $(document).on("click", "#bulk-delete-btn", function () {
+                let selectedIds = $(".learningpath-checkbox:checked").map(function () {
                     return $(this).val();
                 }).get();
 
@@ -242,12 +242,12 @@
                                     _token: "{{ csrf_token() }}",
                                     ids: selectedIds,
                                 },
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success) {
-                                        
+
 
                                         // Delay the page refresh to allow Toastr to be displayed
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             location.reload();
                                         }, 0000); // Refresh after 0 seconds
 
@@ -258,7 +258,7 @@
                                             "Failed to delete.", "Error");
                                     }
                                 },
-                                error: function(xhr) {
+                                error: function (xhr) {
                                     console.error(xhr.responseText);
                                     toastr.error("An error occurred. Please try again.",
                                         "Error");
@@ -275,8 +275,8 @@
 
     {{-- add lerningpath --}}
     <script>
-        $(document).ready(function() {
-            $('.main-btn[data-bs-dismiss="modal"]').on('click', function() {
+        $(document).ready(function () {
+            $('.main-btn[data-bs-dismiss="modal"]').on('click', function () {
                 // Reset form fields
                 $('#addCategoryModal form')[0].reset();
                 $('#editForm')[0].reset();
@@ -287,7 +287,7 @@
             });
 
             // AJAX form submission for Add Category
-            $('#addCategoryModal form').submit(function(e) {
+            $('#addCategoryModal form').submit(function (e) {
                 e.preventDefault(); // Prevent default form submission
 
                 // Get form data
@@ -297,7 +297,7 @@
                     url: $(this).attr('action'), // URL for form submission
                     method: $(this).attr('method'), // Use POST method
                     data: formData, // Form data
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             // Configure Toastr
                             toastr.options = {
@@ -319,13 +319,13 @@
                             toastr.success(response.success, 'Success');
 
                             // Close modal and reload page after 2 seconds
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $('#addCategoryModal').modal('hide'); // Close modal
                                 location.reload(); // Reload the page
                             }, 2000);
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         // Remove existing validation feedback
                         $('.is-invalid').removeClass('is-invalid');
                         $('.invalid-feedback').remove();
@@ -341,7 +341,7 @@
                                 // Add error message
                                 inputField.after(
                                     `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
+                                );
                             }
                         } else {
                             toastr.error('An unexpected error occurred. Please try again.',
@@ -354,7 +354,7 @@
     </script>
 
     <script>
-        $(document).on('click', '.delete-btn', function() {
+        $(document).on('click', '.delete-btn', function () {
             let id = $(this).data('id');
 
             Swal.fire({
@@ -374,14 +374,14 @@
                             _method: "DELETE",
                             _token: "{{ csrf_token() }}"
                         },
-                        success: function(response) {
+                        success: function (response) {
                             if (response.success) {
                                 location.reload();
                             } else {
                                 toastr.error("Something went wrong!", "Error");
                             }
                         },
-                        error: function() {
+                        error: function () {
                             Swal.fire('Error!', 'Failed to delete learning path.', 'error');
                         }
                     });
@@ -393,9 +393,9 @@
 
     {{-- edit --}}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Open Edit Modal and Fill Data
-            $(document).on('click', '.edit-btn', function() {
+            $(document).on('click', '.edit-btn', function () {
                 let id = $(this).data('id');
                 let name = $(this).data('name');
                 let description = $(this).data('description');
@@ -412,7 +412,7 @@
             });
 
             // Handle Update Form Submission (AJAX)
-            $('#editForm').submit(function(e) {
+            $('#editForm').submit(function (e) {
                 e.preventDefault();
 
                 let id = $('#edit-id').val();
@@ -427,18 +427,18 @@
                         name: name,
                         description: description
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             toastr.success(response.success, "Success");
                             $('#editModal').modal('hide'); // Close modal
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 location.reload();
                             }, 3000); // Refresh after 3 seconds
                         } else {
                             toastr.error("Something went wrong!", "Error");
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $('.is-invalid').removeClass('is-invalid');
                         $('.invalid-feedback').remove();
 
@@ -449,7 +449,7 @@
                                 inputField.addClass('is-invalid');
                                 inputField.after(
                                     `<div class="invalid-feedback">${errors[field][0]}</div>`
-                                    );
+                                );
                             }
                         } else {
                             toastr.error("An unexpected error occurred. Please try again.",

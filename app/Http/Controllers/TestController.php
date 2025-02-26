@@ -84,44 +84,6 @@ class TestController extends Controller
             return response()->json(['message' => 'Error saving quiz: ' . $e->getMessage()], 500);
         }
 
-        // $quiz = new Test();
-        // $quiz->course_id = 1; // Replace this with actual course ID if needed
-        // $quiz->test_title = $test_title;
-        // $quiz->passing_mark = $passing_mark;
-        // $quiz->time = $time;
-        // $quiz->save();
-        // return response()->json(["message" => "Quiz stored successfully"], 200);
-
-        // // Validate the incoming data
-        // $validated = \Validator::make($data, [
-        //     'test_title' => 'required|string|max:255',
-        //     'passing_mark' => 'required|integer',
-        //     'time' => 'required|date_format:H:i:s', // Ensure the time is in a valid format
-        // ]);
-
-        // // Check if validation fails
-        // if ($validated->fails()) {
-        //     return response()->json([
-        //         'message' => 'Validation failed',
-        //         'errors' => $validated->errors()
-        //     ], 422);
-        // }
-
-        // try {
-        //     // Store the quiz details in the database
-        //     $quiz = new Test();
-        //     $quiz->course_id = 1; // Replace this with actual course ID if needed
-        //     $quiz->test_title = $data['test_title'];
-        //     $quiz->passing_mark = $data['passing_mark'];
-        //     $quiz->time = $data['time'];
-        //     $quiz->save(); // Save the quiz record in the database
-
-        //     return response()->json(["message" => "Quiz stored successfully"], 200);
-
-        // } catch (\Exception $e) {
-        //     // Handle any errors that occur while saving
-        //     return response()->json(['message' => 'Error saving quiz: ' . $e->getMessage()], 500);
-        // }
     }
 
 

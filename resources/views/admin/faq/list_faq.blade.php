@@ -138,34 +138,34 @@
     <!-- Body End -->
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let table = $('#ucp-table').DataTable({
                 "processing": true,
                 "serverSide": true,
                 "ajax": "{{ route('faq.index') }}",
                 "columns": [{
-                        "data": "id",
-                        "orderable": false,
-                        "searchable": false,
-                        "render": function(data) {
-                            return '<input type="checkbox" class="faq-checkbox" value="' + data +
-                                '">';
-                        }
-                    },
-                    {
-                        "data": "question"
-                    },
-                    {
-                        "data": "answer"
-                    },
-                    {
-                        "data": "actions",
-                        "orderable": false,
-                        "searchable": false,
-                        "render": function(data, type, row) {
-                            return data; // Ensure raw HTML is rendered correctly
-                        }
+                    "data": "id",
+                    "orderable": false,
+                    "searchable": false,
+                    "render": function (data) {
+                        return '<input type="checkbox" class="faq-checkbox" value="' + data +
+                            '">';
                     }
+                },
+                {
+                    "data": "question"
+                },
+                {
+                    "data": "answer"
+                },
+                {
+                    "data": "actions",
+                    "orderable": false,
+                    "searchable": false,
+                    "render": function (data, type, row) {
+                        return data; // Ensure raw HTML is rendered correctly
+                    }
+                }
                 ]
             });
             // Set global Toastr options
@@ -177,7 +177,7 @@
                 "positionClass": "toast-top-right",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
-                "onShown": function() {
+                "onShown": function () {
                     $('.toast-success').css({
                         'background-color': '#28a745', // Green for success
                         'opacity': '1'  // Adjust opacity
@@ -199,14 +199,14 @@
 
 
             // Handle checkbox selection
-            $(document).on('change', '.faq-checkbox', function() {
+            $(document).on('change', '.faq-checkbox', function () {
                 let allChecked = $('.faq-checkbox').length === $('.faq-checkbox:checked').length;
                 $('#select-all').prop('checked', allChecked);
                 toggleBulkDeleteButton();
             });
 
             // Select/Deselect All
-            $('#select-all').on('change', function() {
+            $('#select-all').on('change', function () {
                 $('.faq-checkbox').prop('checked', $(this).prop('checked'));
                 toggleBulkDeleteButton();
             });
@@ -218,8 +218,8 @@
             }
 
             // Bulk Delete Functionality
-            $(document).on('click', '#bulk-delete-btn', function() {
-                let selectedIds = $('.faq-checkbox:checked').map(function() {
+            $(document).on('click', '#bulk-delete-btn', function () {
+                let selectedIds = $('.faq-checkbox:checked').map(function () {
                     return $(this).val();
                 }).get();
 
@@ -247,7 +247,7 @@
                                     _token: '{{ csrf_token() }}',
                                     ids: selectedIds,
                                 },
-                                success: function(response) {
+                                success: function (response) {
                                     if (response.success) {
                                         location.reload();
 
@@ -258,7 +258,7 @@
                                             'Failed to delete.', 'Error');
                                     }
                                 },
-                                error: function(xhr) {
+                                error: function (xhr) {
                                     console.error(xhr.responseText);
                                     toastr.error('An error occurred. Please try again.',
                                         'Error');
@@ -274,15 +274,15 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            $('.main-btn[data-bs-dismiss="modal"]').on('click', function() {
+        $(document).ready(function () {
+            $('.main-btn[data-bs-dismiss="modal"]').on('click', function () {
                 // Reset the form fields and remove validation errors
                 $('#addCategoryModal form')[0].reset();
                 $('.is-invalid').removeClass('is-invalid');
                 $('.invalid-feedback').remove();
             });
 
-            $('#addCategoryModal form').submit(function(e) {
+            $('#addCategoryModal form').submit(function (e) {
                 e.preventDefault();
 
                 var formData = $(this).serialize();
@@ -292,7 +292,7 @@
                     url: $(this).attr('action'),
                     method: $(this).attr('method'),
                     data: formData,
-                    success: function(response) {
+                    success: function (response) {
                         console.log("Server response:", response); // Debugging log
 
                         if (response.success) {
@@ -300,7 +300,7 @@
                             toastr.success(response.success,
                                 'Success'); // Ensure this line runs
 
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 $('#addCategoryModal').modal('hide');
                                 window.location.reload();
                             }, 2000);
@@ -309,7 +309,7 @@
                             toastr.error('Something went wrong!', 'Error');
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         console.error(xhr.responseText);
 
                         $('.is-invalid').removeClass('is-invalid');
@@ -337,9 +337,9 @@
 
     <!-- JavaScript for Delete Confirmation -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Event delegation for dynamically loaded buttons
-            document.addEventListener("click", function(event) {
+            document.addEventListener("click", function (event) {
                 if (event.target.closest(".delete-btn")) {
                     let button = event.target.closest(".delete-btn"); // Find the clicked button
                     let form = button.closest(".delete-form"); // Get the form
@@ -366,9 +366,9 @@
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Handle Edit Button Click
-            $(document).on("click", ".edit-btn", function() {
+            $(document).on("click", ".edit-btn", function () {
                 let id = $(this).data("id");
                 let question = $(this).data("question");
                 let answer = $(this).data("answer");
@@ -390,7 +390,7 @@
             });
 
             // Handle Edit Form Submission with AJAX
-            $("#editFaqForm").submit(function(e) {
+            $("#editFaqForm").submit(function (e) {
                 e.preventDefault();
 
                 let form = $(this);
@@ -401,15 +401,15 @@
                     url: actionUrl,
                     type: "POST",
                     data: formData,
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             location.reload();
-                            
+
                         } else {
                             toastr.error("Something went wrong!", "Error");
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $(".is-invalid").removeClass("is-invalid");
                         $(".invalid-feedback").remove();
 

@@ -75,16 +75,16 @@
                         <a href="{{ route('course.edit', ['course' => session('course_id')]) }}" class="upload_btn">
                             Previous
                         </a>
-                    @endif 
+                    @endif
                 </div>
                 <div class="col-lg-6 text-end">
                     <button id="test_next" class="main-btn">Next</button>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
-
 
 
 <!-- Add Quiz Start -->
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane fade show active" id="nav-quizbasic" role="tabpanel">
-                                        <form id="testForm" method="POST">
+                                        <form id="quizForm" method="POST">
                                             @csrf
                                             @if (isset($course))
                                                 <input type="hidden" name="course_id" id='course_id'
@@ -143,24 +143,90 @@
                                                         <div class="invalid-feedback" id="time_error"></div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {{-- question --}}
-                                            <div class="add-ques-dt" id="questions-section">
-                                                <div class="lecture-video-dt mt-30">
-                                                    <span class="video-info">Question Type</span>
-                                                    <div class="video-category" id="question-container">
-                                                        <!-- Question input section will go here -->
-                                                    </div>
-                                                    <button type="button" class="main-btn color btn-hover mt-30"
-                                                        id="add-question-btn">Add Question</button>
+                                                <div class="mt-4 text-end">
+                                                    <button type="button" class="main-btn color btn-hover"
+                                                        id="save-quiz">
+                                                        Save Quiz
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="share-submit-btns ps-0 pb-0 mb-4 text-end">
-                                                <button type="submit" class="main-btn color btn-hover" id="saveBtn">
-                                                    <i class="fas fa-save me-2"></i>Save Question
-                                                </button>
+                                        </form>
+                                        <form id="questionForm">
+                                            @csrf
+                                            {{-- question --}}
+                                            <div class="question-section" id="question">
+                                                <div class="form_group mt-30">
+                                                    <label class="label25 text-left">Question Title*</label>
+                                                    <input class="form_input_1" type="text" id="question_text"
+                                                        name="question_text" placeholder="Write question title">
+                                                </div>
+                                                <div class="form_group mt-30">
+                                                    <label class="label25 text-left">Score*</label>
+                                                    <input class="form_input_1" type="number" name="question_score"
+                                                        placeholder="Score">
+                                                </div>
+
+                                                <!-- Options for the question -->
+                                                <div class="ans-box" id="options-section">
+                                                    <div class="row option-item">
+                                                        <div class="col-lg-12 col-md-12">
+                                                            <div class="opt-title">
+                                                                <h4>Option</h4>
+                                                                <span class="opt-del"><i
+                                                                        class="fas fa-trash-alt"></i></span>
+                                                            </div>
+                                                            <div class="option-wrap">
+                                                                <div class="form_group">
+                                                                    <label class="label25 text-left">Option
+                                                                        Title*</label>
+                                                                    <input class="form_input_1" type="text"
+                                                                        name="option_text[]" placeholder="Option title">
+                                                                </div>
+                                                                <div class="agree_checkbox">
+                                                                    <!-- Checkbox for 'Correct answer' -->
+                                                                    <input type="checkbox" name="is_correct[]">
+                                                                    <label>Correct answer</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 text-right">
+                                                            <button type="button" class="main-btn color btn-hover mt-30"
+                                                                id="add-option-btn">Add Option</button>
+                                                        </div>
+                                                        <div
+                                                            class="col-sm-6 text-end share-submit-btns ps-0 pb-0 mb-4 text-end">
+                                                            <button type="button" class="main-btn color btn-hover"
+                                                                id="saveBtn">
+                                                                Save Question & Option
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </form>
+                                        <!-- DataTable to display quiz data -->
+                                        <table id="quizDataTable" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Quiz Title</th>
+                                                    <th>Passing Marks</th>
+                                                    <th>Total Time</th>
+                                                    <th>Questions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Quiz data will be populated here -->
+                                            </tbody>
+                                        </table>
+                                        <div class="mt-4 text-end">
+                                            <button type="button" class="main-btn color btn-hover" id="save-all">
+                                                <i class="fas fa-save me-2"></i>Save All
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -171,121 +237,153 @@
         </div>
     </div>
 </div>
-
 <!-- Add Quiz End -->
-
-
 <script>
-    $(document).ready(function () {
-        let questionIndex = 0;
+    let quizData = {
+        title: '',
+        passingMark: '',
+        totalTime: '',
+        questions: []
+    };
 
-        // Function to add a new question
-        $('#add-question-btn').on('click', function () {
-            questionIndex++;
+    document.getElementById('save-quiz').addEventListener('click', function () {
+        // Save quiz data
+        quizData.title = document.getElementById('test_title').value;
+        quizData.passingMark = document.getElementById('passing_mark').value;
+        quizData.totalTime = document.getElementById('time').value;
 
-            // Dynamically create a new question section
-            const questionHTML = `
-            <div class="question-section" id="question-${questionIndex}">
-                <div class="form_group mt-30">
-                    <label class="label25 text-left">Question Title*</label>
-                    <input class="form_input_1" type="text" name="questions[${questionIndex}][question_text]" placeholder="Write question title">
-                </div>
-                <div class="form_group mt-30">
-                    <label class="label25 text-left">Score*</label>
-                    <input class="form_input_1" type="number" name="questions[${questionIndex}][score]" placeholder="Score">
-                </div>
+        // Log the quiz data to the console
+        console.log('Quiz Data:', quizData);
+    });
 
-                <!-- Options for the question -->
-                <div class="ans-box" id="options-section-${questionIndex}">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            <button type="button" class="main-btn color btn-hover mt-30" id="add-option-btn-${questionIndex}">Add Option</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+    document.getElementById('add-option-btn').addEventListener('click', function () {
+        // Create a new option item
+        const optionItem = document.createElement('div');
+        optionItem.classList.add('row', 'option-item');
+        optionItem.innerHTML = `
+<div class="col-lg-12 col-md-12">
+    <div class="opt-title">
+        <h4>Option</h4>
+        <span class="opt-del"><i class="fas fa-trash-alt"></i></span>
+    </div>
+    <div class="option-wrap">
+        <div class="form_group">
+            <label class="label25 text-left">Option Title*</label>
+            <input class="form_input_1" type="text" name="option_text[]" placeholder="Option title">
+        </div>
+        <div class="agree_checkbox">
+            <input type="checkbox" name="is_correct[]">
+            <label>Correct answer</label>
+        </div>
+    </div>
+</div>
+`;
 
-            $('#question-container').append(questionHTML);
+        // Append the new option item to the options section
+        document.getElementById('options-section').appendChild(optionItem);
 
-            // Function to add an option dynamically for each question
-            $(`#add-option-btn-${questionIndex}`).on('click', function () {
-                const optionHTML = `
-                <div class="option-item">
-                    <div class="opt-title">
-                        <h4>Option</h4>
-                        <span class="opt-del"><i class="fas fa-trash-alt"></i></span>
-                    </div>
-                    <div class="option-wrap">
-                        <div class="form_group">
-                            <label class="label25 text-left">Option Title*</label>
-                            <input class="form_input_1" type="text" name="questions[${questionIndex}][options][option_text][]" placeholder="Option title">
-                        </div>
-                        <div class="agree_checkbox">
-                            <!-- Checkbox for 'Correct answer' -->
-                            <input type="checkbox" id="correct-option-${questionIndex}" name="questions[${questionIndex}][options][is_correct][]">
-                            <label for="correct-option-${questionIndex}">Correct answer</label>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-                // Append the new option to the respective question's options section
-                $(`#options-section-${questionIndex}`).append(optionHTML);
-            });
-        });
-
-        // Handle form submission
-        $('#testForm').on('submit', function (e) {
-            e.preventDefault(); // Prevent default form submission
-
-            const quizData = {
-                course_id: $('#course_id').val(),
-                test: $('#test_title').val(),
-                passing: $('#passing_mark').val(),
-                time: $('#time').val(),
-                questions: []
-            };
-
-            // Loop through each question and gather the data
-            $('#question-container .question-section').each(function () {
-                const questionData = {
-                    name: $(this).find('input[name^="questions"]')[0].value, // Question text
-                    score: $(this).find('input[name^="questions"]')[1].value, // Score
-                    options: []
-                };
-
-                // Gather options for each question
-                $(this).find('.option-item').each(function () {
-                    const optionData = {
-                        value: $(this).find('input[name^="questions"]')[0].value, // Option text
-                        is_correct: $(this).find('input[type="checkbox"]').is(':checked') // Correct answer
-                    };
-                    questionData.options.push(optionData);
-                });
-
-                quizData.questions.push(questionData);
-            });
-
-            // Send the data to the server using AJAX
-            $.ajax({
-                url: '{{route('test.store')}}',
-                type: 'POST',
-                data: JSON.stringify(quizData),
-                contentType: 'application/json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    console.log('Quiz saved successfully:', response);
-                    alert('Quiz saved successfully!');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error saving quiz:', error);
-                    alert('Error saving quiz. Please try again.');
-                }
-            });
+        // Add event listener to the delete button
+        optionItem.querySelector('.opt-del').addEventListener('click', function () {
+            optionItem.remove();
         });
     });
 
+    document.getElementById('saveBtn').addEventListener('click', function () {
+        // Gather question data
+        const questionData = {
+            questionText: document.querySelector('input[name="question_text"]').value,
+            questionScore: document.querySelector('input[name="question_score"]').value,
+            options: []
+        };
+
+        // Gather options
+        const optionInputs = document.querySelectorAll('input[name="option_text[]"]');
+        const correctAnswers = document.querySelectorAll('input[name="is_correct[]"]');
+
+        optionInputs.forEach((input, index) => {
+            questionData.options.push({
+                text: input.value,
+                is_correct: correctAnswers[index].checked
+            });
+        });
+
+        // Add question data to quizData
+        quizData.questions.push(questionData);
+
+        // Log the updated quiz data to the console
+        console.log('Updated Quiz Data:', quizData);
+
+        // Clear the question and options after saving
+        document.querySelector('input[name="question_text"]').value = '';
+        document.querySelector('input[name="question_score"]').value = '';
+        document.getElementById('options-section').innerHTML = ''; // Clear options
+    });
+
+    document.getElementById('save-all').addEventListener('click', function () {
+        // Add the quiz data to the DataTable
+        const table = $('#quizDataTable').DataTable();
+        const questionTitles = quizData.questions.map(q => q.questionText).join(', ');
+
+        table.row.add([
+            quizData.title,
+            quizData.passingMark,
+            quizData.totalTime,
+            questionTitles,
+            `<button class="btn btn-warning edit-btn">Edit</button> 
+            <button class="btn btn-danger delete-btn">Delete</button>`
+        ]).draw();
+
+        // Clear the quiz data variable
+        quizData = {
+            title: '',
+            passingMark: '',
+            totalTime: '',
+            questions: []
+        };
+
+        // Clear the form fields
+        document.getElementById('quizForm').reset();
+        document.getElementById('questionForm').reset();
+    });
+
+    // Event listener for the Edit and Delete buttons
+    let editIndex = null; // Store the index of the row being edited
+
+    $(document).on('click', '.edit-btn', function () {
+        const row = $(this).closest('tr');
+        const rowData = $('#quizDataTable').DataTable().row(row).data();
+
+        // Fill the form with the data to edit
+        document.getElementById('test_title').value = rowData[0];
+        document.getElementById('passing_mark').value = rowData[1];
+        document.getElementById('time').value = rowData[2];
+        document.getElementById('question_text').value = rowData[3];
+
+        // Store the index of the row for later update
+        editIndex = $('#quizDataTable').DataTable().row(row).index();
+
+        // Remove the row (optional, if you want to edit in the same place)
+        $('#quizDataTable').DataTable().row(row).remove().draw();
+    });
+
+
+    $(document).on('click', '.delete-btn', function () {
+        // Delete the row from the DataTable
+        const row = $(this).closest('tr');
+        $('#quizDataTable').DataTable().row(row).remove().draw();
+    });
+
+    $(document).ready(function () {
+        $('#quizDataTable').DataTable({
+            processing: true,
+            serverSide: false, // Set to false since we're adding data manually
+            columns: [
+                { title: "Quiz Title" },
+                { title: "Passing Marks" },
+                { title: "Total Time" },
+                { title: "Questions" },
+                { title: "Actions" }
+            ]
+        });
+    });
 </script>

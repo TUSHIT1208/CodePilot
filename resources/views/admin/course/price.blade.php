@@ -3,14 +3,17 @@
         <div class="title-icon">
             <h3 class="title"><i class="uil uil-usd-square"></i>Price</h3>
         </div>
-       <div class="course__form">
+        <div class="course__form">
             <div class="price-block">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="course-main-tabs">
                             <div class="nav nav-pills flex-column flex-sm-row nav-tabs" role="tablist">
-                                <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab" href="#nav-free" role="tab" aria-selected="true"><i class="fas fa-tag me-2"></i>Free</a>
-                                <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" href="#nav-paid" role="tab" aria-selected="false"><i class="fas fa-cart-arrow-down me-2"></i>Paid</a>
+                                <a class="flex-sm-fill text-sm-center nav-link active" data-bs-toggle="tab"
+                                    href="#nav-free" role="tab" aria-selected="true"><i
+                                        class="fas fa-tag me-2"></i>Free</a>
+                                <a class="flex-sm-fill text-sm-center nav-link" data-bs-toggle="tab" href="#nav-paid"
+                                    role="tab" aria-selected="false"><i class="fas fa-cart-arrow-down me-2"></i>Paid</a>
                             </div>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="nav-free" role="tabpanel">
@@ -29,7 +32,9 @@
                                             </label>
                                             <label for="require_enroll" class="lbl-quiz">Require Enroll</label>
                                         </div>
-                                        <p>If the course is free, if student require to enroll your course, if not required enroll, if students required sign in to your website to take this course.</p>
+                                        <p>If the course is free, if student require to enroll your course, if not
+                                            required enroll, if students required sign in to your website to take this
+                                            course.</p>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="nav-paid" role="tabpanel">
@@ -39,12 +44,13 @@
                                             <div class="col-lg-4 col-md-6 col-sm-6">
                                                 <div class="loc_group">
                                                     <div class="ui left icon input swdh19">
-                                                        <input class="prompt srch_explore" type="text" placeholder="$0" name="" id="" value="">															
+                                                        <input class="prompt srch_explore" type="text" placeholder="$0"
+                                                            name="" id="" value="">
                                                     </div>
                                                     <span class="slry-dt">USD</span>
                                                 </div>
                                             </div>
-                                        </div>																		
+                                        </div>
                                     </div>
                                     <div class="license_pricing mt-30 mb-30">
                                         <label class="label25">Discount Price*</label>
@@ -52,12 +58,13 @@
                                             <div class="col-lg-4 col-md-6 col-sm-6">
                                                 <div class="loc_group">
                                                     <div class="ui left icon input swdh19">
-                                                        <input class="prompt srch_explore" type="text" placeholder="$0" name="" id="" value="">															
+                                                        <input class="prompt srch_explore" type="text" placeholder="$0"
+                                                            name="" id="" value="">
                                                     </div>
                                                     <span class="slry-dt">USD</span>
                                                 </div>
                                             </div>
-                                        </div>																		
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -66,5 +73,17 @@
                 </div>
             </div>
         </div>
-     </div>
+        <div class="mt-5 row">
+            <div class="col-lg-6">
+                @if (request()->route('course'))
+                    <a href="javascript:;" class="upload_btn">
+                        Previous
+                    </a>
+                @endif
+            </div>
+            <div class="col-lg-6 text-end">
+                <button id="media_next" class="main-btn">Next</button>
+            </div>
+        </div>
+    </div>
 </div>

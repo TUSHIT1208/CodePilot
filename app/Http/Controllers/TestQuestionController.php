@@ -28,6 +28,26 @@ class TestQuestionController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the incoming request data
+        $request->validate([
+            'question_text' => 'required|string|max:255',
+            'score' => 'required|numeric|min:0',
+        ]);
+
+        // Create a new test question
+        $testquestion = TestQuestion::create([
+            'test_id' => 1,
+            'question_text' => $request->question_text,
+            'score' => $request->score,
+        ]);
+
+        session()->put('question_id', $testquestion->id);
+
+        // Return a JSON response to be handled by the front-end
+        return response()->json([
+            'success' => true,
+            'message' => 'Question added successfully!',
+        ]);
 
 
     }
@@ -59,8 +79,5 @@ class TestQuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TestQuestion $testQuestion)
-    {
-        //
-    }
+
 }

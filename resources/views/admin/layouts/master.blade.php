@@ -16,7 +16,7 @@
 
 </head>
 
-@section('body')
+@section('body')    
 @include('admin.layouts.body')
 @show
 
