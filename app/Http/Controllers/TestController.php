@@ -34,53 +34,53 @@ class TestController extends Controller
 
         // Decode the incoming JSON data
         $data = json_decode($request->getContent(), true);
-
-        // Access specific variables from the decoded array
-        $test_title = $data['test'];
-        $passing_mark = $data['passing'];
-        $time = $data['time'];
-        $questions = $data['questions'];  // This will contain the array of questions
+        Log::error($data);
+        // // Access specific variables from the decoded array
+        // $test_title = $data['test'];
+        //$passing_mark = $data['passing'];
+        //$time = $data['time'];
+        //$questions = $data['questions'];  // This will contain the array of questions
 
         try {
             // First, create the test record
             $test = Test::create([
                 'course_id' => $data['course_id'],  // Set a static course_id for now
-                'test_title' => $test_title,
-                'passing_mark' => $passing_mark,
-                'time' => $time,
+                'test_title' => $data['title'],
+                'passing_mark' => $data['passingMark'],
+                'time' => $data['totalTime'],
             ]);
 
             // Loop through the questions and store them in the test_question table
-            foreach ($questions as $question) {
-                // Create the question record
+            foreach ($data['questions'] as $question) {
+                //         // Create the question record
                 $testQuestion = TestQuestion::create([
                     'test_id' => $test->id,  // Associate with the created test
-                    'question_text' => $question['name'],
-                    'score' => $question['score'],
+                    'question_text' => $question['questionText'],
+                    'score' => $question['questionScore'],
                 ]);
 
                 // Loop through the options for each question and store them in the test_option table
                 foreach ($question['options'] as $option) {
                     TestOption::create([
                         'question_id' => $testQuestion->id,  // Associate with the created question
-                        'option_text' => $option['value'],
+                        'option_text' => $option['text'],
                         'is_correct' => $option['is_correct'],
                     ]);
                 }
             }
 
-            // If everything is successful, return a success message
+            //     // If everything is successful, return a success message
             return response()->json(["message" => "Quiz stored successfully"], 200);
         } catch (\Exception $e) {
             // Log any exceptions
-            Log::error('Error inserting quiz data', [
+            Log::error($data, [
                 'message' => $e->getMessage(),
                 'line' => $e->getLine(),
                 'file' => $e->getFile(),
                 'trace' => $e->getTraceAsString()
             ]);
 
-            // Return a failure response
+            //     // Return a failure response
             return response()->json(['message' => 'Error saving quiz: ' . $e->getMessage()], 500);
         }
 

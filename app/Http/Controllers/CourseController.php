@@ -283,13 +283,13 @@ class CourseController extends Controller
             'price' => 'required|numeric|min:0|max:99999999.99', // Ensures price is within valid decimal(10,2) range
             'discount' => 'required|numeric|min:0|max:99999999.99|lte:price', // Ensures discount is valid and less than or equal to price
         ]);
-        log::info($course);
+
         $course->update([
-            'price' => $request->input('price'),
-            'discount' => $request->input('discount')
+            'price' => $request->price,
+            'discount' => $request->discount,
         ]);
-        log::info('update');
-        return redirect()->back()->with('success_price', 'Course price updated successfully.');
+
+        return response()->json(['success' => true, 'message' => 'Price updated successfully']);
     }
     /**
      * Update the specified resource in storage.

@@ -71,8 +71,8 @@
             </div>
             <div class="mt-5 row">
                 <div class="col-lg-6">
-                    @if (session()->has('course_id'))
-                        <a href="{{ route('course.edit', ['course' => session('course_id')]) }}" class="upload_btn">
+                    @if (request()->route('course'))
+                        <a href="{{ route('course.edit', ['course' => request()->route('course')]) }}" class="upload_btn">
                             Previous
                         </a>
                     @endif
@@ -203,6 +203,12 @@
                                                                 id="saveBtn">
                                                                 Save Question & Option
                                                             </button>
+                                                            <div class="mt-4 text-end">
+                                                                <button type="button" class="main-btn color btn-hover"
+                                                                    id="save-all">
+                                                                    <i class="fas fa-save me-2"></i>Save All
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -222,11 +228,6 @@
                                                 <!-- Quiz data will be populated here -->
                                             </tbody>
                                         </table>
-                                        <div class="mt-4 text-end">
-                                            <button type="button" class="main-btn color btn-hover" id="save-all">
-                                                <i class="fas fa-save me-2"></i>Save All
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -239,6 +240,7 @@
 </div>
 <!-- Add Quiz End -->
 <script>
+    // Initialize the quizData object
     let quizData = {
         title: '',
         passingMark: '',
@@ -246,8 +248,9 @@
         questions: []
     };
 
+    // Save quiz basic details
     document.getElementById('save-quiz').addEventListener('click', function () {
-        // Save quiz data
+        quizData.course_id = document.getElementById('course_id').value;
         quizData.title = document.getElementById('test_title').value;
         quizData.passingMark = document.getElementById('passing_mark').value;
         quizData.totalTime = document.getElementById('time').value;
@@ -256,47 +259,44 @@
         console.log('Quiz Data:', quizData);
     });
 
+    // Add a new option dynamically
     document.getElementById('add-option-btn').addEventListener('click', function () {
-        // Create a new option item
         const optionItem = document.createElement('div');
         optionItem.classList.add('row', 'option-item');
         optionItem.innerHTML = `
-<div class="col-lg-12 col-md-12">
-    <div class="opt-title">
-        <h4>Option</h4>
-        <span class="opt-del"><i class="fas fa-trash-alt"></i></span>
-    </div>
-    <div class="option-wrap">
-        <div class="form_group">
-            <label class="label25 text-left">Option Title*</label>
-            <input class="form_input_1" type="text" name="option_text[]" placeholder="Option title">
-        </div>
-        <div class="agree_checkbox">
-            <input type="checkbox" name="is_correct[]">
-            <label>Correct answer</label>
-        </div>
-    </div>
-</div>
-`;
+            <div class="col-lg-12 col-md-12">
+                <div class="opt-title">
+                    <h4>Option</h4>
+                    <span class="opt-del"><i class="fas fa-trash-alt"></i></span>
+                </div>
+                <div class="option-wrap">
+                    <div class="form_group">
+                        <label class="label25 text-left">Option Title*</label>
+                        <input class="form_input_1" type="text" name="option_text[]" placeholder="Option title">
+                    </div>
+                    <div class="agree_checkbox">
+                        <input type="checkbox" name="is_correct[]">
+                        <label>Correct answer</label>
+                    </div>
+                </div>
+            </div>
+        `;
 
-        // Append the new option item to the options section
         document.getElementById('options-section').appendChild(optionItem);
 
-        // Add event listener to the delete button
         optionItem.querySelector('.opt-del').addEventListener('click', function () {
             optionItem.remove();
         });
     });
 
+    // Save a question with options
     document.getElementById('saveBtn').addEventListener('click', function () {
-        // Gather question data
         const questionData = {
             questionText: document.querySelector('input[name="question_text"]').value,
             questionScore: document.querySelector('input[name="question_score"]').value,
             options: []
         };
 
-        // Gather options
         const optionInputs = document.querySelectorAll('input[name="option_text[]"]');
         const correctAnswers = document.querySelectorAll('input[name="is_correct[]"]');
 
@@ -307,20 +307,16 @@
             });
         });
 
-        // Add question data to quizData
         quizData.questions.push(questionData);
-
-        // Log the updated quiz data to the console
         console.log('Updated Quiz Data:', quizData);
 
-        // Clear the question and options after saving
         document.querySelector('input[name="question_text"]').value = '';
         document.querySelector('input[name="question_score"]').value = '';
         document.getElementById('options-section').innerHTML = ''; // Clear options
     });
 
+    // Save quiz data to DataTable and reset the form
     document.getElementById('save-all').addEventListener('click', function () {
-        // Add the quiz data to the DataTable
         const table = $('#quizDataTable').DataTable();
         const questionTitles = quizData.questions.map(q => q.questionText).join(', ');
 
@@ -333,42 +329,42 @@
             <button class="btn btn-danger delete-btn">Delete</button>`
         ]).draw();
 
-        // Clear the quiz data variable
-        quizData = {
-            title: '',
-            passingMark: '',
-            totalTime: '',
-            questions: []
-        };
-
-        // Clear the form fields
+        $.ajax({
+            url: '{{route('test.store')}}', // Replace with your actual endpoint
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(quizData),
+            success: function (response) {
+                console.log(response.message);
+                alert(response.message); // Show success message
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+                alert("Error saving quiz data. Please try again.");
+            }
+        });
         document.getElementById('quizForm').reset();
         document.getElementById('questionForm').reset();
+        quizData = { title: '', passingMark: '', totalTime: '', questions: [] };
     });
 
-    // Event listener for the Edit and Delete buttons
-    let editIndex = null; // Store the index of the row being edited
+    // Event listeners for Edit and Delete buttons
+    let editIndex = null;
 
     $(document).on('click', '.edit-btn', function () {
         const row = $(this).closest('tr');
         const rowData = $('#quizDataTable').DataTable().row(row).data();
 
-        // Fill the form with the data to edit
         document.getElementById('test_title').value = rowData[0];
         document.getElementById('passing_mark').value = rowData[1];
         document.getElementById('time').value = rowData[2];
-        document.getElementById('question_text').value = rowData[3];
 
-        // Store the index of the row for later update
         editIndex = $('#quizDataTable').DataTable().row(row).index();
-
-        // Remove the row (optional, if you want to edit in the same place)
         $('#quizDataTable').DataTable().row(row).remove().draw();
     });
 
-
     $(document).on('click', '.delete-btn', function () {
-        // Delete the row from the DataTable
         const row = $(this).closest('tr');
         $('#quizDataTable').DataTable().row(row).remove().draw();
     });
@@ -376,7 +372,7 @@
     $(document).ready(function () {
         $('#quizDataTable').DataTable({
             processing: true,
-            serverSide: false, // Set to false since we're adding data manually
+            serverSide: false,
             columns: [
                 { title: "Quiz Title" },
                 { title: "Passing Marks" },
@@ -386,4 +382,35 @@
             ]
         });
     });
+
+    // Final save all data to the server with AJAX
+    // document.getElementById('save-all').addEventListener('click', function () {
+    //     const quizDataToSend = {
+    //         course_id: document.getElementById('course_id').value,
+    //         test: document.getElementById('test_title').value,
+    //         passing: document.getElementById('passing_mark').value,
+    //         time: document.getElementById('time').value,
+    //         questions: []
+    //     };
+
+    //     const questionText = document.querySelector('input[name="question_text"]').value;
+    //     const questionScore = document.querySelector('input[name="question_score"]').value;
+    //     const optionInputs = document.querySelectorAll('input[name="option_text[]"]');
+    //     const correctAnswers = document.querySelectorAll('input[name="is_correct[]"]');
+
+    //     const options = [];
+    //     optionInputs.forEach((input, index) => {
+    //         options.push({
+    //             value: input.value,
+    //             is_correct: correctAnswers[index].checked
+    //         });
+    //     });
+
+    //     quizDataToSend.questions.push({
+    //         name: questionText,
+    //         score: questionScore,
+    //         options: options
+    //     });
+
+
 </script>
