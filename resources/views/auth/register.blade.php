@@ -159,16 +159,6 @@
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="file" name="profile_picture_url"
-                                                id="id_profile_picture_url">
-                                        </div>
-                                        @error('profile_picture_url')
-                                            <strong class="text-danger">{{ $message }}</strong>
-                                        @enderror
-                                    </div>
-
-                                    <div class="ui search focus mt-15">
-                                        <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="date" name="date_of_birth"
                                                 value="{{ old('date_of_birth') }}" id="id_date_of_birth"
                                                 placeholder="Date of Birth">
@@ -306,16 +296,6 @@
                                                 placeholder="Phone Number">
                                         </div>
                                         @error('learner_phone_no')
-                                            <strong class="text-danger">{{ $message }}</strong>
-                                        @enderror
-                                    </div>
-
-                                    <div class="ui search focus mt-15">
-                                        <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="file" name="learner_profile_picture_url"
-                                                id="learner_id_profile_picture_url">
-                                        </div>
-                                        @error('learner_profile_picture_url')
                                             <strong class="text-danger">{{ $message }}</strong>
                                         @enderror
                                     </div>
