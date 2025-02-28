@@ -145,4 +145,11 @@ class CategoryController extends Controller
             return response()->json(['error' => 'An error occurred while deleting categories.'], 500);
         }
     }
+
+    public function category_list()
+    {
+        $categories = Category::with('sub_categories.courses')->get();
+        
+        return view('learner.layout.sidebar', compact('categories'));
+    }
 }

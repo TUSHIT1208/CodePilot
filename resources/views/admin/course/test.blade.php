@@ -69,18 +69,7 @@
                 </div>
 
             </div>
-            <div class="mt-5 row">
-                <div class="col-lg-6">
-                    @if (request()->route('course'))
-                    <a href="{{ route('course.edit', ['course' => request()->route('course')]) }}" class="upload_btn">
-                        Previous
-                    </a>
-                    @endif
-                </div>
-                <div class="col-lg-6 text-end">
-                    <button id="test_next" class="main-btn">Next</button>
-                </div>
-            </div>
+            
 
         </div>
     </div>

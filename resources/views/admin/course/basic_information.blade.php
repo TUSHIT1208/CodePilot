@@ -262,21 +262,14 @@
                             </div>
                         </div>
                     {{-- @endif   --}}
-                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
 {{--                    
                     <div class="mt-5 row">
                         <div class="col-lg-12">
                         </div>
                         
                     </div> --}}
-                </form>
-                <div class="row">
-                    <div class="col-lg-12 text-end">
-                        @if (request()->route('course'))
-                            <button id="basic_next" class="main-btn mt-3">Next</button>
-                        @endif
-                    </div>
-                </div>
+                </form>                
 
                 <script>
                     function loadSubCategories() {
@@ -361,7 +354,48 @@
     
     
 }
+
 </script>
+
+<script>
+    if (course) {
+    $('#add-course-tab .step-footer button[data-direction="prev"]').css('display', 'none');
+}
+
+    // $(document).ready(function(){
+    //     $("#courseForm").on("submit", function(e){
+    //         e.preventDefault();
+            
+    //         if (!this.checkValidity()) {
+    //             $(this).addClass("was-validated");
+    //             return;
+    //         }
+
+    //         // Prepare the form data including file uploads.
+    //         var formData = new FormData(this);
+            
+    //         $.ajax({
+    //             url: $(this).attr("action"),
+    //             type: $(this).attr("method"),
+    //             data: formData,
+    //             processData: false, // Needed for FormData
+    //             contentType: false, // Needed for FormData
+    //             success: function(response) {
+    //                 // Success message or redirection logic here.
+    //                 alert("Course saved successfully!");
+    //                 // For example, you could redirect:
+    //                 // window.location.href = "/next-step";
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 // Error handling logic.
+    //                 console.error("AJAX error:", error);
+    //                 alert("There was an error saving the course. Please try again.");
+    //             }
+    //         });
+    //     });
+    // });
+</script>
+
 
 <style>
     .was-validated .form-control:invalid{

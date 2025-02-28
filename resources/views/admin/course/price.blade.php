@@ -102,20 +102,9 @@
                 </form>
             @endif
     </div>
-    <div class="mt-5 row">
-        <div class="col-lg-6">
-            {{-- @if (request()->route('course'))
-            <a href="{{ route('course.edit', ['course' => request()->route('course')]) }}" class="upload_btn">
-                Previous
-            </a>
-            @endif --}}
-        </div>
-        <div class="col-lg-6 text-end">
-            <button id="price_next" class="main-btn">Next</button>
-        </div>
-    </div>
+   
 </div>
-
+@if (isset($course))
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.querySelector(".price-validation");
@@ -163,7 +152,7 @@
 
             let formData = new FormData(form);
             submitButton.disabled = true; // Disable button to prevent multiple submissions
-
+           
             fetch("{{ route('course.price', ['course' => $course->id]) }}", {
                 method: "POST",
                 headers: {
@@ -193,3 +182,4 @@
         });
     });
 </script>
+@endif

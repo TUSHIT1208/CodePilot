@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\purchesController;
 use App\Http\Controllers\TestOptionController;
 use App\Http\Controllers\TestQestionController;
 use App\Http\Controllers\TestQuestionController;
@@ -168,3 +169,5 @@ Route::get('/course/basic-information', function () {
 Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit')->middleware('auth');
 
 route::post('course/price/{course}', [CourseController::class, 'price'])->name('course.price')->middleware('auth');
+
+route::get('course/purches/{id}', [purchesController::class, 'purches_index'])->name('course.purches')->middleware('auth');
