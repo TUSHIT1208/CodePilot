@@ -94,9 +94,17 @@ Route::get('admin/help', function () {
     return view('admin.help');
 })->name('admin.help')->middleware('auth');
 
+Route::get('instructor/help', function () {
+    return view('instructor.help');
+})->name('instructor.help')->middleware('auth');
+
 Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
 })->name('learner.dashboard')->middleware('auth');
+
+Route::get('/dashboard/instructor', function () {
+    return view('instructor.dashboard');
+})->name('instructor.dashboard')->middleware('auth');
 
 Route::resource('user', UserController::class);
 route::get('user/{id}', [UserController::class, 'destroy']);
@@ -165,6 +173,7 @@ Route::get('/course/test', function () {
 Route::get('/course/basic-information', function () {
     return view('admin.course.basic_information');
 })->name('course.basic-information');
+
 
 Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit')->middleware('auth');
 

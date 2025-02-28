@@ -130,7 +130,7 @@
 								<span>{{ Auth::user()->email }}</span>
 							</div>
 						</div>
-						<a href="{{ route('user.show', Auth::user()->id) }}" class="dp_link_12">View Admin
+						<a href="{{ route('user.show', Auth::user()->id) }}" class="dp_link_12">View Instructor
 							Profile</a>
 					</div>
 					<div class="night_mode_switch__btn">
@@ -141,9 +141,9 @@
 							</span>
 						</a>
 					</div>
-					<a href="{{ route('admin.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
+					<a href="{{ route('instructor.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
 					<a href="{{ route('setting') }}" class="item channel_item">Setting</a>
-					<a href="{{ route('admin.help') }}" class="item channel_item">Help</a>
+					<a href="" class="item channel_item">Help</a>
 					<a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>
 					<a href="{{ route('logout') }}" class="item channel_item">Sign Out</a>
 				</div>

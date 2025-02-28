@@ -42,8 +42,9 @@
             <div class="row justify-content-lg-center justify-content-md-center">
                 <div class="col-lg-12">
                     <div class="main_logo25" id="logo">
-                        <a href="index.html"><img src="images/logo.svg" alt=""></a>
-                        <a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""></a>
+                        <h1>CodePilot</h1>
+                        {{-- <a href="index.html"><img src="images/logo.svg" alt=""></a>
+                        <a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""></a> --}}
                     </div>
                 </div>
 

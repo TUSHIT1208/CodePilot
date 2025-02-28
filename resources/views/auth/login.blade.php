@@ -48,9 +48,10 @@
             <div class="row justify-content-lg-center justify-content-md-center">
                 <div class="col-lg-12">
                     <div class="main_logo25" id="logo">
-                        <a href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" alt=""></a>
+                        <h1>CodePilot</h1>
+                        {{-- <a href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" alt=""></a>
                         <a href="{{ url('/') }}"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}"
-                                alt=""></a>
+                                alt=""></a> --}}
                     </div>
                 </div>
 

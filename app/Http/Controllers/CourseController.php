@@ -8,6 +8,7 @@ use App\Models\sub_category;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
 use Illuminate\Support\Facades\Log;
+use App\Models\video;
 
 class CourseController extends Controller
 {
@@ -17,12 +18,14 @@ class CourseController extends Controller
     public function index()
     {
         try {
-            $courses = Course::with(['courseattachment', 'user'])->get();
+            $courses = Course::with(['courseattachment', 'user'])->where('user_id', auth()->id())->get();
             //return $courses;
-
             Log::info('Fetched courses successfully', ['courses_count' => $courses->count()]);
-
-            return view('admin.course.list', compact('courses'));
+            if(auth()->user()->role->name == 'admin'){
+                return view('admin.course.list', compact('courses'));
+            }else if(auth()->user()->role->name == 'insructor'){
+                return view('instructor.course.list', compact('courses'));
+            }
 
         } catch (\Exception $e) {
             Log::error('Error fetching courses', [
@@ -53,8 +56,11 @@ class CourseController extends Controller
             if ($request->has('category_id')) {
                 $subCategories = Sub_Category::where('category_id', $request->category_id)->get();
             }
-
-            return view('admin.course.create_new_course', compact('categories', 'subCategories'));
+            if(auth()->user()->role->name == 'admin'){
+                return view('admin.course.create_new_course', compact('categories', 'subCategories'));
+            }else if(auth()->user()->role->name == 'insructor'){
+                return view('instructor.course.create_new_course', compact('categories', 'subCategories'));
+            }
         } catch (\Exception $e) {
             Log::error('Error fetching courses', [
                 'message' => $e->getMessage(),
@@ -185,9 +191,18 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(course $course)
+    public function show($id)
     {
-        //
+        $courseDetail = Course::with(['category', 'subcategory'])->where('id', $id)->first();
+        $courseAttachment = courseAttachment::with('course')->where('course_id',$id)->first();
+        $video = video::with('course')->where('course_id',$id)->get();
+        // return $video;
+        if(auth()->user()->role->name == 'admin'){
+            return view('admin.course.each_course',compact('courseDetail','courseAttachment','video'));
+        }else if(auth()->user()->role->name == 'insructor'){
+            return view('instructor.course.each_course',compact('courseDetail','courseAttachment','video'));
+            
+        }
     }
 
     /**
@@ -199,8 +214,12 @@ class CourseController extends Controller
         //return $course;
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
-
-        return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
+        if(auth()->user()->role->name == 'admin'){
+            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
+        }else if(auth()->user()->role->name == 'insructor'){
+            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories'));
+            
+        }
     }
 
     public function update(Request $request, Course $course)

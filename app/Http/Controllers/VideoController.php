@@ -15,11 +15,8 @@ class VideoController extends Controller
         if ($request->ajax()) {
             $videos = Video::select(['id', 'video_title', 'description', 'thumbnail_url', 'video_url', 'created_at']);
             return DataTables::of($videos)
-                ->addColumn('thumbnail_url', function ($video) {
-                    return '<img src="/courseThumbnail/' . $video->thumbnail_url . '" alt="Thumbnail" style="width:50px; height:50px; border-radius:8px;">';
-                })
                 ->addColumn('video_url', function ($video) {
-                    return '<video width="100" height="50" controls>
+                    return '<video width="100" height="70" controls>
                             <source src="/courseVideo/' . $video->video_url . '" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>';
@@ -33,7 +30,6 @@ class VideoController extends Controller
                 ->make(true);
         }
     }
-
 
     public function create()
     {

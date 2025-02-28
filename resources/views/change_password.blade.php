@@ -51,7 +51,7 @@
         {{ session('success') }}
         </div>
       @endif
-          @if ($errors->any())
+          {{-- @if ($errors->any())
         <div class="alert alert-danger">
         <ul>
           @foreach ($errors->all() as $error)
@@ -59,7 +59,7 @@
       @endforeach
         </ul>
         </div>
-      @endif
+      @endif --}}
           <!-- Form for changing password -->
           <form method="POST" action="{{ route('changePassword.update') }}">
             @csrf

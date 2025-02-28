@@ -1,4 +1,4 @@
-@include('admin.layouts.master')
+@include('instructor.layouts.master')
 {{-- @section('title') Course @endsection
 @section('content') --}}
 <div class="wrapper">
@@ -46,10 +46,10 @@
                                 </li>
                             </ul>
                             <div class="step-content">
-                                @include('admin.course.basic_information') 									    
-                                @include('admin.course.test')
-                                @include('admin.course.media')								
-                                @include('admin.course.price')								
+                                @include('instructor.course.basic_information') 									    
+                                @include('instructor.course.test')
+                                @include('instructor.course.media')								
+                                @include('instructor.course.price')								
                                 <div class="step-tab-panel step-tab-location" id="tab_step5">
                                     <div class="tab-from-content">
                                         <div class="title-icon">
@@ -86,12 +86,11 @@
 </style>
 <script>
 $(document).ready(function () {
-    
-
     // Disable all tabs except the first one
     $(".step-steps li:not(:first)").addClass("disabled");
     
-     if(window.location.pathname.endsWith("/edit")) {
+    // if ('{{ session('success') }}') {
+    if (window.location.pathname.endsWith("/edit")) {     
         $(".step-steps li").removeClass("disabled");
     };
 });
@@ -144,12 +143,11 @@ $(document).ready(function () {
 
 
             if ('{{ session('success') }}') {
-                
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
                
             }
-            if(window.location.pathname.endsWith("/edit")){
-                // Trigger the next button automatically after receiving success
+
+            if (window.location.pathname.endsWith("/edit")) {
                 var buttons = document.querySelectorAll('.step-footer .main-btn');
                     buttons.forEach(function (button) {
                  button.style.visibility = "visible"; // Hide each button
