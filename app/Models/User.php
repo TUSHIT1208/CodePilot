@@ -58,7 +58,12 @@ class User extends Authenticatable
     public function adminprofile(){
         return $this->hasOne(adminprofile::class,'admin_id');
     }
-
+    public function learnerprofile(){
+        return $this->hasOne(LearnerProfile::class,'user_id');
+    }
+    public function instructorprofile(){
+        return $this->hasOne(InstractorProfile::class,'user_id');
+    }
     public function course(){
         return $this->hasMany(course::class,'user_id');
     }

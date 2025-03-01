@@ -12,11 +12,13 @@
 </head>
 
 @section('body')
-    @include('admin.layouts.body')
+    @include('learner.layout.body')
 @show
 
 @include('learner.layout.header')
 @include('learner.setting.left-sidebar')
+
+@yield(section: 'content')
 
 @include('learner.setting.vendor-script')
 </body>

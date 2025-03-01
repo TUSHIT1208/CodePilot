@@ -9,6 +9,7 @@ use App\Models\LearnerProfile;
 use App\Models\InstractorProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -300,13 +301,22 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        $adminData = User::find($id);
+        $adminData = User::with('adminprofile')->find($id);
         return view('admin.profile.my_admin_profile', compact('adminData'));
     }
 
-    public function learner_show()
+    public function learner_show(string $id)
     {
-        return view('learner.profile.my_learner_profile');
+        $leanerData = User::with('learnerprofile')->find($id);
+        
+        return view('learner.profile.my_learner_profile', compact('leanerData'));
+    }
+    
+    public function instructor_show(string $id)
+    {
+        $instructorData = User::with('instructorprofile')->find($id);
+        
+        return view('instructor.profile.my_instructor_profile', compact('instructorData'));
     }
 
     public function edit(string $id)
@@ -316,31 +326,70 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        if ($id == 1) {
-            $user = User::find($id);
+        // if ($id == 1) {
+        //     $user = User::find($id);
 
-            // $request->validate([
-            //     // First Name: Only letters, minimum 2 characters
-            //     'first_name' => 'required',
+        //      $request->validate([
+        //     //     // First Name: Only letters, minimum 2 characters
+        //     //     'first_name' => 'required',
 
-            //     'last_name' => 'required',
+        //     //     'last_name' => 'required',
 
-            //     // Username: Alphanumeric with underscores, between 3 and 20 characters
-            //     'username' => 'required',
+        //     //     // Username: Alphanumeric with underscores, between 3 and 20 characters
+        //     //     'username' => 'required',
 
-            //     // Email: Standard email format
-            //     'email' => 'required',
+        //     //     // Email: Standard email format
+        //     //     'email' => 'required',
 
-            //     // Phone Number: 10 digits
-            //     'phone_number' => 'required',
+        //     //     // Phone Number: 10 digits
+        //     //     'phone_number' => 'required',
 
-            //     // Date of Birth: Valid date format
-            //     'date_of_birth' => 'required',
+        //     //     // Date of Birth: Valid date format
+        //     //     'date_of_birth' => 'required',
 
-            //     // Middle Name: Optional but only letters (if present)
-            //     'middle_name' => 'nullable',
-            // ]);        
+        //     //     // Middle Name: Optional but only letters (if present)
+        //     //     'middle_name' => 'nullable',
+        //     // ]);        
 
+        //     $user->update([
+        //         'first_name' => $request->first_name,
+        //         'username' => $request->username,
+        //         'last_name' => $request->surname,
+        //         'middle_name' => $request->middle_name,
+        //         'email' => $request->email,
+        //         'phone_number' => $request->phone,
+        //         'date_of_birth' => $request->dob,
+        //     ]);
+
+        //     adminprofile::where('admin_id', $id)->update([
+        //         'short_discription' => $request->description,
+        //     ]);
+
+        //     return redirect()->back();
+
+        // }
+        $user = User::with('role')->find($id);
+        $roleId = $user->role_id;   // Get role_id from users table
+        $roleName = $user->role->name; // Get role name from roles table
+        // return $roleName;
+
+        if( $roleName == "learner"){
+            $user->update([
+                'first_name' => $request->first_name,
+                'username' => $request->username,
+                'last_name' => $request->surname,
+                'middle_name' => $request->middle_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
+            ]);
+            log::info('learner updated');
+            LearnerProfile::where('user_id', $id)->update([
+                'short_description' => $request->description,
+            ]);
+            log::info('learner profile updated');
+            return redirect()->back();   
+        }elseif($roleName == "admin"){
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
@@ -356,32 +405,90 @@ class UserController extends Controller
             ]);
 
             return redirect()->back();
-
-        } else {
-            $user = User::findOrFail($id);
-
-            $validated = $request->validate([
-                'username' => 'required|string|max:255',
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'middle_name' => 'nullable|string|max:255',
-                'email' => 'required|email|max:255',
-                'phone_number' => 'required|string|max:20',
-                'date_of_birth' => 'required|date',
+        }elseif($roleName == "insructor"){
+            $user->update([
+                'first_name' => $request->first_name,
+                'username' => $request->username,
+                'last_name' => $request->surname,
+                'middle_name' => $request->middle_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
             ]);
 
-            $user->username = $request->input('username');
-            $user->first_name = $request->input('first_name');
-            $user->last_name = $request->input('last_name');
-            $user->middle_name = $request->input('middle_name');
-            $user->email = $request->input('email');
-            $user->phone_number = $request->input('phone_number');
-            $user->date_of_birth = $request->input('date_of_birth');
+            InstractorProfile::where('user_id', $id)->update([
+                'short_description' => $request->description,
+            ]);
 
-            $user->save();
-
-            return redirect()->back()->with('success', 'Tutor updated successfully!');
+            return redirect()->back();
         }
+        // else if ($id == 3) {
+        //     $user = rol::find($id);
+
+        //     // $request->validate([
+        //     //     // First Name: Only letters, minimum 2 characters
+        //     //     'first_name' => 'required',
+
+        //     //     'last_name' => 'required',
+
+        //     //     // Username: Alphanumeric with underscores, between 3 and 20 characters
+        //     //     'username' => 'required',
+
+        //     //     // Email: Standard email format
+        //     //     'email' => 'required',
+
+        //     //     // Phone Number: 10 digits
+        //     //     'phone_number' => 'required',
+
+        //     //     // Date of Birth: Valid date format
+        //     //     'date_of_birth' => 'required',
+
+        //     //     // Middle Name: Optional but only letters (if present)
+        //     //     'middle_name' => 'nullable',
+        //     // ]);        
+
+        //     $user->update([
+        //         'first_name' => $request->first_name,
+        //         'username' => $request->username,
+        //         'last_name' => $request->surname,
+        //         'middle_name' => $request->middle_name,
+        //         'email' => $request->email,
+        //         'phone_number' => $request->phone,
+        //         'date_of_birth' => $request->dob,
+        //     ]);
+
+        //     adminprofile::where('admin_id', $id)->update([
+        //         'short_discription' => $request->description,
+        //     ]);
+
+        //     return redirect()->back();
+
+        // }  
+        // else {
+        //     $user = User::findOrFail($id);
+
+        //     $validated = $request->validate([
+        //         'username' => 'required|string|max:255',
+        //         'first_name' => 'required|string|max:255',
+        //         'last_name' => 'required|string|max:255',
+        //         'middle_name' => 'nullable|string|max:255',
+        //         'email' => 'required|email|max:255',
+        //         'phone_number' => 'required|string|max:20',
+        //         'date_of_birth' => 'required|date',
+        //     ]);
+
+        //     $user->username = $request->input('username');
+        //     $user->first_name = $request->input('first_name');
+        //     $user->last_name = $request->input('last_name');
+        //     $user->middle_name = $request->input('middle_name');
+        //     $user->email = $request->input('email');
+        //     $user->phone_number = $request->input('phone_number');
+        //     $user->date_of_birth = $request->input('date_of_birth');
+
+        //     $user->save();
+
+        //     return redirect()->back()->with('success', 'Tutor updated successfully!');
+        // }
     }
 
 
@@ -440,7 +547,16 @@ class UserController extends Controller
 
     public function learner_setting()
     {
-        return view('learner.profile.setting');
+        $learnerData = LearnerProfile::with('user')->where('user_id', Auth::user()->id)->first();
+        //return $learnerData;
+        return view('learner.profile.setting',compact('learnerData'));
+    }
+
+    public function instructor_setting()
+    {
+        $instructorData = InstractorProfile::with('user')->where('user_id', Auth::user()->id)->first();
+        //return $learnerData;
+        return view('instructor.profile.setting',compact('instructorData'));
     }
 
     public function bulkDelete(Request $request)

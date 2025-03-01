@@ -1,4 +1,8 @@
-@include('learner.setting.master')
+@extends('learner.layout.master')
+
+@section('title') Learner Profile @endsection
+
+@section('content_learner')
 <!-- Body Start -->
 <div class="wrapper _bg4586">
     <div class="_216b01">
@@ -24,7 +28,6 @@
                                         </div>
                                         <div class="prfledt1">
                                             <h2>{{ Auth::user()->username }}</h2>
-                                            <span>Junior Graphic Developer</span>
                                             <i id="editProfileBtn" class="uil uil-camera"></i>
                                             <input type="file" id="fileInput" name="profile_image" style="display:none;" onchange="previewImage(event)">
                                             <button id="saveProfileBtn" class="upload_btn" style="display:none;">Save Profile</button>
@@ -59,22 +62,14 @@
                                 </ul>
                             </div>
                             <div class="col-lg-6">
-                                <a href="setting.html" class="_216b12">
+                                <a href="{{ route('learner.setting') }} " class="_216b12">
                                     <span><i class="uil uil-cog"></i></span>Setting
                                 </a>
                                 <div class="rgt-145">
-                                    <ul class="tutor_social_links">
-                                        <li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
-                                        <li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
-                                    </ul>
+                                    
                                 </div>
-                                <ul class="_bty149">
-                                    <li><button class="studio-link-btn btn500"
-                                            onclick="window.location.href = 'instructor_dashboard.html';">CodePilot
-                                            Studio</button></li>
-                                    <li><button class="msg125 btn500"><a href="{{ route('learner.setting') }}">Edit</a></button></li>
+                                <ul class="_bty149">                                    
+                                    <li><a href="{{ route('learner.setting') }}"><button class="msg125 btn500">Edit</button></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -117,24 +112,7 @@
                                 <div class="_htg451">
                                     <div class="_htg452">
                                         <h3>About Me</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-                                            scelerisque nibh sed ligula blandit, quis faucibus lorem pellentesque.
-                                            Suspendisse pulvinar dictum pellentesque. Vestibulum at sagittis lectus, sit
-                                            amet aliquam turpis. In quis elit tempus, semper justo vitae, lacinia massa.
-                                            Etiam sagittis quam quis fermentum lacinia. Curabitur blandit sapien et
-                                            risus congue viverra. Mauris auctor risus sit amet CodePilot sollicitudin.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat
-                                            sodales massa, in viverra dolor condimentum ut. In imperdiet, justo nec
-                                            volutpat blandit, tellus justo tempor quam, sed pretium nibh nunc nec
-                                            mauris. Mauris vel malesuada magna. Quisque iaculis molestie purus, non
-                                            luctus mauris porta id. Maecenas imperdiet tincidunt mauris vestibulum
-                                            vulputate. Aenean sollicitudin pretium nibh, et sagittis risus tincidunt ac.
-                                            Phasellus scelerisque rhoncus massa, ac euismod massa pharetra non.
-                                            Phasellus dignissim, urna in iaculis varius, turpis libero mollis velit, sit
-                                            amet euismod arcu mi ac nibh. Praesent tincidunt eros at ligula pellentesque
-                                            elementum. Fusce condimentum enim a tellus egestas, sit amet rutrum elit
-                                            gravida. Pellentesque in porta sapien. Fusce tristique maximus ipsum et
-                                            mollis. Sed at massa ac est dapibus vulputate at eu nibh.</p>
+                                        <p>{{ $leanerData->learnerprofile->short_description }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -859,3 +837,4 @@
          document.getElementById('fileInput').addEventListener('change', previewImage);
      });
      </script>
+@endsection

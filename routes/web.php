@@ -123,10 +123,11 @@ Route::get('/register', [UserController::class, 'register'])->name('register');
 
 Route::get('/setting', [UserController::class, 'aboutabmin'])->name('setting')->middleware('auth');
 Route::get('/learner/setting', [UserController::class, 'learner_setting'])->name('learner.setting');
+Route::get('/instructor/setting', [UserController::class, 'instructor_setting'])->name('instructor.setting');
 
 Route::post('/upload-profile-image', [UserController::class, 'uploadImage'])->name('upload.profile.image');
 
-Route::get('/learner/profile', [UserController::class, 'learner_show'])->name('user.learner.profile');
+
 
 Route::get('/create', [LoginController::class, 'create_changepassword'])->name('changepassword.create');
 Route::post('/change_password', [LoginController::class, 'changePassword'])->name('changePassword.update');
@@ -182,3 +183,7 @@ Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('co
 route::post('course/price/{course}', [CourseController::class, 'price'])->name('course.price')->middleware('auth');
 
 route::get('course/purches/{id}', [purchesController::class, 'purches_index'])->name('course.purches')->middleware('auth');
+
+Route::get('/learner/profile/{id}', [UserController::class, 'learner_show'])->name('user.learner_show');
+
+Route::get('/instructor/profile/{id}', [UserController::class, 'instructor_show'])->name('user.instructor_show');

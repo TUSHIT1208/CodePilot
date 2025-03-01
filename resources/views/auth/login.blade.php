@@ -116,7 +116,7 @@
                         <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="{{ route('register') }}">Sign
                                 Up</a></p>
                     </div>
-                    <div class="sign_footer">© 2024 <strong>CodePilot</strong>
+                    <div class="sign_footer">© 2025 <strong>CodePilot</strong>
                         . All Rights Reserved.
                     </div>
                 </div>

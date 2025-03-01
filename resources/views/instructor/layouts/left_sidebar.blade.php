@@ -31,7 +31,7 @@
         <div class="left_section pt-2">
             <ul>
                 <li class="menu--item">
-                    <a href="{{ route('setting') }}" class="menu--link" title="Setting">
+                    <a href="{{ route('instructor.setting') }}" class="menu--link" title="Setting">
                         <i class='uil uil-cog menu--icon'></i>
                         <span class="menu--label">Setting</span>
                     </a>
