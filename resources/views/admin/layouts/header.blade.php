@@ -130,7 +130,7 @@
 								<span>{{ Auth::user()->email }}</span>
 							</div>
 						</div>
-						<a href="{{ route('user.show', Auth::user()->id) }}" class="dp_link_12">View Instructor
+						<a href="{{ route('user.show', Auth::user()->id) }}" class="dp_link_12">View Admin
 							Profile</a>
 					</div>
 					<div class="night_mode_switch__btn">

@@ -1,4 +1,10 @@
-@include('learner.layout.master')
+@extends('learner.layout.master')
+
+@section('title')
+    Dashboard
+@endsection
+
+@section('content_learner')
 <div class="wrapper">
 	<div class="sa4d25">
 		<div class="container-fluid">
@@ -152,3 +158,4 @@
 		</div>
 	</footer>
 </div>
+@endsection

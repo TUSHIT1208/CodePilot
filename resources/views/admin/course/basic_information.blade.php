@@ -136,13 +136,13 @@
                             <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory" onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
                                 @if(isset($subcategories))
-                                @foreach($subcategories as $subcategory)
-                                    <option value="{{ $subcategory->id }}" 
-                                        {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
-                                        {{ $subcategory->name }}
-                                    </option>
-                                @endforeach
-                            @endif
+                                    @foreach($subcategories as $subcategory)
+                                        <option value="{{ $subcategory->id }}" 
+                                            {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
+                                            {{ $subcategory->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $course->category_id ?? '') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
@@ -249,7 +249,7 @@
                                         <div class="thumb-dt">
                                             <div class="upload-btn">
                                                 <input class="uploadBtn-main-input" type="file"
-                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" value="{{ old('thumbnail_url', $course->courseattachment->thumbnail_url ?? '') }}" {{ isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
+                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" {{ isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
                                                 <label for="ThumbFile__input--source" title="Zip">Choose
                                                     Thumbnail</label>
                                             </div>
@@ -262,18 +262,14 @@
                             </div>
                         </div>
                     {{-- @endif   --}}
-                   
+                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
+{{--                    
                     <div class="mt-5 row">
-                        <div class="col-lg-6">
-                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Next' }}</button>
+                        <div class="col-lg-12">
                         </div>
-                        <div class="col-lg-6 text-end">
-                            @if (request()->route('course'))
-                                <button id="basic_next" class="main-btn mt-3">Next</button>
-                            @endif
-                        </div>
-                    </div>
-                </form>
+                        
+                    </div> --}}
+                </form>                
 
                 <script>
                     function loadSubCategories() {
@@ -358,7 +354,48 @@
     
     
 }
+
 </script>
+
+<script>
+    if (course) {
+    $('#add-course-tab .step-footer button[data-direction="prev"]').css('display', 'none');
+}
+
+    // $(document).ready(function(){
+    //     $("#courseForm").on("submit", function(e){
+    //         e.preventDefault();
+            
+    //         if (!this.checkValidity()) {
+    //             $(this).addClass("was-validated");
+    //             return;
+    //         }
+
+    //         // Prepare the form data including file uploads.
+    //         var formData = new FormData(this);
+            
+    //         $.ajax({
+    //             url: $(this).attr("action"),
+    //             type: $(this).attr("method"),
+    //             data: formData,
+    //             processData: false, // Needed for FormData
+    //             contentType: false, // Needed for FormData
+    //             success: function(response) {
+    //                 // Success message or redirection logic here.
+    //                 alert("Course saved successfully!");
+    //                 // For example, you could redirect:
+    //                 // window.location.href = "/next-step";
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 // Error handling logic.
+    //                 console.error("AJAX error:", error);
+    //                 alert("There was an error saving the course. Please try again.");
+    //             }
+    //         });
+    //     });
+    // });
+</script>
+
 
 <style>
     .was-validated .form-control:invalid{

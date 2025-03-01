@@ -48,9 +48,10 @@
             <div class="row justify-content-lg-center justify-content-md-center">
                 <div class="col-lg-12">
                     <div class="main_logo25" id="logo">
-                        <a href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" alt=""></a>
+                        <h1>CodePilot</h1>
+                        {{-- <a href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" alt=""></a>
                         <a href="{{ url('/') }}"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}"
-                                alt=""></a>
+                                alt=""></a> --}}
                     </div>
                 </div>
 
@@ -115,8 +116,8 @@
                         <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="{{ route('register') }}">Sign
                                 Up</a></p>
                     </div>
-                    <div class="sign_footer"><img src="{{ asset('images/sign_logo.png') }}" alt="">© 2024
-                        <strong>CodePilot</strong>. All Rights Reserved.
+                    <div class="sign_footer">© 2024 <strong>CodePilot</strong>
+                        . All Rights Reserved.
                     </div>
                 </div>
             </div>

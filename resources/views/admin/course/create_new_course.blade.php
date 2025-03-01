@@ -62,22 +62,10 @@
                                             this course. For students that are already enrolled, this course will not
                                             appear on their student Dashboard.</p>
                                     </div>
-                                    <div class="mt-5 row">
-                                        <div class="col-lg-6">
-                                            {{-- @if (request()->route('course'))
-                                            <a href="{{ route('course.edit', ['course' => request()->route('course')]) }}"
-                                                class="upload_btn">
-                                                Previous
-                                            </a>
-                                            @endif --}}
-                                        </div>
-                                        <div class="col-lg-6 text-end">
-                                            <button id="final_submit" class="main-btn">Submit for Review</button>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
-                            <div class="step-footer step-tab-pager">
+                            <div class="step-footer step-tab-pager mb-3">
                                 <button data-direction="prev" class="main-btn">PREVIOUS</button>
                                 <button data-direction="next" class="main-btn">Next</button>
                                 <button data-direction="finish" class="main-btn">Submit for Review</button>
@@ -89,42 +77,40 @@
             </div>
         </div>
     </div>
+<style>
+    .step-steps li.disabled {
+    pointer-events: none; /* Prevent clicking */
+    opacity: 0.5; /* Make it look inactive */
+    cursor: not-allowed; /* Show not-allowed cursor */
+}
+</style>
+<script>
+$(document).ready(function () {
+    
 
+    // Disable all tabs except the first one
+    $(".step-steps li:not(:first)").addClass("disabled");
+    
+     if(window.location.pathname.endsWith("/edit")) {
+        $(".step-steps li").removeClass("disabled");
+    };
+});
+
+</script>
+
+
+    
     {{-- hide button --}}
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Select all buttons inside the step-footer
-            var buttons = document.querySelectorAll('.step-footer .main-btn');
-
+         document.addEventListener("DOMContentLoaded", function () {
+             // Select all buttons inside the step-footer
+             var buttons = document.querySelectorAll('.step-footer .main-btn');
             buttons.forEach(function (button) {
-                button.style.visibility = "hidden"; // Hide each button
-            });
-        });
+                 button.style.visibility = "hidden"; // Hide each button
+             });
+         });
 
-        // step_js
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     var stepLinks = document.querySelectorAll(".step-steps li a");
 
-        //     stepLinks.forEach(function (link) {
-        //         link.addEventListener("click", function (event) {
-        //             var isBasicCompleted = sessionStorage.getItem("basic_completed");
-
-        //             if (!isBasicCompleted && link.getAttribute("href") !== "#tab_step1") {
-        //                 event.preventDefault();
-        //                 alert("Please complete the Basic Information step first.");
-
-        //                 // Forcefully redirect to Basic tab after alert
-        //                 setTimeout(function () {
-        //                     document.querySelector('[href="#tab_step1"]').click();
-        //                 }, 0);
-        //             }
-        //         });
-        //     });
-
-        //     document.getElementById("basic_form").addEventListener("submit", function () {
-        //         sessionStorage.setItem("basic_completed", "true");
-        //     });
-        // });
         // Initialize CKEditor instances
         ClassicEditor.create(document.querySelector('#editor1'))
             .then(editor => {
@@ -150,30 +136,27 @@
         // Triggering the next button for both Basic Information and Course Creation
         $(document).ready(function () {
             // Check if the success message exists in the session (after redirect)
+            // if ('{{ session('success') }}') {
+            //     // Trigger the next button automatically after receiving success
+            //     $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            // }
+           
+
+
             if ('{{ session('success') }}') {
-                // Trigger the next button automatically after receiving success
+                
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
+               
             }
-            $('#test_next').click(function () {
-                $('#add-course-tab .step-footer button[data-direction="next"]').click();
-            });
-
-            $('#basic_next').click(function () {
-                $('#add-course-tab .step-footer button[data-direction="next"]').click();
-            });
-
-            $('#media_next').click(function () {
-                $('#add-course-tab .step-footer button[data-direction="next"]').click();
-            });
-
-            $('#price_next').click(function () {
-                $('#add-course-tab .step-footer button[data-direction="next"]').click();
-            });
-
-            $('#final_submit').click(function () {
-                $('#add-course-tab .step-footer button[data-direction="finish"]').click();
-            });
-
+            if(window.location.pathname.endsWith("/edit")){
+                // Trigger the next button automatically after receiving success
+                var buttons = document.querySelectorAll('.step-footer .main-btn');
+                    buttons.forEach(function (button) {
+                 button.style.visibility = "visible"; // Hide each button
+             });
+            }
+            
+            
             if (course) {
                 $('#add-course-tab .step-footer button[data-direction="prev"]').click();
             }

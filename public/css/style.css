@@ -8359,3 +8359,14 @@ button.close {
     padding-left: var(--ck-spacing-small);
     display: none;
 }
+
+.sub_sub_menu--link {
+    display: block;
+    padding-left: 17px;
+    padding-right: 13px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none;
+}

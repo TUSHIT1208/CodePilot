@@ -239,34 +239,29 @@ class UserController extends Controller
         // Validate the incoming request
         $request->validate([
             // Username: Alphanumeric with underscores, 3-20 characters
-            'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
+            'learner_username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
 
             // First Name: Only letters, minimum 2 characters
-            'firstname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+            'learner_firstname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
 
             // Middle Name: Optional, only letters if provided
-            'middlename' => 'nullable|string|regex:/^[A-Za-z]*$/',
+            'learner_middlename' => 'nullable|string|regex:/^[A-Za-z]*$/',
 
             // Last Name: Optional, but letters only if provided, minimum 2 characters
-            'lastname' => 'nullable|string|regex:/^[A-Za-z]{2,}$/',
+            'learner_lastname' => 'nullable|string|regex:/^[A-Za-z]{2,}$/',
 
             // Email Address: Valid email format and unique
-            'emailaddress' => 'required|email|unique:users,email',
+            'learner_emailaddress' => 'required|email|unique:users,email',
 
             // Password: Required, minimum 6 characters, confirmed
             'password' => 'required|string|min:6|confirmed',
 
             // Phone Number: Exactly 10 digits
-            'phone_no' => 'required|regex:/^\d{10}$/', // 10-digit phone number
+            'learner_phone_no' => 'required|regex:/^\d{10}$/', // 10-digit phone number
 
             // Date of Birth: Valid date
-            'date_of_birth' => 'required|date',
-
-            // Profession Headline: Optional, but a string, and max 255 characters
-            'profession_headline' => 'nullable|string|max:255',
-
-            // Short Description: Optional, but a string, and max 255 characters
-            'short_description' => 'nullable|string|max:255',
+            'learner_date_of_birth' => 'required|date',
+            
         ]);
 
 
@@ -284,14 +279,14 @@ class UserController extends Controller
 
         // Create the user record
         $user = User::create([
-            'username' => $request->username,
-            'first_name' => $request->firstname,
-            'middle_name' => $request->middlename,
-            'last_name' => $request->lastname,
-            'email' => $request->emailaddress,
-            'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_no,
-            'date_of_birth' => $request->date_of_birth,
+            'username' => $request->learner_username,
+            'first_name' => $request->learner_firstname,
+            'middle_name' => $request->learner_middlename,
+            'last_name' => $request->learner_lastname,
+            'email' => $request->learner_emailaddress,
+            'password' => Hash::make($request->learner_password),
+            'phone_number' => $request->learner_phone_no,
+            'date_of_birth' => $request->learner_date_of_birth,
             'role_id' => 3, // Assign the learner role ID
             'is_active' => true, // Assuming the user is active by default
         ]);

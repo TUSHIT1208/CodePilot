@@ -1,5 +1,3 @@
-<script src="{{ asset('js/vertical-responsive-menu.min.js') }}"></script>
-<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('vendor/OwlCarousel/owl.carousel.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js') }}"></script>

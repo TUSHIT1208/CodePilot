@@ -9,7 +9,39 @@
 						<span class="menu--label">Dashboard</span>
 					</a>
 				</li>
-				<li class="menu--item">
+				
+				<li class="menu--item menu--item__has_sub_menu">
+					<label class="menu--link" href="#sidebarApps" data-bs-toggle="collapse" role="button"
+						aria-expanded="false" aria-controls="sidebarApps">
+						<i class='uil uil-layers menu--icon'></i><span>Category</span>
+					</label>
+					<div class="collapse menu-dropdown" id="sidebarApps">
+						<ul class="nav nav-sm flex-column sub_menu">
+							@foreach($categories as $category)
+								<li class="nav-item">
+									<a href="#category-{{ $category->id }}" class="sub_menu--link nav-item" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="category-{{ $category->id }}">
+										{{ $category->name }}
+									</a>
+									<div class="collapse menu-dropdown ms-5 mb-2" id="category-{{ $category->id }}">
+										<ul class="nav nav-sm flex-column">
+											@foreach($category->sub_categories as $subCategory)
+												<li class="menu--item">
+													<a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link">{{ $subCategory->name }}</a>
+													{{-- <a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link" data-bs-toggle="collapse">
+														{{ $subCategory->name }}
+													</a> --}}
+												</li>
+											@endforeach
+										</ul>
+									</div>
+								</li>
+							@endforeach
+						</ul>
+						
+					</div>
+				</li>
+
+				{{-- <li class="menu--item">
 					<a href="student_courses.html" class="menu--link" title="Courses">
 						<i class='uil uil-book-alt menu--icon'></i>
 						<span class="menu--label">Purchased Courses</span>
@@ -50,7 +82,7 @@
 						<i class='uil uil-file-alt menu--icon'></i>
 						<span class="menu--label">Statements</span>
 					</a>
-				</li>
+				</li> --}}
 			</ul>
 		</div>
 		<div class="left_section pt-2">
@@ -71,3 +103,8 @@
 		</div>
 	</div>
 </nav>
+<style>
+.ms-5 {
+    margin-left: 4rem !important;
+}
+</style>

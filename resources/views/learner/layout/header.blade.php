@@ -8,7 +8,8 @@
         <span class="collapse_menu--label"></span>
     </button>
     <div class="main_logo" id="logo">
-        <a href="index.html"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}" alt=""></a>
+        <h1>CodePilot</h1>
+        {{-- <a href="index.html"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}" alt=""></a> --}}
     </div>
     <div class="search120">
         <div class="ui search">
@@ -106,7 +107,7 @@
                     @if(!empty(auth()->user()->profile_picture_url))
 						<img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
 					@else
-						<h1 id="default_avtar">{{ substr(Auth::user()->username, 0, 1) }}</h1>
+						<h1 id="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
 					@endif
                 </a>
                 <div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
@@ -115,7 +116,7 @@
                             @if(!empty(auth()->user()->profile_picture_url))
                                 <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
                             @else
-                                <h1 id="default_avtar">{{ substr(Auth::user()->username, 0, 1) }}</h1>
+                                <h1 id="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
                             @endif
                             <div class="pd_content">
                                 <div class="rhte85">

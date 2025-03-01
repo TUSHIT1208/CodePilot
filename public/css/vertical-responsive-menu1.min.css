@@ -156,12 +156,33 @@
 	text-decoration: none;
 }
 
+.sub_sub_menu--link {
+	display: block;
+	padding-left: 50px;
+	padding-right: 16px;
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	color: #333;
+	text-decoration: none;
+}
+
 .sub_menu--link:hover {
 	color: #ed2a26 !important;
 	background: #ffecec;
 }
 
+.sub_sub_menu--link:hover {
+	color: #ed2a26 !important;
+	background: #ffecec;
+}
+
 .sub_menu--link.active {
+	color: #da1f27;
+	font-weight: 500;
+}
+
+.sub_sub_menu--link.active {
 	color: #da1f27;
 	font-weight: 500;
 }
@@ -256,4 +277,15 @@
 	display: block;
 	height: 40px;
 	line-height: 40px;
+}
+
+.menu--item__has_sub_menu .menu--link:after {
+	position: absolute;
+	top: 0;
+	right: 15px;
+	height: 45px;
+	line-height: 45px;
+	font-family: 'Font Awesome 5 Free';
+    content: "\f0d7";
+    font-weight: 900;
 }

@@ -177,7 +177,7 @@
                                 $('#addCategoryModal').modal('hide'); // Hide the modal
                                 setTimeout(function () {
                                     location.reload(); // Reload the page after a short delay
-                                }, 1000);
+                                }, 2000);
                             } else {
                                 toastr.error('Something went wrong!', 'Error');
                             }
