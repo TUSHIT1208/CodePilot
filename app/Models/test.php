@@ -20,7 +20,7 @@ class test extends Model
 
     public function testquestion()
     {
-        return $this->hasMany(TestQuestion::class);
+        return $this->hasMany(TestQuestion::class, 'test_id');
     }
 
 }

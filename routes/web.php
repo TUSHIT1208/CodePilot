@@ -146,6 +146,8 @@ Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDe
 Route::resource('course', CourseController::class);
 
 Route::resource('test', TestController::class);
+Route::get('/test/{quiz}', [TestController::class, 'show'])->name('test.show');
+Route::put('/test/{quiz}', [TestController::class, 'update'])->name('test.update');
 
 
 route::resource('testquestion', TestQuestionController::class);

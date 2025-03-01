@@ -7,16 +7,35 @@ use App\Models\TestOption;
 use App\Models\TestQuestion;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Psy\Readline\Hoa\Console;
+use Yajra\DataTables\Facades\DataTables;
 
 class TestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+
+            $tests = Test::with('course')
+                ->select('id', 'test_title', 'passing_mark', 'total_marks', 'time', 'created_at');
+
+            return DataTables::of($tests)
+                ->addColumn('action', function ($test) {
+                    return '<a class="gray-s editTest" data-id="' . $test->id . '">
+                        <i class="uil uil-edit"></i>
+                    </a>
+                    <a class="gray-s deleteTest" data-id="' . $test->id . '">
+                        <i class="uil uil-trash"></i>
+                    </a>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -26,27 +45,22 @@ class TestController extends Controller
         return view('admin.course.test');
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-
         // Decode the incoming JSON data
         $data = json_decode($request->getContent(), true);
         Log::error($data);
-        // // Access specific variables from the decoded array
-        // $test_title = $data['test'];
-        //$passing_mark = $data['passing'];
-        //$time = $data['time'];
-        //$questions = $data['questions'];  // This will contain the array of questions
-
         try {
             // First, create the test record
             $test = Test::create([
                 'course_id' => $data['course_id'],  // Set a static course_id for now
                 'test_title' => $data['title'],
                 'passing_mark' => $data['passingMark'],
+                'total_marks' => $data['totalmarks'],
                 'time' => $data['totalTime'],
             ]);
 
@@ -90,32 +104,64 @@ class TestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(test $test)
+    public function show($id)
     {
-        //
+        $quiz = test::findOrFail($id);// Fetch quiz by ID
+        return response()->json($quiz);// Return quiz details as JSON response
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(test $test)
+
+    public function edit($id)
     {
-        //
+
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, test $test)
+    public function update(Request $request, $quizId)
     {
-        //
+        $request->validate([
+            'test_title' => 'required|string|max:255',
+            'passing_mark' => 'required|integer',
+            'total_marks' => 'required|integer',
+            'time' => 'required|string',
+        ]);
+        $quiz_id = $request->quiz_id;
+        $quiz = test::findOrFail($quiz_id);
+        $quiz->update([
+            'course_id' => $request->course_id,  // Set a static course_id for now
+            'test_title' => $request->test_title,
+            'passing_mark' => $request->passing_mark,
+            'total_marks' => $request->total_marks,
+            'time' => $request->time,
+        ]);
+        return response()->json(['success' => 'Quiz updated successfully']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(test $test)
+
+    public function destroy($id)
     {
-        //
+        $quiz = test::find($id);
+
+        if ($quiz) {
+            $quiz->testquestion()->each(function ($question) {
+                // Assuming each question has a 'options' relationship
+                $question->testoption()->delete();
+            });
+            $quiz->testquestion()->delete();
+            $quiz->delete();
+            return response()->json(['message' => 'Quiz deleted successfully.']);
+        } else {
+            return response()->json(['message' => 'Quiz not found.'], 404);
+        }
     }
+
 }

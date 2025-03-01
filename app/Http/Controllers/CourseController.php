@@ -200,6 +200,7 @@ class CourseController extends Controller
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
 
+
         return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
     }
 
