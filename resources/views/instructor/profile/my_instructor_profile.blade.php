@@ -1,6 +1,6 @@
-@extends('admin.layouts.master')
+@extends('instructor.layouts.master')
 
-@section('title') Admin Profile @endsection
+@section('title') Instructor Profile @endsection
 
 @section('content')
 <!-- Body Start -->
@@ -62,14 +62,15 @@
                                 </ul>
                             </div>
                             <div class="col-lg-6">
-                                <a href="{{ route('setting') }}" class="_216b12">
+                                <a href="{{ route('instructor.setting') }} " class="_216b12">
                                     <span><i class="uil uil-cog"></i></span>Setting
                                 </a>
-                                <ul class="_bty149 mt-5">
+                                <div class="rgt-145">
                                     
-                                    <li><a href="{{ route('setting') }}"><button class="msg125 btn500">Edit</button></a></li>
+                                </div>
+                                <ul class="_bty149">                                    
+                                    <li><a href="{{ route('instructor.setting') }}"><button class="msg125 btn500">Edit</button></a></li>
                                 </ul>
-
                             </div>
                         </div>
                     </div>
@@ -111,7 +112,7 @@
                                 <div class="_htg451">
                                     <div class="_htg452">
                                         <h3>About Me</h3>
-                                        <p>{{ $adminData->adminprofile->short_discription }}</p>
+                                        <p>{{ $instructorData->instructorprofile->short_description }}</p>
                                     </div>
                                 </div>
                             </div>

@@ -14,7 +14,7 @@
 </head>
 
 @section('body')
-@include('admin.layouts.body')
+@include('learner.layout.body')
 @show
 
 @include('learner.layout.header')

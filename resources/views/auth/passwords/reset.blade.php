@@ -86,7 +86,7 @@
 					</form>
 					<p class="mb-0 mt-30">Remembered your password? <a href="{{ route('login') }}">Sign In</a></p>
 				</div>
-				<div class="sign_footer"><img src="{{ asset('images/sign_logo.png') }}" alt="">© 2024 <strong>CodePilot</strong>. All Rights Reserved.</div>
+				<div class="sign_footer"><img src="{{ asset('images/sign_logo.png') }}" alt="">© 2025 <strong>CodePilot</strong>. All Rights Reserved.</div>
 			</div>
 		</div>
 	</div>

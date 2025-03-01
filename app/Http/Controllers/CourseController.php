@@ -132,7 +132,7 @@ class CourseController extends Controller
                 'meta_description' => $request->meta_description ?? '',
                 'price' => $request->price ?? 0,
                 'discount' => $request->discount ?? null,
-                'is_active' => 1,
+                'is_active' => 0,
                 'published_at' => null,
                 'course_type' => $request->course_type,
                 'title' => $request->title,
@@ -201,7 +201,9 @@ class CourseController extends Controller
             return view('admin.course.each_course',compact('courseDetail','courseAttachment','video'));
         }else if(auth()->user()->role->name == 'insructor'){
             return view('instructor.course.each_course',compact('courseDetail','courseAttachment','video'));
-            
+        
+        }else if(auth()->user()->role->name == 'learner'){
+            return view('learner.course.each_course',compact('courseDetail','courseAttachment','video'));
         }
     }
 

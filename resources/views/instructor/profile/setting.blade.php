@@ -1,8 +1,8 @@
-@extends('learner.layout.master')
+@extends('instructor.layouts.master')
 
 @section('title') Setting @endsection
 
-@section('content_learner')
+@section('content')
 <!-- Body Start -->
 <div class="wrapper">
         <div class="sa4d25">
@@ -214,7 +214,7 @@
                                                                                                                                                         rows="3"
                                                                                                                                                         name="description"
                                                                                                                                                         id="id_about"
-                                                                                                                                                        placeholder="Write a little description about you...">{{ $learnerData->short_description }}</textarea>
+                                                                                                                                                        placeholder="Write a little description about you...">{{ $instructorData->short_description }}</textarea>
                                                                                                                                         </div>
                                                                                                                                 </div>
                                                                                                                                 <div
