@@ -131,7 +131,7 @@
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
-                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">Johnson Smith</a>
+                                        <a href="{{ route('setting') }}" class="mt-2 _df7852"></a>
                                     </div>
                                 </div>
                             </div>

@@ -159,7 +159,7 @@
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="date" name="date_of_birth"
                                                 value="{{ old('date_of_birth') }}" id="id_date_of_birth"
-                                                placeholder="Date of Birth">
+                                                placeholder="Date of Birth" max="{{ date('Y-m-d') }}">
                                         </div>
                                         @error('date_of_birth')
                                             <span class="text-danger">{{ $message }}</span>
@@ -301,7 +301,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="date" name="learner_date_of_birth"
-                                                value="{{ old('learner_date_of_birth') }}" id="learner_id_date_of_birth">
+                                                value="{{ old('learner_date_of_birth') }}" id="learner_id_date_of_birth" max="{{ date('Y-m-d') }}">
                                         </div>
                                         @error('learner_date_of_birth')
                                             <span class="text-danger">{{ $message }}</span>
@@ -338,6 +338,7 @@
     
 
     <script>
+        
         // {{-- validation --}}
         (function () {
             'use strict';

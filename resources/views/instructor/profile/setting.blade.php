@@ -176,8 +176,7 @@
                                                                                                                                                         type="date"
                                                                                                                                                         name="dob"
                                                                                                                                                         value="{{ Auth::user()->date_of_birth }}"
-                                                                                                                                                        maxlength="64"
-                                                                                                                                                        placeholder="Date of birth" required>
+                                                                                                                                                        placeholder="Date of birth" required max="{{ date('Y-m-d') }}">
                                                                                                                                                         <div class="invalid-feedback">Please provide a Birth date.</div>
                                                                                                                                         </div>
                                                                                                                                         <span>

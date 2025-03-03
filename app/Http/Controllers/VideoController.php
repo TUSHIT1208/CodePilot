@@ -13,7 +13,7 @@ class VideoController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $videos = Video::select(['id', 'video_title', 'description', 'thumbnail_url', 'video_url', 'created_at'])->where('course_id',$request->course_id);
+            $videos = Video::select(['id', 'video_title', 'description', 'thumbnail_url', 'video_url', 'created_at']);
             // $videos = Video::select(['videos.id', 'videos.video_title', 'videos.description', 'videos.thumbnail_url', 'videos.video_url', 'videos.created_at'])
             // ->join('courses', 'videos.course_id', '=', 'courses.id')
             // ->where('videos.course_id', $request->course_id)
