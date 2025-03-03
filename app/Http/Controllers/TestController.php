@@ -42,7 +42,11 @@ class TestController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role->name == 'admin') {
         return view('admin.course.test');
+        }else if (auth()->user()->role->name == 'insructor') {
+            return view('instructor.course.test');
+        }
     }
 
 

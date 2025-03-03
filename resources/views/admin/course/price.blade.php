@@ -47,34 +47,33 @@
 
 
                                             <div class="tab-pane" id="nav-paid" role="tabpanel">
-                                                <div class="license_pricing mt-30">
-                                                    <label class="label25">Regular Price*</label>
+                                                <div class="license_pricing mt-30 label25">
+                                                    <label class="title-field">Regular Price*</label>
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-6 col-sm-6">
                                                             <div class="loc_group">
-                                                                <div class="ui left icon input swdh19">
-                                                                    <input class="prompt form-control" type="number"
+                                                                <div class="ui left icon swdh19">
+                                                                    <input class="prompt srch_explore form-control" type="number"
                                                                         placeholder="$0" name="price" id="price" value=""
                                                                         required><br>
-                                                                    <div class="invalid-feedback">
+                                                                    <span class="invalid-feedback">
                                                                         Please enter a valid price (minimum: 0.00).
-                                                                    </div>
+                                                                    </span>
 
                                                                 </div>
                                                                 <span class="slry-dt">USD</span>
-
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="license_pricing mt-30 mb-30">
-                                                    <label class="label25">Discount Price*</label>
+                                                <div class="license_pricing mt-30 mb-30 label25">
+                                                    <label class="title-field">Discount Price*</label>
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-6 col-sm-6">
                                                             <div class="loc_group">
-                                                                <div class="ui left icon input swdh19">
-                                                                    <input class="prompt form-control" type="number"
+                                                                <div class="ui left icon swdh19">
+                                                                    <input class="prompt srch_explore form-control" type="number"
                                                                         placeholder="$0" name="discount" id="discount" value=""
                                                                         required>
                                                                     <span class="invalid-feedback">

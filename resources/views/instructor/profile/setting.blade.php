@@ -54,9 +54,8 @@
                                                                                                                         class="col-lg-6">
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
-                                                                                                                                <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                <div class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="username"
                                                                                                                                                 value="{{ Auth::user()->username }}"
@@ -76,8 +75,8 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="first_name"
                                                                                                                                                 value="{{ Auth::user()->first_name }}"
@@ -97,8 +96,8 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="surname"
                                                                                                                                                 value="{{ Auth::user()->last_name }}"
@@ -112,8 +111,8 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="middle_name"
                                                                                                                                                 value="{{ Auth::user()->middle_name }}"
@@ -127,8 +126,8 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="email"
                                                                                                                                                 value="{{ Auth::user()->email }}"
@@ -142,19 +141,7 @@
                                                                                                                                         <small class="text-danger">{{ $message }}</small>
                                                                                                                                         @enderror                                                                                                                                        
                                                                                                                                 </span>
-                                                                                                                                <div
-                                                                                                                                        class="help-block">
-                                                                                                                                        Add
-                                                                                                                                        a
-                                                                                                                                        professional
-                                                                                                                                        headline
-                                                                                                                                        like,
-                                                                                                                                        "Engineer
-                                                                                                                                        at
-                                                                                                                                        CodePilot"
-                                                                                                                                        or
-                                                                                                                                        "Architect."
-                                                                                                                                </div>
+                                                                                                                                
                                                                                                                         </div>
                                                                                                                 </div>
                                                                                                                 <div
@@ -164,8 +151,8 @@
                                                                                                                                 <div
                                                                                                                                         class="ui search focus mt-30">
                                                                                                                                         <div
-                                                                                                                                                class="ui left icon input swdh11 swdh19">
-                                                                                                                                                <input class="prompt srch_explore"
+                                                                                                                                                class="ui left icon  swdh11 swdh19">
+                                                                                                                                                <input class="prompt srch_explore form-control"
                                                                                                                                                         type="text"
                                                                                                                                                         name="phone"
                                                                                                                                                         value="{{ Auth::user()->phone_number }}"
@@ -184,8 +171,8 @@
                                                                                                                                 <div
                                                                                                                                         class="ui search focus mt-30">
                                                                                                                                         <div
-                                                                                                                                                class="ui left icon input swdh11 swdh19">
-                                                                                                                                                <input class="prompt srch_explore"
+                                                                                                                                                class="ui left icon swdh11 swdh19">
+                                                                                                                                                <input class="prompt srch_explore form-control"
                                                                                                                                                         type="date"
                                                                                                                                                         name="dob"
                                                                                                                                                         value="{{ Auth::user()->date_of_birth }}"
@@ -210,26 +197,14 @@
                                                                                                                                         <div
                                                                                                                                                 class="field">
                                                                                                                                                 <textarea
-                                                                                                                                                        class="prompt srch_explore   "   
+                                                                                                                                                        class="prompt srch_explore  form-control"   
                                                                                                                                                         rows="3"
                                                                                                                                                         name="description"
                                                                                                                                                         id="id_about"
                                                                                                                                                         placeholder="Write a little description about you...">{{ $instructorData->short_description }}</textarea>
                                                                                                                                         </div>
                                                                                                                                 </div>
-                                                                                                                                <div
-                                                                                                                                        class="help-block">
-                                                                                                                                        Links
-                                                                                                                                        and
-                                                                                                                                        coupon
-                                                                                                                                        codes
-                                                                                                                                        are
-                                                                                                                                        not
-                                                                                                                                        permitted
-                                                                                                                                        in
-                                                                                                                                        this
-                                                                                                                                        section.
-                                                                                                                                </div>
+                                                                                                                                
                                                                                                                         </div>
                                                                                                                 </div>
                                                                                                                 <div

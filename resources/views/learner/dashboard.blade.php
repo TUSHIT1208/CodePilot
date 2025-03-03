@@ -12,7 +12,7 @@
 				<div class="col-lg-12">
 					<h2 class="st_title"><i class="uil uil-apps"></i> Student Dashboard</h2>
 				</div>
-				<div class="col-xl-6 col-lg-6 col-md-6">
+				<div class="col-xl-3 col-lg-6 col-md-6">
 					<div class="card_dash">
 						<div class="card_dash_left">
 							<h5>Total Purchased Courses</h5>
@@ -24,7 +24,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-xl-6 col-lg-6 col-md-6">
+				<div class="col-xl-3 col-lg-6 col-md-6">
 					<div class="card_dash">
 						<div class="card_dash_left">
 							<h5>Total Instrutors Subscribing</h5>

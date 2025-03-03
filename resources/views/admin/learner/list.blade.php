@@ -12,7 +12,7 @@
                         <h2 class="st_title"><i class="uil uil-folder-plus"></i> Learners</h2>
                     </div>
                 </div>
-                <div class="container-fluid">
+                
                     <div class="col-md-12">
                         <div class="card_dash1">
                             <div class="row mt-2">
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                
             </div>
         </div>
 
@@ -170,7 +170,7 @@
                         setTimeout(function () {
                             location.reload(); // Reload the page
                         }, 0000);
-                    // },
+                    }
                     // error: function (xhr) {
                     //     // Clear previous error messages
                     //     form.find('.invalid-feedback').remove();

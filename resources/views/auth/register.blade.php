@@ -77,7 +77,7 @@
                                                 placeholder="UserName">
                                         </div>
                                         @error('username')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -88,7 +88,7 @@
                                                 placeholder="First Name">
                                         </div>
                                         @error('firstname')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -99,7 +99,7 @@
                                                 placeholder="Middle Name">
                                         </div>
                                         @error('middlename')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -109,9 +109,6 @@
                                                 value="{{ old('lastname') }}" id="id_lastname" maxlength="64"
                                                 placeholder="Last Name">
                                         </div>
-                                        @error('lastname')
-                                            <strong class="text-danger">{{ $message }}</strong>
-                                        @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
@@ -121,7 +118,7 @@
                                                 placeholder="Email Address">
                                         </div>
                                         @error('emailaddress')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -132,7 +129,7 @@
                                                 placeholder="Password">
                                         </div>
                                         @error('password')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -143,7 +140,7 @@
                                                 id="id_confirmationpassword" maxlength="64" placeholder="Confirm Password">
                                         </div>
                                         @error('password_confirmation')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -154,7 +151,7 @@
                                                 placeholder="Phone Number">
                                         </div>
                                         @error('phone_no')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -165,7 +162,7 @@
                                                 placeholder="Date of Birth">
                                         </div>
                                         @error('date_of_birth')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -176,7 +173,7 @@
                                                 cols="70">{{ old('bio') }}</textarea>
                                         </div>
                                         @error('bio')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -187,7 +184,7 @@
                                                 placeholder="Skills (List of Expertise)">
                                         </div>
                                         @error('skill')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -220,7 +217,7 @@
                                                 placeholder="UserName">
                                         </div>
                                         @error('learner_username')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -231,7 +228,7 @@
                                                 placeholder="First Name">
                                         </div>
                                         @error('learner_firstname')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -242,7 +239,7 @@
                                                 placeholder="Middle Name">
                                         </div>
                                         @error('learner_middlename')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -253,7 +250,7 @@
                                                 placeholder="Last Name">
                                         </div>
                                         @error('learner_lastname')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -264,7 +261,7 @@
                                                 placeholder="Email Address">
                                         </div>
                                         @error('learner_emailaddress')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -275,7 +272,7 @@
                                                 placeholder="Password">
                                         </div>
                                         @error('password')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -286,7 +283,7 @@
                                                 id="id_confrimpassword" maxlength="64" placeholder="Confirm Password">
                                         </div>
                                         @error('password_confirmation')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -297,7 +294,7 @@
                                                 placeholder="Phone Number">
                                         </div>
                                         @error('learner_phone_no')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -307,7 +304,7 @@
                                                 value="{{ old('learner_date_of_birth') }}" id="learner_id_date_of_birth">
                                         </div>
                                         @error('learner_date_of_birth')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -360,44 +357,44 @@
 
 
         $(document).ready(function () {
-            $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
-                e.preventDefault(); // Prevent default form submission
+    $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
 
-                let form = $(this);
-                let formData = new FormData(this);
+        let form = $(this);
+        let formData = new FormData(this);
 
-                // Clear previous error messages
-                form.find('.text-danger').remove();
+        // Clear previous error messages
+        form.find('.text-danger').remove();
 
-                $.ajax({
-                    url: form.attr('action'), // Form action URL
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        // Redirect to the login page with a success message
-                        
-                        setTimeout(() => {
-                            window.location.href = "{{ route('login') }}?success=" + encodeURIComponent('Registration successful! Please log in.');
-                        }, 5000);
-                    },
-                    error: function (xhr) {
-                        // Handle validation errors from the server
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            for (let key in errors) {
-                                let input = form.find(`[name="${key}"]`);
-                                let errorMessage = `<strong class="text-danger">${errors[key][0]}</strong>`;
-                                input.closest('.ui.search').append(errorMessage);
-                            }
-                        } else {
-                            alert('An error occurred. Please try again.');
-                        }
+        $.ajax({
+            url: form.attr('action'), // Form action URL
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                localStorage.setItem('success', 'Registration successful! Please log in.');
+
+                // Redirect handled by Laravel, no need for JS redirect
+                window.location.href = "{{ route('login') }}";
+            },
+            error: function (xhr) {
+                // Handle validation errors from the server
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    for (let key in errors) {
+                        let input = form.find(`[name="${key}"]`);
+                        let errorMessage = `<span class="text-danger">${errors[key][0]}</span>`;
+                        input.closest('.ui.search').append(errorMessage);
                     }
-                });
-            });
+                } else {
+                    alert('An error occurred. Please try again.');
+                }
+            }
         });
+    });
+});
+
 
     </script>
 

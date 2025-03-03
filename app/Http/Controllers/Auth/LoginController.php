@@ -19,7 +19,7 @@ class LoginController extends Controller
     }
     public function login_check(request $request)
     {
-        
+        logger("login_check");
         $userData = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
@@ -27,12 +27,13 @@ class LoginController extends Controller
         try{
         if (Auth::attempt($userData)) {
             $user = Auth::user();
-
+                logger($userData);
+                log::info($user);
             if ($user->role && $user->role->name === 'admin') {
                 return redirect()->route('admin.dashboard');
             } elseif ($user->role && $user->role->name === 'insructor') {
                 return redirect()->route('instructor.dashboard');
-            } else {
+            } elseif ($user->role && $user->role->name === 'learner') {
                 return redirect()->route('learner.dashboard');
             }
 
@@ -40,7 +41,7 @@ class LoginController extends Controller
             return back()->with('error', 'Invalid Email or Password');
         }
         }catch (\Exception $e) {
-            Log::error('Error updating category: ' . $e->getMessage());
+            Log::error('Error login : ' . $e->getMessage());
             // return response()->json(['error' => 'An error occurred while updating the category.'], 500);
         }
     }

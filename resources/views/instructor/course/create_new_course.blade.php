@@ -122,9 +122,10 @@ $(document).ready(function () {
         $('#add-course-tab').steps({
             onFinish: function () {
                 alert('Course Completed');
-
+                window.location.href = "{{ route('course.index') }}";
             }
         });
+
 
         // Make sortable
         $(function () {

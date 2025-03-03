@@ -21,14 +21,16 @@
   <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
   <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">  
+
   <!-- Vendor Stylesheets -->
-  <link href="{{ asset('vendor/fontawesome-free/css/all.
-  min.css') }}" rel="stylesheet">
+  <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/OwlCarousel/assets/owl.carousel.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/OwlCarousel/assets/owl.theme.default.min.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
   <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
+
 
 </head>
 
@@ -46,20 +48,6 @@
       <div class="col-lg-6 col-md-8">
         <div class="sign_form">
           <h2>Change Your Password</h2>
-          @if (session('success'))
-        <div class="alert alert-dark">
-        {{ session('success') }}
-        </div>
-      @endif
-          {{-- @if ($errors->any())
-        <div class="alert alert-danger">
-        <ul>
-          @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-        </ul>
-        </div>
-      @endif --}}
           <!-- Form for changing password -->
           <form method="POST" action="{{ route('changePassword.update') }}">
             @csrf
@@ -121,8 +109,59 @@
   <script src="{{ asset('vendor/semantic/semantic.min.js') }}"></script>
   <script src="{{ asset('js/custom.js') }}"></script>
   <script src="{{ asset('js/night-mode.js') }}"></script>
+  <!-- Toastr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script>
+    
+    @if(session('success'))
+      toastr.options = {
+                closeButton: true,
+                debug: false,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-top-right",
+                preventDuplicates: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                onShown: function() {
+                    $(".toast-success").css({
+                        'background-color': '#28a745', // Green for success
+                        'opacity': '1'  // Adjust opacity
+                    });;
+                }
+            };
+        toastr.success("{{ session('success') }}");
+    @endif
+
+    @if(session('error'))
+    toastr.options = {
+                closeButton: true,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-top-right",
+                preventDuplicates: true,
+                timeOut: 5000,
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                onShown: function() {
+                    $(".toast-error").css({
+                        'background-color': '#dc3545', // red for info
+                        'opacity': '1'
+                    });;
+                }
+            };
+        toastr.error("{{ session('error') }}");
+    @endif
 
 
+  </script>
 </body>
 
 </html>
