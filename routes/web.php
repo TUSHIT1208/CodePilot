@@ -187,3 +187,5 @@ route::get('course/purches/{id}', [purchesController::class, 'purches_index'])->
 Route::get('/learner/profile/{id}', [UserController::class, 'learner_show'])->name('user.learner_show');
 
 Route::get('/instructor/profile/{id}', [UserController::class, 'instructor_show'])->name('user.instructor_show');
+
+Route::post('/account/close', [LoginController::class, 'closeAccount'])->name('account.close');

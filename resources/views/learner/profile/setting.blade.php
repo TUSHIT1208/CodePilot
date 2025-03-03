@@ -232,22 +232,26 @@
                                                                 forever.</p>
                                                 </div>
                                                 <div class="row">
-                                                        <div class="col-lg-4">
-                                                                <div class="ui search focus mt-30">
-                                                                        <div class="ui left icon input swdh11 swdh19">
-                                                                                <input class="prompt srch_explore"
+                                                        <form method="POST" class="close-validation" novalidate>
+                                                                @method('POST')
+                                                                <div class="col-lg-4">
+                                                                        <div class="ui search focus mt-30">
+                                                                                <div class="ui left icon  swdh11 swdh19">
+                                                                                        <input class="prompt srch_explore form-control"
                                                                                         type="password"
                                                                                         name="yourassword"
                                                                                         maxlength="64"
-                                                                                        placeholder="Enter Your Password">
+                                                                                        placeholder="Enter Your Password" required>
+                                                                                        <div class="invalid-feedback">Please provide a Password.</div>
+                                                                                </div>
+                                                                                <div class="help-block">Are you sure you
+                                                                                        want to close your account?
+                                                                                </div>
                                                                         </div>
-                                                                        <div class="help-block">Are you sure you
-                                                                                want to close your account?
-                                                                        </div>
-                                                                </div>
-                                                                <button class="save_payout_btn mbs20"
+                                                                        <button class="save_payout_btn mbs20"
                                                                         type="submit">Close Account</button>
-                                                        </div>
+                                                                </div>
+                                                        </form>
                                                 </div>
                                         </div>
                                 </div>
@@ -269,6 +273,75 @@
                         form.classList.add("was-validated");
                     }, false);
                 });
+        });
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".close-validation");
+    
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault(); // Prevent default form submission
+                    
+                    if (!form.checkValidity()) {
+                        event.stopPropagation();
+                        form.classList.add("was-validated");
+                        return;
+                    }
+    
+                    // Show SweetAlert2 confirmation modal
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Once closed, you will not be able to recover your account!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#6c757d",
+                        confirmButtonText: "Yes, close my account!",
+                        cancelButtonText: "Cancel",
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let formData = new FormData(form);
+                            let submitButton = form.querySelector("button[type='submit']");
+                            submitButton.disabled = true; // Disable button to prevent multiple submissions
+    
+                            fetch("{{ route('account.close') }}", {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                    "Accept": "application/json",
+                                },
+                                body: formData,
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "Your account has been closed successfully.",
+                                        icon: "success",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    }).then(() => {
+                                        window.location.href = "{{ route('login') }}"; // Redirect to login page
+                                    });
+                                } else {
+                                    Swal.fire("Error", data.message, "error");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                Swal.fire("Oops!", "Something went wrong. Please try again.", "error");
+                            })
+                            .finally(() => {
+                                submitButton.disabled = false;
+                            });
+                        }
+                    });
+                }, false);
+            });
         });
     </script>
 @endsection

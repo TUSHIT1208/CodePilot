@@ -79,4 +79,25 @@ class LoginController extends Controller
         // Redirect with success message
         return back()->with('success', 'Password changed successfully!');
     }
+
+    public function closeAccount(Request $request)
+    {   
+        log::info("closeAccount");
+        $request->validate([
+            'yourassword' => 'required',
+        ]);
+    
+        $user = Auth::user();
+        logger($user);
+        // Check if the provided password is correct
+        if (!Hash::check($request->yourassword, $user->password)) {
+            return response()->json(['success' => false, 'message' => 'Incorrect password.'], 401);
+        }
+    
+        Auth::logout(); // Log out the user
+        $user->delete(); // Delete the user from the database
+    
+        return response()->json(['success' => true]);
+    }
+
 }
