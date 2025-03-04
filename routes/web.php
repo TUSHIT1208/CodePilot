@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\CourseAttachmentController;
 use App\Http\Controllers\TestOptionController;
-use App\Http\Controllers\TestQestionController;
 use App\Http\Controllers\TestQuestionController;
-use App\Models\TestOption;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\TestController;
@@ -13,7 +12,6 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LearningPathController;
-use App\Http\Controllers\LearnerProfileController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\SubCategoryController;
@@ -152,10 +150,11 @@ route::resource('testquestion', TestQuestionController::class);
 
 route::resource('testoption', TestOptionController::class);
 
-Route::resource('video', VideoController::class);
+Route::resource('courseAttachment',CourseAttachmentController::class);
 
 // Add this route to handle the AJAX request for subcategories
 Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
+Route::get('/code-debugger/{id}/{video_id}', [CourseAttachmentController::class, 'debugger_code'])->name('codeDebugger');
 
 Route::get('/course/test', function () {
     return view('admin.course.test');

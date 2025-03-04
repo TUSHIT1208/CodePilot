@@ -34,6 +34,8 @@ return new class extends Migration
             $table->text('course_description');
             $table->text('learn_in_course');
             $table->text('requirement');
+            $table->string('url');
+            $table->string('thumbnail_url')->nullable();
             $table->enum('course_level', ['Intermediate', 'Beginner','Expert']);
         });
     }

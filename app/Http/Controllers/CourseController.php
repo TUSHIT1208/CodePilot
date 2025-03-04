@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\course;
 use App\Models\category;
 use App\Models\sub_category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
 use Illuminate\Support\Facades\Log;
@@ -117,6 +118,27 @@ class CourseController extends Controller
 
             Log::info('Validated request data', ['data' => $validated]);
 
+            log::info($request->hasFile('introduction_video'));
+            if ($request->hasFile('introduction_video')) {
+                $videoUrl = $request->file('introduction_video');
+                $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
+                log::info($videoUrlName);
+                $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
+            } else {
+                $videoUrlName = null;
+            }
+            log::info($videoUrlName);
+
+            if ($request->hasFile('introduction_thumbnail')) {
+                $videoThumbnail = $request->file('introduction_thumbnail');
+                $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
+                log::info($videoThumbnailName);
+                $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
+            } else {
+                $videoThumbnailName = null;
+            }
+            log::info($videoThumbnailName);
+
             $course = Course::create([
                 'user_id' => auth()->id(),
                 'category_id' => $request->category_id,
@@ -134,36 +156,9 @@ class CourseController extends Controller
                 'course_description' => $request->course_description,
                 'learn_in_course' => $request->learn_in_course,
                 'requirement' => $request->requirement,
-                'course_level' => $request->course_level,
-
-            ]);
-
-            Log::info('Course created successfully', ['course_id' => $course->id]);
-
-            log::info($request->hasFile('introduction_video'));
-            if ($request->hasFile('introduction_video')) {
-                $videoUrl = $request->file('introduction_video');
-                $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
-                log::info($videoUrlName);
-                $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
-            } else {
-                $videoUrlName = null;
-            }
-            log::info($videoUrlName);
-            if ($request->hasFile('introduction_thumbnail')) {
-                $videoThumbnail = $request->file('introduction_thumbnail');
-                $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
-                log::info($videoThumbnailName);
-                $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
-            } else {
-                $videoThumbnailName = null;
-            }
-            log::info($videoThumbnailName);
-            courseAttachment::create([
-                'course_id' => $course->id,
-                'type' => 'video',
                 'url' => $videoUrlName,
                 'thumbnail_url' => $videoThumbnailName,
+                'course_level' => $request->course_level,
             ]);
 
             Log::info('Course created successfully', ['course_id' => $course->id]);
@@ -185,9 +180,12 @@ class CourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(course $course)
+    public function show($id)
     {
-        //
+        $courseDetail = Course::with(['category', 'subcategory','courseattachment'])->where('id', $id)->first();
+        $users = User::find($courseDetail->user_id);
+
+        return view('admin.course.each_course',compact('courseDetail','users'));
     }
 
     /**
@@ -195,8 +193,8 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        $course = Course::with('courseattachment')->findOrFail($id); // Load course with attachments
-        //return $course;
+        $course = Course::findOrFail($id); // Load course with attachments
+        // return $course;
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
 
@@ -219,10 +217,9 @@ class CourseController extends Controller
                 'meta_keyword' => 'required|string|min:3|max:255',
                 'meta_title' => 'required|string|min:3|max:255',
                 'meta_description' => 'required|string|min:10|max:1000',
-
             ]);
             Log::info('Validated request data', ['data' => $validated]);
-            // ✅ Update course details
+
             $course->update($request->only([
                 'title',
                 'description',
@@ -237,15 +234,14 @@ class CourseController extends Controller
                 'meta_title',
                 'meta_description'
             ]));
-
+            
             // ✅ Handle Video Upload
             if ($request->hasFile('introduction_video')) {
                 $video = $request->file('introduction_video');
                 $videoName = time() . '_' . $video->getClientOriginalName();
                 $video->move(public_path('courseVideo'), $videoName);
-
-                $course->courseattachment()->updateOrCreate(
-                    ['course_id' => $course->id],
+                $course->updateOrCreate(
+                    ['id' => $course->id],
                     ['url' => $videoName]
                 );
             }
@@ -256,13 +252,11 @@ class CourseController extends Controller
                 $thumbnailName = time() . '_' . $thumbnail->getClientOriginalName();
                 $thumbnail->move(public_path('courseThumbnail'), $thumbnailName);
 
-                $course->courseattachment()->updateOrCreate(
-                    ['course_id' => $course->id],
+                $course->updateOrCreate(
+                    ['id' => $course->id],
                     ['thumbnail_url' => $thumbnailName]
                 );
             }
-
-
 
             return redirect()->back()->with('success', 'course updated successfully');
         } catch (\Exception $e) {

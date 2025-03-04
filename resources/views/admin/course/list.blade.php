@@ -41,7 +41,7 @@
                                         <div class="col-lg-3 col-md-4">
                                             <div class="fcrse_1 mt-30">
                                                 <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
-                                                    <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
+                                                    <img src="{{ isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                         alt="Course Thumbnail">
 
                                                     <div class="course-overlay">

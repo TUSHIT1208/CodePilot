@@ -397,48 +397,6 @@
         });
     </script>
 
-    {{-- add lerningpath --}}
-    <script>
-        $(document).ready(function () {
-            $('.main-btn[data-bs-dismiss="modal"]').on('click', function () {
-                // Reset form fields
-                $('#addCategoryModal form')[0].reset();
-                $('#editForm')[0].reset();
-
-                // Remove validation errors
-                $('.is-invalid').removeClass('is-invalid');
-                $('.invalid-feedback').remove();
-            });
-
-            // AJAX form submission for Add Category
-            $('#addCategoryModal form').submit(function (e) {
-                e.preventDefault(); // Prevent default form submission
-
-                // Get form data
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    url: $(this).attr('action'), // URL for form submission
-                    method: $(this).attr('method'), // Use POST method
-                    data: formData, // Form data
-                    success: function (response) {
-                        if (response.success) {
-
-                            $('#addCategoryModal').modal('hide'); // Close modal
-                            // Show success toast
-                            toastr.success(response.success, 'Success');
-
-                            // Close modal and reload page after 2 seconds
-                            setTimeout(function () {
-                                location.reload(); // Reload the page
-                            }, 5000);
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-
     {{-- edit --}}
     <script>
         $(document).ready(function () {

@@ -15,18 +15,15 @@ class course extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Relationship with Category
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    // Relationship with SubCategory
     public function subCategory()
     {
         return $this->belongsTo(Sub_Category::class);
     }
-
 
     public function test()
     {
@@ -34,10 +31,6 @@ class course extends Model
     }
 
     public function courseattachment(){
-        return $this->hasOne(courseAttachment::class);
-    }
-
-    public function video(){
-        return $this->hasMany(video::class);
+        return $this->hasMany(courseAttachment::class);
     }
 }

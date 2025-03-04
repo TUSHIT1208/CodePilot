@@ -11,7 +11,8 @@ class courseAttachment extends Model
 
     protected $guarded = [];
 
-    public function course(){
+    public function course()
+    {
         return $this->belongsTo(course::class);
     }
 }

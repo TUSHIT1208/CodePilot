@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('course_attachments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');  
-            $table->enum('type', ['video', 'document', 'image', 'other']);
+            $table->foreignId('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade'); 
+            $table->string('title');
+            $table->string('discription');
             $table->string('url');
-            $table->string('thumbnail_url')->nullable();
+            $table->string('thumbnail_url')->nullable();    
+            $table->enum('type', ['video', 'document', 'image', 'other'])->nullable();
             $table->timestamps();
         });
     }

@@ -34,7 +34,7 @@
                 </li>
                 <li class="menu--item">
                     <a href="{{ route('course.index') }}" class="menu--link" title="Course">
-                        <i class='uil uil-search menu--icon'></i>
+                        <i class="uil uil-graduation-cap menu--icon"></i>
                         <span class="menu--label">Course</span>
                     </a>
                 </li>
