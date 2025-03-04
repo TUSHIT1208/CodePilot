@@ -252,7 +252,7 @@
 
                 // ✅ Show error Toastr if no category is selected
                 if (selectedIds.length === 0) {
-                    toastr.warning("Please select at least one Sub-category to delete.", "Warning");
+                    toastr.warning("Please select at least one Category to delete.", "Warning");
                     return;
                 }
 
@@ -333,7 +333,7 @@
                                 toastr.success(response.success, 'Success');
                                 setTimeout(function () {
                                     location.reload();
-                                }, 1000);
+                                }, 2000);
                             }
                         }
                         // error: function(xhr) {

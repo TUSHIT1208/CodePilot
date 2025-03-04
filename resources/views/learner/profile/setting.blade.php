@@ -1,4 +1,8 @@
-@include('learner.setting.master')
+@extends('learner.layout.master')
+
+@section('title') Setting @endsection
+
+@section('content_learner')
 <!-- Body Start -->
 <div class="wrapper">
         <div class="sa4d25">
@@ -31,7 +35,8 @@
                                                                         courses, comment on courses, purchased by
                                                                         students, or earning.</p>
                                                                 <form action="{{ route('user.update', Auth::user()->id) }}"
-                                                                        method="POST">
+                                                                        method="POST" class="admin-validation"
+                                                                        novalidate>
                                                                         @csrf
                                                                         @method('PUT')
                                                                         <div class="basic_profile">
@@ -49,14 +54,14 @@
                                                                                                                         class="col-lg-6">
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
-                                                                                                                                <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                <div class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="username"
                                                                                                                                                 value="{{ Auth::user()->username }}"
                                                                                                                                                 maxlength="64"
-                                                                                                                                                placeholder="User Name">
+                                                                                                                                                placeholder="User Name" required>
+                                                                                                                                                <div class="invalid-feedback">Please provide a Username.</div>
                                                                                                                                 </div>
                                                                                                                         </div>
                                                                                                                         <span>
@@ -70,13 +75,14 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="first_name"
                                                                                                                                                 value="{{ Auth::user()->first_name }}"
                                                                                                                                                 maxlength="64"
-                                                                                                                                                placeholder="First Name">
+                                                                                                                                                placeholder="First Name" required>
+                                                                                                                                                <div class="invalid-feedback">Please provide a  Firstname.</div>
                                                                                                                                 </div>
                                                                                                                         </div>
                                                                                                                         <span>
@@ -90,8 +96,8 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="surname"
                                                                                                                                                 value="{{ Auth::user()->last_name }}"
@@ -105,8 +111,8 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="middle_name"
                                                                                                                                                 value="{{ Auth::user()->middle_name }}"
@@ -120,36 +126,22 @@
                                                                                                                         <div
                                                                                                                                 class="ui search focus mt-30">
                                                                                                                                 <div
-                                                                                                                                        class="ui left icon input swdh11 swdh19">
-                                                                                                                                        <input class="prompt srch_explore"
+                                                                                                                                        class="ui left icon  swdh11 swdh19">
+                                                                                                                                        <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
                                                                                                                                                 name="email"
                                                                                                                                                 value="{{ Auth::user()->email }}"
                                                                                                                                                 maxlength="60"
-                                                                                                                                                placeholder="E-mail address">
-                                                                                                                                        <div class="form-control-counter"
-                                                                                                                                                data-purpose="form-control-counter">
-                                                                                                                                                36
-                                                                                                                                        </div>
+                                                                                                                                                placeholder="E-mail address" required>
+                                                                                                                                                <div class="invalid-feedback">Please provide a Email.</div>
+                                                                                                                                        
                                                                                                                                 </div>
                                                                                                                                 <span>
                                                                                                                                         @error('email')
                                                                                                                                         <small class="text-danger">{{ $message }}</small>
                                                                                                                                         @enderror                                                                                                                                        
                                                                                                                                 </span>
-                                                                                                                                <div
-                                                                                                                                        class="help-block">
-                                                                                                                                        Add
-                                                                                                                                        a
-                                                                                                                                        professional
-                                                                                                                                        headline
-                                                                                                                                        like,
-                                                                                                                                        "Engineer
-                                                                                                                                        at
-                                                                                                                                        CodePilot"
-                                                                                                                                        or
-                                                                                                                                        "Architect."
-                                                                                                                                </div>
+                                                                                                                                
                                                                                                                         </div>
                                                                                                                 </div>
                                                                                                                 <div
@@ -159,12 +151,13 @@
                                                                                                                                 <div
                                                                                                                                         class="ui search focus mt-30">
                                                                                                                                         <div
-                                                                                                                                                class="ui left icon input swdh11 swdh19">
-                                                                                                                                                <input class="prompt srch_explore"
+                                                                                                                                                class="ui left icon  swdh11 swdh19">
+                                                                                                                                                <input class="prompt srch_explore form-control"
                                                                                                                                                         type="text"
                                                                                                                                                         name="phone"
                                                                                                                                                         value="{{ Auth::user()->phone_number }}"
-                                                                                                                                                        placeholder="Phone number">
+                                                                                                                                                        placeholder="Phone number" required>
+                                                                                                                                                        <div class="invalid-feedback">Please provide a PhoneNumber.</div>
                                                                                                                                         </div>
                                                                                                                                         <span>
                                                                                                                                                 @error('phone')
@@ -178,13 +171,13 @@
                                                                                                                                 <div
                                                                                                                                         class="ui search focus mt-30">
                                                                                                                                         <div
-                                                                                                                                                class="ui left icon input swdh11 swdh19">
-                                                                                                                                                <input class="prompt srch_explore"
+                                                                                                                                                class="ui left icon swdh11 swdh19">
+                                                                                                                                                <input class="prompt srch_explore form-control"
                                                                                                                                                         type="date"
                                                                                                                                                         name="dob"
                                                                                                                                                         value="{{ Auth::user()->date_of_birth }}"
-                                                                                                                                                        maxlength="64"
-                                                                                                                                                        placeholder="Date of birth">
+                                                                                                                                                        placeholder="Date of birth" max="{{ date('Y-m-d') }}" required>
+                                                                                                                                                        <div class="invalid-feedback">Please provide a Birth date.</div>
                                                                                                                                         </div>
                                                                                                                                         <span>
                                                                                                                                                 @error('dob')
@@ -203,26 +196,14 @@
                                                                                                                                         <div
                                                                                                                                                 class="field">
                                                                                                                                                 <textarea
-                                                                                                                                                        class="prompt srch_explore   "   
+                                                                                                                                                        class="prompt srch_explore form-control"   
                                                                                                                                                         rows="3"
                                                                                                                                                         name="description"
                                                                                                                                                         id="id_about"
-                                                                                                                                                        placeholder="Write a little description about you..."></textarea>
+                                                                                                                                                        placeholder="Write a little description about you...">{{ $learnerData->short_description }}</textarea>
                                                                                                                                         </div>
                                                                                                                                 </div>
-                                                                                                                                <div
-                                                                                                                                        class="help-block">
-                                                                                                                                        Links
-                                                                                                                                        and
-                                                                                                                                        coupon
-                                                                                                                                        codes
-                                                                                                                                        are
-                                                                                                                                        not
-                                                                                                                                        permitted
-                                                                                                                                        in
-                                                                                                                                        this
-                                                                                                                                        section.
-                                                                                                                                </div>
+
                                                                                                                         </div>
                                                                                                                 </div>
                                                                                                                 <div
@@ -251,22 +232,26 @@
                                                                 forever.</p>
                                                 </div>
                                                 <div class="row">
-                                                        <div class="col-lg-4">
-                                                                <div class="ui search focus mt-30">
-                                                                        <div class="ui left icon input swdh11 swdh19">
-                                                                                <input class="prompt srch_explore"
+                                                        <form method="POST" class="close-validation" novalidate>
+                                                                @method('POST')
+                                                                <div class="col-lg-4">
+                                                                        <div class="ui search focus mt-30">
+                                                                                <div class="ui left icon  swdh11 swdh19">
+                                                                                        <input class="prompt srch_explore form-control"
                                                                                         type="password"
                                                                                         name="yourassword"
                                                                                         maxlength="64"
-                                                                                        placeholder="Enter Your Password">
+                                                                                        placeholder="Enter Your Password" required>
+                                                                                        <div class="invalid-feedback">Please provide a Password.</div>
+                                                                                </div>
+                                                                                <div class="help-block">Are you sure you
+                                                                                        want to close your account?
+                                                                                </div>
                                                                         </div>
-                                                                        <div class="help-block">Are you sure you
-                                                                                want to close your account?
-                                                                        </div>
-                                                                </div>
-                                                                <button class="save_payout_btn mbs20"
+                                                                        <button class="save_payout_btn mbs20"
                                                                         type="submit">Close Account</button>
-                                                        </div>
+                                                                </div>
+                                                        </form>
                                                 </div>
                                         </div>
                                 </div>
@@ -274,3 +259,89 @@
                 </div>
         </div>
 </div>
+<script>
+        // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
+        document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".admin-validation");
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener("submit", function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add("was-validated");
+                    }, false);
+                });
+        });
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var forms = document.querySelectorAll(".close-validation");
+    
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault(); // Prevent default form submission
+                    
+                    if (!form.checkValidity()) {
+                        event.stopPropagation();
+                        form.classList.add("was-validated");
+                        return;
+                    }
+    
+                    // Show SweetAlert2 confirmation modal
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Once closed, you will not be able to recover your account!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#6c757d",
+                        confirmButtonText: "Yes, close my account!",
+                        cancelButtonText: "Cancel",
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let formData = new FormData(form);
+                            let submitButton = form.querySelector("button[type='submit']");
+                            submitButton.disabled = true; // Disable button to prevent multiple submissions
+    
+                            fetch("{{ route('account.close') }}", {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                    "Accept": "application/json",
+                                },
+                                body: formData,
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "Your account has been closed successfully.",
+                                        icon: "success",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    }).then(() => {
+                                        window.location.href = "{{ route('login') }}"; // Redirect to login page
+                                    });
+                                } else {
+                                    Swal.fire("Error", data.message, "error");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                Swal.fire("Oops!", "Something went wrong. Please try again.", "error");
+                            })
+                            .finally(() => {
+                                submitButton.disabled = false;
+                            });
+                        }
+                    });
+                }, false);
+            });
+        });
+    </script>
+@endsection

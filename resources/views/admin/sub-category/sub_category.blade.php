@@ -212,7 +212,7 @@
                         // Reload the page after 2 seconds
                         setTimeout(function() {
                             location.reload(); // Reload the page
-                        }, 5000);
+                        }, 2000);
                     }
                 },
                 // error: function(xhr) {

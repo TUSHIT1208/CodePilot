@@ -1,4 +1,4 @@
-@extends('admin.setting.master')
+@extends('admin.layouts.master')
 
 @section('title') Admin Profile @endsection
 
@@ -66,8 +66,8 @@
                                     <span><i class="uil uil-cog"></i></span>Setting
                                 </a>
                                 <ul class="_bty149 mt-5">
-                                    <li><button class="studio-link-btn btn500"><a href="{{ route('admin.dashboard') }}">CodePilot Studio</a></button></li>
-                                    <li><button class="msg125 btn500"><a href="{{ route('setting') }}">Edit</a></button></li>
+                                    
+                                    <li><a href="{{ route('setting') }}"><button class="msg125 btn500">Edit</button></a></li>
                                 </ul>
 
                             </div>
@@ -111,24 +111,7 @@
                                 <div class="_htg451">
                                     <div class="_htg452">
                                         <h3>About Me</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-                                            scelerisque nibh sed ligula blandit, quis faucibus lorem pellentesque.
-                                            Suspendisse pulvinar dictum pellentesque. Vestibulum at sagittis lectus, sit
-                                            amet aliquam turpis. In quis elit tempus, semper justo vitae, lacinia massa.
-                                            Etiam sagittis quam quis fermentum lacinia. Curabitur blandit sapien et
-                                            risus congue viverra. Mauris auctor risus sit amet CodePilot sollicitudin.
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat
-                                            sodales massa, in viverra dolor condimentum ut. In imperdiet, justo nec
-                                            volutpat blandit, tellus justo tempor quam, sed pretium nibh nunc nec
-                                            mauris. Mauris vel malesuada magna. Quisque iaculis molestie purus, non
-                                            luctus mauris porta id. Maecenas imperdiet tincidunt mauris vestibulum
-                                            vulputate. Aenean sollicitudin pretium nibh, et sagittis risus tincidunt ac.
-                                            Phasellus scelerisque rhoncus massa, ac euismod massa pharetra non.
-                                            Phasellus dignissim, urna in iaculis varius, turpis libero mollis velit, sit
-                                            amet euismod arcu mi ac nibh. Praesent tincidunt eros at ligula pellentesque
-                                            elementum. Fusce condimentum enim a tellus egestas, sit amet rutrum elit
-                                            gravida. Pellentesque in porta sapien. Fusce tristique maximus ipsum et
-                                            mollis. Sed at massa ac est dapibus vulputate at eu nibh.</p>
+                                        <p>{{ $adminData->adminprofile->short_discription }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -823,8 +806,8 @@
          // Function to handle file input change event
          function previewImage(event) {
              const file = event.target.files[0]; // Get selected file
-             const saveButton = document.getElementById('saveProfileBtn');
-             const profileImage = document.getElementById('profileImage');
+             const saveButton = d
+             profileImage = document.getElementById('profileImage');
              
              if (file) {
                  console.log("Selected file:", file);

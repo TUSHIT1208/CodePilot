@@ -48,9 +48,10 @@
             <div class="row justify-content-lg-center justify-content-md-center">
                 <div class="col-lg-12">
                     <div class="main_logo25" id="logo">
-                        <a href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" alt=""></a>
+                        <h1>CodePilot</h1>
+                        {{-- <a href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" alt=""></a>
                         <a href="{{ url('/') }}"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}"
-                                alt=""></a>
+                                alt=""></a> --}}
                     </div>
                 </div>
 
@@ -74,16 +75,16 @@
                                         id="id_email" 
                                         maxlength="64" 
                                         placeholder="Email Address" 
-                                        required>
+                                        >
                                         <div class="invalid-feedback">
                                             Please enter a valid email address.
                                         </div>
                                     <i class="uil uil-envelope icon icon2"></i>
                                 </div>
                                 
-                                {{-- @error('email')
+                                @error('email')
                                     <span class="text-danger">{{ $message }}</span>
-                                @enderror --}}
+                                @enderror
                             </div>
                         
                             <!-- Password Input -->
@@ -96,16 +97,16 @@
                                         id="id_password" 
                                         maxlength="64" 
                                         placeholder="Password" 
-                                        required>
+                                        >
                                     <i class="uil uil-key-skeleton-alt icon icon2"></i>
                                     <div class="invalid-feedback">
                                         Please enter your password.
                                     </div>
                                     
                                 </div>
-                                {{-- @error('password')
+                                @error('password')
                                     <span class="text-danger">{{ $message }}</span>
-                                @enderror --}}
+                                @enderror
                             </div>
                         
                             <button class="login-btn" type="submit">Sign In</button>
@@ -115,8 +116,8 @@
                         <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="{{ route('register') }}">Sign
                                 Up</a></p>
                     </div>
-                    <div class="sign_footer"><img src="{{ asset('images/sign_logo.png') }}" alt="">© 2024
-                        <strong>CodePilot</strong>. All Rights Reserved.
+                    <div class="sign_footer">© 2025 <strong>CodePilot</strong>
+                        . All Rights Reserved.
                     </div>
                 </div>
             </div>
@@ -151,7 +152,34 @@
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
+    
     <script>
+        $(document).ready(function () {
+            if (localStorage.getItem('success')) {
+                toastr.options = {
+                    closeButton: true,
+                    debug: false,
+                    newestOnTop: true,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    preventDuplicates: true,
+                    timeOut: 5000,
+                    extendedTimeOut: 1000,
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    onShown: function() {
+                        $(".toast-success").css({
+                            'background-color': '#28a745', // Green for success
+                            'opacity': '1'  // Adjust opacity
+                        });;
+                    }
+                };
+                toastr.success(localStorage.getItem('success')); // Show toaster notification
+                localStorage.removeItem('success'); // Clear the message after showing
+            }
+        });
         @if(session('success'))
             toastr.options = {
                 closeButton: true,

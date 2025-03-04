@@ -332,7 +332,7 @@
                             // Close modal and reload page after 2 seconds
                             setTimeout(function () {
                                 location.reload(); // Reload the page
-                            }, 5000);
+                            }, 2000);
                         }
                     }
                     // error: function(xhr) {
@@ -396,7 +396,10 @@
             });
         });
     </script>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 80ab269913c70442e9d7a5d9bcd0d7b1689ab919
     {{-- edit --}}
     <script>
         $(document).ready(function () {

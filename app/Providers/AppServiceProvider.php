@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Category;
+use Illuminate\Support\Facades\View;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +24,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+
+         // Share category data with all views
+        View::composer('learner.layout.sidebar', function ($view) {
+        $categories = Category::with('sub_categories.courses')->get();
+        $view->with('categories', $categories);
+    });
     }
 }

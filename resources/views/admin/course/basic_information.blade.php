@@ -64,7 +64,7 @@
                         <div class="course_des_textarea mt-30 lbel25">
                             <label>Course Description*</label>
                             <div class="text-editor">
-                                <textarea id="editor1" class="form-control" 
+                                <textarea  class="form-control editor1" 
                                           name="course_description" placeholder="Item description here" required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
                             </div>
                             <div class="invalid-feedback">Course Description is required.</div>
@@ -77,7 +77,7 @@
                                 <div class="ui form swdh30">
                                     <div class="field">
                                         <textarea rows="3" name="learn_in_course" 
-                                                class="form-control"
+                                                class="form-control editor1"
                                                 id="learn-field"
                                                 required minlength="10" maxlength="1000"
                                                 placeholder="Enter learning outcomes...">{{ old('learn_in_course', $course->learn_in_course ?? '') }}</textarea>
@@ -94,7 +94,7 @@
                                 <div class="ui form swdh30">
                                     <div class="field">
                                         <textarea rows="3" name="requirement" 
-                                                class="form-control"
+                                                class="form-control editor1"
                                                 id="requirement-field"
                                                 required minlength="10" maxlength="1000"
                                                 placeholder="Enter course requirements...">{{ old('requirement', $course->requirement ?? '') }}</textarea>
@@ -136,13 +136,13 @@
                             <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory" onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
                                 @if(isset($subcategories))
-                                @foreach($subcategories as $subcategory)
-                                    <option value="{{ $subcategory->id }}" 
-                                        {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
-                                        {{ $subcategory->name }}
-                                    </option>
-                                @endforeach
-                            @endif
+                                    @foreach($subcategories as $subcategory)
+                                        <option value="{{ $subcategory->id }}" 
+                                            {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
+                                            {{ $subcategory->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $course->category_id ?? '') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
@@ -261,18 +261,15 @@
                             </div>
                         </div>
                     {{-- @endif   --}}
-                   
+                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
+{{--                    
                     <div class="mt-5 row">
                         <div class="col-lg-6">
                             <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
                         </div>
-                        <div class="col-lg-6 text-end">
-                            @if (request()->route('course'))
-                                <button id="basic_next" class="main-btn mt-3">Next</button>
-                            @endif
-                        </div>
-                    </div>
-                </form>
+                        
+                    </div> --}}
+                </form>                
 
                 <script>
                     function loadSubCategories() {
@@ -333,6 +330,42 @@
     </div>
 </div>
 <script>
+
+    // ckeditor
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".editor1").forEach((editorElement, index) => {
+            ClassicEditor
+                .create(editorElement, {
+                    toolbar: {
+                        items: [
+                            'heading', '|', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 
+                            '|', 'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', 
+                            '|', 'alignment', 'outdent', 'indent', 'bulletedList', 'numberedList', 'blockQuote', 
+                            '|', 'insertTable', '|', 'undo', 'redo'
+                        ]
+                    },
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                        ]
+                    }
+                })
+                .then(editor => {
+                    console.log(`Editor ${index + 1} initialized`);
+                })
+                .catch(error => {
+                    console.error("Error initializing CKEditor:", error);
+                });
+        });
+    });
+    
+    
     function previewThumbnail(event) {
         var output = document.getElementById('thumbnail-preview');
         output.src = URL.createObjectURL(event.target.files[0]);
@@ -354,15 +387,20 @@
         } else {
             alert("Please upload a valid .mp4 video file.");
         }
+}
 
+</script>
+
+<script>
+    if (course) {
+    $('#add-course-tab .step-footer button[data-direction="prev"]').css('display', 'none');
 }
 </script>
+
 
 <style>
     .was-validated .form-control:invalid{
         border-color: #dc3545 !important;
     }
-    /* .was-validated .form-control:valid{
-        border:none;
-    } */
+
 </style>

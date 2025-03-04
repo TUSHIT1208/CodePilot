@@ -1,20 +1,23 @@
 <?php
 
-use App\Http\Controllers\CourseAttachmentController;
-use App\Http\Controllers\TestOptionController;
-use App\Http\Controllers\TestQuestionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VideoController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\purchesController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\TestOptionController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\LearningPathController;
+use App\Http\Controllers\TestQuestionController;
+use App\Http\Controllers\CourseAttachmentController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\SubCategoryController;
 
 
 
@@ -91,9 +94,17 @@ Route::get('admin/help', function () {
     return view('admin.help');
 })->name('admin.help')->middleware('auth');
 
+Route::get('instructor/help', function () {
+    return view('instructor.help');
+})->name('instructor.help')->middleware('auth');
+
 Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
 })->name('learner.dashboard')->middleware('auth');
+
+Route::get('/dashboard/instructor', function () {
+    return view('instructor.dashboard');
+})->name('instructor.dashboard')->middleware('auth');
 
 Route::resource('user', UserController::class);
 route::get('user/{id}', [UserController::class, 'destroy']);
@@ -112,10 +123,11 @@ Route::get('/register', [UserController::class, 'register'])->name('register');
 
 Route::get('/setting', [UserController::class, 'aboutabmin'])->name('setting')->middleware('auth');
 Route::get('/learner/setting', [UserController::class, 'learner_setting'])->name('learner.setting');
+Route::get('/instructor/setting', [UserController::class, 'instructor_setting'])->name('instructor.setting');
 
 Route::post('/upload-profile-image', [UserController::class, 'uploadImage'])->name('upload.profile.image');
 
-Route::get('/learner/profile', [UserController::class, 'learner_show'])->name('user.learner.profile');
+
 
 Route::get('/create', [LoginController::class, 'create_changepassword'])->name('changepassword.create');
 Route::post('/change_password', [LoginController::class, 'changePassword'])->name('changePassword.update');
@@ -144,6 +156,8 @@ Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDe
 Route::resource('course', CourseController::class);
 
 Route::resource('test', TestController::class);
+Route::get('/test/{quiz}', [TestController::class, 'show'])->name('test.show');
+Route::put('/test/{quiz}', [TestController::class, 'update'])->name('test.update');
 
 
 route::resource('testquestion', TestQuestionController::class);
@@ -164,6 +178,30 @@ Route::get('/course/basic-information', function () {
     return view('admin.course.basic_information');
 })->name('course.basic-information');
 
+
 Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit')->middleware('auth');
 
 route::post('course/price/{course}', [CourseController::class, 'price'])->name('course.price')->middleware('auth');
+
+route::get('course/purches/{id}', [purchesController::class, 'purches_index'])->name('course.purches')->middleware('auth');
+
+Route::get('/learner/profile/{id}', [UserController::class, 'learner_show'])->name('user.learner_show')->middleware('auth');
+
+Route::get('/instructor/profile/{id}', [UserController::class, 'instructor_show'])->name('user.instructor_show')->middleware('auth');
+
+Route::post('/account/close', [LoginController::class, 'closeAccount'])->name('account.close');
+
+Route::get('/cart', function () {
+    return view('learner.cart.shopping_cart');
+})->name('cart')->middleware('auth');
+
+Route::get('/saved-course', function () {
+    return view('learner.saved_course.saved_courses');
+    // return view('learner.checkout.checkout');
+})->name('saved.course')->middleware('auth');
+
+route::resource('cart', CartController::class)->middleware('auth');
+route::resource('wishlist', WishlistController::class)->middleware('auth');
+route::resource('order', OrderController::class)->middleware('auth');
+
+Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts');

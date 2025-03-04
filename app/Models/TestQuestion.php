@@ -18,7 +18,7 @@ class TestQuestion extends Model
 
     public function testoption()
     {
-        return $this->hasMany(TestOption::class);
+        return $this->hasMany(TestOption::class, 'question_id');
     }
 
 }

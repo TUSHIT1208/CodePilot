@@ -9,6 +9,7 @@ use App\Models\LearnerProfile;
 use App\Models\InstractorProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -175,7 +176,7 @@ class UserController extends Controller
             'middlename' => 'nullable|string|regex:/^[A-Za-z]*$/',
 
             // Last Name: Only letters, minimum 2 characters
-            'lastname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+            'lastname' => 'nullable|string|regex:/^[A-Za-z]{2,}$/',
 
             // Email Address: Valid email format and unique
             'emailaddress' => 'required|email|unique:users,email',
@@ -239,34 +240,29 @@ class UserController extends Controller
         // Validate the incoming request
         $request->validate([
             // Username: Alphanumeric with underscores, 3-20 characters
-            'username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
+            'learner_username' => 'required|string|regex:/^[a-zA-Z0-9_]{3,20}$/|unique:users,username',
 
             // First Name: Only letters, minimum 2 characters
-            'firstname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
+            'learner_firstname' => 'required|string|regex:/^[A-Za-z]{2,}$/',
 
             // Middle Name: Optional, only letters if provided
-            'middlename' => 'nullable|string|regex:/^[A-Za-z]*$/',
+            'learner_middlename' => 'nullable|string|regex:/^[A-Za-z]*$/',
 
             // Last Name: Optional, but letters only if provided, minimum 2 characters
-            'lastname' => 'nullable|string|regex:/^[A-Za-z]{2,}$/',
+            'learner_lastname' => 'nullable|string|regex:/^[A-Za-z]{2,}$/',
 
             // Email Address: Valid email format and unique
-            'emailaddress' => 'required|email|unique:users,email',
+            'learner_emailaddress' => 'required|email|unique:users,email',
 
             // Password: Required, minimum 6 characters, confirmed
             'password' => 'required|string|min:6|confirmed',
 
             // Phone Number: Exactly 10 digits
-            'phone_no' => 'required|regex:/^\d{10}$/', // 10-digit phone number
+            'learner_phone_no' => 'required|regex:/^\d{10}$/', // 10-digit phone number
 
             // Date of Birth: Valid date
-            'date_of_birth' => 'required|date',
-
-            // Profession Headline: Optional, but a string, and max 255 characters
-            'profession_headline' => 'nullable|string|max:255',
-
-            // Short Description: Optional, but a string, and max 255 characters
-            'short_description' => 'nullable|string|max:255',
+            'learner_date_of_birth' => 'required|date',
+            
         ]);
 
 
@@ -284,14 +280,14 @@ class UserController extends Controller
 
         // Create the user record
         $user = User::create([
-            'username' => $request->username,
-            'first_name' => $request->firstname,
-            'middle_name' => $request->middlename,
-            'last_name' => $request->lastname,
-            'email' => $request->emailaddress,
-            'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_no,
-            'date_of_birth' => $request->date_of_birth,
+            'username' => $request->learner_username,
+            'first_name' => $request->learner_firstname,
+            'middle_name' => $request->learner_middlename,
+            'last_name' => $request->learner_lastname,
+            'email' => $request->learner_emailaddress,
+            'password' => Hash::make($request->learner_password),
+            'phone_number' => $request->learner_phone_no,
+            'date_of_birth' => $request->learner_date_of_birth,
             'role_id' => 3, // Assign the learner role ID
             'is_active' => true, // Assuming the user is active by default
         ]);
@@ -305,13 +301,22 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        $adminData = User::find($id);
+        $adminData = User::with('adminprofile')->find($id);
         return view('admin.profile.my_admin_profile', compact('adminData'));
     }
 
-    public function learner_show()
+    public function learner_show(string $id)
     {
-        return view('learner.profile.my_learner_profile');
+        $leanerData = User::with('learnerprofile')->find($id);
+        
+        return view('learner.profile.my_learner_profile', compact('leanerData'));
+    }
+    
+    public function instructor_show(string $id)
+    {
+        $instructorData = User::with('instructorprofile')->find($id);
+        
+        return view('instructor.profile.my_instructor_profile', compact('instructorData'));
     }
 
     public function edit(string $id)
@@ -321,31 +326,28 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        if ($id == 1) {
-            $user = User::find($id);
+        $user = User::with('role')->find($id);
+        $roleId = $user->role_id;   // Get role_id from users table
+        $roleName = $user->role->name; // Get role name from roles table
+        // return $roleName;
 
-            // $request->validate([
-            //     // First Name: Only letters, minimum 2 characters
-            //     'first_name' => 'required',
-
-            //     'last_name' => 'required',
-
-            //     // Username: Alphanumeric with underscores, between 3 and 20 characters
-            //     'username' => 'required',
-
-            //     // Email: Standard email format
-            //     'email' => 'required',
-
-            //     // Phone Number: 10 digits
-            //     'phone_number' => 'required',
-
-            //     // Date of Birth: Valid date format
-            //     'date_of_birth' => 'required',
-
-            //     // Middle Name: Optional but only letters (if present)
-            //     'middle_name' => 'nullable',
-            // ]);        
-
+        if( $roleName == "learner"){
+            $user->update([
+                'first_name' => $request->first_name,
+                'username' => $request->username,
+                'last_name' => $request->surname,
+                'middle_name' => $request->middle_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
+            ]);
+            log::info('learner updated');
+            LearnerProfile::where('user_id', $id)->update([
+                'short_description' => $request->description,
+            ]);
+            log::info('learner profile updated');
+            return redirect()->back()->with('success', 'Profile updated successfully!');   
+        }elseif($roleName == "admin"){
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
@@ -360,33 +362,26 @@ class UserController extends Controller
                 'short_discription' => $request->description,
             ]);
 
-            return redirect()->back();
-
-        } else {
-            $user = User::findOrFail($id);
-
-            $validated = $request->validate([
-                'username' => 'required|string|max:255',
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'middle_name' => 'nullable|string|max:255',
-                'email' => 'required|email|max:255',
-                'phone_number' => 'required|string|max:20',
-                'date_of_birth' => 'required|date',
+            return redirect()->back()->with('success', 'Profile updated successfully!');
+        }elseif($roleName == "insructor"){
+            $user->update([
+                'first_name' => $request->first_name,
+                'username' => $request->username,
+                'last_name' => $request->surname,
+                'middle_name' => $request->middle_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
             ]);
 
-            $user->username = $request->input('username');
-            $user->first_name = $request->input('first_name');
-            $user->last_name = $request->input('last_name');
-            $user->middle_name = $request->input('middle_name');
-            $user->email = $request->input('email');
-            $user->phone_number = $request->input('phone_number');
-            $user->date_of_birth = $request->input('date_of_birth');
+            InstractorProfile::where('user_id', $id)->update([
+                'short_description' => $request->description,
+            ]);
 
-            $user->save();
-
-            return redirect()->back()->with('success', 'Tutor updated successfully!');
+            return redirect()->back()->with('success', 'Profile updated successfully!');
         }
+        
+        
     }
 
 
@@ -445,7 +440,16 @@ class UserController extends Controller
 
     public function learner_setting()
     {
-        return view('learner.profile.setting');
+        $learnerData = LearnerProfile::with('user')->where('user_id', Auth::user()->id)->first();
+        //return $learnerData;
+        return view('learner.profile.setting',compact('learnerData'));
+    }
+
+    public function instructor_setting()
+    {
+        $instructorData = InstractorProfile::with('user')->where('user_id', Auth::user()->id)->first();
+        //return $learnerData;
+        return view('instructor.profile.setting',compact('instructorData'));
     }
 
     public function bulkDelete(Request $request)

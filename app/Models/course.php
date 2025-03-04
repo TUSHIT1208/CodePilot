@@ -33,4 +33,8 @@ class course extends Model
     public function courseattachment(){
         return $this->hasMany(courseAttachment::class);
     }
+
+    public function cart(){
+        return $this->hasMany(cart::class);
+    }
 }

@@ -19,7 +19,7 @@ class LoginController extends Controller
     }
     public function login_check(request $request)
     {
-        
+        logger("login_check");
         $userData = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
@@ -27,13 +27,13 @@ class LoginController extends Controller
         try{
         if (Auth::attempt($userData)) {
             $user = Auth::user();
-
+                logger($userData);
+                log::info($user);
             if ($user->role && $user->role->name === 'admin') {
                 return redirect()->route('admin.dashboard');
             } elseif ($user->role && $user->role->name === 'insructor') {
-                return "instractor";
-                // return redirect()->route('instractor.dashboard');
-            } else {
+                return redirect()->route('instructor.dashboard');
+            } elseif ($user->role && $user->role->name === 'learner') {
                 return redirect()->route('learner.dashboard');
             }
 
@@ -41,7 +41,7 @@ class LoginController extends Controller
             return back()->with('error', 'Invalid Email or Password');
         }
         }catch (\Exception $e) {
-            Log::error('Error updating category: ' . $e->getMessage());
+            Log::error('Error login : ' . $e->getMessage());
             // return response()->json(['error' => 'An error occurred while updating the category.'], 500);
         }
     }
@@ -79,4 +79,25 @@ class LoginController extends Controller
         // Redirect with success message
         return back()->with('success', 'Password changed successfully!');
     }
+
+    public function closeAccount(Request $request)
+    {   
+        log::info("closeAccount");
+        $request->validate([
+            'yourassword' => 'required',
+        ]);
+    
+        $user = Auth::user();
+        logger($user);
+        // Check if the provided password is correct
+        if (!Hash::check($request->yourassword, $user->password)) {
+            return response()->json(['success' => false, 'message' => 'Incorrect password.'], 401);
+        }
+    
+        Auth::logout(); // Log out the user
+        $user->delete(); // Delete the user from the database
+    
+        return response()->json(['success' => true]);
+    }
+
 }

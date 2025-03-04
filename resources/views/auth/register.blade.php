@@ -42,8 +42,9 @@
             <div class="row justify-content-lg-center justify-content-md-center">
                 <div class="col-lg-12">
                     <div class="main_logo25" id="logo">
-                        <a href="index.html"><img src="images/logo.svg" alt=""></a>
-                        <a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""></a>
+                        <h1>CodePilot</h1>
+                        {{-- <a href="index.html"><img src="images/logo.svg" alt=""></a>
+                        <a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""></a> --}}
                     </div>
                 </div>
 
@@ -76,7 +77,7 @@
                                                 placeholder="UserName">
                                         </div>
                                         @error('username')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -87,7 +88,7 @@
                                                 placeholder="First Name">
                                         </div>
                                         @error('firstname')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -98,7 +99,7 @@
                                                 placeholder="Middle Name">
                                         </div>
                                         @error('middlename')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -108,9 +109,6 @@
                                                 value="{{ old('lastname') }}" id="id_lastname" maxlength="64"
                                                 placeholder="Last Name">
                                         </div>
-                                        @error('lastname')
-                                            <strong class="text-danger">{{ $message }}</strong>
-                                        @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
@@ -120,7 +118,7 @@
                                                 placeholder="Email Address">
                                         </div>
                                         @error('emailaddress')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -131,7 +129,7 @@
                                                 placeholder="Password">
                                         </div>
                                         @error('password')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -142,7 +140,7 @@
                                                 id="id_confirmationpassword" maxlength="64" placeholder="Confirm Password">
                                         </div>
                                         @error('password_confirmation')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -153,17 +151,7 @@
                                                 placeholder="Phone Number">
                                         </div>
                                         @error('phone_no')
-                                            <strong class="text-danger">{{ $message }}</strong>
-                                        @enderror
-                                    </div>
-
-                                    <div class="ui search focus mt-15">
-                                        <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="file" name="profile_picture_url"
-                                                id="id_profile_picture_url">
-                                        </div>
-                                        @error('profile_picture_url')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -171,10 +159,10 @@
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="date" name="date_of_birth"
                                                 value="{{ old('date_of_birth') }}" id="id_date_of_birth"
-                                                placeholder="Date of Birth">
+                                                placeholder="Date of Birth" max="{{ date('Y-m-d') }}">
                                         </div>
                                         @error('date_of_birth')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -185,7 +173,7 @@
                                                 cols="70">{{ old('bio') }}</textarea>
                                         </div>
                                         @error('bio')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -196,7 +184,7 @@
                                                 placeholder="Skills (List of Expertise)">
                                         </div>
                                         @error('skill')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -224,67 +212,67 @@
                                     @csrf
                                     <div class="ui search focus">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="text" name="username"
-                                                value="{{ old('username') }}" id="id_username" maxlength="64"
+                                            <input class="prompt srch_explore" type="text" name="learner_username"
+                                                value="{{ old('learner_username') }}" id="learner__id_username" maxlength="64"
                                                 placeholder="UserName">
                                         </div>
-                                        @error('username')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                        @error('learner_username')
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="text" name="firstname"
-                                                value="{{ old('firstname') }}" id="id_firstname" maxlength="64"
+                                            <input class="prompt srch_explore" type="text" name="learner_firstname"
+                                                value="{{ old('learner_firstname') }}" id="learner_id_firstname" maxlength="64"
                                                 placeholder="First Name">
                                         </div>
-                                        @error('firstname')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                        @error('learner_firstname')
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="text" name="middlename"
-                                                value="{{ old('middlename') }}" id="id_middlename" maxlength="64"
+                                            <input class="prompt srch_explore" type="text" name="learner_middlename"
+                                                value="{{ old('learner_middlename') }}" id="learner_id_middlename" maxlength="64"
                                                 placeholder="Middle Name">
                                         </div>
-                                        @error('middlename')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                        @error('learner_middlename')
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="text" name="lastname"
-                                                value="{{ old('lastname') }}" id="id_lastname" maxlength="64"
+                                            <input class="prompt srch_explore" type="text" name="learner_lastname"
+                                                value="{{ old('learner_lastname') }}" id="learner_id_lastname" maxlength="64"
                                                 placeholder="Last Name">
                                         </div>
-                                        @error('lastname')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                        @error('learner_lastname')
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="email" name="emailaddress"
-                                                value="{{ old('emailaddress') }}" id="id_email" maxlength="64"
+                                            <input class="prompt srch_explore" type="email" name="learner_emailaddress"
+                                                value="{{ old('learner_emailaddress') }}" id="learner_id_email" maxlength="64"
                                                 placeholder="Email Address">
                                         </div>
-                                        @error('emailaddress')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                        @error('learner_emailaddress')
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="password" name="password"
-                                                value="{{ old('password') }}" id="id_password" maxlength="64"
+                                                value="{{ old('learner_password') }}" id="id_password" maxlength="64"
                                                 placeholder="Password">
                                         </div>
                                         @error('password')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -295,38 +283,28 @@
                                                 id="id_confrimpassword" maxlength="64" placeholder="Confirm Password">
                                         </div>
                                         @error('password_confirmation')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="number" name="phone_no"
-                                                value="{{ old('phone_no') }}" id="id_phoneno" maxlength="64"
+                                            <input class="prompt srch_explore" type="number" name="learner_phone_no"
+                                                value="{{ old('learner_phone_no') }}" id="learner_id_phoneno" maxlength="64"
                                                 placeholder="Phone Number">
                                         </div>
-                                        @error('phone_no')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                        @error('learner_phone_no')
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="file" name="profile_picture_url"
-                                                id="id_profile_picture_url">
+                                            <input class="prompt srch_explore" type="date" name="learner_date_of_birth"
+                                                value="{{ old('learner_date_of_birth') }}" id="learner_id_date_of_birth" max="{{ date('Y-m-d') }}">
                                         </div>
-                                        @error('profile_picture_url')
-                                            <strong class="text-danger">{{ $message }}</strong>
-                                        @enderror
-                                    </div>
-
-                                    <div class="ui search focus mt-15">
-                                        <div class="ui left icon input swdh11 swdh19">
-                                            <input class="prompt srch_explore" type="date" name="date_of_birth"
-                                                value="{{ old('date_of_birth') }}" id="id_date_of_birth">
-                                        </div>
-                                        @error('date_of_birth')
-                                            <strong class="text-danger">{{ $message }}</strong>
+                                        @error('learner_date_of_birth')
+                                            <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
@@ -347,7 +325,7 @@
                         </div>
                         <p class="mb-0 mt-30">Already have an account? <a href="{{ route('login')}}">Log In</a></p>
                     </div>
-                    <div class="sign_footer"><img src="images/sign_logo.png" alt="">© 2024 <strong>CodePilot</strong>. All
+                    <div class="sign_footer">© 2025 <strong>CodePilot</strong>. All
                         Rights Reserved.</div>
                 </div>
             </div>
@@ -357,46 +335,67 @@
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="js/jquery-3.7.1.min.js"></script>
 
+    
+
     <script>
-        $(document).ready(function () {
-            $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
-                e.preventDefault(); // Prevent default form submission
-
-                let form = $(this);
-                let formData = new FormData(this);
-
-                // Clear previous error messages
-                form.find('.text-danger').remove();
-
-                $.ajax({
-                    url: form.attr('action'), // Form action URL
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        // Redirect to the login page with a success message
-                        
-                        setTimeout(() => {
-                            window.location.href = "{{ route('login') }}?success=" + encodeURIComponent('Registration successful! Please log in.');
-                        }, 5000);
-                    },
-                    error: function (xhr) {
-                        // Handle validation errors from the server
-                        if (xhr.status === 422) {
-                            let errors = xhr.responseJSON.errors;
-                            for (let key in errors) {
-                                let input = form.find(`[name="${key}"]`);
-                                let errorMessage = `<strong class="text-danger">${errors[key][0]}</strong>`;
-                                input.closest('.ui.search').append(errorMessage);
-                            }
-                        } else {
-                            alert('An error occurred. Please try again.');
-                        }
+        
+        // {{-- validation --}}
+        (function () {
+            'use strict';
+    
+            document.addEventListener('DOMContentLoaded', function () {
+                const form = document.querySelector('.needs-validation');
+    
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
                     }
-                });
-            });
+                    form.classList.add('was-validated');
+                }, false);
+            }, false);
+        })();
+
+
+        $(document).ready(function () {
+    $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        let form = $(this);
+        let formData = new FormData(this);
+
+        // Clear previous error messages
+        form.find('.text-danger').remove();
+
+        $.ajax({
+            url: form.attr('action'), // Form action URL
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                localStorage.setItem('success', 'Registration successful! Please log in.');
+
+                // Redirect handled by Laravel, no need for JS redirect
+                window.location.href = "{{ route('login') }}";
+            },
+            error: function (xhr) {
+                // Handle validation errors from the server
+                if (xhr.status === 422) {
+                    let errors = xhr.responseJSON.errors;
+                    for (let key in errors) {
+                        let input = form.find(`[name="${key}"]`);
+                        let errorMessage = `<span class="text-danger">${errors[key][0]}</span>`;
+                        input.closest('.ui.search').append(errorMessage);
+                    }
+                } else {
+                    alert('An error occurred. Please try again.');
+                }
+            }
         });
+    });
+});
+
 
     </script>
 
