@@ -41,6 +41,13 @@
 					</div>
 				</li>
 
+				<li class="menu--item">
+					<a href="{{ route('wishlist.index') }}" class="menu--link" title="Saved Courses">
+					  <i class="uil uil-heart-alt menu--icon"></i>
+					  <span class="menu--label">Saved Courses</span>
+					</a>
+				</li>
+
 				{{-- <li class="menu--item">
 					<a href="student_courses.html" class="menu--link" title="Courses">
 						<i class='uil uil-book-alt menu--icon'></i>

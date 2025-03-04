@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\purchesController;
 use App\Http\Controllers\TestOptionController;
 use App\Http\Controllers\TestQestionController;
 use App\Http\Controllers\TestQuestionController;
+use App\Http\Controllers\WishlistController;
 use App\Models\TestOption;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
@@ -184,8 +187,23 @@ route::post('course/price/{course}', [CourseController::class, 'price'])->name('
 
 route::get('course/purches/{id}', [purchesController::class, 'purches_index'])->name('course.purches')->middleware('auth');
 
-Route::get('/learner/profile/{id}', [UserController::class, 'learner_show'])->name('user.learner_show');
+Route::get('/learner/profile/{id}', [UserController::class, 'learner_show'])->name('user.learner_show')->middleware('auth');
 
-Route::get('/instructor/profile/{id}', [UserController::class, 'instructor_show'])->name('user.instructor_show');
+Route::get('/instructor/profile/{id}', [UserController::class, 'instructor_show'])->name('user.instructor_show')->middleware('auth');
 
 Route::post('/account/close', [LoginController::class, 'closeAccount'])->name('account.close');
+
+Route::get('/cart', function () {
+    return view('learner.cart.shopping_cart');
+})->name('cart')->middleware('auth');
+
+Route::get('/saved-course', function () {
+    return view('learner.saved_course.saved_courses');
+    // return view('learner.checkout.checkout');
+})->name('saved.course')->middleware('auth');
+
+route::resource('cart', CartController::class)->middleware('auth');
+route::resource('wishlist', WishlistController::class)->middleware('auth');
+route::resource('order', OrderController::class)->middleware('auth');
+
+Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts');

@@ -193,7 +193,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $courseDetail = Course::with(['category', 'subcategory'])->where('id', $id)->first();
+        $courseDetail = Course::with(['category', 'subcategory','user'])->where('id', $id)->first();
         $courseAttachment = courseAttachment::with('course')->where('course_id', $id)->first();
         $video = video::with('course')->where('course_id', $id)->get();
         // return $video;

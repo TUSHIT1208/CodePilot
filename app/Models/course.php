@@ -40,4 +40,8 @@ class course extends Model
     public function video(){
         return $this->hasMany(video::class);
     }
+
+    public function cart(){
+        return $this->hasMany(cart::class);
+    }
 }

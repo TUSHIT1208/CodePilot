@@ -6,6 +6,7 @@
 <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
 <link href="{{ asset('vendor/unicons-2.0.1/css/unicons.css') }}" rel='stylesheet'>
 <link href="{{ asset('css/vertical-responsive-menu1.min.css') }}" rel="stylesheet">
+<link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/student_dashboard.css') }}" rel="stylesheet">
 <link href="{{ asset('css/student_responsive.css') }}" rel="stylesheet">
 <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet">

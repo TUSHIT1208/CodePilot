@@ -112,13 +112,13 @@ $(document).ready(function () {
 
 
         // Initialize CKEditor instances
-        ClassicEditor.create(document.querySelector('#editor1'))
-            .then(editor => {
-                window.editor1 = editor;
-            })
-            .catch(err => {
-                console.error(err.stack);
-            });
+        // ClassicEditor.create(document.querySelector('#editor1'))
+        //     .then(editor => {
+        //         window.editor1 = editor;
+        //     })
+        //     .catch(err => {
+        //         console.error(err.stack);
+        //     });
         // Steps wizard initialization
         $('#add-course-tab').steps({
             onFinish: function () {

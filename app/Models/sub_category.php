@@ -11,7 +11,7 @@ class sub_category extends Model
     protected $guarded=[];
     public function category()
     {
-        return $this->belongsTo(category::class);
+        return $this->belongsTo(category::class,'category_id');
     }
 
     public function courses()

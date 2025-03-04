@@ -124,14 +124,14 @@
                             <div class="user_dt_left">
                                 <div class="live_user_dt">
                                     <div class="user_img5">
-                                        @if (!empty(auth()->user()->profile_picture_url))
-                                            <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
+                                        @if (!empty($courseDetail->user->profile_picture_url))
+                                            <img id="profile_picture" src="{{ asset($courseDetail->user->profile_picture_url) }}">
                                         @else
-                                            <h1 id="default_avtar" style="position: relative; right: 28%;">{{ substr(Auth::user()->username, 0, 1) }}</h1>
+                                            <h1 id="default_avtar" style="position: relative; right: 28%;">{{ substr($courseDetail->user->first_name, 0, 1) }}</h1>
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
-                                        <a href="{{ route('setting') }}" class="mt-2 _df7852"></a>
+                                        <a href="" class="mt-2 _df7852">{{$courseDetail->user->first_name}}</a>
                                     </div>
                                 </div>
                             </div>

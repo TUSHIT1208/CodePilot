@@ -29,7 +29,7 @@
                                     @foreach($courses as $course)
                                         <div class="col-lg-3 col-md-4">
                                             <div class="fcrse_1 mt-30">
-                                                <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
+                                                    <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
                                                     <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                         alt="Course Thumbnail">
 
@@ -51,8 +51,13 @@
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                         <div class="dropdown-content">
                                                             <span><i class='uil uil-share-alt'></i>Share</span>
-                                                            <span><i class="uil uil-heart"></i>Save</span>
-                                                            <span><i class="uil uil-windsock"></i>Report</span>
+                                                            <form class="wishlistForm">
+                                                                @csrf
+                                                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                            <span class="wishlistButton"><i class="uil uil-heart"></i>Save</span>
+                                                            </form>
+                                                            
+                                                        <span><i class="uil uil-windsock"></i>Report</span>
                                                         </div>
                                                     </div>
                                                     <div class="vdtodt">
@@ -69,8 +74,14 @@
                                                                 href="#">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown'}}</a>
                                                         </p>
                                                         <div class="prce142">${{ $course->price ?? 'Free' }}</div>
-                                                        <button class="shrt-cart-btn" title="cart"><i
-                                                                class="uil uil-shopping-cart-alt"></i></button>
+                                                        <form class="cartForm">
+                                                            @csrf
+                                                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                            <button type="submit" class="shrt-cart-btn" title="Add to Cart">
+                                                                <i class="uil uil-shopping-cart-alt"></i>
+                                                            </button>
+                                                        </form>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,5 +103,74 @@
                 </div>
             </div>
         </div>
-        @include('admin.layouts.footer')
+        @include('learner.layout.footer')
+    </div>
+    <script>
+        
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let wishlistButtons = document.getElementsByClassName('wishlistButton');
+            let wishlistForms = document.getElementsByClassName('wishlistForm');
+
+            Array.from(wishlistButtons).forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    let form = wishlistForms[index];
+                    let formData = new FormData(form);
+                    
+                    fetch("{{ route('wishlist.store') }}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
+                        }
+                    })
+                    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                    .then(({ status, body }) => {
+                        if (status === 201) {
+                            toastr.success(body.message); // Show success message
+                        } else if (status === 409) {
+                            toastr.warning(body.message); // Show warning for duplicate entry
+                        } else {
+                            toastr.error("Something went wrong!");
+                        }
+                    })
+                    .catch(() => {
+                        toastr.error("Error adding to wishlist");
+                    });
+                });
+            });
+
+
+            // Handle Cart
+            document.querySelectorAll('.cartForm').forEach((form, index) => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    let formData = new FormData(this);
+                    let messageDiv = document.querySelectorAll('.cartMessage')[index];
+        
+                    fetch("{{ route('cart.store') }}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
+                        }
+                    })
+                    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                    .then(({ status, body }) => {
+                        if (status === 201) {
+                            toastr.success(body.message); // Show success message
+                        } else if (status === 409) {
+                            toastr.warning(body.message); // Show warning for duplicate entry
+                        } else {
+                            toastr.error("Something went wrong!");
+                        }
+                    })
+                    .catch(() => {
+                        toastr.error("Error adding to cart");
+                    });
+                });
+            });
+        });
+        </script>
+        
 @endsection

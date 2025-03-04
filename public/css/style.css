@@ -5004,7 +5004,7 @@ a.rmv-btn i {
     line-height: 26px;
     padding-top: 27px;
 }
-}
+
 
 .story125 {
     text-align: center;
@@ -8351,14 +8351,14 @@ button.close {
     opacity: .5;
 }
 
-.ck-file-dialog-button {
+/* .ck-file-dialog-button {
   display: none;
 }
 
 [dir=ltr] .ck.ck-dropdown .ck-button.ck-dropdown__button:not(.ck-button_with-text) {
     padding-left: var(--ck-spacing-small);
     display: none;
-}
+} */
 
 .sub_sub_menu--link {
     display: block;
