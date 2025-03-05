@@ -43,7 +43,7 @@
                                     @foreach($wishlistItem as $item)
                                         <div class="fcrse_1 mt-3">
                                             <a href="{{ route('course.show', $item->course->id) }}" class="hf_img">
-                                                <img src="{{ asset($item->course->courseattachment->thumbnail_url ?? 'images/default-thumbnail.jpg') }}" alt="{{ $item->course->title }}">
+                                                <img src="{{ asset('courseThumbnail/' . $item->course->thumbnail_url ?? 'images/default-thumbnail.jpg') }}" alt="{{ $item->course->title }}">
                                                 <div class="course-overlay">
                                                     {{-- <div class="badge_seller">Bestseller</div>
                                                     <div class="crse_reviews">

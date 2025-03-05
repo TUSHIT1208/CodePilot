@@ -103,7 +103,15 @@
                                         Last updated {{ $courseDetail->updated_at }}
                                     </div>
                                     <ul class="_215b31">
-                                        <li><button class="btn_adcart">Add to Cart</button></li>
+                                        <li>
+                                            <form class="cartForm">
+                                                @csrf
+                                                <input type="hidden" name="course_id"
+                                                    value="{{ $courseDetail->id }}">
+                                                <button type="submit" class="btn_adcart"
+                                                    title="Add to Cart">Add to Cart
+                                                </button>
+                                            </form></li>
                                         <li><button class="btn_buy">Buy Now</button></li>
                                     </ul>
                                 </div>
@@ -766,3 +774,41 @@
             </div>
         </div>
     @endsection
+<script>
+    document.querySelectorAll('.cartForm').forEach((form, index) => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    let formData = new FormData(this);
+                    let messageDiv = document.querySelectorAll('.cartMessage')[index];
+
+                    fetch("{{ route('cart.store') }}", {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('input[name=_token]')
+                                    .value
+                            }
+                        })
+                        .then(response => response.json().then(data => ({
+                            status: response.status,
+                            body: data
+                        })))
+                        .then(({
+                            status,
+                            body
+                        }) => {
+                            if (status === 201) {
+                                toastr.success(body.message); // Show success message
+                            } else if (status === 409) {
+                                toastr.warning(body
+                                    .message); // Show warning for duplicate entry
+                            } else {
+                                toastr.error("Something went wrong!");
+                            }
+                        })
+                        .catch(() => {
+                            toastr.error("Error adding to cart");
+                        });
+                });
+            });
+</script>

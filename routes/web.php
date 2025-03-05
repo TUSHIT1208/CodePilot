@@ -20,7 +20,6 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
-
 Route::get('/', function () {
     return view('frontside.about');
 })->name('about');
@@ -206,3 +205,15 @@ route::resource('wishlist', WishlistController::class)->middleware('auth');
 route::resource('order', OrderController::class)->middleware('auth');
 
 Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts');
+
+Route::get('/payment/callback', [OrderController::class, 'paymentCallback']);
+Route::get('/payment-success', function () {
+    return "Payment successful!";
+});
+
+Route::get('/payment-failed', function () {
+    return "Payment failed!";
+});
+Route::post('/razorpay/success', [OrderController::class, 'handlePaymentSuccess']);
+
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
