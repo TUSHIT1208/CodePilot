@@ -387,6 +387,8 @@
         } else {
             alert("Please upload a valid .mp4 video file.");
         }
+    
+
 }
 
 </script>
