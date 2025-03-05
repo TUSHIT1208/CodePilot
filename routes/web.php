@@ -165,6 +165,7 @@ route::resource('testquestion', TestQuestionController::class);
 route::resource('testoption', TestOptionController::class);
 
 Route::resource('courseAttachment',CourseAttachmentController::class);
+Route::post('/video/track', [CourseAttachmentController::class, 'track'])->name('courseAttachment.track');
 
 // Add this route to handle the AJAX request for subcategories
 Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);

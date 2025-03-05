@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function user_video_tracker()
+    {
+        return $this->belongsTo(user_video_tracker::class);
+    }
+
     public function adminprofile(){
         return $this->hasOne(adminprofile::class,'admin_id');
     }

@@ -188,13 +188,13 @@ class CourseController extends Controller
         $courseDetail = Course::with(['category', 'subcategory','courseattachment'])->where('id', $id)->first();
         $users = User::find($courseDetail->user_id);
         // return $video;
-        if (auth()->user()->role->name == 'admin') {
+        if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail','users'));
-        } else if (auth()->user()->role->name == 'insructor') {
-            return view('instructor.course.each_course', compact('courseDetail', 'courseAttachment'));
+        } else if (auth()->user()->role->name === 'insructor') {
+            return view('instructor.course.each_course', compact('courseDetail', 'users'));
 
-        } else if (auth()->user()->role->name == 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'courseAttachment'));
+        } else if (auth()->user()->role->name === 'learner') {
+            return view('learner.course.each_course', compact('courseDetail', 'users'));
         }
     }
 

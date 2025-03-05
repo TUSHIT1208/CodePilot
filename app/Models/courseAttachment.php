@@ -14,4 +14,9 @@ class courseAttachment extends Model
     public function course(){
         return $this->belongsTo(course::class,'course_id');
     }
+
+    public function user_video_tracker()
+    {
+        return $this->belongsTo(user_video_tracker::class);
+    }
 }

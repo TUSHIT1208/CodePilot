@@ -26,7 +26,7 @@
 										<ul class="nav nav-sm flex-column">
 											@foreach($category->sub_categories as $subCategory)
 												<li class="menu--item">
-													<a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link">{{ $subCategory->name }}</a>
+													<a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link" style="background-color: transparent;">{{ $subCategory->name }}</a>
 													{{-- <a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link" data-bs-toggle="collapse">
 														{{ $subCategory->name }}
 													</a> --}}

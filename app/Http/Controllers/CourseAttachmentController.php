@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\course;
+use App\Models\user_video_tracker;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
 use Yajra\DataTables\Facades\DataTables;
@@ -18,44 +19,42 @@ class CourseAttachmentController extends Controller
 
             return DataTables::of($attachments)
                 ->addColumn('url', function ($attachment) {
-                    $documentUrl = asset('courseAssignments/' . $attachment->url);
+                    $documentUrl = $attachment->type === 'video'
+                        ? asset('courseVideo/' . $attachment->url)
+                        : asset('courseAssignments/' . $attachment->url);
 
                     if ($attachment->type === 'video') {
                         return '<video width="100" height="70" controls>
-                                <source src="' . $documentUrl . '" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>';
+                            <source src="' . $documentUrl . '" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>';
                     } else {
-                        // Card-like preview for documents with icons
                         return '<div style="padding: 10px; border-radius: 8px; display: flex; gap: 10px;">
-                                <img src="' . asset('images/2299504.png') . '" alt="PDF" width="70" height="70">
-                                <div>
-                                    <strong>' . $attachment->title . '</strong><br>
-                                    <small>' . round(filesize(public_path('courseAssignments/' . $attachment->url)) / 1024, 2) . ' KB, PDF Document</small>
-                                </div>
-                                <div style="margin-left: auto; display: flex; gap: 10px;" class="mt-4 ext-left">
-                                    <a href="' . $documentUrl . '" target="_blank" class="gray-s">
-                                        <i class="uil uil-eye" style="font-size : 20px;"></i>
-                                    </a>
-                                    <a href="' . $documentUrl . '" download class="gray-s">
-                                        <i class="uil uil-download-alt" style="font-size : 20px;"></i>
-                                    </a>
-                                </div>
-                            </div>';
+                            <img src="' . asset('images/2299504.png') . '" alt="PDF" width="70" height="70">
+                            <div>
+                                <strong>' . $attachment->title . '</strong><br>
+                                <small>' . round(filesize(public_path('courseAssignments/' . $attachment->url)) / 1024, 2) . ' KB, PDF Document</small>
+                            </div>
+                            <div style="margin-left: auto; display: flex; gap: 10px;" class="mt-4 ext-left">
+                                <a href="' . $documentUrl . '" target="_blank" class="gray-s">
+                                    <i class="uil uil-eye" style="font-size : 20px;"></i>
+                                </a>
+                                <a href="' . $documentUrl . '" download class="gray-s">
+                                    <i class="uil uil-download-alt" style="font-size : 20px;"></i>
+                                </a>
+                            </div>
+                        </div>';
                     }
                 })
                 ->addColumn('action', function ($attachment) {
                     return '<a class="gray-s deleteAttachment" data-id="' . $attachment->id . '" data-type="' . $attachment->type . '">
-                                <i class="uil uil-trash"></i>
-                            </a>';
+                            <i class="uil uil-trash"></i>
+                        </a>';
                 })
                 ->rawColumns(['thumbnail_url', 'url', 'action'])
                 ->make(true);
         }
     }
-
-
-
 
 
     public function create()
@@ -144,6 +143,24 @@ class CourseAttachmentController extends Controller
     public function debugger_code($id, $video_id)
     {
         $course_detail = courseAttachment::where('id', $video_id)->first();
-        return view('admin.course.debugger_code', compact('course_detail'));
+
+        if (auth()->user()->role->name === 'admin') {
+            return view('admin.course.debugger_code', compact('course_detail'));
+        } else if (auth()->user()->role->name === 'insructor') {
+            return view('insructor.course.debugger_code', compact('course_detail'));
+        } else if (auth()->user()->role->name === 'learner') {
+            return view('learner.course.debugger_code', compact('course_detail'));
+        }
+
+    }
+
+    public function track(Request $request){
+        user_video_tracker::create([
+            'user_id' => $request->user_id,
+            'course_attachment_id' => $request->course_attachment_id,
+            'time' => $request->current_time,
+            'event' => $request->event,
+            'created_by' => $request->created_by,            
+        ]);
     }
 }
