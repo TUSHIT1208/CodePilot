@@ -127,10 +127,71 @@
                     .then(response => response.json().then(data => ({ status: response.status, body: data })))
                     .then(({ status, body }) => {
                         if (status === 201) {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#28a745', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.success(body.message); // Show success message
                         } else if (status === 409) {
+                            
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#ffc107', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.warning(body.message); // Show warning for duplicate entry
                         } else {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.error("Something went wrong!");
                         }
                     })
@@ -158,10 +219,70 @@
                     .then(response => response.json().then(data => ({ status: response.status, body: data })))
                     .then(({ status, body }) => {
                         if (status === 201) {
+                                toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#28a745', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.success(body.message); // Show success message
                         } else if (status === 409) {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#ffc107', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.warning(body.message); // Show warning for duplicate entry
                         } else {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.error("Something went wrong!");
                         }
                     })

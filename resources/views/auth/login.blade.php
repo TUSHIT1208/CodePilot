@@ -76,9 +76,7 @@
                                         maxlength="64" 
                                         placeholder="Email Address" 
                                         >
-                                        <div class="invalid-feedback">
-                                            Please enter a valid email address.
-                                        </div>
+                                        
                                     <i class="uil uil-envelope icon icon2"></i>
                                 </div>
                                 
@@ -99,9 +97,7 @@
                                         placeholder="Password" 
                                         >
                                     <i class="uil uil-key-skeleton-alt icon icon2"></i>
-                                    <div class="invalid-feedback">
-                                        Please enter your password.
-                                    </div>
+                                    
                                     
                                 </div>
                                 @error('password')
