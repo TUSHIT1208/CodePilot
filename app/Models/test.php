@@ -22,5 +22,9 @@ class test extends Model
     {
         return $this->hasMany(TestQuestion::class, 'test_id');
     }
+    public function testoption()
+    {
+        return $this->hasMany(TestOption::class, 'question_id');
+    }
 
 }

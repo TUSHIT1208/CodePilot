@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 use Yajra\DataTables\Facades\DataTables;
+use function Laravel\Prompts\info;
 
 class TestController extends Controller
 {
@@ -18,20 +19,37 @@ class TestController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            // Fetch tests with related course, questions, and options
+            // $tests = Test::with('course', 'testquestion.testoption')
+            //     ->select('id', 'test_title', 'passing_mark', 'total_marks', 'time', 'created_at');
+            $test_tbl = test::with('testquestion.testoption')->get();
+            return DataTables::of($test_tbl)
+                ->addColumn('questions', function ($test) {
+                    // Loop through test questions and include their options
+                    $questions = $test->testQuestions->map(function ($question) {
+                        $questionDetails = $question->question_text . ' (Score: ' . $question->score . ')';
 
-            $tests = Test::with('course')
-                ->select('id', 'test_title', 'passing_mark', 'total_marks', 'time', 'created_at');
+                        // Get options for each question
+                        $options = $question->testOptions->map(function ($option) {
+                            return $option->option_text . ($option->is_correct ? ' (Correct)' : '');
+                        });
 
-            return DataTables::of($tests)
+                        // Format options below each question
+                        $questionDetails .= '<br>' . implode('<br>', $options);
+                        return $questionDetails;
+                    });
+
+                    return implode('<br><br>', $questions);
+                })
                 ->addColumn('action', function ($test) {
                     return '<a class="gray-s editTest" data-id="' . $test->id . '">
-                        <i class="uil uil-edit"></i>
-                    </a>
-                    <a class="gray-s deleteTest" data-id="' . $test->id . '">
-                        <i class="uil uil-trash"></i>
-                    </a>';
+                            <i class="uil uil-edit"></i>
+                        </a>
+                        <a class="gray-s deleteTest" data-id="' . $test->id . '">
+                            <i class="uil uil-trash"></i>
+                        </a>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'questions']) // Allow HTML formatting
                 ->make(true);
         }
     }
@@ -43,8 +61,8 @@ class TestController extends Controller
     public function create()
     {
         if (auth()->user()->role->name == 'admin') {
-        return view('admin.course.test');
-        }else if (auth()->user()->role->name == 'insructor') {
+            return view('admin.course.test');
+        } else if (auth()->user()->role->name == 'insructor') {
             return view('instructor.course.test');
         }
     }
@@ -108,9 +126,11 @@ class TestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Request $request, $quizId)
     {
-        $quiz = test::findOrFail($id);// Fetch quiz by ID
+        //$quiz_id = $request->course_id;
+        //Log.info($quiz_id);
+        $quiz = test::findOrFail($quizId);// Fetch quiz by ID
         return response()->json($quiz);// Return quiz details as JSON response
     }
 
@@ -135,8 +155,8 @@ class TestController extends Controller
             'total_marks' => 'required|integer',
             'time' => 'required|string',
         ]);
-        $quiz_id = $request->quiz_id;
-        $quiz = test::findOrFail($quiz_id);
+        //$quiz_id = $request->quiz_id;
+        $quiz = test::findOrFail($quizId);
         $quiz->update([
             'course_id' => $request->course_id,  // Set a static course_id for now
             'test_title' => $request->test_title,
@@ -146,11 +166,7 @@ class TestController extends Controller
         ]);
         return response()->json(['success' => 'Quiz updated successfully']);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-
+    
     public function destroy($id)
     {
         $quiz = test::find($id);

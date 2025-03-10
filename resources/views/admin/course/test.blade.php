@@ -1,20 +1,20 @@
 <div class="step-tab-panel step-tab-gallery" id="tab_step2">
     <div class="tab-from-content">
         <div class="title-icon">
-            <h3 class="title"><i class="uil uil-notebooks"></i>Curriculum</h3>
+            <h3 class="title"><i class="uil uil-notebooks"></i>Quiz</h3>
         </div>
         <div class="curriculum-section">
             <div class="row">
                 <div class="col-md-12">
                     <div class="added-section-item">
-                        <div class="section-header">
+                        {{-- <div class="section-header">
                             <h4><i class="fas fa-bars me-2"></i>Introduction</h4>
                             <div class="section-edit-options">
                                 <button class="btn-152" type="button" data-toggle="collapse"
                                     data-target="#edit-section"><i class="fas fa-edit"></i></button>
                                 <button class="btn-152" type="button"><i class="fas fa-trash-alt"></i></button>
                             </div>
-                        </div>
+                        </div> --}}
                         <div id="edit-section" class="collapse">
                             <div class="new-section smt-25">
                                 <div class="form_group">
@@ -32,20 +32,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="section-group-list sortable">
+                        {{-- <div class="section-group-list sortable">
 
-                            <div class="section-list-item">
+                            {{-- <div class="">
                                 <div class="section-item-title">
                                     <i class="fas fa-stream me-2"></i>
                                     <span class="section-item-title-text">Quiz Title</span>
                                 </div>
-                                <button type="button" class="section-item-tools"><i class="fas fa-edit"></i></button>
-                                <button type="button" class="section-item-tools"><i
-                                        class="fas fa-trash-alt"></i></button>
-                                <button type="button" class="section-item-tools ml-auto"><i
-                                        class="fas fa-bars"></i></button>
-                            </div>
-                            <div class="section-list-item">
+                            </div> --}}
+                            {{-- <div class="section-list-item">
                                 <div class="section-item-title">
                                     <i class="fas fa-clipboard-list me-2"></i>
                                     <span class="section-item-title-text">Assignment Title</span>
@@ -56,35 +51,35 @@
                                 <button type="button" class="section-item-tools ml-auto"><i
                                         class="fas fa-bars"></i></button>
                             </div>
-                        </div>
-                        <div class="section-add-item-wrap p-3">
+                        </div> --}}
+                        <form id="form">
+                            @csrf
+                            <div class="section-add-item-wrap p-3">
 
-                            <button class="add_quiz" data-bs-toggle="modal" data-bs-target="#add_quiz_model"><i
-                                    class="far fa-plus-square me-2"></i>Quiz</button>
-                            <button class="add_assignment" data-bs-toggle="modal"
-                                data-bs-target="#add_assignment_model"><i
-                                    class="far fa-plus-square me-2"></i>Assignment</button>
-                        </div>
+                                <button type="button" class="add_quiz" data-bs-toggle="modal"
+                                    data-bs-target="#add_quiz_model">
+                                    <i class="{{ isset($tests) ? '' : 'far fa-plus-square me-2'}}"></i>
+                                </button>Quiz
+                                @if(isset($tests))
+                                    <a class="btn-sm edit-quiz">
+                                        <i class="uil uil-edit-alt ucp-table "></i>
+                                    </a>
+                                    <a class="btn-sm delete-quiz">
+                                        <i class="uil uil-trash-alt ucp-table"></i>
+                                    </a>
+                                @endif
+                                {{-- <button class="add_assignment" data-bs-toggle="modal"
+                                    data-bs-target="#add_assignment_model"><i
+                                        class="far fa-plus-square me-2"></i>Assignment</button> --}}
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="curriculum-section mt-5">
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="quizTable" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Quiz Title</th>
-                                    <th>Passing Marks</th>
-                                    <th>Total Marks</th>
-                                    <th>Time</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Data will be populated by DataTable via AJAX -->
-                            </tbody>
-                        </table>
+
                     </div>
                 </div>
             </div>
@@ -115,15 +110,18 @@
                                 </div>
                                 <div class="tab-content">
                                     <div class="tab-pane fade show active" id="nav-quizbasic" role="tabpanel">
-                                        <form id="quizForm" method="POST" class="needs-validation" novalidate>
+                                        <form id="quizForm" class="needs-validation"
+                                            acition="{{ isset($tests) ? route('test.update', ['quiz' => $tests->id]) : route('test.store') }}"
+                                            novalidate>
                                             @csrf
+                                            {{-- @method('PUT') --}}
                                             @if (isset($course))
                                                 <input type="hidden" name="course_id" id='course_id'
                                                     value="{{ $course->id }}">
                                             @endif 
-
-
-
+                                            @if(isset($tests))
+                                                <input type="hidden" name="quiz_id" id="quiz_id" value="{{ $tests->id }}">
+                                            @endif
 
                                             <div class="new-section">
                                                 <!-- Quiz Title -->
@@ -232,21 +230,39 @@
                                             </div>
                                         </form>
                                         <!-- DataTable to display quiz data -->
-                                        <table id="quizDataTable" class="display" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Questions</th>
-                                                    <th>Score</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Quiz data will be populated here -->
-                                            </tbody>
-                                        </table>
+                                        @if(!isset($test))
+                                            <table id="quizDataTable" class="display" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Questions</th>
+                                                        <th>Score</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Quiz data will be populated here -->
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <table id="testTable" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Test Title</th>
+                                                        <th>Passing Mark</th>
+                                                        <th>Total Marks</th>
+                                                        <th>Time</th>
+                                                        <th>Questions</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        @endif
                                         <div class="mt-4 text-end">
-                                            <button type="button" class="main-btn color btn-hover" id="save-all">
-                                                <i class="fas fa-save me-2"></i>Save All
+                                            <button type="button" class="main-btn color btn-hover"
+                                                id="{{ isset($tests) ? 'edit-quiz' : 'save-all' }}">
+                                                <i class="fas fa-save me-2"></i>{{ isset($tests) ? 'Update' : 'Save' }}
                                             </button>
                                         </div>
                                     </div>
@@ -261,166 +277,88 @@
 </div>
 <!-- Add Quiz End -->
 
-<!-- Edit Quiz Modal -->
-<div class="modal fade" id="editQuizModal" tabindex="-1" role="dialog" aria-labelledby="editQuizModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editQuizModalLabel">Edit Quiz</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <form id="editQuizForm" class="needs-validation" novalidate>
-                    @csrf
-                    {{-- @method('PUT') <!-- Use PUT method for updating --> --}}
-                    @if (isset($course))
-                        <input type="hidden" name="course_id" id='course_id' value="{{ $course->id }}">
-                    @endif 
-
-                    <input type="hidden" name="quiz_id" id="quiz_id">
-
-                    <div class="form_group mt-30">
-                        <label class="label25">Quiz Title*</label>
-                        <input class="form_input_1 form-control" type="text" name="test_title" id="edit_test_title"
-                            placeholder="Title here" required>
-                        <div class="invalid-feedback" id="edit_test_title_error">Please enter quiz title.</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="ui search focus lbel25 mt-30 col-sm-4">
-                            <label>Passing Marks*</label>
-                            <input class="form_input_1 form-control" type="text" name="passing_mark"
-                                id="edit_passing_mark" placeholder="Passing Mark here" required>
-                            <div class="invalid-feedback" id="edit_passing_mark_error">Passing marks below than total
-                                marks</div>
-                        </div>
-
-                        <div class="ui search focus lbel25 mt-30 col-sm-4">
-                            <label>Total Marks*</label>
-                            <input class="form_input_1 form-control" type="text" name="total_marks"
-                                id="edit_total_marks" placeholder="Total marks here" required>
-                            <div class="invalid-feedback" id="edit_total_marks_error">Please enter total marks.</div>
-                        </div>
-
-                        <div class="ui search focus lbel25 mt-30 col-sm-4">
-                            <label>Total Time*</label>
-                            <input class="form_input_1 form-control" type="text" name="time" id="edit_time"
-                                placeholder="Time here" required>
-                            <div class="invalid-feedback" id="edit_time_error">Please enter total time.</div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="main-btn" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="main-btn" id="saveChanges">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <script>
     $(document).ready(function () {
-        // Initialize the DataTable
-        $('#quizTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{ route('test.index') }}',
-            columns: [
-                { data: 'test_title', name: 'test_title' },
-                { data: 'passing_mark', name: 'passing_mark' },
-                { data: 'total_marks', name: 'total_marks' },
-                { data: 'time', name: 'time' },
-                {
-                    data: 'id',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false,
-                    render: function (data, type, row) {
-                        return `
-                        <a class="btn-sm edit-quiz" data-id="${data}"> <i class="uil uil-edit-alt ucp-table"></i></a>
-                        <a class="btn-sm delete-quiz" data-id="${data}"><i class="uil uil-trash-alt ucp-table"></i></a>`;
-                    }
-                }
-            ]
-        });
-
         // Handle the edit button click
-        $('#quizTable').on('click', '.edit-quiz', function () {
-            var quizId = $(this).data('id'); // Get the quiz ID
+
+        $(document).on('click', '.edit-quiz', function () {
+            var quizId = document.getElementById('quiz_id').value; // Get the quiz ID
             // Perform an AJAX request to fetch the quiz data
+            console.log(quizId);
+            // console.log(testdata, "testdata");
+
+            var $course_id = document.getElementById('course_id').value;
             $.ajax({
                 url: '{{route('test.show', '')}}/' + quizId,
                 method: 'GET',
                 success: function (response) {
                     // Populate the modal fields with the response data
-                    $('#quiz_id').val(response.id);
-                    $('#edit_test_title').val(response.test_title);
-                    $('#edit_passing_mark').val(response.passing_mark);
-                    $('#edit_total_marks').val(response.total_marks);
-                    $('#edit_time').val(response.time);
-
+                    $('#test_title').val(response.id);
+                    $('#test_title').val(response.test_title);
+                    $('#passing_mark').val(response.passing_mark);
+                    $('#total_marks').val(response.total_marks);
+                    $('#time').val(response.time);
+                    //testdata
                     // Show the modal
-                    $('#editQuizModal').modal('show');
+
+                    $('#add_quiz_model').modal('show');
                 },
                 error: function (xhr, status, error) {
                     toastr.error('An error occurred while fetching quiz data.', 'Error');
                 }
             });
+
         });
 
         // Handle the save changes button click
-        $('#saveChanges').on('click', function (event) {
-            var form = $('#editQuizForm')[0]; // Get the form element
-            var quizId = $('#quiz_id').val(); // Get the quiz ID
+        $('#edit-quiz').on('click', function (event) {
+            var form = $('#add_quiz_model')[0]; // Get the form element
+            var quizId = document.getElementById('quiz_id').value; // Get the quiz ID
+            console.log("hello");
+
 
             // Apply Bootstrap validation
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-                $(form).addClass('was-validated');
-                return; // Stop execution if validation fails
-            }
+            // if (!form.checkValidity()) {
+            //     event.preventDefault();
+            //     event.stopPropagation();
+            //     $(form).addClass('was-validated');
+            //     return; // Stop execution if validation fails
+            // }
 
             // Custom validation
             var isValid = true;
-            var totalMarks = parseFloat($('#edit_total_marks').val());
-            var passingMarks = parseFloat($('#edit_passing_mark').val());
-            var title = $('#edit_test_title').val().trim();
-            var time = $('#edit_time').val().trim();
+            var totalMarks = parseFloat($('#total_marks').val());
+            var passingMarks = parseFloat($('#passing_mark').val());
+            var title = $('#test_title').val().trim();
+            var time = $('#time').val().trim();
 
             // Check if title and time are required
             if (!title) {
-                $('#edit_test_title').addClass('is-invalid');
-                $('#edit_test_title_error').show();
+                $('#test_title').addClass('is-invalid');
+                $('#test_title_error').show();
                 isValid = false;
             } else {
-                $('#edit_test_title').removeClass('is-invalid');
-                $('#edit_test_title_error').hide();
+                $('#test_title').removeClass('is-invalid');
+                $('#test_title_error').hide();
             }
 
             if (!time) {
-                $('#edit_time').addClass('is-invalid');
-                $('#edit_time_error').show();
+                $('#time').addClass('is-invalid');
+                $('#time_error').show();
                 isValid = false;
             } else {
-                $('#edit_time').removeClass('is-invalid');
-                $('#edit_time_error').hide();
+                $('#time').removeClass('is-invalid');
+                $('#time_error').hide();
             }
 
             // Check if passing marks are greater than total marks
             if (passingMarks > totalMarks || isNaN(passingMarks) || isNaN(totalMarks)) {
-                $('#edit_passing_mark').addClass('is-invalid');
-                $('#edit_passing_mark_error').show();
+                $('#passing_mark').addClass('is-invalid');
+                $('#passing_mark_error').show();
                 isValid = false;
             } else {
-                $('#edit_passing_mark').removeClass('is-invalid');
-                $('#edit_passing_mark_error').hide();
+                $('#passing_mark').removeClass('is-invalid');
+                $('#passing_mark_error').hide();
             }
 
             // If validation fails, stop execution
@@ -432,11 +370,11 @@
             $.ajax({
                 url: '{{route('test.update', '')}}/' + quizId,
                 method: 'PUT',
-                data: $('#editQuizForm').serialize(),
+                data: $('#quizForm').serialize(),
                 success: function (response) {
                     // Update the DataTable and close the modal
                     $('#quizTable').DataTable().ajax.reload();
-                    $('#editQuizModal').modal('hide');
+                    $('#add_quiz_model').modal('hide');
                     toastr.success('Quiz updated successfully');
 
                     // Reset Bootstrap validation state after successful update
@@ -450,9 +388,10 @@
 
 
         // Handle the delete button click
-        $('#quizTable').on('click', '.delete-quiz', function () {
-            var quizId = $(this).data('id'); // Get the quiz ID
-            var row = $(this).closest('tr'); // Get the row of the clicked button
+        $(document).on('click', '.delete-quiz', function (event) {
+            event.preventDefault();
+            var quizId = document.getElementById('quiz_id').value; // Get the quiz ID
+            //var row = $(this).closest('tr'); // Get the row of the clicked button
 
             // Use SweetAlert2 to ask for confirmation before deleting
             Swal.fire({
@@ -474,11 +413,9 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function (response) {
-                            // If successful, remove the row from the table
-                            row.fadeOut(500, function () {
-                                $(this).remove();
-                            });
-                            toastr.success('Quiz Deleted successfully');
+                            // If successful, reload the page
+                            location.reload(); // This will refresh the page
+                            //#3085d6form.reset();
                         },
                         error: function (xhr, status, error) {
                             toastr.error('An error occurred. Please try again.', 'Error');
@@ -491,22 +428,6 @@
 </script>
 
 <script>
-    // // Bootstrap Form Validation
-    // (function () {
-    //     'use strict';
-    //     var forms = document.querySelectorAll('.needs-validation');
-
-    //     Array.prototype.slice.call(forms).forEach(function (form) {
-    //         form.addEventListener('submit', function (event) {
-    //             if (!form.checkValidity()) {
-    //                 event.preventDefault();
-    //                 event.stopPropagation();
-    //             }
-    //             form.classList.add('was-validated');
-    //         }, false);
-    //     });
-    // })();
-
     // Initialize the quizData object
     let quizData = {
         title: '',
@@ -515,6 +436,7 @@
         totalmarks: '',
         questions: []
     };
+
 
     // Add a new option dynamically
     document.getElementById('add-option-btn').addEventListener('click', function () {
@@ -548,6 +470,13 @@
 
     // Save a question with options
     document.getElementById('saveBtn').addEventListener('click', function (event) {
+
+        quizData.course_id = document.getElementById('course_id').value;
+        quizData.title = document.getElementById('test_title').value;
+        quizData.passingMark = document.getElementById('passing_mark').value;
+        quizData.totalmarks = document.getElementById('total_marks').value;
+        quizData.totalTime = document.getElementById('time').value;
+
         const questionForm = document.getElementById('questionForm');
 
         // Apply Bootstrap validation using checkValidity()
@@ -594,13 +523,6 @@
             return; // Stop execution if validation fails
         }
 
-        // Assign quiz details
-        quizData.course_id = document.getElementById('course_id').value;
-        quizData.title = document.getElementById('test_title').value;
-        quizData.passingMark = document.getElementById('passing_mark').value;
-        quizData.totalmarks = document.getElementById('total_marks').value;
-        quizData.totalTime = document.getElementById('time').value;
-
         const questionData = {
             questionText: questionText.value.trim(),
             questionScore: parseFloat(questionScore.value),
@@ -618,12 +540,13 @@
             }
         });
 
+        // Reset the form fields and Bootstrap validation state
         quizData.questions.push(questionData);
         console.log('Updated Quiz Data:', quizData);
 
         // Reset the form fields and Bootstrap validation state
         questionForm.reset();
-        questionForm.classList.remove('was-validated');
+        //questionForm.classList.remove('was-validated');
         document.getElementById('options-section').innerHTML = ''; // Clear options
 
         const table = $('#quizDataTable').DataTable();
@@ -632,93 +555,23 @@
         table.row.add([
             questionData.questionText,
             questionData.questionScore,
-            '<button class="btn btn-warning edit-btn">Edit</button>' +
             '<button class="btn btn-danger delete-btn">Delete</button>'
         ]).draw();
     });
 
 
-    // Event listeners for Edit and Delete buttons
-    let editIndex = null;
+    $('#quizDataTable').on('click', '.delete-btn', function () {
+        const row = $(this).closest('tr'); // Get the row where the delete button was clicked
+        const rowIndex = row.index(); // Get the index of the row
 
-    $(document).on('click', '.edit-btn', function () {
-        const row = $(this).closest('tr');
-        const rowData = $('#quizDataTable').DataTable().row(row).data();
+        // Remove the question from quizData based on the row index
+        quizData.questions.splice(rowIndex, 1);
 
-        // Get the question data from the row
-        const questionText = rowData[0]; // Question text (first column)
-        const questionScore = rowData[1]; // Question score (second column)
+        // Remove the row from the DataTable
+        const table = $('#quizDataTable').DataTable();
+        table.row(row).remove().draw();
 
-        // Set the values in the form
-        document.getElementById('question_text').value = questionText;
-        document.getElementById('question_score').value = questionScore;
-
-        // Get the index of the question in the quizData array
-        editIndex = $('#quizDataTable').DataTable().row(row).index();
-
-        // Get the corresponding question object from the quizData array
-        const questionData = quizData.questions[editIndex];
-
-        // Clear any existing options in the form
-        document.getElementById('options-section').innerHTML = '';
-
-        // Populate the options in the form
-        questionData.options.forEach(option => {
-            const optionItem = document.createElement('div');
-            optionItem.classList.add('row', 'option-item');
-            optionItem.innerHTML = `
-            <div class="col-lg-12 col-md-12">
-                <div class="opt-title">
-                    <h4>Option</h4>
-                    <span class="opt-del"><i class="fas fa-trash-alt"></i></span>
-                </div>
-                <div class="option-wrap">
-                    <div class="form_group">
-                        <label class="label25 text-left">Option Title*</label>
-                        <input class="form_input_1" type="text" name="option_text[]" placeholder="Option title" value="${option.text}" required>
-                        <div class="invalid-feedback">Please enter option title.</div>
-                    </div>
-                    <div class="agree_checkbox">
-                        <input type="checkbox" name="is_correct[]" ${option.is_correct ? 'checked' : ''}>
-                        <label>Correct answer</label>
-                    </div>
-                </div>
-            </div>
-        `;
-            document.getElementById('options-section').appendChild(optionItem);
-
-            // Add delete event for this option
-            optionItem.querySelector('.opt-del').addEventListener('click', function () {
-                optionItem.remove();
-            });
-        });
-
-        // Remove the question from quizData and the DataTable
-        $('#quizDataTable').DataTable().row(row).remove().draw();
-        quizData.questions.splice(editIndex, 1);
-
-        // Reset editIndex after deleting the question
-        editIndex = null;
-    });
-
-
-    $(document).on('click', '.delete-btn', function () {
-        const row = $(this).closest('tr');
-        const rowData = $('#quizDataTable').DataTable().row(row).data();
-
-        // Find the index of the question in quizData
-        const questionText = rowData[0]; // Assuming questionText is in the first column
-        const questionIndex = quizData.questions.findIndex(q => q.questionText === questionText);
-
-        if (questionIndex !== -1) {
-            // Remove the question from quizData
-            quizData.questions.splice(questionIndex, 1);
-        }
-
-        // Remove the row from DataTable
-        $('#quizDataTable').DataTable().row(row).remove().draw();
-
-        console.log('Updated Quiz Data:', quizData);
+        console.log('Updated Quiz Data after deletion:', quizData);
     });
 
 
@@ -740,6 +593,7 @@
     })();
 
     document.getElementById('save-all').addEventListener('click', function (event) {
+        event.preventDefault();
         var quizForm = document.getElementById('quizForm');
 
         // Check form validity using Bootstrap validation
@@ -771,6 +625,7 @@
 
         // Log the quiz data to the console
         console.log('Quiz Data:', quizData);
+        testdata = quizData;
 
         // Send data to server
         $.ajax({
@@ -781,14 +636,19 @@
             data: JSON.stringify(quizData),
             success: function (response) {
                 console.log(response.message);
-                toastr.success("Quiz created successfully");
+                console.log("testdata", testdata);
 
                 // Reset the form and validation state
-                quizForm.reset();
+                //quizForm.reset();
                 quizForm.classList.remove('was-validated');
                 document.getElementById('questionForm').reset();
-                quizData = { title: '', passingMark: '', totalTime: '', questions: [] };
-                $('#quizDataTable').DataTable().clear().draw();
+                // quizData = { title: '', passingMark: '', totalTime: '', questions: [] };
+                $('#add_quiz_model').modal('hide');
+                toastr.success("Quiz created successfully");
+                setTimeout(function () {
+                    location.reload();
+                }, 2000);
+                // $('#quizDataTable').DataTable().clear().draw();
             },
             error: function (xhr, status, error) {
                 console.error(error);
@@ -797,4 +657,41 @@
         });
     });
 
-</script>   
+</script>
+<script>
+    $('#testTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{{ route('test.index') }}' // Update with the correct route
+                        columns: [
+            {
+                data: 'test_title',
+                name: 'test_title'
+            },
+            {
+                data: 'passing_mark',
+                name: 'passing_mark'
+            },
+            {
+                data: 'total_marks',
+                name: 'total_marks'
+            },
+            {
+                data: 'time',
+                name: 'time'
+            },
+            {
+                data: 'questions',
+                name: 'questions',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+        ]
+    });
+</script>

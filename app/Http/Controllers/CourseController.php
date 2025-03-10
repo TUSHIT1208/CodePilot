@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\test;
+use App\Models\User;
+use App\Models\video;
 use App\Models\course;
 use App\Models\category;
 use App\Models\sub_category;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
+use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
-use App\Models\video;
 
 class CourseController extends Controller
 {
@@ -201,19 +203,56 @@ class CourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
         $course = Course::findOrFail($id); // Load course with attachments
         // return $course;
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
+        $tests = test::where('course_id', $id)->select('id')->first();
+
+        if ($request->ajax()) {
+            // Fetch tests with related course, questions, and options
+            // $tests = Test::with('course', 'testquestion.testoption')
+            //     ->select('id', 'test_title', 'passing_mark', 'total_marks', 'time', 'created_at');
+            $test_tbl = test::with('testquestion.testoption')->get();
+            return DataTables::of($test_tbl)
+                ->addColumn('questions', function ($test) {
+                    // Loop through test questions and include their options
+                    $questions = $test->testQuestions->map(function ($question) {
+                        $questionDetails = $question->question_text . ' (Score: ' . $question->score . ')';
+
+                        // Get options for each question
+                        $options = $question->testOptions->map(function ($option) {
+                            return $option->option_text . ($option->is_correct ? ' (Correct)' : '');
+                        });
+
+                        // Format options below each question
+                        $questionDetails .= '<br>' . implode('<br>', $options);
+                        return $questionDetails;
+                    });
+
+                    return implode('<br><br>', $questions);
+                })
+                ->addColumn('action', function ($test) {
+                    return '<a class="gray-s editTest" data-id="' . $test->id . '">
+                            <i class="uil uil-edit"></i>
+                        </a>
+                        <a class="gray-s deleteTest" data-id="' . $test->id . '">
+                            <i class="uil uil-trash"></i>
+                        </a>';
+                })
+                ->rawColumns(['action', 'questions']) // Allow HTML formatting
+                ->make(true);
+        }
+
         if (auth()->user()->role->name == 'admin') {
-            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories'));
+            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
         } else if (auth()->user()->role->name == 'insructor') {
             return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories'));
-
-        }
     }
+    }
+
 
     public function update(Request $request, Course $course)
     {
@@ -249,7 +288,7 @@ class CourseController extends Controller
                 'meta_description'
             ]));
             
-            // ✅ Handle Video Upload
+    
             if ($request->hasFile('introduction_video')) {
                 $video = $request->file('introduction_video');
                 $videoName = time() . '_' . $video->getClientOriginalName();

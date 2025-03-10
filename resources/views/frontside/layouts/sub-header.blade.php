@@ -18,14 +18,6 @@
                         </div>
                     </nav>
                 </div>
-                <div class="title129 mt-35 mb-35">
-                    <h2>Insights, ideas, and stories</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

@@ -422,8 +422,8 @@
                                                 <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $video->id]) }}" class="hf_img"
                                                     onclick="playVideo('{{ asset('courseVideo/' . $video->url) }}', '{{ $video->video_title }}', '{{ $video->description }}')">                                                
                                                         <img src="{{ asset('courseThumbnail/' . $video->thumbnail_url) }}"
-                                                            alt="{{ $video->video_title }}">
-                                                        <div class="course-overlay">
+                                                            alt="{{ $video->video_title }}" style="width: 61%;">
+                                                        <div class="course-overlay" style="width: 61%;">
                                                             <div class="badge_seller">Featured</div>
                                                             <div class="crse_reviews">
                                                                 <i class="uil uil-star"></i>4.5

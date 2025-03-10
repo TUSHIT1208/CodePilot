@@ -30,18 +30,11 @@
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
-    
-<style>
-    /* .was-validated .form-control:invalid{
-        border:none;
-    }
-    .was-validated .form-control:valid{
-        border:none;
-    } */
-</style>
+
 </head>
 
 <body>
+    @inc
     <!-- Signup Start -->
     <div class="sign_in_up_bg">
         <div class="container">
@@ -116,13 +109,13 @@
                         <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="{{ route('register') }}">Sign
                                 Up</a></p>
                     </div>
-                    <div class="sign_footer">© 2025 <strong>CodePilot</strong>
-                        . All Rights Reserved.
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="mt-5">
+    @include('frontside.layouts.footer')
+</div>
     <!-- Signup End -->
     <script>
         (function () {

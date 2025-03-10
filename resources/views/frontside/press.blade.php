@@ -8,6 +8,13 @@
     <!-- Body Start -->
     <div class="wrapper _bg4586 _new89">
         @include('frontside.layouts.sub-header')
+        <div class="title129 mt-35 mb-35">	
+            <h2>What others are saying</h2>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
         <div class="_205ef5">
             <div class="container">
                 <div class="row">

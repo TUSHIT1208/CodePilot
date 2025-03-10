@@ -8,19 +8,26 @@
     <!-- Body Start -->
 	<div class="wrapper _bg4586 _new89">		
 		@include('frontside.layouts.sub-header')
+		<div class="title129 mt-5 mb-35">	
+			<h2>Expanding learning opportunities</h2>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
 		<div class="_215zd5">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="title484">
 							<h2>Our Origins</h2>
-							<img class="line-title" src="images/line.svg" alt="">
+							<img class="line-title" src="{{ asset('images/line.svg') }}" alt="">
 							<p>CodePilot was founded in 2020 by computer science instructor with a vision to provide anyone, anywhere with access to the world’s best education. Now many instructors put their courses online for anyone to take and taught more learners in a few months than they could over an entire lifetime in the classroom. Today, CodePilot has expanded to reach more than 40 million people and 2,300 businesses around the world. On CodePilot you can find online courses, instructors, and certificates from CodePilot.</p >				
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="story125">
-							<img src="images/about/company.jpg" alt="">
+							<img src="{{ asset('images/company.jpg') }}" alt="">
 						</div>
 					</div>
 					
@@ -43,7 +50,7 @@
 						<div class="col-lg-4 col-md-4">						
 							<div class="blogbg_1 mt-30">
 								<a href="#" class="cpy_img">
-									<img src="images/about/company-1.jpg" alt="">
+									<img src="{{ asset('images/company-1.jpg') }}" alt="">
 									<div class="course-overlay"></div>
 								</a>
 								<div class="cpy_content">
@@ -58,7 +65,7 @@
 						<div class="col-lg-4 col-md-4">						
 							<div class="blogbg_1 mt-30">
 								<a href="#" class="cpy_img">
-									<img src="images/about/company-2.jpg" alt="">
+									<img src="{{ asset('images/company-2.jpg') }}" alt="">
 									<div class="course-overlay"></div>
 								</a>
 								<div class="cpy_content">
@@ -73,7 +80,7 @@
 						<div class="col-lg-4 col-md-4">						
 							<div class="blogbg_1 mt-30">
 								<a href="#" class="cpy_img">
-									<img src="images/about/company-3.jpg" alt="">
+									<img src="{{ asset('images/company-3.jpg') }}" alt="">
 									<div class="course-overlay"></div>
 								</a>
 								<div class="cpy_content">
@@ -89,4 +96,5 @@
 				</div>
 			</div>
 		</div>
+	</div>
 @endsection

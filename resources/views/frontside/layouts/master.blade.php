@@ -21,6 +21,7 @@
 
 @yield(section: 'content')
 
+@include('frontside.layouts.footer')
 @include('admin.layouts.vendor-script')
 
 </body>
