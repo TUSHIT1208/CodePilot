@@ -12,58 +12,60 @@
                         @if (isset($course))
                             <input type="hidden" name="course_id" value="{{ $course->id }}">
                         @endif
+                        <input type="hidden" name="type" id="fileType" value="video">
+
                         <div class="mp4 intro-box" style="display: block;">
                             <div class="row">
                                 <div class="ui search focus mt-30 lbel25">
                                     <label for="title-field">Video Title*</label>
                                     <div class="ui left icon">
-                                        <input type="text" name="video_title" id="meta_keyword-field"  
-                                               class="prompt srch_explore form-control"  
-                                               placeholder="Course meta keyword here"   
-                                               required>
+                                        <input type="text" name="video_title" id="meta_keyword-field"
+                                            class="prompt srch_explore form-control"
+                                            placeholder="Course meta keyword here" required>
                                         <div class="invalid-feedback">Video Title is required.</div>
                                     </div>
-
 
                                     <label class="mt-4">Video Description*</label>
                                     <div class="ui form swdh30">
                                         <div class="field">
                                             <textarea rows="3" class="form-control" name="video_discription" placeholder="Video description" required></textarea>
                                             <div class="invalid-feedback">
-                                                The video Discription is required.
+                                                The video Description is required.
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <label class="mt-4">Video Upload*</label>
+
                                 <div class="col-lg-5 col-md-12 mt-2">
-                                    <div class="upload-file-dt">
+                                    <label class="mt-4" style="color: white;">Upload File*</label>
+                                    <div class="upload-file-dt mt-2">
                                         <div class="upload-btn">
-                                            <input class="playlist_video_media" type="file" id="video_play"
-                                                name="playlist_video" accept="video/mp4" required>
-                                            <label for="video_play" title="Zip">Upload Video</label>
+                                            <input class="playlist_media" type="file" id="file_upload"
+                                                name="playlist_file" accept=".mp4,.pdf,.doc,.docx" required>
+                                            <label for="file_upload">Upload File</label>
                                         </div>
                                         <div class="invalid-feedback">
-                                            Please upload a video file (MP4 format).
+                                            Please upload a valid file (MP4, PDF, DOC, DOCX).
                                         </div>
-                                        <span class="uploadBtn-main-file">File Format: .mp4</span>
+                                        <span class="uploadBtn-main-file">Allowed Formats: .mp4, .pdf, .doc,
+                                            .docx</span>
                                         <span class="uploaded-id-preview"></span>
                                     </div>
                                 </div>
+
                                 <div class="thumbnail-into mt-5">
                                     <div class="row">
                                         <div class="col-lg-5 col-md-6">
                                             <label class="label25 text-left">Course Thumbnail*</label>
-                                            <div class="thumb-item-preview">
+                                            <div class="thumb-item-preview" style="background-color: #333 !important;">
                                                 <img src="{{ asset('images/thumbnail-demo.jpg') }}" alt=""
                                                     style="width : 100%;">
-                                                <div class="thumb-dt">
+                                                <div class="thumb-dt text-center">
                                                     <div class="upload-btn">
                                                         <input class="playlist_thumbnail_media" type="file"
                                                             id="video_thumbnail" name="playlist_thumbnail"
                                                             accept="image/jpg,image/jpeg,image/png" required>
-                                                        <label for="video_thumbnail" title="Zip">Choose
-                                                            Thumbnail</label>
+                                                        <label for="video_thumbnail">Choose Thumbnail</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -77,30 +79,23 @@
                             <button type="button" class="main-btn mt-3" id="submitVideoButton">Save</button>
                         </div>
                     </form>
+
                 </div>
 
-                {{-- @if ($video->isEmpty())
-                <div class="no-categories-container text-center fade-in-animation footer mt-5">
-                    <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                    <h3 class="mt-3 scale-in-text" style="color: #777;">No Video Found</h3>
-                    <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
-                        video yet. Add one now to get started!</p>
-                </div> --}}
-                {{-- @else --}}
-                <div class="col-lg-12 mt-4">
+                <div class="col-lg-12 mt-4"
+                    style="background-color: #333 !important; border-radius: 10px; padding: 2%;">
                     <table id="videoTable" class="ucp-table">
                         <thead>
                             <tr>
-                                <th>video title</th>
-                                <th>video Discription</th>
-                                <th>Video</th>
+                                <th>Title</th>
+                                <th>Discription</th>
+                                <th>Content</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
                 </div>
-                {{-- @endif --}}
             </div>
         </div>
     </div>
@@ -108,18 +103,28 @@
 
 <script>
     $(document).ready(function() {
+        $('#file_upload').on('change', function() {
+            var file = this.files[0];
+            if (file) {
+                var fileType = file.type;
+                if (fileType.includes("video")) {
+                    $('#fileType').val('video');
+                } else {
+                    $('#fileType').val('document');
+                }
+            }
+        });
+
         $('#submitVideoButton').on('click', function(event) {
-
-            var form = document.getElementById('videoForm')
+            var form = document.getElementById('videoForm');
             if (!form.checkValidity()) {
-
-                form.classList.add('was-validated')
+                form.classList.add('was-validated');
                 return;
             }
             var formData = new FormData(form);
 
             $.ajax({
-                url: "{{ route('video.store') }}",
+                url: "{{ route('courseAttachment.store') }}",
                 type: 'POST',
                 data: formData,
                 contentType: false,
@@ -135,7 +140,7 @@
                     $('.uploaded-id-preview').empty();
                     $('.thumb-item-preview img').attr('src',
                         '{{ asset('images/thumbnail-demo.jpg') }}');
-                    $('#videoTable').DataTable().ajax.reload(); // Reload the video table
+                    $('#videoTable').DataTable().ajax.reload();
                 },
                 error: function(xhr) {
                     alert('An error occurred: ' + xhr.responseText);
@@ -147,21 +152,28 @@
 
 <script>
     $(document).ready(function() {
+        var courseId = $('input[name="course_id"]').val();
+
         $('#videoTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('video.index') }}',
+            ajax: {
+                url: '{{ route('courseAttachment.index') }}',
+                data: {
+                    course_id: courseId
+                }
+            },
             columns: [{
-                    data: 'video_title',
-                    name: 'video_title'
+                    data: 'title',
+                    name: 'title'
                 },
                 {
-                    data: 'description',
-                    name: 'description'
+                    data: 'discription',
+                    name: 'discription'
                 },
                 {
-                    data: 'video_url',
-                    name: 'video_url'
+                    data: 'url',
+                    name: 'url'
                 },
                 {
                     data: 'action',
@@ -172,13 +184,15 @@
             ]
         });
 
-        // Handle Delete Video Click Event with Swal.fire
-        $(document).on('click', '.deleteVideo', function() {
-            let videoId = $(this).data('id');
+        // Handle Delete Click Event with Swal.fire
+        $(document).on('click', '.deleteAttachment', function() {
+            let attachmentId = $(this).data('id');
+            let attachmentType = $(this).data('type'); // Get type: video or document
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'You are about to delete this video. This action cannot be undone.',
+                text: 'You are about to delete this ' + attachmentType +
+                    '. This action cannot be undone.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -187,20 +201,23 @@
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Send the delete request via AJAX
                     $.ajax({
-                        url: '{{ route('video.destroy', '') }}/' + videoId,
+                        url: '{{ route('courseAttachment.destroy', '') }}/' +
+                            attachmentId,
                         type: 'DELETE',
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
                             if (response.success) {
-                                toastr.success(response.success, 'Success');
+                                let successMessage = attachmentType === 'video' ?
+                                    'Video deleted successfully!' :
+                                    'Document deleted successfully!';
+                                toastr.success(successMessage, 'Success');
                                 $('#videoTable').DataTable().ajax.reload();
                             } else {
-                                toastr.error('Failed to delete the video!',
-                                'Error');
+                                toastr.error('Failed to delete the ' +
+                                    attachmentType + '!', 'Error');
                             }
                         },
                         error: function(xhr) {
@@ -213,21 +230,40 @@
     });
 </script>
 
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Video Preview
-        document.getElementById("video_play").addEventListener("change", function(event) {
+        // File Preview (Video or Document)
+        document.getElementById("file_upload").addEventListener("change", function(event) {
             const file = event.target.files[0];
-            if (file) {
-                const videoPreview = document.createElement("video");
-                videoPreview.src = URL.createObjectURL(file);
-                videoPreview.controls = true;
-                videoPreview.style.maxWidth = "50%";
-                videoPreview.style.height = "auto";
+            const previewContainer = document.querySelector(".uploaded-id-preview");
 
-                const previewContainer = document.querySelector(".uploaded-id-preview");
-                previewContainer.innerHTML = "";
-                previewContainer.appendChild(videoPreview);
+            if (file) {
+                const fileType = file.type;
+                previewContainer.innerHTML = ""; // Clear any existing preview
+
+                if (fileType.includes("video")) {
+                    const videoPreview = document.createElement("video");
+                    videoPreview.src = URL.createObjectURL(file);
+                    videoPreview.controls = true;
+                    videoPreview.style.maxWidth = "50%";
+                    videoPreview.style.height = "auto";
+                    previewContainer.appendChild(videoPreview);
+                } else if (fileType === "application/pdf") {
+                    const pdfPreview = document.createElement("iframe");
+                    pdfPreview.src = URL.createObjectURL(file);
+                    pdfPreview.width = "100%";
+                    pdfPreview.height = "400px";
+                    previewContainer.appendChild(pdfPreview);
+                } else if (fileType === "application/msword" ||
+                    fileType ===
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                    const docMessage = document.createElement("p");
+                    docMessage.textContent = "Document uploaded: " + file.name;
+                    previewContainer.appendChild(docMessage);
+                } else {
+                    alert("Unsupported file format!");
+                }
             }
         });
 

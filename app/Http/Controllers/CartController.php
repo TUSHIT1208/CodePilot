@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\cart;
+use App\Models\order;
+use App\Models\order_item;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -40,9 +42,17 @@ class CartController extends Controller
             ->where('course_id', $request->course_id)
             ->where('is_wishlist', 0)
             ->first();
-        
         if ($existingCartItem) {
             return response()->json(['message' => 'Course is already in the cart'], 409);
+        }
+
+        $paidOrders = Order::where('user_id', auth()->user()->id)->pluck('id'); // pluck() to get only the order IDs
+        $alreadyPurchased = order_item::where('course_id', $request->course_id)
+            ->whereIn('order_id', $paidOrders)
+            ->exists();
+
+        if ($alreadyPurchased) {
+            return response()->json(['message' => 'You have already purchased this course'], 409);
         }
         
         Cart::create([

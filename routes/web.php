@@ -1,28 +1,24 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\purchesController;
-use App\Http\Controllers\TestOptionController;
-use App\Http\Controllers\TestQestionController;
-use App\Http\Controllers\TestQuestionController;
-use App\Http\Controllers\WishlistController;
-use App\Models\TestOption;
+use App\Http\Controllers\PaymentTransactionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VideoController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\purchesController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\TestOptionController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\LearningPathController;
-use App\Http\Controllers\LearnerProfileController;
+use App\Http\Controllers\TestQuestionController;
+use App\Http\Controllers\CourseAttachmentController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\SubCategoryController;
-use Illuminate\Http\Request;
-
 
 
 Route::get('/', function () {
@@ -168,10 +164,12 @@ route::resource('testquestion', TestQuestionController::class);
 
 route::resource('testoption', TestOptionController::class);
 
-Route::resource('video', VideoController::class);
+Route::resource('courseAttachment',CourseAttachmentController::class);
+Route::post('/video/track', [CourseAttachmentController::class, 'track'])->name('courseAttachment.track');
 
 // Add this route to handle the AJAX request for subcategories
 Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
+Route::get('/code-debugger/{id}/{video_id}', [CourseAttachmentController::class, 'debugger_code'])->name('codeDebugger');
 
 Route::get('/course/test', function () {
     return view('admin.course.test');
@@ -207,7 +205,7 @@ route::resource('cart', CartController::class)->middleware('auth');
 route::resource('wishlist', WishlistController::class)->middleware('auth');
 route::resource('order', OrderController::class)->middleware('auth');
 
-Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts');
+Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts')->middleware();
 
 Route::get('/payment/callback', [OrderController::class, 'paymentCallback']);
 Route::get('/payment-success', function () {
@@ -219,4 +217,17 @@ Route::get('/payment-failed', function () {
 });
 Route::post('/razorpay/success', [OrderController::class, 'handlePaymentSuccess']);
 
-Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
+
+route::get('/learning-path', [LearningPathController::class, 'learningpath_learner'])->name('learning.path')->middleware('auth');    
+
+Route::get('/courses-by-category', [CourseController::class, 'getCoursesByCategory'])->name('course.byCategory')->middleware('auth');
+
+route::resource('transactions',PaymentTransactionController::class)->middleware('auth');
+
+Route::get('/payment-history', [PaymentTransactionController::class, 'learner_payment_history'])->name('payment.history')->middleware('auth');
+
+Route::get('/invoice/view/{id}', [PaymentTransactionController::class, 'viewInvoice'])->name('invoice.view')->middleware('auth');
+Route::get('/invoice/download/{id}', [PaymentTransactionController::class, 'downloadInvoice'])->name('invoice.download')->middleware('auth');
+
+Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name('course.publish');

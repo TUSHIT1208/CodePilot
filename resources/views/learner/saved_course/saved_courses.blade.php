@@ -43,7 +43,7 @@
                                     @foreach($wishlistItem as $item)
                                         <div class="fcrse_1 mt-3">
                                             <a href="{{ route('course.show', $item->course->id) }}" class="hf_img">
-                                                <img src="{{ asset($item->course->courseattachment->thumbnail_url ?? 'images/default-thumbnail.jpg') }}" alt="{{ $item->course->title }}">
+                                                <img src="{{ asset('courseThumbnail/' . $item->course->thumbnail_url ?? 'images/default-thumbnail.jpg') }}" alt="{{ $item->course->title }}">
                                                 <div class="course-overlay">
                                                     {{-- <div class="badge_seller">Bestseller</div>
                                                     <div class="crse_reviews">
@@ -91,9 +91,19 @@
                     </div>								
                 </div>				
             </div>
+            <div class="col-md-12">
+                <div class="main-loader mt-50">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    {{-- @include('admin.layouts.footer') --}}
+    @include('learner.layout.footer')
+</div>
     <script>
         document.querySelectorAll('.cartForm').forEach((form, index) => {
                 form.addEventListener('submit', function(event) {
@@ -111,14 +121,94 @@
                     .then(response => response.json().then(data => ({ status: response.status, body: data })))
                     .then(({ status, body }) => {
                         if (status === 201) {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#28a745', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.success(body.message); // Show success message
                         } else if (status === 409) {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-warning").css({
+                                            'background-color': '#ffc107', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.warning(body.message); // Show warning for duplicate entry
                         } else {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-error").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                             toastr.error("Something went wrong!");
                         }
                     })
                     .catch(() => {
+                        toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-error").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
                         toastr.error("Error adding to cart");
                     });
                 });

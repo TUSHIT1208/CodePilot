@@ -10,14 +10,7 @@
                     <div class="col-xl-12 col-lg-8">
                         <div class="section3125 mt-3">
                             <div class="explore_search">
-                                <div class="ui search focus">
-                                    <div class="ui left icon input swdh11">
-                                        <input class="prompt srch_explore" type="text"
-                                            placeholder="Search for Tuts Videos, Tutors, Tests and more..">
-                                        <i class="uil uil-search-alt icon icon2"></i>
-                                    </div>
-                                </div>
-                            </div>
+                           </div>
                         </div>
                     </div>
                     <div class="text-end mt-3">
@@ -41,7 +34,7 @@
                                         <div class="col-lg-3 col-md-4">
                                             <div class="fcrse_1 mt-30">
                                                 <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
-                                                    <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
+                                                    <img src="{{ isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                         alt="Course Thumbnail">
 
                                                     <div class="course-overlay">
@@ -60,10 +53,11 @@
                                                 <div class="fcrse_content">
                                                     <div class="eps_dots more_dropdown">
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                                                        <div class="dropdown-content">
-                                                            <span><i class='uil uil-share-alt'></i>Share</span>
-                                                            <span><i class="uil uil-heart"></i>Save</span>
-                                                            <span><i class="uil uil-windsock"></i>Report</span>
+                                                        <div class="dropdown-content">                                                            
+                                                            <span class="publish-text" data-id="{{ $course->id }}" style="cursor: pointer;">
+                                                                <i class="uil uil-windsock"></i> Publish
+                                                            </span>
+                                                            
                                                             <a href="{{ route('course.edit', $course->id) }}"><span><i
                                                                         class="uil uil-edit-alt text-sm"></i>Edit</span></a>
                                                         </div>
@@ -82,8 +76,6 @@
                                                                 href="#">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown'}}</a>
                                                         </p>
                                                         <div class="prce142">${{ $course->price ?? 'Free' }}</div>
-                                                        <button class="shrt-cart-btn" title="cart"><i
-                                                                class="uil uil-shopping-cart-alt"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -106,4 +98,63 @@
             </div>
         </div>
         @include('admin.layouts.footer')
+        <script>
+            $(document).ready(function () {
+                $('.publish-text').click(function () {
+                    var courseId = $(this).data('id');
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Do you want to publish this course?",
+                        icon: "warning",
+                        background: '#f8f9fa', // Light background color
+                        color: '#343a40', // Dark text color
+                        showCancelButton: true,
+                        confirmButtonColor: "#28a745", // Green color for confirm button
+                        cancelButtonColor: "#dc3545", // Red color for cancel button
+                        confirmButtonText: "Yes, Publish it!",
+                        cancelButtonText: "No, Cancel",
+                        customClass: {
+                            title: 'swal-title', // Custom class for title
+                            content: 'swal-content', // Custom class for content
+                            confirmButton: 'swal-confirm-button', // Custom class for confirm button
+                            cancelButton: 'swal-cancel-button' // Custom class for cancel button
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "{{ route('course.publish') }}", // Add your URL here
+                                type: "POST",
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                    course_id: courseId // Include course ID in the data
+                                },
+                                success: function (response) {
+                                    Swal.fire({
+                                        title: "Published!",
+                                        text: "The course has been published.",
+                                        icon: "success",
+                                        background: '#d4edda', // Light green background for success
+                                        color: '#155724', // Dark green text color
+                                        confirmButtonColor: "#28a745" // Green color for confirm button
+                                    });
+                                    location.reload(); // Reload page after update
+                                },
+                                error: function (xhr) {
+                                    var errorMessage = xhr.responseJSON.message || "Something went wrong.";
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: errorMessage,
+                                        icon: "error",
+                                        background: '#f8d7da', // Light red background for error
+                                        color: '#721c24', // Dark red text color
+                                        confirmButtonColor: "#dc3545" // Red color for confirm button
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+        </script>
 @endsection

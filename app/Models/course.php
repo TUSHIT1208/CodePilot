@@ -12,21 +12,18 @@ class course extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relationship with Category
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    // Relationship with SubCategory
     public function subCategory()
     {
         return $this->belongsTo(Sub_Category::class);
     }
-
 
     public function test()
     {
@@ -34,14 +31,14 @@ class course extends Model
     }
 
     public function courseattachment(){
-        return $this->hasOne(courseAttachment::class);
-    }
-
-    public function video(){
-        return $this->hasMany(video::class);
+        return $this->hasMany(courseAttachment::class);
     }
 
     public function cart(){
         return $this->hasMany(cart::class);
+    }
+
+    public function userCourse(){
+        return $this->hasMany(user_course::class);
     }
 }

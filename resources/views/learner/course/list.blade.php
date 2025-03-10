@@ -1,6 +1,8 @@
 @extends('learner.layout.master')
 
-@section('title') purches Courses @endsection
+@section('title')
+    purches Courses
+@endsection
 
 @section('content_learner')
     <div class="wrapper">
@@ -10,7 +12,7 @@
                     <div class="col-xl-12 col-lg-8">
                         <div class="section3125 mt-3">
                             <h1>Courses</h1>
-                            
+
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -26,15 +28,15 @@
                                             Course yet. Add one now to get started!</p>
                                     </div>
                                 @else
-                                    @foreach($courses as $course)
+                                    @foreach ($courses as $course)
                                         <div class="col-lg-3 col-md-4">
                                             <div class="fcrse_1 mt-30">
-                                                    <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
-                                                    <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
+                                                <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
+                                                    <img src="{{ isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                         alt="Course Thumbnail">
 
                                                     <div class="course-overlay">
-                                                        @if($course->is_active)
+                                                        @if ($course->is_active)
                                                             <div class="badge_seller">Active</div>
                                                         @else
                                                             <div class="badge_seller">InActive</div>
@@ -53,16 +55,19 @@
                                                             <span><i class='uil uil-share-alt'></i>Share</span>
                                                             <form class="wishlistForm">
                                                                 @csrf
-                                                                <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                                            <span class="wishlistButton"><i class="uil uil-heart"></i>Save</span>
+                                                                <input type="hidden" name="course_id"
+                                                                    value="{{ $course->id }}">
+                                                                <span class="wishlistButton"><i
+                                                                        class="uil uil-heart"></i>Save</span>
                                                             </form>
-                                                            
-                                                        <span><i class="uil uil-windsock"></i>Report</span>
+
+                                                            <span><i class="uil uil-windsock"></i>Report</span>
                                                         </div>
                                                     </div>
                                                     <div class="vdtodt">
                                                         <span class="vdt14">50 views</span>
-                                                        <span class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
+                                                        <span
+                                                            class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
                                                     </div>
                                                     <a href="{{ route('course.show', $course->id) }}"
@@ -70,18 +75,20 @@
                                                     <a href="#"
                                                         class="crse-cate">{{ $course->category->name ?? 'Uncategorized' }}</a>
                                                     <div class="auth1lnkprce">
-                                                        <p class="cr1fot">By <a
-                                                                href="#">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown'}}</a>
+                                                        <p>By <a
+                                                                href="javascript:;">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown' }}</a>
                                                         </p>
-                                                        <div class="prce142">${{ $course->price ?? 'Free' }}</div>
+                                                        <div class="prce142">₹{{ $course->price ?? 'Free' }}</div>
                                                         <form class="cartForm">
                                                             @csrf
-                                                            <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                                            <button type="submit" class="shrt-cart-btn" title="Add to Cart">
+                                                            <input type="hidden" name="course_id"
+                                                                value="{{ $course->id }}">
+                                                            <button type="submit" class="shrt-cart-btn"
+                                                                title="Add to Cart">
                                                                 <i class="uil uil-shopping-cart-alt"></i>
                                                             </button>
                                                         </form>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -106,8 +113,6 @@
         @include('learner.layout.footer')
     </div>
     <script>
-        
-
         document.addEventListener("DOMContentLoaded", function() {
             let wishlistButtons = document.getElementsByClassName('wishlistButton');
             let wishlistForms = document.getElementsByClassName('wishlistForm');
@@ -116,7 +121,7 @@
                 button.addEventListener('click', function() {
                     let form = wishlistForms[index];
                     let formData = new FormData(form);
-                    
+
                     fetch("{{ route('wishlist.store') }}", {
                         method: "POST",
                         body: formData,
@@ -164,8 +169,8 @@
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
                                     onShown: function() {
-                                        $(".toast-success").css({
-                                            'background-color': '#ffc107', // Green for success
+                                        $(".toast-warning").css({
+                                            'background-color': '#ffc107', // yellow for success
                                             'opacity': '1'  // Adjust opacity
                                         });
                                 }
@@ -186,7 +191,7 @@
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
                                     onShown: function() {
-                                        $(".toast-success").css({
+                                        $(".toast-error").css({
                                             'background-color': '#dc3545', // Green for success
                                             'opacity': '1'  // Adjust opacity
                                         });
@@ -208,7 +213,7 @@
                     event.preventDefault();
                     let formData = new FormData(this);
                     let messageDiv = document.querySelectorAll('.cartMessage')[index];
-        
+
                     fetch("{{ route('cart.store') }}", {
                         method: "POST",
                         body: formData,
@@ -255,7 +260,7 @@
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
                                     onShown: function() {
-                                        $(".toast-success").css({
+                                        $(".toast-warning").css({
                                             'background-color': '#ffc107', // Green for success
                                             'opacity': '1'  // Adjust opacity
                                         });
@@ -277,7 +282,7 @@
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
                                     onShown: function() {
-                                        $(".toast-success").css({
+                                        $(".toast-error").css({
                                             'background-color': '#dc3545', // Green for success
                                             'opacity': '1'  // Adjust opacity
                                         });
@@ -292,6 +297,5 @@
                 });
             });
         });
-        </script>
-        
+    </script>
 @endsection

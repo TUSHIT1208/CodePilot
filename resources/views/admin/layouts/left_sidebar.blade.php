@@ -34,7 +34,7 @@
                 </li>
                 <li class="menu--item">
                     <a href="{{ route('course.index') }}" class="menu--link" title="Course">
-                        <i class='uil uil-search menu--icon'></i>
+                        <i class="uil uil-graduation-cap menu--icon"></i>
                         <span class="menu--label">Course</span>
                     </a>
                 </li>
@@ -80,6 +80,12 @@
                         <span class="menu--label">Instructors</span>
                     </a>
                 </li>
+                <li class="menu--item">
+                    <a href="{{ route('transactions.index') }}" class="menu--link" title="Transactions History">
+                        <i class='uil uil-transaction menu--icon'></i>
+                        <span class="menu--label">Transactions History</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="left_section pt-2">
@@ -98,7 +104,7 @@
                 </li>
                 <li class="menu--item">
                     <a href="{{route('learningpath.index')}}" class="menu--link" title="Learning Path">
-                        <i class='uil uil-file menu--icon'></i>
+                        <i class='uil uil-bullseye menu--icon'></i>
                         <span class="menu--label">Learning Path</span>
                     </a>
                 </li>

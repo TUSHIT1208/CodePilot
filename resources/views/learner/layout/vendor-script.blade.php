@@ -6,3 +6,4 @@
 <script src="{{ asset('js/custom.js') }}"></script>
 <script src="{{ asset('js/night-mode.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="//cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>

@@ -123,7 +123,7 @@
                             </div>
                             <select class="selectpicker _dlor1 form-control" name="course_type" id="selectcourse_type" required>
                                 <option value="" hidden>Select Course type</option>
-                                <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
+                                {{-- <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option> --}}
                                 <option value="video" {{ old('course_type', $course->course_type ?? '') == 'video' ? 'selected' : '' }}>Video</option>
                             </select>
                             <div class="invalid-feedback">Course Type is required.</div>
@@ -218,20 +218,19 @@
                                         <label>Upload Video*</label>
                                     </div>
                                     <div class="upload-file-dt mt-28">
+                                        <!-- Video Preview Section -->
+                                        <video width="60%" id="video-preview" controls {{ isset($course->url) ? '' : 'hidden' }}>
+                                            <source id="video-source" 
+                                                src="{{ isset($course->url) ? asset('courseVideo/' . $course->url) : '' }}" 
+                                                type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
                                         <div class="upload-btn">
                                             <input class="uploadBtn-main-input" type="file" id="IntroFile__input--source"
                                                 name="introduction_video" accept=".mp4"
-                                                value="{{ old('url', $course->courseattachment->url ?? '') }}"
+                                                value="{{ old('url', $course->url ?? '') }}"
                                                 {{ isset($course) ? '' : 'required' }} onchange="previewVideo(event)">
                                             <label for="IntroFile__input--source" title="Zip">Upload Video</label> 
-                                    
-                                            <!-- Video Preview Section -->
-                                            <video width="100%" id="video-preview" controls {{ isset($course->courseattachment->url) ? '' : 'hidden' }}>
-                                                <source id="video-source" 
-                                                    src="{{ isset($course->courseattachment->url) ? asset('courseVideo/' . $course->courseattachment->url) : '' }}" 
-                                                    type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
                                         </div>
                                         
                                         <span class="uploadBtn-main-file">File Format: .mp4</span>
@@ -245,11 +244,11 @@
                                     </div>
                                     <div class="thumb-item">
                                         <!-- Show Existing Thumbnail -->
-                                        <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/thumbnail-demo.jpg') }}" alt="Course Thumbnail" id="thumbnail-preview">
+                                        <img src="{{ isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/thumbnail-demo.jpg') }}" alt="Course Thumbnail" id="thumbnail-preview" style="width : 60%;">
                                         <div class="thumb-dt">
                                             <div class="upload-btn">
                                                 <input class="uploadBtn-main-input" type="file"
-                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" {{ isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
+                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" value="{{ old('thumbnail_url', $course->thumbnail_url ?? '') }}" {{ isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
                                                 <label for="ThumbFile__input--source" title="Zip">Choose
                                                     Thumbnail</label>
                                             </div>
@@ -265,7 +264,8 @@
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
 {{--                    
                     <div class="mt-5 row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
                         </div>
                         
                     </div> --}}

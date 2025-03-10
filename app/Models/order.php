@@ -10,4 +10,21 @@ class order extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function order_items()
+    {
+        return $this->hasMany(Order_item::class, 'order_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function payment_transaction()
+    {
+        return $this->hasMany(PaymentTransaction::class, 'order_id');
+    }
+
+
 }

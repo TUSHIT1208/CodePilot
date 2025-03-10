@@ -13,7 +13,7 @@
 				<li class="menu--item menu--item__has_sub_menu">
 					<label class="menu--link" href="#sidebarApps" data-bs-toggle="collapse" role="button"
 						aria-expanded="false" aria-controls="sidebarApps">
-						<i class='uil uil-layers menu--icon'></i><span>Category</span>
+						<i class='uil uil-layers menu--icon'></i><span>Course</span>
 					</label>
 					<div class="collapse menu-dropdown" id="sidebarApps">
 						<ul class="nav nav-sm flex-column sub_menu">
@@ -26,7 +26,7 @@
 										<ul class="nav nav-sm flex-column">
 											@foreach($category->sub_categories as $subCategory)
 												<li class="menu--item">
-													<a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link">{{ $subCategory->name }}</a>
+													<a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link" style="background-color: transparent;">{{ $subCategory->name }}</a>
 													{{-- <a href="{{ route('course.purches',$subCategory->id)}}" class="sub_sub_menu--link" data-bs-toggle="collapse">
 														{{ $subCategory->name }}
 													</a> --}}
@@ -40,13 +40,24 @@
 						
 					</div>
 				</li>
-
+				<li class="menu--item">
+					<a href="{{ route('learning.path') }}" class="menu--link" title="Saved Courses">
+						<i class="uil uil-bullseye menu--icon"></i>
+					  <span class="menu--label">Learnign Path</span>
+					</a>
+				</li>
 				<li class="menu--item">
 					<a href="{{ route('wishlist.index') }}" class="menu--link" title="Saved Courses">
 					  <i class="uil uil-heart-alt menu--icon"></i>
 					  <span class="menu--label">Saved Courses</span>
 					</a>
 				</li>
+				<li class="menu--item">
+                    <a href="{{ route('payment.history') }}" class="menu--link" title="Transactions History">
+                        <i class='uil uil-transaction menu--icon'></i>
+                        <span class="menu--label">Transactions History</span>
+                    </a>
+                </li>
 
 				{{-- <li class="menu--item">
 					<a href="student_courses.html" class="menu--link" title="Courses">

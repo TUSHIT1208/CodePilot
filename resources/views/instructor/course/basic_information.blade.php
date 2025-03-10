@@ -64,7 +64,7 @@
                         <div class="course_des_textarea mt-30 lbel25">
                             <label>Course Description*</label>
                             <div class="text-editor">
-                                <textarea id="editor1" class="form-control" 
+                                <textarea  class="form-control editor1" 
                                           name="course_description" placeholder="Item description here" required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
                             </div>
                             <div class="invalid-feedback">Course Description is required.</div>
@@ -77,7 +77,7 @@
                                 <div class="ui form swdh30">
                                     <div class="field">
                                         <textarea rows="3" name="learn_in_course" 
-                                                class="form-control"
+                                                class="form-control editor1"
                                                 id="learn-field"
                                                 required minlength="10" maxlength="1000"
                                                 placeholder="Enter learning outcomes...">{{ old('learn_in_course', $course->learn_in_course ?? '') }}</textarea>
@@ -94,7 +94,7 @@
                                 <div class="ui form swdh30">
                                     <div class="field">
                                         <textarea rows="3" name="requirement" 
-                                                class="form-control"
+                                                class="form-control editor1"
                                                 id="requirement-field"
                                                 required minlength="10" maxlength="1000"
                                                 placeholder="Enter course requirements...">{{ old('requirement', $course->requirement ?? '') }}</textarea>
@@ -123,7 +123,7 @@
                             </div>
                             <select class="selectpicker _dlor1 form-control" name="course_type" id="selectcourse_type" required>
                                 <option value="" hidden>Select Course type</option>
-                                <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
+                                {{-- <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option> --}}
                                 <option value="video" {{ old('course_type', $course->course_type ?? '') == 'video' ? 'selected' : '' }}>Video</option>
                             </select>
                             <div class="invalid-feedback">Course Type is required.</div>
@@ -136,13 +136,13 @@
                             <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory" onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
                                 @if(isset($subcategories))
-                                @foreach($subcategories as $subcategory)
-                                    <option value="{{ $subcategory->id }}" 
-                                        {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
-                                        {{ $subcategory->name }}
-                                    </option>
-                                @endforeach
-                            @endif
+                                    @foreach($subcategories as $subcategory)
+                                        <option value="{{ $subcategory->id }}" 
+                                            {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
+                                            {{ $subcategory->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ old('category_id', $course->category_id ?? '') == $category->id ? 'selected' : '' }}>
                                         {{ $category->name }}
@@ -218,20 +218,19 @@
                                         <label>Upload Video*</label>
                                     </div>
                                     <div class="upload-file-dt mt-28">
+                                        <!-- Video Preview Section -->
+                                        <video width="60%" id="video-preview" controls {{ isset($course->url) ? '' : 'hidden' }}>
+                                            <source id="video-source" 
+                                                src="{{ isset($course->url) ? asset('courseVideo/' . $course->url) : '' }}" 
+                                                type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
                                         <div class="upload-btn">
                                             <input class="uploadBtn-main-input" type="file" id="IntroFile__input--source"
                                                 name="introduction_video" accept=".mp4"
-                                                value="{{ old('url', $course->courseattachment->url ?? '') }}"
+                                                value="{{ old('url', $course->url ?? '') }}"
                                                 {{ isset($course) ? '' : 'required' }} onchange="previewVideo(event)">
                                             <label for="IntroFile__input--source" title="Zip">Upload Video</label> 
-                                    
-                                            <!-- Video Preview Section -->
-                                            <video width="100%" id="video-preview" controls {{ isset($course->courseattachment->url) ? '' : 'hidden' }}>
-                                                <source id="video-source" 
-                                                    src="{{ isset($course->courseattachment->url) ? asset('courseVideo/' . $course->courseattachment->url) : '' }}" 
-                                                    type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
                                         </div>
                                         
                                         <span class="uploadBtn-main-file">File Format: .mp4</span>
@@ -245,11 +244,11 @@
                                     </div>
                                     <div class="thumb-item">
                                         <!-- Show Existing Thumbnail -->
-                                        <img src="{{ isset($course->courseattachment->thumbnail_url) && $course->courseattachment->thumbnail_url != null ? asset('courseThumbnail/' . $course->courseattachment->thumbnail_url) : asset('images/thumbnail-demo.jpg') }}" alt="Course Thumbnail" id="thumbnail-preview">
+                                        <img src="{{ isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/thumbnail-demo.jpg') }}" alt="Course Thumbnail" id="thumbnail-preview" style="width : 60%;">
                                         <div class="thumb-dt">
                                             <div class="upload-btn">
                                                 <input class="uploadBtn-main-input" type="file"
-                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" {{ isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
+                                                    id="ThumbFile__input--source" name="introduction_thumbnail" accept=".jpg,.jpeg,.png" value="{{ old('thumbnail_url', $course->thumbnail_url ?? '') }}" {{ isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
                                                 <label for="ThumbFile__input--source" title="Zip">Choose
                                                     Thumbnail</label>
                                             </div>
@@ -265,7 +264,8 @@
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
 {{--                    
                     <div class="mt-5 row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
+                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
                         </div>
                         
                     </div> --}}
@@ -330,6 +330,42 @@
     </div>
 </div>
 <script>
+
+    // ckeditor
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".editor1").forEach((editorElement, index) => {
+            ClassicEditor
+                .create(editorElement, {
+                    toolbar: {
+                        items: [
+                            'heading', '|', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 
+                            '|', 'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', 
+                            '|', 'alignment', 'outdent', 'indent', 'bulletedList', 'numberedList', 'blockQuote', 
+                            '|', 'insertTable', '|', 'undo', 'redo'
+                        ]
+                    },
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                        ]
+                    }
+                })
+                .then(editor => {
+                    console.log(`Editor ${index + 1} initialized`);
+                })
+                .catch(error => {
+                    console.error("Error initializing CKEditor:", error);
+                });
+        });
+    });
+    
+    
     function previewThumbnail(event) {
         var output = document.getElementById('thumbnail-preview');
         output.src = URL.createObjectURL(event.target.files[0]);
@@ -352,7 +388,7 @@
             alert("Please upload a valid .mp4 video file.");
         }
     
-    
+
 }
 
 </script>
@@ -361,39 +397,6 @@
     if (course) {
     $('#add-course-tab .step-footer button[data-direction="prev"]').css('display', 'none');
 }
-
-    // $(document).ready(function(){
-    //     $("#courseForm").on("submit", function(e){
-    //         e.preventDefault();
-            
-    //         if (!this.checkValidity()) {
-    //             $(this).addClass("was-validated");
-    //             return;
-    //         }
-
-    //         // Prepare the form data including file uploads.
-    //         var formData = new FormData(this);
-            
-    //         $.ajax({
-    //             url: $(this).attr("action"),
-    //             type: $(this).attr("method"),
-    //             data: formData,
-    //             processData: false, // Needed for FormData
-    //             contentType: false, // Needed for FormData
-    //             success: function(response) {
-    //                 // Success message or redirection logic here.
-    //                 alert("Course saved successfully!");
-    //                 // For example, you could redirect:
-    //                 // window.location.href = "/next-step";
-    //             },
-    //             error: function(xhr, status, error) {
-    //                 // Error handling logic.
-    //                 console.error("AJAX error:", error);
-    //                 alert("There was an error saving the course. Please try again.");
-    //             }
-    //         });
-    //     });
-    // });
 </script>
 
 
@@ -401,7 +404,5 @@
     .was-validated .form-control:invalid{
         border-color: #dc3545 !important;
     }
-    /* .was-validated .form-control:valid{
-        border:none;
-    } */
+
 </style>

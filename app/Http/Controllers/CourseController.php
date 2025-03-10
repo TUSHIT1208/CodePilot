@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\course;
 use App\Models\category;
 use App\Models\sub_category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
 use Illuminate\Support\Facades\Log;
@@ -123,6 +124,27 @@ class CourseController extends Controller
 
             Log::info('Validated request data', ['data' => $validated]);
 
+            log::info($request->hasFile('introduction_video'));
+            if ($request->hasFile('introduction_video')) {
+                $videoUrl = $request->file('introduction_video');
+                $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
+                log::info($videoUrlName);
+                $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
+            } else {
+                $videoUrlName = null;
+            }
+            log::info($videoUrlName);
+
+            if ($request->hasFile('introduction_thumbnail')) {
+                $videoThumbnail = $request->file('introduction_thumbnail');
+                $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
+                log::info($videoThumbnailName);
+                $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
+            } else {
+                $videoThumbnailName = null;
+            }
+            log::info($videoThumbnailName);
+
             $course = Course::create([
                 'user_id' => auth()->id(),
                 'category_id' => $request->category_id,
@@ -140,36 +162,9 @@ class CourseController extends Controller
                 'course_description' => $request->course_description,
                 'learn_in_course' => $request->learn_in_course,
                 'requirement' => $request->requirement,
-                'course_level' => $request->course_level,
-
-            ]);
-
-            Log::info('Course created successfully', ['course_id' => $course->id]);
-
-            log::info($request->hasFile('introduction_video'));
-            if ($request->hasFile('introduction_video')) {
-                $videoUrl = $request->file('introduction_video');
-                $videoUrlName = time() . '.' . $videoUrl->getClientOriginalExtension();
-                log::info($videoUrlName);
-                $videoUrl->move(public_path('/courseVideo/'), $videoUrlName);
-            } else {
-                $videoUrlName = null;
-            }
-            log::info($videoUrlName);
-            if ($request->hasFile('introduction_thumbnail')) {
-                $videoThumbnail = $request->file('introduction_thumbnail');
-                $videoThumbnailName = time() . '.' . $videoThumbnail->getClientOriginalExtension();
-                log::info($videoThumbnailName);
-                $videoThumbnail->move(public_path('/courseThumbnail/'), $videoThumbnailName);
-            } else {
-                $videoThumbnailName = null;
-            }
-            log::info($videoThumbnailName);
-            courseAttachment::create([
-                'course_id' => $course->id,
-                'type' => 'video',
                 'url' => $videoUrlName,
                 'thumbnail_url' => $videoThumbnailName,
+                'course_level' => $request->course_level,
             ]);
 
             Log::info('Course created successfully', ['course_id' => $course->id]);
@@ -187,23 +182,19 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'An error occurred while inserting the course.');
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
+    
     public function show($id)
     {
-        $courseDetail = Course::with(['category', 'subcategory','user'])->where('id', $id)->first();
-        $courseAttachment = courseAttachment::with('course')->where('course_id', $id)->first();
-        $video = video::with('course')->where('course_id', $id)->get();
+        $courseDetail = Course::with(['category', 'subcategory','courseattachment'])->where('id', $id)->first();
+        $users = User::find($courseDetail->user_id);
         // return $video;
-        if (auth()->user()->role->name == 'admin') {
-            return view('admin.course.each_course', compact('courseDetail', 'courseAttachment', 'video'));
-        } else if (auth()->user()->role->name == 'insructor') {
-            return view('instructor.course.each_course', compact('courseDetail', 'courseAttachment', 'video'));
+        if (auth()->user()->role->name === 'admin') {
+            return view('admin.course.each_course', compact('courseDetail','users'));
+        } else if (auth()->user()->role->name === 'insructor') {
+            return view('instructor.course.each_course', compact('courseDetail', 'users'));
 
-        } else if (auth()->user()->role->name == 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'courseAttachment', 'video'));
+        } else if (auth()->user()->role->name === 'learner') {
+            return view('learner.course.each_course', compact('courseDetail', 'users'));
         }
     }
 
@@ -212,8 +203,8 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        $course = Course::with('courseattachment')->findOrFail($id); // Load course with attachments
-        //return $course;
+        $course = Course::findOrFail($id); // Load course with attachments
+        // return $course;
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
         if (auth()->user()->role->name == 'admin') {
@@ -240,10 +231,9 @@ class CourseController extends Controller
                 'meta_keyword' => 'required|string|min:3|max:255',
                 'meta_title' => 'required|string|min:3|max:255',
                 'meta_description' => 'required|string|min:10|max:1000',
-
             ]);
             Log::info('Validated request data', ['data' => $validated]);
-            // ✅ Update course details
+
             $course->update($request->only([
                 'title',
                 'description',
@@ -258,15 +248,14 @@ class CourseController extends Controller
                 'meta_title',
                 'meta_description'
             ]));
-
+            
             // ✅ Handle Video Upload
             if ($request->hasFile('introduction_video')) {
                 $video = $request->file('introduction_video');
                 $videoName = time() . '_' . $video->getClientOriginalName();
                 $video->move(public_path('courseVideo'), $videoName);
-
-                $course->courseattachment()->updateOrCreate(
-                    ['course_id' => $course->id],
+                $course->updateOrCreate(
+                    ['id' => $course->id],
                     ['url' => $videoName]
                 );
             }
@@ -277,13 +266,11 @@ class CourseController extends Controller
                 $thumbnailName = time() . '_' . $thumbnail->getClientOriginalName();
                 $thumbnail->move(public_path('courseThumbnail'), $thumbnailName);
 
-                $course->courseattachment()->updateOrCreate(
-                    ['course_id' => $course->id],
+                $course->updateOrCreate(
+                    ['id' => $course->id],
                     ['thumbnail_url' => $thumbnailName]
                 );
             }
-
-
 
             return redirect()->back()->with('success', 'course updated successfully');
         } catch (\Exception $e) {
@@ -312,76 +299,99 @@ class CourseController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Price updated successfully']);
     }
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, $id)
-    // {
-    //     try{
-    //     $course = Course::findOrFail($id);
-
-    //     $validated =$request->validate([
-    //         'title' => 'required|string|max:100|unique:courses,title,' . $id,
-    //         'description' => 'required|string',
-    //         'course_description' => 'required|string',
-    //         'learn_in_course' => 'required|string',
-    //         'requirement' => 'required|string',
-    //         'course_level' => 'required|in:Beginner,Intermediate,Expert',
-    //         'course_type' => 'required|in:text,video',
-    //         'category_id' => 'required|exists:categories,id',
-    //         'sub_category_id' => 'required|exists:sub_categories,id'
-
-    //     ]);
-    //     Log::info('Validated request data', ['data' => $validated]);
-    //     $course->update($request->all());
-
-    //     if ($request->hasFile('introduction_video')) {
-    //         $videoFile = $request->file('introduction_video');
-    //         $videoPath = time() . '.' . $videoFile->getClientOriginalExtension();
-    //         $videoFile->move(public_path('/courseVideo/'), $videoPath);
-    //     } else {
-    //         $videoPath = $course->courseattachment->url ?? null; // Keep existing if not updated
-    //     }
-    //     logger($videoPath);
-    //     // Handle thumbnail file upload if provided
-    //     if ($request->hasFile('introduction_thumbnail')) {
-    //         $thumbnailFile = $request->file('introduction_thumbnail');
-    //         $thumbnailPath = time() . '.' . $thumbnailFile->getClientOriginalExtension();
-    //         $thumbnailFile->move(public_path('/courseThumbnail/'), $thumbnailPath);
-    //     } else {
-    //         $thumbnailPath = $course->courseattachment->thumbnail_url ?? null;
-    //     }
-
-    //     // Update or create course attachment
-    //     $attachment = courseAttachment::where('course_id', $course->id)->first();
-
-    //     if ($attachment) {
-    //         $attachment->update([
-    //             'type' => 'video',
-    //             'url' => $videoPath,
-    //             'thumbnail_url' => $thumbnailPath,
-    //         ]);
-    //     }
-
-    //     return redirect()->back()->with('success','course updated successfully');
-    //     }catch (\Exception $e) {
-    //             Log::error('Error inserting course', [
-    //                 'message' => $e->getMessage(),
-    //                 'line' => $e->getLine(),
-    //                 'file' => $e->getFile(),
-    //                 'trace' => $e->getTraceAsString()
-    //             ]);
-
-    //             return redirect()->back()->with('error', 'An error occurred while updateing the course.');
-    //         }
-    // }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
+   
     public function destroy(course $course)
     {
         //
     }
+    public function getCoursesByCategory(Request $request)
+    {
+        // Find the category by name
+        $category = Category::where('name', $request->category_name)->first();
+
+        // Ensure $courses is always an array or collection
+        $courses = $category ? Course::where('category_id', $category->id)
+        ->where('is_active', 1)
+        ->get() : collect([]);
+
+        // Generate HTML dynamically
+        $html = '<h2 class="mt-2">Courses</h2>';
+
+        if ($courses->isNotEmpty()) { 
+            foreach ($courses as $course) {
+                $html .= '
+            <div class="col-lg-3 col-md-4">
+                <div class="fcrse_1 mt-30">
+                    <a href="' . route('course.show', $course->id) . '" class="fcrse_img">
+                        <img src="' . (isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg')) . '" alt="Course Thumbnail">
+                        <div class="course-overlay">
+                            ' . ($course->is_active ? '<div class="badge_seller">Active</div>' : '<div class="badge_seller">InActive</div>') . '
+                            <div class="crse_reviews"><i class="uil uil-star"></i> 5</div>
+                            <span class="play_btn1"><i class="uil uil-play"></i></span>
+                            <div class="crse_timer">' . ($course->duration ?? 'N/A') . ' hours</div>
+                        </div>
+                    </a>
+                    <div class="fcrse_content">
+                        <div class="eps_dots more_dropdown">
+                            <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+                            <div class="dropdown-content">
+                                <span><i class="uil uil-share-alt"></i>Share</span>
+                                <form class="wishlistForm">
+                                    ' . csrf_field() . '
+                                    <input type="hidden" name="course_id" value="' . $course->id . '">
+                                    <span class="wishlistButton"><i class="uil uil-heart"></i>Save</span>
+                                </form>
+                                <span><i class="uil uil-windsock"></i>Report</span>
+                            </div>
+                        </div>
+                        <div class="vdtodt">
+                            <span class="vdt14">50 views</span>
+                            <span class="vdt14">' . $course->created_at->diffForHumans() . '</span>
+                        </div>
+                        <a href="' . route('course.show', $course->id) . '" class="crse14s">' . $course->title . '</a>
+                        <a href="#" class="crse-cate">' . ($course->category->name ?? 'Uncategorized') . '</a>
+                        <div class="auth1lnkprce">
+                            <p>By <a href="javascript:;">' . ($course->user->first_name . ' ' . $course->user->last_name ?? 'unknown') . '</a></p>
+                            <div class="prce142">₹' . ($course->price ?? 'Free') . '</div>
+                            <form class="cartForm">
+                                ' . csrf_field() . '
+                                <input type="hidden" name="course_id" value="' . $course->id . '">
+                                <button type="submit" class="shrt-cart-btn" title="Add to Cart">
+                                    <i class="uil uil-shopping-cart-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>';
+        }
+        } else {
+            $html = '<p class="text-primary mt-2">No courses found for this learning path.</p>';
+        }
+
+        return response()->json($html);
+    }
+
+    public function publishCourse(Request $request)
+    {
+        try {
+            $course = Course::where('id', $request->course_id)
+                            ->where('user_id', auth()->id()) // Ensure user owns the course
+                            ->firstOrFail();
+
+                            // Check if already published
+            if ($course->is_active == 1) {
+                return response()->json(['success' => false, 'message' => 'Course is already published.'], 400);
+            }
+
+            $course->is_active = 1; // Set the course as published
+            $course->save();
+
+            return response()->json(['success' => true, 'message' => 'Course published successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Something went wrong!'], 500);
+        }
+    }
+    
+
 }

@@ -27,7 +27,12 @@
                         <span class="menu--label">Course</span>
                     </a>
                 </li>
-                
+                {{-- <li class="menu--item">
+                    <a href="{{ route('transactions.index') }}" class="menu--link" title="Transactions History">
+                        <i class='uil uil-transaction menu--icon'></i>
+                        <span class="menu--label">Transactions History</span>
+                    </a>
+                </li> --}}
         <div class="left_section pt-2">
             <ul>
                 <li class="menu--item">

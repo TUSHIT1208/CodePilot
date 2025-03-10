@@ -50,7 +50,7 @@
                         @foreach($cartItems as $cartItem)
                             <div class="fcrse_1 mt-2">
                                 <a href="{{ route('course.show', $cartItem->course->id) }}" class="hf_img">
-                                    <img class="cart_img" src="{{ asset($cartItem->course->courseattachment->thumbnail_url) }}" alt="{{ $cartItem->course->title }}">
+                                    <img class="cart_img" src="{{ asset('courseThumbnail/' . $cartItem->course->thumbnail_url) }}" alt="{{ $cartItem->course->title }}">
                                 </a>
                                 <div class="hs_content">
                                     <div class="eps_dots eps_dots10 more_dropdown">
