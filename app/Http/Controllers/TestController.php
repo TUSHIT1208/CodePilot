@@ -166,7 +166,7 @@ class TestController extends Controller
         ]);
         return response()->json(['success' => 'Quiz updated successfully']);
     }
-    
+
     public function destroy($id)
     {
         $quiz = test::find($id);

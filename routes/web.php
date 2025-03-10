@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\ContactusController;
+use App\Models\certificate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CartController;
@@ -159,11 +162,12 @@ Route::get('/test/{quiz}', [TestController::class, 'show'])->name('test.show');
 Route::put('/test/{quiz}', [TestController::class, 'update'])->name('test.update');
 
 
+
 route::resource('testquestion', TestQuestionController::class);
 
 route::resource('testoption', TestOptionController::class);
 
-Route::resource('courseAttachment',CourseAttachmentController::class);
+Route::resource('courseAttachment', CourseAttachmentController::class);
 Route::post('/video/track', [CourseAttachmentController::class, 'track'])->name('courseAttachment.track');
 
 // Add this route to handle the AJAX request for subcategories
@@ -217,3 +221,31 @@ Route::get('/payment-failed', function () {
 Route::post('/razorpay/success', [OrderController::class, 'handlePaymentSuccess']);
 
 Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+
+Route::get('/certificate/center', function () {
+    return view('learner.course.certificate.certificat_Center');
+})->name('center');
+
+Route::get('/certificate/fillout', function () {
+    return view('learner.course.certificate.fill');
+})->name('learner.fill.certificate');
+
+Route::get('/test/certification', function () {
+    return view('learner.course.certificate.test');
+})->name('learner.certification.exam');
+
+
+
+Route::resource('certificate', CertificateController::class);
+
+Route::get('/genarate', [CertificateController::class, 'index']);
+Route::get('/cirty', [CertificateController::class, 'cirty']);
+
+
+// Route::get('/genarate', function () {
+//     return view('learner.course.certificate.genrate');
+// });
+
+Route::resource('contactus', ContactusController::class);
+Route::delete('/contactus/{id}', [ContactusController::class, 'destroy'])->name('contactus.destroy');
+Route::post('/contactus/delete-multiple', [ContactusController::class, 'deleteMultiple'])->name('contactus.deleteMultiple');

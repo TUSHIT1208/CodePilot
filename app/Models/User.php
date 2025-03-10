@@ -60,19 +60,29 @@ class User extends Authenticatable
         return $this->belongsTo(user_video_tracker::class);
     }
 
-    public function adminprofile(){
-        return $this->hasOne(adminprofile::class,'admin_id');
+    public function adminprofile()
+    {
+        return $this->hasOne(adminprofile::class, 'admin_id');
     }
-    public function learnerprofile(){
-        return $this->hasOne(LearnerProfile::class,'user_id');
+    public function learnerprofile()
+    {
+        return $this->hasOne(LearnerProfile::class, 'user_id');
     }
-    public function instructorprofile(){
-        return $this->hasOne(InstractorProfile::class,'user_id');
+    public function instructorprofile()
+    {
+        return $this->hasOne(InstractorProfile::class, 'user_id');
     }
-    public function course(){
-        return $this->hasMany(course::class,'user_id');
+    public function course()
+    {
+        return $this->hasMany(course::class, 'user_id');
     }
-    public function cart(){
+    public function cart()
+    {
         return $this->hasMany(cart::class);
+    }
+
+    public function certificates()
+    {
+        return $this->hasMany(Certificate::class);
     }
 }

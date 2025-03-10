@@ -27,4 +27,9 @@ class test extends Model
         return $this->hasMany(TestOption::class, 'question_id');
     }
 
+    public function certificates()
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
 }

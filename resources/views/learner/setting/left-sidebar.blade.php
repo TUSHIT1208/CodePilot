@@ -15,6 +15,7 @@
                         <span class="menu--label">Live Streams</span>
                     </a>
                 </li>
+
                 <li class="menu--item">
                     <a href="explore.html" class="menu--link" title="Explore">
                         <i class='uil uil-search menu--icon'></i>

@@ -15,16 +15,26 @@
                                 href="{{ route('carrer') }}">Careers</a>
                             <a class="nav-item nav-link {{ request()->routeIs('press') ? 'active' : '' }}"
                                 href="{{ route('press') }}">Press</a>
+                            <a class="nav-item nav-link {{ request()->routeIs('contect us') ? 'active' : '' }}"
+                                href="{{ route('contactus.create') }}">contect us</a>
                         </div>
                     </nav>
                 </div>
+                <div class="title129 mt-35 mb-35">
+                    <h2>Insights, ideas, and stories</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const tabs = document.querySelectorAll(".nav-item");
 
         tabs.forEach(tab => {
-            tab.addEventListener("click", function() {
+            tab.addEventListener("click", function () {
                 tabs.forEach(t => t.classList.remove("active")); // Remove active from all
                 this.classList.add("active"); // Add active to clicked tab
             });

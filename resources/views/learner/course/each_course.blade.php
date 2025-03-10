@@ -14,8 +14,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-xl-4 col-lg-5 col-md-6">
                                     <div class="preview_video">
-                                        <a href="#" class="fcrse_img" data-bs-toggle="modal"
-                                            data-bs-target="#videoModal">
+                                        <a href="#" class="fcrse_img" data-bs-toggle="modal" data-bs-target="#videoModal">
                                             <!-- Display the course thumbnail -->
                                             <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
                                                 alt="Course Thumbnail" />
@@ -53,7 +52,7 @@
                                 <script>
                                     // When the modal is shown, set the video source dynamically (but don't autoplay)
                                     var videoModal = document.getElementById('videoModal');
-                                    videoModal.addEventListener('show.bs.modal', function(event) {
+                                    videoModal.addEventListener('show.bs.modal', function (event) {
                                         var button = event.relatedTarget; // The element that triggered the modal
                                         var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}"; // Video URL
                                         var videoSource = videoModal.querySelector('#videoSource');
@@ -66,12 +65,12 @@
 
                                     // When the user clicks on the play button in the modal, start the video
                                     var videoPlayer = document.querySelector('#videoPlayer');
-                                    videoPlayer.addEventListener('play', function() {
+                                    videoPlayer.addEventListener('play', function () {
                                         videoPlayer.play(); // Manually start the video when the play button is clicked
                                     });
 
                                     // When the modal is hidden, stop the video
-                                    videoModal.addEventListener('hidden.bs.modal', function() {
+                                    videoModal.addEventListener('hidden.bs.modal', function () {
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
                                         videoPlayer.pause(); // Pause the video when modal is closed
                                         videoPlayer.currentTime = 0; // Reset the video to the beginning
@@ -106,13 +105,13 @@
                                         <li>
                                             <form class="cartForm">
                                                 @csrf
-                                                <input type="hidden" name="course_id"
-                                                    value="{{ $courseDetail->id }}">
-                                                <button type="submit" class="btn_adcart"
-                                                    title="Add to Cart">Add to Cart
+                                                <input type="hidden" name="course_id" value="{{ $courseDetail->id }}">
+                                                <button type="submit" class="btn_adcart" title="Add to Cart">Add to Cart
                                                 </button>
-                                            </form></li>
+                                            </form>
+                                        </li>
                                         <li><button class="btn_buy">Buy Now</button></li>
+                                        <li><a href="{{ route('center') }}"><button class="btn_buy">Test</button></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -133,7 +132,8 @@
                                             <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
                                         @else
                                             <h1 id="default_avtar" style="position: relative; right: 28%;">
-                                                {{ substr(Auth::user()->username, 0, 1) }}</h1>
+                                                {{ substr(Auth::user()->username, 0, 1) }}
+                                            </h1>
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
@@ -148,16 +148,13 @@
                                         <a href="#" class="lkcm152"><i class="uil uil-eye"></i><span>1452</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="lkcm152"><i
-                                                class="uil uil-thumbs-up"></i><span>100</span></a>
+                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-up"></i><span>100</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="lkcm152"><i
-                                                class="uil uil-thumbs-down"></i><span>20</span></a>
+                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-down"></i><span>20</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="lkcm152"><i
-                                                class="uil uil-share-alt"></i><span>9</span></a>
+                                        <a href="#" class="lkcm152"><i class="uil uil-share-alt"></i><span>9</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -430,22 +427,26 @@
                                                 <div class="fcrse_1 flex items-start">
                                                     <div class="w-1/3">
                                                         @if ($attachment->type === 'video')
-                                                            <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $attachment->id]) }}" class="hf_img">
-                                                                <img src="{{ asset('courseThumbnail/' . $attachment->thumbnail_url) }}" alt="{{ $attachment->title }}">
+                                                            <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $attachment->id]) }}"
+                                                                class="hf_img">
+                                                                <img src="{{ asset('courseThumbnail/' . $attachment->thumbnail_url) }}"
+                                                                    alt="{{ $attachment->title }}">
                                                                 <div class="course-overlay">
                                                                     <div class="badge_seller">Featured</div>
                                                                     <div class="crse_reviews">
                                                                         <i class="uil uil-star"></i>4.5
                                                                     </div>
                                                                     <span class="play_btn1"><i class="uil uil-play"></i></span>
-                                                                    <div class="crse_timer" id="video-duration-{{ $attachment->id }}">Loading...</div>
+                                                                    <div class="crse_timer" id="video-duration-{{ $attachment->id }}">
+                                                                        Loading...</div>
                                                                 </div>
                                                             </a>
                                                             <video id="temp-video-{{ $attachment->id }}" style="display:none;">
-                                                                <source src="{{ asset('courseVideo/' . $attachment->url) }}" type="video/mp4">
+                                                                <source src="{{ asset('courseVideo/' . $attachment->url) }}"
+                                                                    type="video/mp4">
                                                             </video>
                                                             <script>
-                                                                document.addEventListener('DOMContentLoaded', function() {
+                                                                document.addEventListener('DOMContentLoaded', function () {
                                                                     const video = document.getElementById('temp-video-{{ $attachment->id }}');
                                                                     video.addEventListener('loadedmetadata', () => {
                                                                         const duration = video.duration;
@@ -459,7 +460,8 @@
                                                             </script>
                                                         @elseif ($attachment->type === 'document')
                                                             <div class="doc-preview bg-gray-100 p-3 rounded-2xl">
-                                                                <iframe src="{{ asset('courseAssignments/' . $attachment->url) }}" width="100%" height="400px" style="border: none;"></iframe>
+                                                                <iframe src="{{ asset('courseAssignments/' . $attachment->url) }}"
+                                                                    width="100%" height="400px" style="border: none;"></iframe>
                                                             </div>
                                                         @endif
                                                     </div>
@@ -467,7 +469,9 @@
                                                         <div class="vdtodt">
                                                             <span class="vdt14">{{ $attachment->views ?? '0' }} views</span>
                                                         </div>
-                                                        <a href="javascript:void(0);" class="crse14s title900">{{ $attachment->title }} | {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
+                                                        <a href="javascript:void(0);"
+                                                            class="crse14s title900">{{ $attachment->title }} |
+                                                            {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
                                                         <p>{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;">{{ $users->username ?? 'Unknown' }}</a></p>
@@ -478,13 +482,15 @@
                                         @endforeach
                                     @else
                                         <div class="no-categories-container text-center fade-in-animation footer">
-                                            <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
+                                            <i class="uil uil-folder-minus bounce-effect"
+                                                style="font-size: 50px; color: #d1d1d1;"></i>
                                             <h3 class="mt-5 scale-in-text" style="color: #777;">No content Found</h3>
-                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any content yet. Add one now to get started!</p>
+                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
+                                                content yet. Add one now to get started!</p>
                                         </div>
                                     @endif
                                 </div>
-                                
+
                                 <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
                                     <div class="student_reviews">
                                         <div class="row">
@@ -551,8 +557,8 @@
                                                         <div class="_rate004">
                                                             <div class="progress progress1">
                                                                 <div class="progress-bar w-2" role="progressbar"
-                                                                    aria-valuenow="2" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
+                                                                    aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
                                                             </div>
                                                             <div class="rating-box">
                                                                 <span class="rating-star full-star"></span>
@@ -566,8 +572,8 @@
                                                         <div class="_rate004">
                                                             <div class="progress progress1">
                                                                 <div class="progress-bar w-1" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
+                                                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
                                                             </div>
                                                             <div class="rating-box">
                                                                 <span class="rating-star full-star"></span>
@@ -773,42 +779,42 @@
                 </div>
             </div>
         </div>
-    @endsection
-<script>
-    document.querySelectorAll('.cartForm').forEach((form, index) => {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    let formData = new FormData(this);
-                    let messageDiv = document.querySelectorAll('.cartMessage')[index];
+@endsection
+    <script>
+        document.querySelectorAll('.cartForm').forEach((form, index) => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                let formData = new FormData(this);
+                let messageDiv = document.querySelectorAll('.cartMessage')[index];
 
-                    fetch("{{ route('cart.store') }}", {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                                "X-CSRF-TOKEN": document.querySelector('input[name=_token]')
-                                    .value
-                            }
-                        })
-                        .then(response => response.json().then(data => ({
-                            status: response.status,
-                            body: data
-                        })))
-                        .then(({
-                            status,
-                            body
-                        }) => {
-                            if (status === 201) {
-                                toastr.success(body.message); // Show success message
-                            } else if (status === 409) {
-                                toastr.warning(body
-                                    .message); // Show warning for duplicate entry
-                            } else {
-                                toastr.error("Something went wrong!");
-                            }
-                        })
-                        .catch(() => {
-                            toastr.error("Error adding to cart");
-                        });
-                });
+                fetch("{{ route('cart.store') }}", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('input[name=_token]')
+                            .value
+                    }
+                })
+                    .then(response => response.json().then(data => ({
+                        status: response.status,
+                        body: data
+                    })))
+                    .then(({
+                        status,
+                        body
+                    }) => {
+                        if (status === 201) {
+                            toastr.success(body.message); // Show success message
+                        } else if (status === 409) {
+                            toastr.warning(body
+                                .message); // Show warning for duplicate entry
+                        } else {
+                            toastr.error("Something went wrong!");
+                        }
+                    })
+                    .catch(() => {
+                        toastr.error("Error adding to cart");
+                    });
             });
-</script>
+        });
+    </script>

@@ -13,7 +13,7 @@
                         <i class='uil uil-book-alt menu--icon'></i>
                         <span class="menu--label">Courses</span>
                     </a>
-                 </li> --}}
+                </li> --}}
                 {{--<li class="menu--item">
                     <a href="{{route('admin.analyics')}}" class="menu--link" title="Analyics">
                         <i class='uil uil-analysis menu--icon'></i>
@@ -100,6 +100,12 @@
                     <a href="{{route('learningpath.index')}}" class="menu--link" title="Learning Path">
                         <i class='uil uil-file menu--icon'></i>
                         <span class="menu--label">Learning Path</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{ route('contactus.index')}}" class="menu--link" title="content us">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">contact us</span>
                     </a>
                 </li>
             </ul>
