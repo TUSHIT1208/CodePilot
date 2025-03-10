@@ -13,7 +13,7 @@
 				<li class="menu--item menu--item__has_sub_menu">
 					<label class="menu--link" href="#sidebarApps" data-bs-toggle="collapse" role="button"
 						aria-expanded="false" aria-controls="sidebarApps">
-						<i class='uil uil-layers menu--icon'></i><span>Category</span>
+						<i class='uil uil-layers menu--icon'></i><span>Course</span>
 					</label>
 					<div class="collapse menu-dropdown" id="sidebarApps">
 						<ul class="nav nav-sm flex-column sub_menu">
@@ -45,19 +45,33 @@
 
 					</div>
 				</li>
-
+				<li class="menu--item">
+					<a href="{{ route('learning.path') }}" class="menu--link" title="Saved Courses">
+						<i class="uil uil-bullseye menu--icon"></i>
+					  <span class="menu--label">Learnign Path</span>
+					</a>
+				</li>
 				<li class="menu--item">
 					<a href="{{ route('wishlist.index') }}" class="menu--link" title="Saved Courses">
 						<i class="uil uil-heart-alt menu--icon"></i>
 						<span class="menu--label">Saved Courses</span>
 					</a>
 				</li>
+<<<<<<< HEAD
 				{{-- <li class="menu--item">
 					<a href="{{ route('certificate.index') }}" class="menu--link" title="Live Streams">
 						<i class='uil uil-kayak menu--icon'></i>
 						<span class="menu--label">certification</span>
 					</a>
 				</li> --}}
+=======
+				<li class="menu--item">
+                    <a href="{{ route('payment.history') }}" class="menu--link" title="Transactions History">
+                        <i class='uil uil-transaction menu--icon'></i>
+                        <span class="menu--label">Transactions History</span>
+                    </a>
+                </li>
+>>>>>>> 170fd6ad535dc9f4bd0c985e90ad9e5539d22cb8
 
 				{{-- <li class="menu--item">
 					<a href="student_courses.html" class="menu--link" title="Courses">

@@ -12,7 +12,7 @@ class course extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function category()
@@ -36,5 +36,9 @@ class course extends Model
 
     public function cart(){
         return $this->hasMany(cart::class);
+    }
+
+    public function userCourse(){
+        return $this->hasMany(user_course::class);
     }
 }

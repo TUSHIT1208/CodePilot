@@ -95,6 +95,7 @@ class OrderController extends Controller
      
              // 3️ Create Razorpay Order
             $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+             
             // Convert amount to paise (Razorpay requires amount in paise)
             $amountInPaise = intval($data['payable_amount'] * 100);
 

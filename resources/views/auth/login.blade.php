@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,500" rel="stylesheet">
     <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
     <!-- Toastr CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link href="{{ asset('vendor/unicons-2.0.1/css/unicons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -34,7 +34,6 @@
 </head>
 
 <body>
-    @inc
     <!-- Signup Start -->
     <div class="sign_in_up_bg">
         <div class="container">
@@ -56,55 +55,39 @@
                         <!-- Login Form -->
                         <form action="{{ route('login_check') }}" method="POST" class="needs-validation" novalidate>
                             @csrf
-                        
+
                             <!-- Email Input -->
                             <div class="ui search focus mt-15">
                                 <div class="ui left icon input swdh95">
-                                    <input 
-                                        class="prompt srch_explore form-control" 
-                                        type="email" 
-                                        name="email" 
-                                        value="{{ old('email') }}" 
-                                        id="id_email" 
-                                        maxlength="64" 
-                                        placeholder="Email Address" 
-                                        >
-                                        <div class="invalid-feedback">
-                                            Please enter a valid email address.
-                                        </div>
+                                    <input class="prompt srch_explore form-control" type="email" name="email"
+                                        value="{{ old('email') }}" id="id_email" maxlength="64"
+                                        placeholder="Email Address">
+
                                     <i class="uil uil-envelope icon icon2"></i>
                                 </div>
-                                
+
                                 @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                        
+
                             <!-- Password Input -->
                             <div class="ui search focus mt-15">
                                 <div class="ui left icon input swdh95">
-                                    <input 
-                                        class="form-control prompt srch_explore" 
-                                        type="password" 
-                                        name="password" 
-                                        id="id_password" 
-                                        maxlength="64" 
-                                        placeholder="Password" 
-                                        >
+                                    <input class="form-control prompt srch_explore" type="password" name="password"
+                                        id="id_password" maxlength="64" placeholder="Password">
                                     <i class="uil uil-key-skeleton-alt icon icon2"></i>
-                                    <div class="invalid-feedback">
-                                        Please enter your password.
-                                    </div>
-                                    
+
+
                                 </div>
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                        
+
                             <button class="login-btn" type="submit">Sign In</button>
                         </form>
-                        
+
                         <p class="sgntrm145">Or <a href="{{ route('forgot_password') }}">Forgot Password</a>.</p>
                         <p class="mb-0 mt-30 hvsng145">Don't have an account? <a href="{{ route('register') }}">Sign
                                 Up</a></p>
@@ -114,16 +97,16 @@
         </div>
     </div>
     <div class="mt-5">
-    @include('frontside.layouts.footer')
-</div>
+        @include('frontside.layouts.footer')
+    </div>
     <!-- Signup End -->
     <script>
         (function () {
             'use strict';
-    
+
             document.addEventListener('DOMContentLoaded', function () {
                 const form = document.querySelector('.needs-validation');
-    
+
                 form.addEventListener('submit', function (event) {
                     if (!form.checkValidity()) {
                         event.preventDefault();
@@ -134,7 +117,7 @@
             }, false);
         })();
     </script>
-    
+
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/OwlCarousel/owl.carousel.js') }}"></script>
@@ -145,7 +128,7 @@
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
-    
+
     <script>
         $(document).ready(function () {
             if (localStorage.getItem('success')) {
@@ -162,7 +145,7 @@
                     hideEasing: "linear",
                     showMethod: "fadeIn",
                     hideMethod: "fadeOut",
-                    onShown: function() {
+                    onShown: function () {
                         $(".toast-success").css({
                             'background-color': '#28a745', // Green for success
                             'opacity': '1'  // Adjust opacity
@@ -187,17 +170,17 @@
                 hideEasing: "linear",
                 showMethod: "fadeIn",
                 hideMethod: "fadeOut",
-                onShown: function() {
+                onShown: function () {
                     $(".toast-success").css({
                         'background-color': '#28a745', // Green for success
                         'opacity': '1'  // Adjust opacity
                     });;
                 }
             };
-    
+
             toastr.success("{{ session('success') }}", "Success");
         @endif
-    
+
         @if(session('error'))
             toastr.options = {
                 closeButton: true,
@@ -211,20 +194,20 @@
                 hideEasing: "linear",
                 showMethod: "fadeIn",
                 hideMethod: "fadeOut",
-                onShown: function() {
+                onShown: function () {
                     $(".toast-error").css({
                         'background-color': '#dc3545', // red for info
                         'opacity': '1'
                     });;
                 }
             };
-    
+
             toastr.error("{{ session('error') }}", "Error");
         @endif
     </script>
-    
-    
-    
+
+
+
 </body>
 
 </html>

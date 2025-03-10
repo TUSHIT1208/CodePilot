@@ -2628,6 +2628,22 @@ Night Mood
     border-color: #242424 !important;
 }
 
-.night-mode .form-control{
-    
+
+
+
+/* Night Mode Styles */
+.night-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+.night-mode .learning-card {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+.night-mode .icon-badge {
+    background: #444;
+}
+.night-mode .progress-bar {
+    background-color: #ffcc00;
 }

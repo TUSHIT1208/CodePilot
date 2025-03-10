@@ -129,4 +129,11 @@ class LearningPathController extends Controller
             return response()->json(['error' => 'Failed to delete Learning Paths.'], 500);
         }
     }
+
+    public function learningpath_learner()
+    {
+        $path_name=LearningPath::all();
+        
+        return view('learner.learningpath.list',compact('path_name'));
+    }
 }

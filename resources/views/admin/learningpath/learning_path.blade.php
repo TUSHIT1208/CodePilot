@@ -396,10 +396,6 @@
             });
         });
     </script>
-<<<<<<< HEAD
-
-=======
->>>>>>> 80ab269913c70442e9d7a5d9bcd0d7b1689ab919
     {{-- edit --}}
     <script>
         $(document).ready(function () {

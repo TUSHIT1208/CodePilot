@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ContactusController;
+use App\Http\Controllers\PaymentTransactionController;
 use App\Models\certificate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
@@ -208,7 +209,7 @@ route::resource('cart', CartController::class)->middleware('auth');
 route::resource('wishlist', WishlistController::class)->middleware('auth');
 route::resource('order', OrderController::class)->middleware('auth');
 
-Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts');
+Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts')->middleware();
 
 Route::get('/payment/callback', [OrderController::class, 'paymentCallback']);
 Route::get('/payment-success', function () {
@@ -249,3 +250,14 @@ Route::get('/cirty', [CertificateController::class, 'cirty']);
 Route::resource('contactus', ContactusController::class);
 Route::delete('/contactus/{id}', [ContactusController::class, 'destroy'])->name('contactus.destroy');
 Route::post('/contactus/delete-multiple', [ContactusController::class, 'deleteMultiple'])->name('contactus.deleteMultiple');
+
+Route::get('/courses-by-category', [CourseController::class, 'getCoursesByCategory'])->name('course.byCategory')->middleware('auth');
+
+route::resource('transactions', PaymentTransactionController::class)->middleware('auth');
+
+Route::get('/payment-history', [PaymentTransactionController::class, 'learner_payment_history'])->name('payment.history')->middleware('auth');
+
+Route::get('/invoice/view/{id}', [PaymentTransactionController::class, 'viewInvoice'])->name('invoice.view')->middleware('auth');
+Route::get('/invoice/download/{id}', [PaymentTransactionController::class, 'downloadInvoice'])->name('invoice.download')->middleware('auth');
+
+Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name('course.publish');

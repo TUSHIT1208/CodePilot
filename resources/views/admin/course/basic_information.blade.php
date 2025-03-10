@@ -123,7 +123,7 @@
                             </div>
                             <select class="selectpicker _dlor1 form-control" name="course_type" id="selectcourse_type" required>
                                 <option value="" hidden>Select Course type</option>
-                                <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option>
+                                {{-- <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option> --}}
                                 <option value="video" {{ old('course_type', $course->course_type ?? '') == 'video' ? 'selected' : '' }}>Video</option>
                             </select>
                             <div class="invalid-feedback">Course Type is required.</div>

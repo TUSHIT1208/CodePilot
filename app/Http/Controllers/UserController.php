@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\adminprofile;
 use App\Models\User;
+use App\Models\user_course;
 use Illuminate\Http\Request;
 use App\Models\LearnerProfile;
 use App\Models\InstractorProfile;
+use App\Models\course;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -302,21 +304,22 @@ class UserController extends Controller
     public function show(string $id)
     {
         $adminData = User::with('adminprofile')->find($id);
-        return view('admin.profile.my_admin_profile', compact('adminData'));
+        $mycourse = Course::where('user_id', $id)->get();
+        return view('admin.profile.my_admin_profile', compact('adminData','mycourse'));
     }
 
     public function learner_show(string $id)
     {
         $leanerData = User::with('learnerprofile')->find($id);
-        
-        return view('learner.profile.my_learner_profile', compact('leanerData'));
+        $mycourse=user_course::with('course')->where('user_id',$id)->get();
+        return view('learner.profile.my_learner_profile', compact('leanerData','mycourse'));
     }
     
     public function instructor_show(string $id)
     {
         $instructorData = User::with('instructorprofile')->find($id);
-        
-        return view('instructor.profile.my_instructor_profile', compact('instructorData'));
+        $mycourse = Course::where('user_id', $id)->get();
+        return view('instructor.profile.my_instructor_profile', compact('instructorData','mycourse'));
     }
 
     public function edit(string $id)

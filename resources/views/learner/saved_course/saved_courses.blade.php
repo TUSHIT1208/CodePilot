@@ -74,7 +74,13 @@
                                                 <div class="auth1lnkprce">
                                                     <p class="cr1fot">By <a href="#">{{ $item->course->user->first_name ?? 'Unknown' }}</a></p>
                                                     <div class="prce142">${{ $item->course->price }}</div>
-                                                    <button class="shrt-cart-btn" title="cart"><i class="uil uil-shopping-cart-alt"></i></button>
+                                                    <form class="cartForm">
+                                                        @csrf
+                                                        <input type="hidden" name="course_id" value="{{ $item->course->id }}">
+                                                        <button type="submit" class="shrt-cart-btn" title="Add to Cart">
+                                                            <i class="uil uil-shopping-cart-alt"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,10 +91,128 @@
                     </div>								
                 </div>				
             </div>
+            <div class="col-md-12">
+                <div class="main-loader mt-50">
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    {{-- @include('admin.layouts.footer') --}}
+    @include('learner.layout.footer')
+</div>
     <script>
+        document.querySelectorAll('.cartForm').forEach((form, index) => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    let formData = new FormData(this);
+                    let messageDiv = document.querySelectorAll('.cartMessage')[index];
+        
+                    fetch("{{ route('cart.store') }}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
+                        }
+                    })
+                    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                    .then(({ status, body }) => {
+                        if (status === 201) {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#28a745', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
+                            toastr.success(body.message); // Show success message
+                        } else if (status === 409) {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-warning").css({
+                                            'background-color': '#ffc107', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
+                            toastr.warning(body.message); // Show warning for duplicate entry
+                        } else {
+                            toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-error").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
+                            toastr.error("Something went wrong!");
+                        }
+                    })
+                    .catch(() => {
+                        toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 5000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-error").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                }
+                            };
+                        toastr.error("Error adding to cart");
+                    });
+                });
+            });
         $(document).on('click', '.delete-wishlist button', function(e) {
             e.preventDefault();
             

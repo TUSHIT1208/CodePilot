@@ -4,6 +4,8 @@
 <!-- Stylesheets -->
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet'>
 <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="//cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
 <link href="{{ asset('vendor/unicons-2.0.1/css/unicons.css') }}" rel='stylesheet'>
 <link href="{{ asset('css/vertical-responsive-menu1.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">

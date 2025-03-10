@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\cart;
 use Illuminate\Http\Request;
+use App\Models\order;
+use App\Models\order_item;
 
 class WishlistController extends Controller
 {
@@ -47,6 +49,14 @@ class WishlistController extends Controller
             ], 409); // 409 Conflict
         }
 
+        $paidOrders = Order::where('user_id', auth()->user()->id)->pluck('id');
+        $alreadyPurchased = order_item::where('course_id', $request->course_id)
+            ->whereIn('order_id', $paidOrders)
+            ->exists();
+        logger($alreadyPurchased);
+        if ($alreadyPurchased) {
+            return response()->json(['message' => 'You have already purchased this course'], 409);
+        }
         // Add to wishlist if not exists
         Cart::create([
             'user_id' => $user->id,

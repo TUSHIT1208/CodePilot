@@ -326,7 +326,7 @@
                                                     <div class="ui search focus mt-30 lbel25">
                                                         <label>Address*</label>
                                                         <div class="ui left icon input swdh11 swdh19">
-                                                            <textarea class="prompt srch_explore"  name="address"  id="id_address" required placeholder="Address"></textarea>															
+                                                            <textarea class="prompt srch_explore form-control"  name="address"  id="id_address" rows="5" cols="30"required placeholder="Address"></textarea>															
                                                         </div>
                                                     </div>
                                                 </div>
@@ -334,7 +334,7 @@
                                                     <div class="ui search focus mt-30 lbel25">
                                                         <label>City*</label>
                                                         <div class="ui left icon input swdh11 swdh19">
-                                                            <input class="prompt srch_explore" type="text" name="city" id="id_city" required maxlength="64" placeholder="City">															
+                                                            <input class="prompt srch_explore form-control" type="text" name="city" id="id_city" required maxlength="64" placeholder="City">															
                                                         </div>							
                                                     </div>
                                                 </div>
@@ -342,7 +342,7 @@
                                                     <div class="ui search focus mt-30 lbel25">
                                                         <label>State / Province / Region*</label>
                                                         <div class="ui left icon input swdh11 swdh19">
-                                                            <input class="prompt srch_explore" type="text" name="state" id="id_state" required maxlength="64" placeholder="State / Province / Region">															
+                                                            <input class="prompt srch_explore form-control" type="text" name="state" id="id_state" required maxlength="64" placeholder="State / Province / Region">															
                                                         </div>
                                                     </div>
                                                 </div>
@@ -350,7 +350,7 @@
                                                     <div class="ui search focus mt-30 lbel25">
                                                         <label>Zip/Postal Code*</label>
                                                         <div class="ui left icon input swdh11 swdh19">
-                                                            <input class="prompt srch_explore" type="text" name="zip_code" id="id_zip" required maxlength="64" placeholder="Zip / Postal Code">															
+                                                            <input class="prompt srch_explore form-control" type="text" name="zip_code" id="id_zip" required maxlength="64" placeholder="Zip / Postal Code">															
                                                         </div>
                                                     </div>
                                                 </div>
@@ -358,7 +358,7 @@
                                                     <div class="ui search focus mt-30 lbel25">
                                                         <label>Phone Number*</label>
                                                         <div class="ui left icon input swdh11 swdh19">
-                                                            <input class="prompt srch_explore" type="text" name="phone" value="{{ Auth::user()->phone_number }}" id="id_phone" required="" maxlength="12" placeholder="Phone Number">															
+                                                            <input class="prompt srch_explore form-control" type="number" name="phone" value="{{ Auth::user()->phone_number }}" id="id_phone" required="" maxlength="12" placeholder="Phone Number">															
                                                         </div>
                                                     </div>
                                                 </div>
@@ -566,7 +566,7 @@ function startRazorpayPayment(razorpay_order_id, amount, order_id) {
         "key": "{{ env('RAZORPAY_KEY') }}", // Razorpay Key
         "amount": amount * 100, // Convert to paisa
         "currency": "INR",
-        "name": "Your Store Name",
+        "name": "CodePilot",
         "description": "Course Purchase",
         "order_id": razorpay_order_id, 
         "handler": function (response) {

@@ -147,7 +147,7 @@ class CourseAttachmentController extends Controller
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.debugger_code', compact('course_detail'));
         } else if (auth()->user()->role->name === 'insructor') {
-            return view('insructor.course.debugger_code', compact('course_detail'));
+            return view('instructor.course.debugger_code', compact('course_detail'));
         } else if (auth()->user()->role->name === 'learner') {
             return view('learner.course.debugger_code', compact('course_detail'));
         }
