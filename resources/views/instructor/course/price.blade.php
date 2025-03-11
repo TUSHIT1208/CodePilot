@@ -54,14 +54,13 @@
                                                             <div class="loc_group">
                                                                 <div class="ui left icon swdh19">
                                                                     <input class="prompt srch_explore form-control"
-                                                                        type="number" placeholder="$0" name="price" id="price"
+                                                                        type="number" placeholder="₹0" name="price" id="price"
                                                                         value="" required><br>
                                                                     <span class="invalid-feedback">
                                                                         Please enter a valid price (minimum: 0.00).
                                                                     </span>
 
                                                                 </div>
-                                                                <span class="slry-dt">USD</span>
                                                             </div>
 
                                                         </div>
@@ -74,14 +73,13 @@
                                                             <div class="loc_group">
                                                                 <div class="ui left icon swdh19">
                                                                     <input class="prompt srch_explore form-control"
-                                                                        type="number" placeholder="$0" name="discount"
+                                                                        type="number" placeholder="₹0" name="discount"
                                                                         id="discount" value="" required>
                                                                     <span class="invalid-feedback">
                                                                         Discount price must be a valid number and not greater
                                                                         than the regular price.
                                                                     </span>
                                                                 </div>
-                                                                <span class="slry-dt">USD</span>
 
                                                             </div>
                                                         </div>
