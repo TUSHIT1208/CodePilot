@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </form> 
-                                <ul class="_ttl120">
+                                {{-- <ul class="_ttl120">
                                     <li>
                                         <div class="_ttl121">
                                             <div class="_ttl122">Enroll Students</div>
@@ -47,7 +47,7 @@
                                             <div class="_ttl123">8</div>
                                         </div>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             </div>
                             <div class="col-lg-6">
                                 <a href="{{ route('learner.setting') }} " class="_216b12">
@@ -117,8 +117,8 @@
                                                     <div class="col-lg-3 col-md-4">
                                                         <div class="fcrse_1 mt-30">
                                                             <a href="{{ route('course.show', $course->course->id) }}" class="fcrse_img">
-                                                                <img src="{{ isset($course->thumbnail_url) && $course->course->thumbnail_url != null ? asset('courseThumbnail/' . $course->course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
-                                                                    alt="Course Thumbnail">
+                                                                <img src="{{ $course->course->thumbnail_url ? asset('courseThumbnail/' . $course->course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
+                                                                    alt="Course Thumbnail">    
             
                                                                 <div class="course-overlay">
                                                                     @if ($course->course->is_active)

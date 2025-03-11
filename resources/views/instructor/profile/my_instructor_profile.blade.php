@@ -38,16 +38,16 @@
                                     <li>
                                         <div class="_ttl121">
                                             <div class="_ttl122">Enroll Students</div>
-                                            <div class="_ttl123">612K</div>
+                                            <div class="_ttl123">{{ $totalLearners }}</div>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="_ttl121">
                                             <div class="_ttl122">Courses</div>
-                                            <div class="_ttl123">8</div>
+                                            <div class="_ttl123">{{ $totalCourses }}</div>
                                         </div>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <div class="_ttl121">
                                             <div class="_ttl122">Reviews</div>
                                             <div class="_ttl123">11K</div>
@@ -58,7 +58,7 @@
                                             <div class="_ttl122">Subscriptions</div>
                                             <div class="_ttl123">452K</div>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                             <div class="col-lg-6">

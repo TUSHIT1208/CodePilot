@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\certificate;
+use App\Models\test;
 use App\Models\PaymentTransaction;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -47,8 +48,19 @@ class CertificateController extends Controller
             'phone_no' => $request->phonenumber,
         ]);
 
-        return view('learner.course.certificate.test');
+        $course = session('course');
 
+        $test = test::with(['testquestion.testoption'])->where('course_id', $course)->first();
+
+        if (!$test) {
+            return redirect()->back()->with('error', 'No test found for this course');
+        }
+
+        if (!session()->has('test_start_time')) {
+            session(['test_start_time' => now()]);
+        }
+
+        return view('learner.course.certificate.test', compact('test'));
     }
     public function cirty()
     {

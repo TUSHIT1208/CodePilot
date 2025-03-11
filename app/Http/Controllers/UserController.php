@@ -305,7 +305,9 @@ class UserController extends Controller
     {
         $adminData = User::with('adminprofile')->find($id);
         $mycourse = Course::where('user_id', $id)->get();
-        return view('admin.profile.my_admin_profile', compact('adminData','mycourse'));
+        $totalCourses = $mycourse->count();
+        $totalLearners = User::where('role_id', '3')->count();
+        return view('admin.profile.my_admin_profile', compact('adminData','mycourse','totalCourses','totalLearners'));
     }
 
     public function learner_show(string $id)
@@ -319,7 +321,9 @@ class UserController extends Controller
     {
         $instructorData = User::with('instructorprofile')->find($id);
         $mycourse = Course::where('user_id', $id)->get();
-        return view('instructor.profile.my_instructor_profile', compact('instructorData','mycourse'));
+        $totalCourses = $mycourse->count();
+        $totalLearners = User::where('role_id', '3')->count();
+        return view('instructor.profile.my_instructor_profile', compact('instructorData','mycourse','totalCourses','totalLearners'));
     }
 
     public function edit(string $id)

@@ -244,7 +244,7 @@
                                                 </tbody>
                                             </table>
                                         @else
-                                            <table id="testTable" class="table table-striped table-bordered">
+                                            {{-- <table id="testTable" class="table table-striped table-bordered">
                                                 <thead>
                                                     <tr>
                                                         <th>Test Title</th>
@@ -257,7 +257,7 @@
                                                 </thead>
                                                 <tbody>
                                                 </tbody>
-                                            </table>
+                                            </table> --}}
                                         @endif
                                         <div class="mt-4 text-end">
                                             <button type="button" class="main-btn color btn-hover"
@@ -469,8 +469,8 @@
     });
 
     // Save a question with options
+    // Save a question with options
     document.getElementById('saveBtn').addEventListener('click', function (event) {
-
         quizData.course_id = document.getElementById('course_id').value;
         quizData.title = document.getElementById('test_title').value;
         quizData.passingMark = document.getElementById('passing_mark').value;
@@ -491,6 +491,7 @@
         const questionText = document.querySelector('input[name="question_text"]');
         const questionScore = document.querySelector('input[name="question_score"]');
         const optionInputs = document.querySelectorAll('input[name="option_text[]"]');
+        const correctAnswers = document.querySelectorAll('input[name="is_correct[]"]');
 
         let isValid = true;
 
@@ -519,6 +520,19 @@
             optionInputs.forEach(input => input.classList.remove('is-invalid'));
         }
 
+        // Ensure that only one correct answer is selected
+        const selectedCorrectAnswers = Array.from(correctAnswers).filter(input => input.checked);
+        if (selectedCorrectAnswers.length !== 1) {
+            correctAnswers.forEach(input => input.classList.add('is-invalid'));
+            toastr.warning("pleas one option");
+            setTimeout(function () {
+            }, 2000);//alert("Please select exactly one correct answer.");
+
+            isValid = false;
+        } else {
+            correctAnswers.forEach(input => input.classList.remove('is-invalid'));
+        }
+
         if (!isValid) {
             return; // Stop execution if validation fails
         }
@@ -530,7 +544,6 @@
         };
 
         // Collect options and correct answers
-        const correctAnswers = document.querySelectorAll('input[name="is_correct[]"]');
         optionInputs.forEach((input, index) => {
             if (input.value.trim()) {
                 questionData.options.push({
@@ -546,7 +559,6 @@
 
         // Reset the form fields and Bootstrap validation state
         questionForm.reset();
-        //questionForm.classList.remove('was-validated');
         document.getElementById('options-section').innerHTML = ''; // Clear options
 
         const table = $('#quizDataTable').DataTable();
@@ -558,6 +570,18 @@
             '<button class="btn btn-danger delete-btn">Delete</button>'
         ]).draw();
     });
+
+    // Ensure that only one correct answer can be selected
+    document.addEventListener('change', function (event) {
+        if (event.target.name === 'is_correct[]') {
+            document.querySelectorAll('input[name="is_correct[]"]').forEach(input => {
+                if (input !== event.target) {
+                    input.checked = false; // Uncheck all other checkboxes
+                }
+            });
+        }
+    });
+
 
 
     $('#quizDataTable').on('click', '.delete-btn', function () {

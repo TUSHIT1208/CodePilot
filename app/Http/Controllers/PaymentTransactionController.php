@@ -100,7 +100,7 @@ class PaymentTransactionController extends Controller
             ->with('order.order_items.course')
             ->firstOrFail();
 
-            $pdf = Pdf::loadView('learner.payment_history.pdf', compact('transaction'));
+            $pdf = Pdf::loadView('learner.payment_history.invoice', compact('transaction'));
 
             // Return the PDF for download
             return $pdf->download("invoice-{$transaction->transaction_id}.pdf");

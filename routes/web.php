@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\ContactusController;
-use App\Http\Controllers\PaymentTransactionController;
 use App\Models\certificate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
@@ -14,13 +11,17 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\purchesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ContactusController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TestOptionController;
+use App\Http\Controllers\TestResultController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\LearningPathController;
 use App\Http\Controllers\TestQuestionController;
 use App\Http\Controllers\CourseAttachmentController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\PaymentTransactionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
@@ -225,7 +226,7 @@ Route::post('/order/store', [OrderController::class, 'store'])->name('order.stor
 
 Route::get('/certificate/center', function () {
     return view('learner.course.certificate.certificat_Center');
-})->name('center');
+})->name('certificate.center');
 
 Route::get('/certificate/fillout', function () {
     return view('learner.course.certificate.fill');
@@ -246,6 +247,7 @@ Route::get('/cirty', [CertificateController::class, 'cirty']);
 // Route::get('/genarate', function () {
 //     return view('learner.course.certificate.genrate');
 // });
+route::get('/learning-path', [LearningPathController::class, 'learningpath_learner'])->name('learning.path')->middleware('auth');    
 
 Route::resource('contactus', ContactusController::class);
 Route::delete('/contactus/{id}', [ContactusController::class, 'destroy'])->name('contactus.destroy');
@@ -261,3 +263,7 @@ Route::get('/invoice/view/{id}', [PaymentTransactionController::class, 'viewInvo
 Route::get('/invoice/download/{id}', [PaymentTransactionController::class, 'downloadInvoice'])->name('invoice.download')->middleware('auth');
 
 Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name('course.publish');
+
+Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit');
+
+// Route::get('/result/test', [TestResultController::class, 'result'])->name('test.result');

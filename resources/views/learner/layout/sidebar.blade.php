@@ -57,21 +57,12 @@
 						<span class="menu--label">Saved Courses</span>
 					</a>
 				</li>
-<<<<<<< HEAD
-				{{-- <li class="menu--item">
-					<a href="{{ route('certificate.index') }}" class="menu--link" title="Live Streams">
-						<i class='uil uil-kayak menu--icon'></i>
-						<span class="menu--label">certification</span>
-					</a>
-				</li> --}}
-=======
 				<li class="menu--item">
                     <a href="{{ route('payment.history') }}" class="menu--link" title="Transactions History">
                         <i class='uil uil-transaction menu--icon'></i>
                         <span class="menu--label">Transactions History</span>
                     </a>
                 </li>
->>>>>>> 170fd6ad535dc9f4bd0c985e90ad9e5539d22cb8
 
 				{{-- <li class="menu--item">
 					<a href="student_courses.html" class="menu--link" title="Courses">

@@ -22,8 +22,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->text('profile_picture_url')->nullable();
             $table->string('date_of_birth');
-            $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade'); 
+            
             $table->boolean('is_active');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');

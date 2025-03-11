@@ -15,12 +15,12 @@
                                                                         data-bs-toggle="pill" href="#pills-account"
                                                                         role="tab" aria-selected="true">Account</a>
                                                         </li>
-                                                        <li class="nav-item">
+                                                        {{-- <li class="nav-item">
                                                                 <a class="nav-link" id="pills-closeaccount-tab"
                                                                         data-bs-toggle="pill" href="#pills-closeaccount"
                                                                         role="tab" aria-selected="false">Close
                                                                         Account</a>
-                                                        </li>
+                                                        </li> --}}
                                                 </ul>
                                         </div>
                                         <div class="tab-content" id="pills-tabContent">
