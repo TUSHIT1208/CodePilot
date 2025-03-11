@@ -11,10 +11,11 @@ class ContactusController extends Controller
 {
     public function index(Request $request)
     {
+
+        $contactus = Contactus::all();  // Fetch all Contact Us records
+
         // Check if the request is AJAX
         if ($request->ajax()) {
-            $contactus = Contactus::all();  // Fetch all Contact Us records
-
             // Return DataTables response
             return DataTables::of($contactus)
                 ->addColumn('checkbox', function ($contactus) {
@@ -29,7 +30,7 @@ class ContactusController extends Controller
                 ->make(true);  // Return the DataTables response
         }
 
-        return view('admin.contectus.list');  // Render the view for DataTable
+        return view('admin.contectus.list', compact('contactus'));  // Render the view for DataTable
     }
 
     public function create()

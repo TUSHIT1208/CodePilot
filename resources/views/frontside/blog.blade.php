@@ -8,7 +8,7 @@
     <!-- Body Start -->
     <div class="wrapper _bg4586 _new89">
         @include('frontside.layouts.sub-header')
-        <div class="title129 mt-5 mb-35">	
+        <div class="title129 mt-5 mb-35">
             <h2>Insights, ideas, and stories</h2>
         </div>
     </div>

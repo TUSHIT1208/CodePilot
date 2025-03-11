@@ -7,9 +7,7 @@
             @if (isset($course))
                     <form action="{{  route('course.price', ['course' => $course->id]) }}" method="POST"
                         class="price-validation" novalidate>
-
                         @csrf
-
                         {{-- @method('PUT') --}}
                         <div class="price-block">
                             <div class="row">
@@ -55,16 +53,15 @@
                                                         <div class="col-lg-4 col-md-6 col-sm-6">
                                                             <div class="loc_group">
                                                                 <div class="ui left icon swdh19">
-                                                                    <input class="prompt srch_explore form-control" type="number"
-                                                                        placeholder="$0" name="price" id="price" value=""
-                                                                        required><br>
+                                                                    <input class="prompt srch_explore form-control"
+                                                                        type="number" placeholder="$0" name="price" id="price"
+                                                                        value="" required><br>
                                                                     <span class="invalid-feedback">
                                                                         Please enter a valid price (minimum: 0.00).
                                                                     </span>
 
                                                                 </div>
                                                                 <span class="slry-dt">USD</span>
-
                                                             </div>
 
                                                         </div>
@@ -76,9 +73,9 @@
                                                         <div class="col-lg-4 col-md-6 col-sm-6">
                                                             <div class="loc_group">
                                                                 <div class="ui left icon swdh19">
-                                                                    <input class="prompt srch_explore form-control" type="number"
-                                                                        placeholder="$0" name="discount" id="discount" value=""
-                                                                        required>
+                                                                    <input class="prompt srch_explore form-control"
+                                                                        type="number" placeholder="$0" name="discount"
+                                                                        id="discount" value="" required>
                                                                     <span class="invalid-feedback">
                                                                         Discount price must be a valid number and not greater
                                                                         than the regular price.
@@ -102,84 +99,84 @@
                 </form>
             @endif
     </div>
-   
+
 </div>
 @if (isset($course))
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector(".price-validation");
-        const priceInput = document.getElementById("price");
-        const discountInput = document.getElementById("discount");
-        const submitButton = document.getElementById("priceButton");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector(".price-validation");
+            const priceInput = document.getElementById("price");
+            const discountInput = document.getElementById("discount");
+            const submitButton = document.getElementById("priceButton");
 
-        // Function to check validation before submitting
-        function validateForm() {
-            let isValid = true;
-            form.classList.add("was-validated");
+            // Function to check validation before submitting
+            function validateForm() {
+                let isValid = true;
+                form.classList.add("was-validated");
 
-            // Price validation
-            if (!priceInput.value || priceInput.value < 0 || priceInput.value > 99999999.99) {
-                priceInput.classList.add("is-invalid");
-                isValid = false;
-            } else {
-                priceInput.classList.remove("is-invalid");
+                // Price validation
+                if (!priceInput.value || priceInput.value < 0 || priceInput.value > 99999999.99) {
+                    priceInput.classList.add("is-invalid");
+                    isValid = false;
+                } else {
+                    priceInput.classList.remove("is-invalid");
+                }
+
+                // Discount validation (must be <= price)
+                if (!discountInput.value || discountInput.value < 0 || discountInput.value > 99999999.99 || parseFloat(discountInput.value) > parseFloat(priceInput.value)) {
+                    discountInput.classList.add("is-invalid");
+                    discountInput.setCustomValidity("Discount cannot be greater than the price.");
+                    isValid = false;
+                } else {
+                    discountInput.classList.remove("is-invalid");
+                    discountInput.setCustomValidity("");
+                }
+
+                return isValid;
             }
 
-            // Discount validation (must be <= price)
-            if (!discountInput.value || discountInput.value < 0 || discountInput.value > 99999999.99 || parseFloat(discountInput.value) > parseFloat(priceInput.value)) {
-                discountInput.classList.add("is-invalid");
-                discountInput.setCustomValidity("Discount cannot be greater than the price.");
-                isValid = false;
-            } else {
-                discountInput.classList.remove("is-invalid");
-                discountInput.setCustomValidity("");
-            }
+            // Trigger validation on input change
+            priceInput.addEventListener("input", validateForm);
+            discountInput.addEventListener("input", validateForm);
 
-            return isValid;
-        }
+            // Submit event listener
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
 
-        // Trigger validation on input change
-        priceInput.addEventListener("input", validateForm);
-        discountInput.addEventListener("input", validateForm);
+                if (!validateForm()) {
+                    return; // Stop if validation fails
+                }
 
-        // Submit event listener
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent default form submission
+                let formData = new FormData(form);
+                submitButton.disabled = true; // Disable button to prevent multiple submissions
 
-            if (!validateForm()) {
-                return; // Stop if validation fails
-            }
-
-            let formData = new FormData(form);
-            submitButton.disabled = true; // Disable button to prevent multiple submissions
-           
-            fetch("{{ route('course.price', ['course' => $course->id]) }}", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    "Accept": "application/json",
-                },
-                body: formData,
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        $("#price-success").text("Price Added successfully!");
-                        // alert("Price updated successfully!");
-                        form.reset();
-                        form.classList.remove("was-validated");
-                    } else {
-                        alert("Error: " + data.message);
-                    }
+                fetch("{{ route('course.price', ['course' => $course->id]) }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Accept": "application/json",
+                    },
+                    body: formData,
                 })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("Something went wrong. Please try again.");
-                })
-                .finally(() => {
-                    submitButton.disabled = false;
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            $("#price-success").text("Price Added successfully!");
+                            // alert("Price updated successfully!");
+                            form.reset();
+                            form.classList.remove("was-validated");
+                        } else {
+                            alert("Error: " + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Something went wrong. Please try again.");
+                    })
+                    .finally(() => {
+                        submitButton.disabled = false;
+                    });
+            });
         });
-    });
-</script>
+    </script>
 @endif

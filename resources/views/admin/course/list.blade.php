@@ -57,7 +57,7 @@
                                                             <span class="publish-text" data-id="{{ $course->id }}" style="cursor: pointer;">
                                                                 <i class="uil uil-windsock"></i> Publish
                                                             </span>
-                                                            
+
                                                             <a href="{{ route('course.edit', $course->id) }}"><span><i
                                                                         class="uil uil-edit-alt text-sm"></i>Edit</span></a>
                                                         </div>
@@ -75,7 +75,7 @@
                                                         <p class="cr1fot">By <a
                                                                 href="#">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown'}}</a>
                                                         </p>
-                                                        <div class="prce142">${{ $course->price ?? 'Free' }}</div>
+                                                        <div class="prce142">₹{{ $course->price ?? 'Free' }}</div>
                                                     </div>
                                                 </div>
                                             </div>

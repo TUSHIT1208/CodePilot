@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Psy\CodeCleaner\FunctionReturnInWriteContextPass;
 use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class PaymentTransactionController extends Controller
@@ -17,31 +17,30 @@ class PaymentTransactionController extends Controller
      */
     public function index(Request $request)
     {
-        
+        $paymentTransactions = PaymentTransaction::whereIn('order_id', function ($query) {
+            $query->select('order_id')
+                ->from('order_items')
+                ->whereIn('course_id', function ($subQuery) {
+                    $subQuery->select('id')
+                        ->from('courses')
+                        ->where('user_id', auth()->user()->id);
+                });
+        })->get();
         if (auth()->user()->role->name === 'admin') {
             if ($request->ajax()) {
-                $paymentTransactions = PaymentTransaction::whereIn('order_id', function ($query) {
-                    $query->select('order_id')
-                        ->from('order_items')
-                        ->whereIn('course_id', function ($subQuery) {
-                            $subQuery->select('id')
-                                ->from('courses')
-                                ->where('user_id', auth()->user()->id);
-                        });
-                })->get();
                 logger($paymentTransactions);
                 return DataTables::of($paymentTransactions)
-                ->addColumn('course_name', function ($row) {
-                    // Display all course names related to the payment transaction
-                    logger($row->order->order_items->pluck('course.title')->join(', '));
-                    return $row->order->order_items->pluck('course.title')->join(', ') ?? 'N/A';
-                })
-                ->editColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d M Y, h:i A'); // Example: 09 Mar 2025, 10:45 AM
-                })
-                ->make(true);
+                    ->addColumn('course_name', function ($row) {
+                        // Display all course names related to the payment transaction
+                        logger($row->order->order_items->pluck('course.title')->join(', '));
+                        return $row->order->order_items->pluck('course.title')->join(', ') ?? 'N/A';
+                    })
+                    ->editColumn('created_at', function ($row) {
+                        return Carbon::parse($row->created_at)->format('d M Y, h:i A'); // Example: 09 Mar 2025, 10:45 AM
+                    })
+                    ->make(true);
             }
-            return view('admin.payment_history.list');
+            return view('admin.payment_history.list', compact('paymentTransactions'));
         }
     }
 
@@ -60,10 +59,10 @@ class PaymentTransactionController extends Controller
                     })
                     ->addColumn('invoice', function ($row) {
                         return '
-                            <a href="'.route('invoice.view', $row->id).'" class="text-primary" title="View Invoice">
+                            <a href="' . route('invoice.view', $row->id) . '" class="text-primary" title="View Invoice">
                                 <i class="uil uil-eye"></i>
                             </a>
-                            <a href="'.route('invoice.download', $row->id).'" class="text-success ms-2" title="Download Invoice">
+                            <a href="' . route('invoice.download', $row->id) . '" class="text-success ms-2" title="Download Invoice">
                                 <i class="uil uil-download-alt"></i>
                             </a>';
                     })
@@ -100,10 +99,10 @@ class PaymentTransactionController extends Controller
             ->with('order.order_items.course')
             ->firstOrFail();
 
-            $pdf = Pdf::loadView('learner.payment_history.invoice', compact('transaction'));
+        $pdf = Pdf::loadView('learner.payment_history.invoice', compact('transaction'));
 
-            // Return the PDF for download
-            return $pdf->download("invoice-{$transaction->transaction_id}.pdf");
+        // Return the PDF for download
+        return $pdf->download("invoice-{$transaction->transaction_id}.pdf");
     }
     /**
      * Show the form for creating a new resource.

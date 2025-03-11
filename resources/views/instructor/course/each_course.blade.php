@@ -14,8 +14,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-xl-4 col-lg-5 col-md-6">
                                     <div class="preview_video">
-                                        <a href="#" class="fcrse_img" data-bs-toggle="modal"
-                                            data-bs-target="#videoModal">
+                                        <a href="#" class="fcrse_img" data-bs-toggle="modal" data-bs-target="#videoModal">
                                             <!-- Display the course thumbnail -->
                                             <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
                                                 alt="Course Thumbnail" />
@@ -53,7 +52,7 @@
                                 <script>
                                     // When the modal is shown, set the video source dynamically (but don't autoplay)
                                     var videoModal = document.getElementById('videoModal');
-                                    videoModal.addEventListener('show.bs.modal', function(event) {
+                                    videoModal.addEventListener('show.bs.modal', function (event) {
                                         var button = event.relatedTarget; // The element that triggered the modal
                                         var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}"; // Video URL
                                         var videoSource = videoModal.querySelector('#videoSource');
@@ -66,12 +65,12 @@
 
                                     // When the user clicks on the play button in the modal, start the video
                                     var videoPlayer = document.querySelector('#videoPlayer');
-                                    videoPlayer.addEventListener('play', function() {
+                                    videoPlayer.addEventListener('play', function () {
                                         videoPlayer.play(); // Manually start the video when the play button is clicked
                                     });
 
                                     // When the modal is hidden, stop the video
-                                    videoModal.addEventListener('hidden.bs.modal', function() {
+                                    videoModal.addEventListener('hidden.bs.modal', function () {
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
                                         videoPlayer.pause(); // Pause the video when modal is closed
                                         videoPlayer.currentTime = 0; // Reset the video to the beginning
@@ -125,11 +124,13 @@
                                             <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
                                         @else
                                             <h1 id="default_avtar" style="position: relative; right: 28%;">
-                                                {{ substr(Auth::user()->username, 0, 1) }}</h1>
+                                                {{ substr(Auth::user()->username, 0, 1) }}
+                                            </h1>
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
-                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">{{ Auth::user()->username }}</a>
+                                        <a href="{{ route('setting') }}"
+                                            class="mt-2 _df7852">{{ Auth::user()->username }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -139,16 +140,13 @@
                                         <a href="#" class="lkcm152"><i class="uil uil-eye"></i><span>1452</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="lkcm152"><i
-                                                class="uil uil-thumbs-up"></i><span>100</span></a>
+                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-up"></i><span>100</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="lkcm152"><i
-                                                class="uil uil-thumbs-down"></i><span>20</span></a>
+                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-down"></i><span>20</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="lkcm152"><i
-                                                class="uil uil-share-alt"></i><span>9</span></a>
+                                        <a href="#" class="lkcm152"><i class="uil uil-share-alt"></i><span>9</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -416,26 +414,26 @@
                                 </div>
                                 <div class="tab-pane fade" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
-                                                @foreach ($courseDetail->courseattachment as $video)
-                                    <div class="crse_content container">
-                                        <div class="fcrse_1">
-                                                <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $video->id]) }}" class="hf_img"
-                                                    onclick="playVideo('{{ asset('courseVideo/' . $video->url) }}', '{{ $video->video_title }}', '{{ $video->description }}')">                                                
+                                        @foreach ($courseDetail->courseattachment as $video)
+                                            <div class="crse_content container">
+                                                <div class="fcrse_1">
+                                                    <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $video->id]) }}"
+                                                        class="hf_img"
+                                                        onclick="playVideo('{{ asset('courseVideo/' . $video->url) }}', '{{ $video->video_title }}', '{{ $video->description }}')">
                                                         <img src="{{ asset('courseThumbnail/' . $video->thumbnail_url) }}"
-                                                            alt="{{ $video->video_title }}">
-                                                        <div class="course-overlay">
+                                                            alt="{{ $video->video_title }}" style="width: 61%;">
+                                                        <div class="course-overlay" style="width: 61%;">
                                                             <div class="badge_seller">Featured</div>
                                                             <div class="crse_reviews">
                                                                 <i class="uil uil-star"></i>4.5
                                                             </div>
                                                             <span class="play_btn1"><i class="uil uil-play"></i></span>
-                                                            <div class="crse_timer"
-                                                                id="video-duration-{{ $video->id }}">Loading...</div>
-                                                          </div>
+                                                            <div class="crse_timer" id="video-duration-{{ $video->id }}">Loading...
+                                                            </div>
+                                                        </div>
                                                     </a>
                                                     <video id="temp-video-{{ $video->id }}" style="display:none;">
-                                                        <source src="{{ asset('courseVideo/' . $video->url) }}"
-                                                            type="video/mp4">
+                                                        <source src="{{ asset('courseVideo/' . $video->url) }}" type="video/mp4">
                                                     </video>
                                                     <script>
                                                         document.addEventListener('DOMContentLoaded', function () {
@@ -462,33 +460,24 @@
                                                         <div class="vdtodt">
                                                             <span class="vdt14">{{ $video->views ?? '0' }} views</span>
                                                         </div>
-                                                        <a href="javascript:void(0);"
-                                                            class="crse14s title900">{{ $video->title }} |
+                                                        <a href="javascript:void(0);" class="crse14s title900">{{ $video->title }} |
                                                             {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
                                                         <p>{{ $video->discription }}</p>
-                                                        <div class="auth1lnkprce">
-                                                            <p class="cr1fot">By <a
-                                                                    href="javascript:;">{{ $users->username ?? 'Unknown' }}</a>
-                                                            </p>
-                                                            <div class="prce142">${{ $courseDetail->price ?? 'Free' }}
-                                                            </div>
-                                                            <button class="shrt-cart-btn" title="cart"><i
-                                                                    class="uil uil-shopping-cart-alt"></i></button>
-                                                        </div>
+
                                                     </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                    @else
-                                    <div class="no-categories-container text-center fade-in-animation footer">
-                                                    <i class="uil uil-folder-minus bounce-effect"
-                                                        style="font-size: 50px; color: #d1d1d1;"></i>
-                                                    <h3 class="mt-5 scale-in-text" style="color: #777;">No content
-                                                        Found</h3>
-                                                    <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you
-                                                        don't have any
-                                                        content yet. Add one now to get started!</p>
                                                 </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="no-categories-container text-center fade-in-animation footer">
+                                            <i class="uil uil-folder-minus bounce-effect"
+                                                style="font-size: 50px; color: #d1d1d1;"></i>
+                                            <h3 class="mt-5 scale-in-text" style="color: #777;">No content
+                                                Found</h3>
+                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you
+                                                don't have any
+                                                content yet. Add one now to get started!</p>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
@@ -557,8 +546,8 @@
                                                         <div class="_rate004">
                                                             <div class="progress progress1">
                                                                 <div class="progress-bar w-2" role="progressbar"
-                                                                    aria-valuenow="2" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
+                                                                    aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
                                                             </div>
                                                             <div class="rating-box">
                                                                 <span class="rating-star full-star"></span>
@@ -572,8 +561,8 @@
                                                         <div class="_rate004">
                                                             <div class="progress progress1">
                                                                 <div class="progress-bar w-1" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
+                                                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
                                                             </div>
                                                             <div class="rating-box">
                                                                 <span class="rating-star full-star"></span>
@@ -779,4 +768,4 @@
                 </div>
             </div>
         </div>
-    @endsection
+@endsection
