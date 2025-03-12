@@ -247,7 +247,7 @@ Route::get('/cirty', [CertificateController::class, 'cirty']);
 // Route::get('/genarate', function () {
 //     return view('learner.course.certificate.genrate');
 // });
-route::get('/learning-path', [LearningPathController::class, 'learningpath_learner'])->name('learning.path')->middleware('auth');    
+route::get('/learning-path', [LearningPathController::class, 'learningpath_learner'])->name('learning.path')->middleware('auth');
 
 Route::resource('contactus', ContactusController::class);
 Route::delete('/contactus/{id}', [ContactusController::class, 'destroy'])->name('contactus.destroy');
