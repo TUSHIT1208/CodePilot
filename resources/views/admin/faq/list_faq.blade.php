@@ -153,7 +153,6 @@
                 }, false);
             });
         })();
-
     </script>
 
     <script>
@@ -182,24 +181,6 @@
                                 toastr.error('Something went wrong!', 'Error');
                             }
                         }
-                        // error: function(xhr) {
-                        //     $('.is-invalid').removeClass('is-invalid');
-                        //     $('.invalid-feedback').remove();
-
-                        //     if (xhr.status === 422) {
-                        //         var errors = xhr.responseJSON.errors;
-
-                        //         for (var field in errors) {
-                        //             var inputField = $(`[name="${field}"]`);
-                        //             inputField.addClass('is-invalid');
-                        //             inputField.after(
-                        //                 `<div class="invalid-feedback">${errors[field][0]}</div>`
-                        //             );
-                        //         }
-                        //     } else {
-                        //         toastr.error('An error occurred. Please try again.', 'Error');
-                        //     }
-                        // }
                     });
                 }
                 this.classList.add('was-validated'); // Add validation class

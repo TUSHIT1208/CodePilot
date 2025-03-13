@@ -184,16 +184,16 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'An error occurred while inserting the course.');
         }
     }
-    
+
     public function show($id)
     {
-        $courseDetail = Course::with(['category', 'subcategory','courseattachment'])->where('id', $id)->first();
+        $courseDetail = Course::with(['category', 'subcategory', 'courseattachment'])->where('id', $id)->first();
         $users = User::find($courseDetail->user_id);
         // return $video;
         $cid = $courseDetail->id;
-        session()->put('course',$cid);
+        session()->put('course', $cid);
         if (auth()->user()->role->name === 'admin') {
-            return view('admin.course.each_course', compact('courseDetail','users'));
+            return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
 
@@ -252,7 +252,7 @@ class CourseController extends Controller
             return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
         } else if (auth()->user()->role->name == 'insructor') {
             return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories'));
-    }
+        }
     }
 
 
@@ -289,8 +289,8 @@ class CourseController extends Controller
                 'meta_title',
                 'meta_description'
             ]));
-            
-    
+
+
             if ($request->hasFile('introduction_video')) {
                 $video = $request->file('introduction_video');
                 $videoName = time() . '_' . $video->getClientOriginalName();
@@ -340,7 +340,7 @@ class CourseController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Price updated successfully']);
     }
-   
+
     public function destroy(course $course)
     {
         //
@@ -352,13 +352,13 @@ class CourseController extends Controller
 
         // Ensure $courses is always an array or collection
         $courses = $category ? Course::where('category_id', $category->id)
-        ->where('is_active', 1)
-        ->get() : collect([]);
+            ->where('is_active', 1)
+            ->get() : collect([]);
 
         // Generate HTML dynamically
         $html = '<h2 class="mt-2">Courses</h2>';
 
-        if ($courses->isNotEmpty()) { 
+        if ($courses->isNotEmpty()) {
             foreach ($courses as $course) {
                 $html .= '
             <div class="col-lg-3 col-md-4">
@@ -405,7 +405,7 @@ class CourseController extends Controller
                     </div>
                 </div>
             </div>';
-        }
+            }
         } else {
             $html = '<p class="text-primary mt-2">No courses found for this learning path.</p>';
         }
@@ -417,10 +417,10 @@ class CourseController extends Controller
     {
         try {
             $course = Course::where('id', $request->course_id)
-                            ->where('user_id', auth()->id()) // Ensure user owns the course
-                            ->firstOrFail();
+                ->where('user_id', auth()->id()) // Ensure user owns the course
+                ->firstOrFail();
 
-                            // Check if already published
+            // Check if already published
             if ($course->is_active == 1) {
                 return response()->json(['success' => false, 'message' => 'Course is already published.'], 400);
             }
@@ -433,6 +433,21 @@ class CourseController extends Controller
             return response()->json(['success' => false, 'message' => 'Something went wrong!'], 500);
         }
     }
-    
+
+    public function toggleStatus(Request $request, Course $course)
+    {
+        try {
+            $course->update(['is_active' => $request->is_active]);
+            return response()->json(['success' => true, 'message' => 'Course status updated successfully']);
+        } catch (\Exception $e) {
+            Log::error('Error updating course status', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
+            return response()->json(['success' => false, 'message' => 'Failed to update course status']);
+        }
+    }
+
 
 }

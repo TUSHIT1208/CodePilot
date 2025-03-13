@@ -24,7 +24,7 @@
 @include('admin.layouts.header')
 @include('admin.layouts.left_sidebar')
 
-@yield(section: 'content')
+@yield( 'content')
 
 @include('admin.layouts.vendor-script')
 

@@ -54,11 +54,9 @@ class ContactusController extends Controller
                 'subject' => $request->subject,
                 'message' => $request->message,
             ]);
-
-            // Return a JSON response indicating success
-            return response()->json(['success' => 'FAQ added successfully!']);
+            
+            return response()->json(['success' => 'Contact details send successfully.']);
         } catch (\Exception $e) {
-            // Log the error and return a JSON response indicating failure
             Log::error('Error creating contactus: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
@@ -67,7 +65,7 @@ class ContactusController extends Controller
         }
     }
 
-    public function show(contactus $contactus)
+    public function show(contactus $contactus, $id)
     {
         try {
             $contactusData = contactus::all()->where('id', $id)->first();

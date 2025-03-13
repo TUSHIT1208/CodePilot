@@ -34,6 +34,9 @@
 </head>
 
 <body>
+    <div class="text-end mt-3 fs-4 gray-s">
+        <a href="{{ route('index') }}" class="text-dark"><i class="uil uil-times container"></i></a>
+    </div>
     <!-- Signup Start -->
     <div class="sign_in_up_bg">
         <div class="container">
@@ -96,9 +99,6 @@
             </div>
         </div>
     </div>
-    <div class="mt-5">
-        @include('frontside.layouts.footer')
-    </div>
     <!-- Signup End -->
     <script>
         (function () {
@@ -127,6 +127,7 @@
     <script src="{{ asset('js/night-mode.js') }}"></script>
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    
 
 
     <script>
