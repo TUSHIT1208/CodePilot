@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                 </form> 
-                                {{-- <ul class="_ttl120">
+                                <ul class="_ttl120">
                                     <li>
                                         <div class="_ttl121">
                                             <div class="_ttl122">Enroll Students</div>
@@ -47,7 +47,7 @@
                                             <div class="_ttl123">8</div>
                                         </div>
                                     </li>
-                                </ul> --}}
+                                </ul>
                             </div>
                             <div class="col-lg-6">
                                 <a href="{{ route('learner.setting') }} " class="_216b12">
@@ -94,7 +94,7 @@
                                 <div class="_htg451">
                                     <div class="_htg452">
                                         <h3>About Me</h3>
-                                        <p>{{ $leanerData->learnerprofile->short_description }}</p>
+                                        <p>{{ $leanerData->learnerprofile->short_description ?: 'No Information'}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -114,6 +114,9 @@
                                                 </div>
                                             @else
                                                 @foreach ($mycourse as $course)
+                                                @php
+                                                    $transaction = $paymentTransactions->firstWhere('order.order_items.0.course.id', $course->course->id);
+                                                @endphp
                                                     <div class="col-lg-3 col-md-4">
                                                         <div class="fcrse_1 mt-30">
                                                             <a href="{{ route('course.show', $course->course->id) }}" class="fcrse_img">
@@ -136,9 +139,21 @@
                                                             <div class="fcrse_content">
                                                                 <div class="eps_dots more_dropdown">
                                                                     <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                                                                    <div class="dropdown-content">
-                                                                        <span><i class='uil uil-share-alt'></i>Share</span>            
-                                                                        <span><i class="uil uil-windsock"></i>Report</span>
+                                                                    <div class="dropdown-content text-dark p-1">
+                                                                        
+                                                                    @if ($transaction)
+                                                                         
+                                                                             <a href="{{ route('invoice.view', $transaction->id) }}"  title="View Invoice">
+                                                                                 <i class="uil uil-eye"></i> Invoice 
+                                                                             </a>
+                                                                             <br>
+                                                                             <a href="{{ route('invoice.download', $transaction->id) }}" title="Download Invoice">
+                                                                                 <i class="uil uil-download-alt"></i> Invoice
+                                                                             </a>
+                                                                         
+                                                                     @endif
+                                                                        {{-- <span><i class="uil uil-eye"></i>View Invoice</span>
+                                                                        <span><i class='uil uil-download-alt'></i>Download Invoice</span>             --}}
                                                                     </div>
                                                                 </div>
                                                                 <div class="vdtodt">

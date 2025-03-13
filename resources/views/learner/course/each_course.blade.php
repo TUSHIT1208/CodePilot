@@ -5,6 +5,23 @@
 @endsection
 
 @section('content_learner')
+<style>
+._5f7g11 table {
+    width: 100%;
+    border-collapse: collapse; /* Removes spacing between borders */
+}
+
+._5f7g11 th, ._5f7g11 td {
+    padding: 10px;
+    border: 1px solid #ccc; /* Light gray border */
+    text-align: left;
+}
+
+._5f7g11 th {
+    background-color: #f8f9fa; /* Light gray background for headers */
+    font-weight: bold;
+}
+</style>
     <div class="wrapper _bg4586">
         <div class="_215b01">
             <div class="container-fluid">
@@ -187,7 +204,7 @@
                                         <div class="_htg452">
                                             <h3>Requirements</h3>
                                             <ul>
-                                                <li><span class="_5f7g11">{{ $courseDetail->requirement }}</span></li>
+                                                <li><span class="_5f7g11">{!! clean($courseDetail->requirement) !!}</span></li>
                                                 <li><span class="_5f7g11">Have a computer with Internet</span></li>
                                                 <li><span class="_5f7g11">Be ready to learn an insane amount of awesome
                                                         stuff</span></li>
