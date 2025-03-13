@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\certificate;
 use App\Models\test;
 use App\Models\User;
+use App\Models\user_course;
 use App\Models\video;
 use App\Models\course;
 use App\Models\category;
 use App\Models\sub_category;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 
@@ -187,18 +190,28 @@ class CourseController extends Controller
 
     public function show($id)
     {
+
         $courseDetail = Course::with(['category', 'subcategory', 'courseattachment'])->where('id', $id)->first();
         $users = User::find($courseDetail->user_id);
         // return $video;
         $cid = $courseDetail->id;
+
+        $userId = Auth::user()->id; // Replace with actual user ID
+        $courseId = $id; // Replace with actual course ID
+        $hasPurchased = user_course::where('user_id', $userId)
+            ->where('course_id', $courseId)->get();
+        //return $hasPurchased;
+
         session()->put('course', $cid);
+
+
+
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
-
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users'));
+            return view('learner.course.each_course', compact('courseDetail', 'users', 'hasPurchased'));
         }
     }
 

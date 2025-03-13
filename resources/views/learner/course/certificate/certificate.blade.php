@@ -124,7 +124,7 @@
                 <div class="name">{{ $certificate->name }}</div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua.</p>
-                <p>hello</p>
+                <p></p>
                 <div class="signature">Signature</div>
                 <div class="badge">2020</div>
             @endif

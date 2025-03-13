@@ -42,40 +42,42 @@
                 <div class="row justify-content-md-center">
                     <div class="col-md-6">
                         <div class="certi_form rght1528">
-                            <div class="test_result_bg">
-                                <ul class="test_result_left">
-                                    <li>
-                                        <div class="result_dt">
-                                            <i class="uil uil-check right_ans"></i>
-                                            <p>Right<span>(15)</span></p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="result_dt">
-                                            <i class="uil uil-times wrong_ans"></i>
-                                            <p>Wrong<span>(5)</span></p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="result_dt">
-                                            <h4>15</h4>
-                                            <p>Out of 20</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="result_content">
-                                    <h2>Congratulation! Joginder</h2>
-                                    <p>You are eligible for this certificate</p>
+                            @if(isset($test_result))
+                                    <div class="test_result_bg">
+                                        <ul class="test_result_left">
+                                            <li>
+                                                <div class="result_dt">
+                                                    <i class="uil uil-check right_ans"></i>
+                                                    <p>Right<span>{{$test_result->total_correct_answer}}</span></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="result_dt">
+                                                    <i class="uil uil-times wrong_ans"></i>
+                                                    <p>Wrong<span>({{$test_result->total_wrong_answer}})</span></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="result_dt">
+                                                    <h4>{{$test_result->total_attempted	}}</h4>
+                                                    <p>{{$test_result->total_attempted	}}</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="result_content">
+                                            <h2>Congratulation! Joginder</h2>
+                                            <p>You are eligible for this certificate</p>
 
-                                    <form action="/cirty">
-                                        @csrf
-                                        <button type="submit" class="download_btn" target="_blank">Download
-                                            Certificate</button>
-                                    </form>
+                                            <form action="/cirty">
+                                                @csrf
+                                                <button type="submit" class="download_btn" target="_blank">Download
+                                                    Certificate</button>
+                                            </form>
 
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endif
                     </div>
                 </div>
             </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\certificate;
 use App\Models\test;
 use App\Models\PaymentTransaction;
+use App\Models\test_result;
+use App\Models\test_result_answer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +18,12 @@ class CertificateController extends Controller
      */
     public function index()
     {
-        $certificate = certificate::all();
-        return view("learner.course.certificate.genrate");
+        $certificate = certificate::all()->last();
+        $test_result = test_result::all()->last();
+        return view(
+            "learner.course.certificate.genrate",
+            compact('certificate', 'test_result')
+        );
     }
 
     /**
