@@ -26,24 +26,24 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 Route::get('/', function () {
-    return view('frontside.about');
+    return view('front.index');
+})->name('index');
+
+Route::get('/about', function () {
+    return view('front.about');
 })->name('about');
 
-Route::get('/blog', function () {
-    return view('frontside.blog');
-})->name('blog');
+Route::get('/courses', function () {
+    return view('front.course');
+})->name('course');
 
-Route::get('/company', function () {
-    return view('frontside.company');
-})->name('company');
+Route::get('/list/instructor', function () {
+    return view('front.list_trainer');
+})->name('listInstructor');
 
-Route::get('/carrer', function () {
-    return view('frontside.carrer');
-})->name('carrer');
-
-Route::get('/press', function () {
-    return view('frontside.press');
-})->name('press');
+Route::get('contact', function () {
+    return view('front.contact');
+})->name('contact');
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
@@ -158,6 +158,8 @@ Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDe
 
 
 Route::resource('course', CourseController::class);
+Route::patch('/courses/toggle-status/{course}', [CourseController::class, 'toggleStatus'])->name('courses.toggle');
+
 
 Route::resource('test', TestController::class);
 Route::get('/test/{quiz}', [TestController::class, 'show'])->name('test.show');

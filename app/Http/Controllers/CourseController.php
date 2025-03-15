@@ -434,5 +434,20 @@ class CourseController extends Controller
         }
     }
 
+    public function toggleStatus(Request $request, Course $course)
+    {
+        try {
+            $course->update(['is_active' => $request->is_active]);
+            return response()->json(['success' => true, 'message' => 'Course status updated successfully']);
+        } catch (\Exception $e) {
+            Log::error('Error updating course status', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
+            return response()->json(['success' => false, 'message' => 'Failed to update course status']);
+        }
+    }
+
 
 }
