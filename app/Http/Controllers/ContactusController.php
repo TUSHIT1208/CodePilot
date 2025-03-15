@@ -11,10 +11,11 @@ class ContactusController extends Controller
 {
     public function index(Request $request)
     {
+
+        $contactus = Contactus::all();  // Fetch all Contact Us records
+
         // Check if the request is AJAX
         if ($request->ajax()) {
-            $contactus = Contactus::all();  // Fetch all Contact Us records
-
             // Return DataTables response
             return DataTables::of($contactus)
                 ->addColumn('checkbox', function ($contactus) {

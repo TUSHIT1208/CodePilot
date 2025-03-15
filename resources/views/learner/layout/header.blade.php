@@ -11,96 +11,23 @@
         <h1>CodePilot</h1>
         {{-- <a href="index.html"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}" alt=""></a> --}}
     </div>
-    
+
     <div class="header_right">
         <ul>
             <li></li>
             <li>
                 <a href="{{ route('cart.index') }}" class="option_links" title="cart"><i
-                        class='uil uil-shopping-cart-alt'></i>  <span class="noti_count" id="cart_count">0</span></a>
+                        class='uil uil-shopping-cart-alt'></i> <span class="noti_count" id="cart_count">0</span></a>
             </li>
-            <li class="dropdown-msg">
-                <a href="#" class="option_links" data-bs-toggle="dropdown" data-bs-auto-close="true"
-                    aria-expanded="false"><i class='uil uil-envelope-alt'></i><span class="noti_count">3</span></a>
-                <div class="dropdown-menu dropdown_ms drop-down">
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{ asset('images/left-imgs/img-6.jpg') }}" alt="">
-                            <div class="pd_content">
-                                <h6>Zoena Singh</h6>
-                                <p>Hi! Sir, How are you. I ask you one thing please explain it this video price.</p>
-                                <span class="nm_time">2 min ago</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{ asset('images/left-imgs/img-5.jpg') }}" alt="">
-                            <div class="pd_content">
-                                <h6>Joy Dua</h6>
-                                <p>Hello, I paid you video tutorial but did not play error 404.</p>
-                                <span class="nm_time">10 min ago</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{ asset('images/left-imgs/img-8.jpg') }}" alt="">
-                            <div class="pd_content">
-                                <h6>Jass</h6>
-                                <p>Thanks Sir, Such a nice video.</p>
-                                <span class="nm_time">25 min ago</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="vbm_btn" href="student_messages.html">View All <i class='uil uil-arrow-right'></i></a>
-                </div>
-            </li>
-            <li class="dropdown-noti">
-                <a href="#" class="option_links" data-bs-toggle="dropdown" data-bs-auto-close="true"
-                    aria-expanded="false"><i class='uil uil-bell'></i><span class="noti_count">3</span></a>
-                <div class="dropdown-menu dropdown_mn drop-down">
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{ asset('images/left-imgs/img-1.jpg') }}" alt="">
-                            <div class="pd_content">
-                                <h6>Rock William</h6>
-                                <p>Like Your Comment On Video <strong>How to create sidebar menu</strong>.</p>
-                                <span class="nm_time">2 min ago</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{ asset('images/left-imgs/img-2.jpg') }}" alt="">
-                            <div class="pd_content">
-                                <h6>Jassica Smith</h6>
-                                <p>Added New Review In Video <strong>Full Stack PHP Developer</strong>.</p>
-                                <span class="nm_time">12 min ago</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="channel_my item">
-                        <div class="profile_link">
-                            <img src="{{ asset('images/left-imgs/img-9.jpg') }}" alt="">
-                            <div class="pd_content">
-                                <p> Your Membership Approved <strong>Upload Video</strong>.</p>
-                                <span class="nm_time">20 min ago</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="vbm_btn" href="student_notifications.html">View All <i
-                            class='uil uil-arrow-right'></i></a>
-                </div>
-            </li>
+
             <li class="profile-dropdown">
                 <a href="#" class="opts_account" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                     aria-expanded="false">
                     @if(!empty(auth()->user()->profile_picture_url))
-						<img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
-					@else
-						<h1 id="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
-					@endif
+                        <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
+                    @else
+                        <h1 id="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
+                    @endif
                 </a>
                 <div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
                     <div class="channel_my">
@@ -120,7 +47,8 @@
                                 <span>{{ Auth::user()->email }}</span>
                             </div>
                         </div>
-                        <a href="{{ route('user.learner_show', Auth::user()->id) }}" class="dp_link_12">View Student Profile</a>
+                        <a href="{{ route('user.learner_show', Auth::user()->id) }}" class="dp_link_12">View Student
+                            Profile</a>
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">
@@ -131,8 +59,8 @@
                         </a>
                     </div>
                     <a href="{{ route('learner.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
-                    <a href="membership.html" class="item channel_item">Paid Memberships</a>
-                    <a href="setting.html" class="item channel_item">Setting</a>
+                    {{-- <a href="membership.html" class="item channel_item">Paid Memberships</a> --}}
+                    <a href="{{route('learner.setting')}}" class="item channel_item">Setting</a>
                     <a href="help.html" class="item channel_item">Help</a>
                     <a href="feedback.html" class="item channel_item">Send Feedback</a>
                     <a href="{{ route('changepassword.create')}}" class="item channel_item">Change Password</a>
@@ -147,7 +75,7 @@
         $.ajax({
             url: "{{ route('cart.counts') }}", // Define this route in web.php
             method: "GET",
-            success: function(response) {
+            success: function (response) {
                 $('#cart_count').text(response.cartCount);
                 $('#wishlist_count').text(response.wishlistCount);
             }
@@ -155,7 +83,7 @@
     }
 
     // Call function when the page loads
-    $(document).ready(function() {
+    $(document).ready(function () {
         updateCartWishlistCount();
     });
 </script>

@@ -28,7 +28,8 @@
                                     <label class="mt-4">Video Description*</label>
                                     <div class="ui form swdh30">
                                         <div class="field">
-                                            <textarea rows="3" class="form-control" name="video_discription" placeholder="Video description" required></textarea>
+                                            <textarea rows="3" class="form-control" name="video_discription"
+                                                placeholder="Video description" required></textarea>
                                             <div class="invalid-feedback">
                                                 The video Description is required.
                                             </div>
@@ -102,8 +103,8 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#file_upload').on('change', function() {
+    $(document).ready(function () {
+        $('#file_upload').on('change', function () {
             var file = this.files[0];
             if (file) {
                 var fileType = file.type;
@@ -115,7 +116,7 @@
             }
         });
 
-        $('#submitVideoButton').on('click', function(event) {
+        $('#submitVideoButton').on('click', function (event) {
             var form = document.getElementById('videoForm');
             if (!form.checkValidity()) {
                 form.classList.add('was-validated');
@@ -129,7 +130,7 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(response) {
+                success: function (response) {
                     if (response.success) {
                         toastr.success(response.success, 'Success');
                     } else {
@@ -142,7 +143,7 @@
                         '{{ asset('images/thumbnail-demo.jpg') }}');
                     $('#videoTable').DataTable().ajax.reload();
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     alert('An error occurred: ' + xhr.responseText);
                 }
             });
@@ -151,7 +152,7 @@
 </script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var courseId = $('input[name="course_id"]').val();
 
         $('#videoTable').DataTable({
@@ -164,28 +165,28 @@
                 }
             },
             columns: [{
-                    data: 'title',
-                    name: 'title'
-                },
-                {
-                    data: 'discription',
-                    name: 'discription'
-                },
-                {
-                    data: 'url',
-                    name: 'url'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
+                data: 'title',
+                name: 'title'
+            },
+            {
+                data: 'discription',
+                name: 'discription'
+            },
+            {
+                data: 'url',
+                name: 'url'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
             ]
         });
 
         // Handle Delete Click Event with Swal.fire
-        $(document).on('click', '.deleteAttachment', function() {
+        $(document).on('click', '.deleteAttachment', function () {
             let attachmentId = $(this).data('id');
             let attachmentType = $(this).data('type'); // Get type: video or document
 
@@ -208,7 +209,7 @@
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
-                        success: function(response) {
+                        success: function (response) {
                             if (response.success) {
                                 let successMessage = attachmentType === 'video' ?
                                     'Video deleted successfully!' :
@@ -220,7 +221,7 @@
                                     attachmentType + '!', 'Error');
                             }
                         },
-                        error: function(xhr) {
+                        error: function (xhr) {
                             toastr.error('Something went wrong!', 'Error');
                         }
                     });
@@ -232,9 +233,9 @@
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         // File Preview (Video or Document)
-        document.getElementById("file_upload").addEventListener("change", function(event) {
+        document.getElementById("file_upload").addEventListener("change", function (event) {
             const file = event.target.files[0];
             const previewContainer = document.querySelector(".uploaded-id-preview");
 
@@ -268,11 +269,11 @@
         });
 
         // Thumbnail Preview
-        document.getElementById("video_thumbnail").addEventListener("change", function(event) {
+        document.getElementById("video_thumbnail").addEventListener("change", function (event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     document.querySelector(".thumb-item-preview img").src = e.target.result;
                 };
                 reader.readAsDataURL(file);

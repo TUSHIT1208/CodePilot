@@ -8,7 +8,8 @@
     <div class="wrapper">
         <div class="sa4d25">
             <div class="container-fluid">
-                <a href="{{ route('course.show',$course_detail->course_id) }}"><button class="main-btn">Back to Course</button></a>
+                <a href="{{ route('course.show', $course_detail->course_id) }}"><button class="main-btn">Back to
+                        Course</button></a>
                 <div style="display: flex; gap: 20px;" class="mt-4">
                     <div style="flex: 1;">
                         <div class="video-container">
@@ -21,13 +22,8 @@
                         </div>
                     </div>
                     <div style="flex: 1;">
-                        <iframe
-                            id="code-iframe"
-                            src="https://onecompiler.com/embed/python"
-                            width="100%"
-                            height="500px"
-                            frameborder="0"
-                            allowfullscreen>
+                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
+                            frameborder="0" allowfullscreen>
                         </iframe>
                     </div>
                 </div>

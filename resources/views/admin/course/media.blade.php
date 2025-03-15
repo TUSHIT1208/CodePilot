@@ -152,6 +152,35 @@
             }
             var formData = new FormData(form);
 
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "5000",
+                "extendedTimeOut": "2000",
+                "positionClass": "toast-top-right",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "timeOut": "2000",
+                "onShown": function() {
+                    $('.toast-success').css({
+                        'background-color': '#28a745',
+                        'opacity': '1'
+                    });
+                    $('.toast-error').css({
+                        'background-color': '#dc3545',
+                        'opacity': '1'
+                    });
+                    $('.toast-warning').css({
+                        'background-color': '#ffc107',
+                        'opacity': '1'
+                    });
+                    $('.toast-info').css({
+                        'background-color': '#17a2b8',
+                        'opacity': '1'
+                    });
+                }
+            };
+
             $.ajax({
                 url: "{{ route('courseAttachment.store') }}",
                 type: 'POST',
@@ -161,6 +190,7 @@
                 success: function(response) {
                     if (response.success) {
                         toastr.success(response.success, 'Success');
+                        
                     } else {
                         toastr.error('Something went wrong!', 'Error');
                     }

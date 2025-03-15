@@ -52,22 +52,18 @@
                                                     <div class="eps_dots more_dropdown">
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                         <div class="dropdown-content">
-                                                            <span><i class='uil uil-share-alt'></i>Share</span>
                                                             <form class="wishlistForm">
                                                                 @csrf
-                                                                <input type="hidden" name="course_id"
-                                                                    value="{{ $course->id }}">
+                                                                <input type="hidden" name="course_id" value="{{ $course->id }}">
                                                                 <span class="wishlistButton"><i
                                                                         class="uil uil-heart"></i>Save</span>
                                                             </form>
 
-                                                            <span><i class="uil uil-windsock"></i>Report</span>
                                                         </div>
                                                     </div>
                                                     <div class="vdtodt">
                                                         <span class="vdt14">50 views</span>
-                                                        <span
-                                                            class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
+                                                        <span class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
                                                     </div>
                                                     <a href="{{ route('course.show', $course->id) }}"
@@ -81,10 +77,8 @@
                                                         <div class="prce142">₹{{ $course->price ?? 'Free' }}</div>
                                                         <form class="cartForm">
                                                             @csrf
-                                                            <input type="hidden" name="course_id"
-                                                                value="{{ $course->id }}">
-                                                            <button type="submit" class="shrt-cart-btn"
-                                                                title="Add to Cart">
+                                                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                            <button type="submit" class="shrt-cart-btn" title="Add to Cart">
                                                                 <i class="uil uil-shopping-cart-alt"></i>
                                                             </button>
                                                         </form>
@@ -113,12 +107,12 @@
         @include('learner.layout.footer')
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             let wishlistButtons = document.getElementsByClassName('wishlistButton');
             let wishlistForms = document.getElementsByClassName('wishlistForm');
 
             Array.from(wishlistButtons).forEach((button, index) => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     let form = wishlistForms[index];
                     let formData = new FormData(form);
 
@@ -129,101 +123,9 @@
                             "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
                         }
                     })
-                    .then(response => response.json().then(data => ({ status: response.status, body: data })))
-                    .then(({ status, body }) => {
-                        if (status === 201) {
-                            toastr.options = {
-                                    closeButton: true,
-                                    debug: false,
-                                    newestOnTop: true,
-                                    progressBar: true,
-                                    positionClass: "toast-top-right",
-                                    preventDuplicates: true,
-                                    timeOut: 5000,
-                                    extendedTimeOut: 1000,
-                                    showEasing: "swing",
-                                    hideEasing: "linear",
-                                    showMethod: "fadeIn",
-                                    hideMethod: "fadeOut",
-                                    onShown: function() {
-                                        $(".toast-success").css({
-                                            'background-color': '#28a745', // Green for success
-                                            'opacity': '1'  // Adjust opacity
-                                        });
-                                }
-                            };
-                            toastr.success(body.message); // Show success message
-                        } else if (status === 409) {
-                            
-                            toastr.options = {
-                                    closeButton: true,
-                                    debug: false,
-                                    newestOnTop: true,
-                                    progressBar: true,
-                                    positionClass: "toast-top-right",
-                                    preventDuplicates: true,
-                                    timeOut: 5000,
-                                    extendedTimeOut: 1000,
-                                    showEasing: "swing",
-                                    hideEasing: "linear",
-                                    showMethod: "fadeIn",
-                                    hideMethod: "fadeOut",
-                                    onShown: function() {
-                                        $(".toast-warning").css({
-                                            'background-color': '#ffc107', // yellow for success
-                                            'opacity': '1'  // Adjust opacity
-                                        });
-                                }
-                            };
-                            toastr.warning(body.message); // Show warning for duplicate entry
-                        } else {
-                            toastr.options = {
-                                    closeButton: true,
-                                    debug: false,
-                                    newestOnTop: true,
-                                    progressBar: true,
-                                    positionClass: "toast-top-right",
-                                    preventDuplicates: true,
-                                    timeOut: 5000,
-                                    extendedTimeOut: 1000,
-                                    showEasing: "swing",
-                                    hideEasing: "linear",
-                                    showMethod: "fadeIn",
-                                    hideMethod: "fadeOut",
-                                    onShown: function() {
-                                        $(".toast-error").css({
-                                            'background-color': '#dc3545', // Green for success
-                                            'opacity': '1'  // Adjust opacity
-                                        });
-                                }
-                            };
-                            toastr.error("Something went wrong!");
-                        }
-                    })
-                    .catch(() => {
-                        toastr.error("Error adding to wishlist");
-                    });
-                });
-            });
-
-
-            // Handle Cart
-            document.querySelectorAll('.cartForm').forEach((form, index) => {
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    let formData = new FormData(this);
-                    let messageDiv = document.querySelectorAll('.cartMessage')[index];
-
-                    fetch("{{ route('cart.store') }}", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
-                        }
-                    })
-                    .then(response => response.json().then(data => ({ status: response.status, body: data })))
-                    .then(({ status, body }) => {
-                        if (status === 201) {
+                        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                        .then(({ status, body }) => {
+                            if (status === 201) {
                                 toastr.options = {
                                     closeButton: true,
                                     debug: false,
@@ -237,16 +139,17 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function() {
+                                    onShown: function () {
                                         $(".toast-success").css({
                                             'background-color': '#28a745', // Green for success
                                             'opacity': '1'  // Adjust opacity
                                         });
-                                }
-                            };
-                            toastr.success(body.message); // Show success message
-                        } else if (status === 409) {
-                            toastr.options = {
+                                    }
+                                };
+                                toastr.success(body.message); // Show success message
+                            } else if (status === 409) {
+
+                                toastr.options = {
                                     closeButton: true,
                                     debug: false,
                                     newestOnTop: true,
@@ -259,16 +162,16 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function() {
+                                    onShown: function () {
                                         $(".toast-warning").css({
-                                            'background-color': '#ffc107', // Green for success
+                                            'background-color': '#ffc107', // yellow for success
                                             'opacity': '1'  // Adjust opacity
                                         });
-                                }
-                            };
-                            toastr.warning(body.message); // Show warning for duplicate entry
-                        } else {
-                            toastr.options = {
+                                    }
+                                };
+                                toastr.warning(body.message); // Show warning for duplicate entry
+                            } else {
+                                toastr.options = {
                                     closeButton: true,
                                     debug: false,
                                     newestOnTop: true,
@@ -281,19 +184,110 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function() {
+                                    onShown: function () {
                                         $(".toast-error").css({
                                             'background-color': '#dc3545', // Green for success
                                             'opacity': '1'  // Adjust opacity
                                         });
-                                }
-                            };
-                            toastr.error("Something went wrong!");
+                                    }
+                                };
+                                toastr.error("Something went wrong!");
+                            }
+                        })
+                        .catch(() => {
+                            toastr.error("Error adding to wishlist");
+                        });
+                });
+            });
+
+
+            // Handle Cart
+            document.querySelectorAll('.cartForm').forEach((form, index) => {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    let formData = new FormData(this);
+                    let messageDiv = document.querySelectorAll('.cartMessage')[index];
+
+                    fetch("{{ route('cart.store') }}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
                         }
                     })
-                    .catch(() => {
-                        toastr.error("Error adding to cart");
-                    });
+                        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                        .then(({ status, body }) => {
+                            if (status === 201) {
+                                toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 2000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function () {
+                                        $(".toast-success").css({
+                                            'background-color': '#28a745', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                    }
+                                };
+                                toastr.success(body.message); // Show success message
+                            } else if (status === 409) {
+                                toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 2000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function () {
+                                        $(".toast-warning").css({
+                                            'background-color': '#ffc107', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                    }
+                                };
+                                toastr.warning(body.message); // Show warning for duplicate entry
+                            } else {
+                                toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 2000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function () {
+                                        $(".toast-error").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1'  // Adjust opacity
+                                        });
+                                    }
+                                };
+                                toastr.error("Something went wrong!");
+                            }
+                        })
+                        .catch(() => {
+                            toastr.error("Error adding to cart");
+                        });
                 });
             });
         });

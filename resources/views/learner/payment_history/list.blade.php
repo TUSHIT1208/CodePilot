@@ -19,7 +19,6 @@
                             <table id="transactionTable" class="ucp-table">
                                 <thead>
                                     <tr>
-                                        <th>Transaction ID</th>
                                         <th>Course Name</th>
                                         <th>Status</th>
                                         <th>Amount</th>
@@ -46,7 +45,6 @@
                 serverSide: true,
                 ajax: "{{ route('payment.history') }}",
                 columns: [
-                    { data: "transaction_id", name: "transaction_id" },
                     { data: "course_name", name: "course_name" }, // Course Name Column
                     { data: "status", name: "status" },
                     { data: "amount", name: "amount" },

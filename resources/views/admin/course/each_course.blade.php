@@ -15,7 +15,13 @@
                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                                     <div class="preview_video">
                                         <a href="#" class="fcrse_img" data-bs-toggle="modal" data-bs-target="#videoModal">
+<<<<<<< HEAD
                                             <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}" alt="Course Thumbnail" class="img-fluid" />
+=======
+                                            <!-- Display the course thumbnail -->
+                                            <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
+                                                alt="Course Thumbnail" />
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                             <div class="course-overlay">
                                                 <div class="badge_seller">Bestseller</div>
                                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
@@ -41,8 +47,14 @@
                                 </div>
                                 <script>
                                     var videoModal = document.getElementById('videoModal');
+<<<<<<< HEAD
                                     videoModal.addEventListener('show.bs.modal', function(event) {
                                         var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}";
+=======
+                                    videoModal.addEventListener('show.bs.modal', function (event) {
+                                        var button = event.relatedTarget; // The element that triggered the modal
+                                        var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}"; // Video URL
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         var videoSource = videoModal.querySelector('#videoSource');
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
 
@@ -50,7 +62,18 @@
                                         videoPlayer.load();
                                     });
 
+<<<<<<< HEAD
                                     videoModal.addEventListener('hidden.bs.modal', function() {
+=======
+                                    // When the user clicks on the play button in the modal, start the video
+                                    var videoPlayer = document.querySelector('#videoPlayer');
+                                    videoPlayer.addEventListener('play', function () {
+                                        videoPlayer.play(); // Manually start the video when the play button is clicked
+                                    });
+
+                                    // When the modal is hidden, stop the video
+                                    videoModal.addEventListener('hidden.bs.modal', function () {
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
                                         videoPlayer.pause();
                                         videoPlayer.currentTime = 0;
@@ -95,14 +118,35 @@
                                             <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}" class="img-fluid">
                                         @else
                                             <h1 id="default_avtar" style="position: relative; right: 28%;">
-                                                {{ substr(Auth::user()->username, 0, 1) }}</h1>
+                                                {{ substr(Auth::user()->username, 0, 1) }}
+                                            </h1>
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
-                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">{{ Auth::user()->username }}</a>
+                                        <a href="{{ route('setting') }}"
+                                            class="mt-2 _df7852">{{ Auth::user()->username }}</a>
                                     </div>
                                 </div>
                             </div>
+<<<<<<< HEAD
+=======
+                            <div class="user_dt_right">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="lkcm152"><i class="uil uil-eye"></i><span>1452</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-up"></i><span>100</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-down"></i><span>20</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="lkcm152"><i class="uil uil-share-alt"></i><span>9</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                         </div>
                         <div class="course_tabs">
                             <nav>
@@ -127,243 +171,62 @@
                                     <div class="_htg451">
                                         <div class="_htg452">
                                             <h3>Requirements</h3>
-                                            <ul>
-                                                <li><span class="_5f7g11">{{ $courseDetail->requirement }}</span></li>
-                                                <li><span class="_5f7g11">Have a computer with Internet</span></li>
-                                                <li><span class="_5f7g11">Be ready to learn an insane amount of awesome
-                                                        stuff</span></li>
-                                                <li><span class="_5f7g11">Prepare to build real web apps!</span></li>
-                                            </ul>
+                                            @php
+                                                $content = $courseDetail->requirement;
+                                            @endphp
+                                            
+                                            @if (strpos($content, '<table') !== false)
+                                                {!! str_replace('<table', '<table class="table table-striped table-hover"', $content) !!}
+                                            @else
+                                                <ul class="list-group">
+                                                    @foreach(explode('.', $content) as $item)
+                                                        @if(trim($item) != '')
+                                                            <li class="list-group-item"><span class="_5f7g11">{{ trim($item) }}</span></li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+
                                         </div>
                                         <div class="_htg452 mt-35">
                                             <h3>Description</h3>
-                                            <span class="_abc123">Just updated to include Bootstrap 4.1.3!</span>
-                                            <p>Hi! Welcome to the {{ $courseDetail->title }}, the <strong>only course you
-                                                    need
-                                                    to learn {{ $courseDetail->learn_in_course }}</strong>. There are a lot
-                                                of options for online
-                                                developer training, but this course is without a doubt the most
-                                                comprehensive and effective on the market. Here's why:</p>
+                                            <span class="_abc123">Hi! Welcome to the {{ $courseDetail->title }}.</span>
+                                            
                                             <ul class="_abc124">
                                                 <li><span class="_5f7g11">{{ $courseDetail->description }}</span></li>
-                                                <li><span class="_5f7g11">This is the only online course taught by a
-                                                        professional bootcamp instructor.</span></li>
-                                                <li><span class="_5f7g11">94% of my in-person bootcamp students go on to
-                                                        get full-time developer jobs. Most of them are complete beginners
-                                                        when I start working with them.</span></li>
-                                                <li><span class="_5f7g11"> This course is just as comprehensive but
-                                                        with brand new content for a fraction of the price.</span></li>
-                                                <li><span class="_5f7g11">Everything I cover is up-to-date and relevant to
-                                                        today's developer industry. This
-                                                        course does not cut any corners.</span></li>
-                                                <li><span class="_5f7g11">This is the only complete beginner.</span></li>
-                                                <li><span class="_5f7g11">We build 13+ projects, including a gigantic
-                                                        production application called YelpCamp. No other course walks you
-                                                        through the creation of such a substantial application.</span></li>
-                                                <li><span class="_5f7g11">The course is constantly updated with new
-                                                        content, projects, and modules. Think of it as a subscription to a
-                                                        never-ending supply of developer training.</span></li>
-                                            </ul>
-                                            <p>When you're learning to program you often have to sacrifice learning the
-                                                exciting and current technologies in favor of the "beginner friendly"
-                                                classes. With this course, you get the best of both worlds. This is a course
-                                                designed for the complete beginner, yet it covers some of the most exciting
-                                                and relevant topics in the industry.</p>
-                                            <p>Throughout the course we cover tons of tools and technologies including:</p>
-                                            <ul class="_abc124">
-                                                <li><span class="_5f7g11"><strong>HTML5</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>CSS3</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>JavaScript</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>Bootstrap 4</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>SemanticUI</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>DOM Manipulation</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>jQuery</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>Unix(Command Line)
-                                                            Commands</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>NodeJS</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>NPM</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>ExpressJS</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>REST</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>MongoDB</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>Database Associations</strong></span>
-                                                </li>
-                                                <li><span class="_5f7g11"><strong>Authentication</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>PassportJS</strong></span></li>
-                                                <li><span class="_5f7g11"><strong>Authorization</strong></span></li>
                                             </ul>
 
-                                            <p>This course is also unique in the way that it is structured and presented.
-                                                Many online courses are just a long series of "watch as I code" videos. This
-                                                course is different. I've incorporated everything I learned in my years of
-                                                teaching to make this course not only more effective but more engaging. The
-                                                course includes:</p>
-                                            <ul class="_abc124">
-                                                <li><span class="_5f7g11">Lectures</span></li>
-                                                <li><span class="_5f7g11">Code-Alongs</span></li>
-                                                <li><span class="_5f7g11">Projects</span></li>
-                                                <li><span class="_5f7g11">Exercises</span></li>
-                                                <li><span class="_5f7g11">Research Assignments</span></li>
-                                                <li><span class="_5f7g11">Slides</span></li>
-                                                <li><span class="_5f7g11">Downloads</span></li>
-                                                <li><span class="_5f7g11">Readings</span></li>
-                                            </ul>
-                                            <p>If you have any questions, please don't hesitate to contact me. I got into
-                                                this industry because I love working with people and helping students learn.
-                                                Sign up today and see how fun, exciting, and rewarding web development can
-                                                be!</p>
                                         </div>
                                         <div class="_htg452 mt-35">
-                                            <h3>Who this course is for :</h3>
+                                            <h3>What will students learn in your course?</h3>
+                                            <span class="_abc123">Just updated to include Bootstrap 4.1.3!</span>
+                                            
                                             <ul class="_abc124">
-                                                <li><span class="_5f7g11">This course is for anyone who wants to learn
-                                                        about web development, regardless of previous experience</span></li>
-                                                <li><span class="_5f7g11">It's perfect for complete beginners with zero
-                                                        experience</span></li>
-                                                <li><span class="_5f7g11">It's also great for anyone who does have some
-                                                        experience in a few of the technologies(like HTML and CSS) but not
-                                                        all</span></li>
-                                                <li><span class="_5f7g11">If you want to take ONE COURSE to learn
-                                                        everything you need to know about web development, take this
-                                                        course</span></li>
+                                                @php
+                                                $content = $courseDetail->learn_in_course;
+                                            @endphp
+                                            
+                                            @if (strpos($content, '<table') !== false)
+                                                {!! str_replace('<table', '<table class="table table-striped table-hover"', $content) !!}
+                                            @else
+                                                <ul>
+                                                    @foreach(explode('.', $content) as $item)
+                                                        @if(trim($item) != '')
+                                                            <li><span class="_5f7g11">{!! strip_tags(trim($item)) !!}</span></li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                               
                                             </ul>
+
                                         </div>
-                                        <div class="_htgdrt mt-35">
-                                            <h3>What you'll learn</h3>
-                                            <div class="_scd123">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <ul class="_htg452 _abcd145">
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Lorem ipsum
-                                                                        dolor sit amet, consectetur adipiscing elit.</span>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Donec
-                                                                        ultricies elit porttitor, ultrices enim a, commodo
-                                                                        dolor.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Nunc dapibus
-                                                                        ligula sed justo porta, id volutpat odio
-                                                                        iaculis.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Maecenas
-                                                                        pharetra mi quis nisl mollis, molestie imperdiet
-                                                                        lorem molestie.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Maecenas
-                                                                        ultricies felis in pulvinar blandit.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Praesent ac
-                                                                        libero consequat, efficitur tortor et, interdum
-                                                                        sem.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Nullam non
-                                                                        lacus nibh. Etiam et fringilla neque, ut vulputate
-                                                                        sapien. Sed vitae tortor gravida, interdum felis at,
-                                                                        pulvinar enim. Integer tempor urna leo.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Phasellus
-                                                                        ultrices tellus sed volutpat vestibulum. Curabitur
-                                                                        aliquet dictum leo non congue.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>In hac
-                                                                        habitasse platea dictumst. Aenean vel fermentum
-                                                                        neque.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Suspendisse
-                                                                        semper feugiat urna dictum interdum.</span></div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <ul class="_htg452 _abcd145">
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Nullam non
-                                                                        lacus nibh. Etiam et fringilla neque, ut vulputate
-                                                                        sapien. Sed vitae tortor gravida, interdum felis at,
-                                                                        pulvinar enim. Integer tempor urna leo.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Phasellus
-                                                                        ultrices tellus sed volutpat vestibulum. Curabitur
-                                                                        aliquet dictum leo non congue.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>In hac
-                                                                        habitasse platea dictumst. Aenean vel fermentum
-                                                                        neque.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Suspendisse
-                                                                        semper feugiat urna dictum interdum.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Lorem ipsum
-                                                                        dolor sit amet, consectetur adipiscing elit.</span>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Donec
-                                                                        ultricies elit porttitor, ultrices enim a, commodo
-                                                                        dolor.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Nunc dapibus
-                                                                        ligula sed justo porta, id volutpat odio
-                                                                        iaculis.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Maecenas
-                                                                        pharetra mi quis nisl mollis, molestie imperdiet
-                                                                        lorem molestie.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Maecenas
-                                                                        ultricies felis in pulvinar blandit.</span></div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="_5f7g15"><i
-                                                                        class="fas fa-check-circle"></i><span>Praesent ac
-                                                                        libero consequat, efficitur tortor et, interdum
-                                                                        sem.</span></div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                                                    
                                     </div>
                                 </div>
                                 <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
+<<<<<<< HEAD
                                         @foreach ($courseDetail->courseattachment as $attachment)
                                             <div class="crse_content container mx-auto p-4">
                                                 <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
@@ -409,23 +272,86 @@
                                                         @endif
                                                     </div>
                                                     <div class="hs_content w-full md:w-2/3">
+=======
+                                        @foreach ($courseDetail->courseattachment as $video)
+                                            <div class="crse_content container">
+                                                <div class="fcrse_1">
+                                                    <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $video->id]) }}"
+                                                        class="hf_img"
+                                                        onclick="playVideo('{{ asset('courseVideo/' . $video->url) }}', '{{ $video->video_title }}', '{{ $video->description }}')">
+                                                        <img src="{{ asset('courseThumbnail/' . $video->thumbnail_url) }}"
+                                                            alt="{{ $video->video_title }}" style="width: 61%;">
+                                                        <div class="course-overlay" style="width: 61%;">
+                                                            <div class="badge_seller">Featured</div>
+                                                            <div class="crse_reviews">
+                                                                <i class="uil uil-star"></i>4.5
+                                                            </div>
+                                                            <span class="play_btn1"><i class="uil uil-play"></i></span>
+                                                            <div class="crse_timer" id="video-duration-{{ $video->id }}">Loading...
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <video id="temp-video-{{ $video->id }}" style="display:none;">
+                                                        <source src="{{ asset('courseVideo/' . $video->url) }}" type="video/mp4">
+                                                    </video>
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                            const video = document.getElementById('temp-video-{{ $video->id }}');
+                                                            video.addEventListener('loadedmetadata', () => {
+                                                                const duration = video.duration;
+                                                                const minutes = Math.floor(duration / 60);
+                                                                const seconds = Math.floor(duration % 60);
+                                                                const formattedDuration = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')} minutes` :
+                                                                    `${seconds} seconds`;
+                                                                document.getElementById('video-duration-{{ $video->id }}').innerText = formattedDuration;
+                                                            });
+                                                            video.load(); // Ensure the metadata loads
+                                                        });
+                                                    </script>
+                                                    <div class="hs_content">
+                                                        <div class="eps_dots eps_dots10 more_dropdown">
+                                                            <a href="javascript:;"><i class="uil uil-ellipsis-v"></i></a>
+                                                            <div class="dropdown-content">
+                                                                <span onclick="removeVideo('{{ $video->id }}')"><i
+                                                                        class='uil uil-times'></i>Remove</span>
+                                                            </div>
+                                                        </div>
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                                         <div class="vdtodt">
                                                             <span class="vdt14">{{ $attachment->views ?? '0' }} views</span>
                                                         </div>
+<<<<<<< HEAD
                                                         <a href="javascript:void(0);" class="crse14s title900 text-lg font-bold">{{ $attachment->title }} | {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
                                                         <p class="text-gray-700">{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;" class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a></p>
                                                         </div>
+=======
+                                                        <a href="javascript:void(0);" class="crse14s title900">{{ $video->title }} |
+                                                            {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
+                                                        <p>{{ $video->discription }}</p>
+
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                                     </div>
                                                 </div>
                                             </div>
                                         @endforeach
                                     @else
+<<<<<<< HEAD
                                         <div class="no-categories-container text-center py-10">
                                             <i class="uil uil-folder-minus text-5xl text-gray-300"></i>
                                             <h3 class="mt-3 text-2xl text-gray-500">No Content Found</h3>
                                             <p class="text-gray-400">It looks like you don't have any content yet. Add one now to get started!</p>
+=======
+                                        <div class="no-categories-container text-center fade-in-animation footer">
+                                            <i class="uil uil-folder-minus bounce-effect"
+                                                style="font-size: 50px; color: #d1d1d1;"></i>
+                                            <h3 class="mt-5 scale-in-text" style="color: #777;">No content
+                                                Found</h3>
+                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you
+                                                don't have any
+                                                content yet. Add one now to get started!</p>
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         </div>
                                     @endif
                                 </div>
@@ -495,8 +421,8 @@
                                                         <div class="_rate004">
                                                             <div class="progress progress1">
                                                                 <div class="progress-bar w-2" role="progressbar"
-                                                                    aria-valuenow="2" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
+                                                                    aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
                                                             </div>
                                                             <div class="rating-box">
                                                                 <span class="rating-star full-star"></span>
@@ -510,8 +436,8 @@
                                                         <div class="_rate004">
                                                             <div class="progress progress1">
                                                                 <div class="progress-bar w-1" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
+                                                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                                </div>
                                                             </div>
                                                             <div class="rating-box">
                                                                 <span class="rating-star full-star"></span>
@@ -717,4 +643,4 @@
                 </div>
             </div>
         </div>
-    @endsection
+@endsection

@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\adminprofile;
 use App\Models\User;
+use App\Models\course;
 use App\Models\user_course;
+use App\Models\adminprofile;
 use Illuminate\Http\Request;
 use App\Models\LearnerProfile;
 use App\Models\InstractorProfile;
-use App\Models\course;
+use App\Models\PaymentTransaction;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -290,8 +291,10 @@ class UserController extends Controller
             'password' => Hash::make($request->learner_password),
             'phone_number' => $request->learner_phone_no,
             'date_of_birth' => $request->learner_date_of_birth,
+            'address' => $request->address,
             'role_id' => 3, // Assign the learner role ID
             'is_active' => true, // Assuming the user is active by default
+
         ]);
 
         // Create the learner profile
@@ -314,7 +317,11 @@ class UserController extends Controller
     {
         $leanerData = User::with('learnerprofile')->find($id);
         $mycourse=user_course::with('course')->where('user_id',$id)->get();
-        return view('learner.profile.my_learner_profile', compact('leanerData','mycourse'));
+        $paymentTransactions = PaymentTransaction::whereHas('order.order_items.course')
+                ->where('created_by', auth()->id())
+                ->with('order.order_items.course')
+                ->get();
+        return view('learner.profile.my_learner_profile', compact('leanerData','mycourse','paymentTransactions'));
     }
     
     public function instructor_show(string $id)

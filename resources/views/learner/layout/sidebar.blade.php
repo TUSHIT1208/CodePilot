@@ -57,12 +57,12 @@
 						<span class="menu--label">Saved Courses</span>
 					</a>
 				</li>
-				<li class="menu--item">
+				{{-- <li class="menu--item">
                     <a href="{{ route('payment.history') }}" class="menu--link" title="Transactions History">
-                        <i class='uil uil-transaction menu--icon'></i>
-                        <span class="menu--label">Transactions History</span>
+                        <i class='uil uil-box menu--icon'></i>
+                        <span class="menu--label">Order History</span>
                     </a>
-                </li>
+                </li> --}}
 
 				{{-- <li class="menu--item">
 					<a href="student_courses.html" class="menu--link" title="Courses">

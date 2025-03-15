@@ -251,7 +251,7 @@ class CourseController extends Controller
         if (auth()->user()->role->name == 'admin') {
             return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
         } else if (auth()->user()->role->name == 'insructor') {
-            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories'));
+            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
         }
     }
 

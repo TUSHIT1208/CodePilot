@@ -4,14 +4,13 @@
 
 @section('content')
     <div class="wrapper">
-        <div class="sa4d25">
+         <div class="sa4d25">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-12 col-lg-8">
                         <div class="section3125 mt-3">
                             <div class="explore_search">
-                               
-                            </div>
+                           </div>
                         </div>
                     </div>
                     <div class="text-end mt-3">
@@ -54,10 +53,11 @@
                                                 <div class="fcrse_content">
                                                     <div class="eps_dots more_dropdown">
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                                                        <div class="dropdown-content">
+                                                        <div class="dropdown-content">                                                            
                                                             <span class="publish-text" data-id="{{ $course->id }}" style="cursor: pointer;">
                                                                 <i class="uil uil-windsock"></i> Publish
                                                             </span>
+
                                                             <a href="{{ route('course.edit', $course->id) }}"><span><i
                                                                         class="uil uil-edit-alt text-sm"></i>Edit</span></a>
                                                         </div>
@@ -75,7 +75,7 @@
                                                         <p class="cr1fot">By <a
                                                                 href="#">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown'}}</a>
                                                         </p>
-                                                        <div class="prce142">${{ $course->price ?? 'Free' }}</div>
+                                                        <div class="prce142">₹{{ $course->price ?? 'Free' }}</div>
                                                     </div>
                                                 </div>
                                             </div>
