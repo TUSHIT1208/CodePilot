@@ -53,42 +53,43 @@
                                     <div id="collapseaddress1" class="panel-collapse collapse" role="tabpanel"
                                         aria-labelledby="address1">
                                         <div class="panel-body basic_form">
-                                            <form action="">
+                                            <form action="" id="checkout-form" novalidate>
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="ui search focus mt-30 lbel25">
-                                                            <label>First Name*</label>
-                                                            <div class="ui left icon input swdh11 swdh19">
+                                                            <label class="title-field">First Name*</label>
+                                                            <div class="ui left icon swdh11 swdh19">
+                                                                <input class="prompt srch_explore form-control"
+                                                                    type="hidden" name="user_id" id="user_id"
+                                                                    value="{{ Auth::user()->id }}" required
+                                                                    maxlength="64" placeholder="First Name">
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="first_name" id="id_name"
                                                                     value="{{ Auth::user()->first_name }}" required=""
                                                                     maxlength="64" placeholder="First Name">
-                                                                <input class="prompt srch_explore form-control"
-                                                                    type="hidden" name="user_id" id="user_id"
-                                                                    value="{{ Auth::user()->id }}" required=""
-                                                                    maxlength="64" placeholder="First Name">
-
-
+                                                                    <div class="invalid-feedback">Please enter your first name.</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="ui search focus mt-30 lbel25">
-                                                            <label>Last Name*</label>
-                                                            <div class="ui left icon input swdh11 swdh19">
+                                                            <label class="title-field">Last Name*</label>
+                                                            <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="last_name" value="{{ Auth::user()->last_name }}"
-                                                                    id="id_surname" required="" maxlength="64"
+                                                                    id="id_surname" required maxlength="64"
                                                                     placeholder="Last Name">
+                                                                    <div class="invalid-feedback">Please enter your Last name.</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="mt-30 lbel25">
-                                                            <label>Country*</label>
+                                                            <label class="title-field">Country*</label>
                                                         </div>
-                                                        <select class="form-control" name="country" title="Select Country"
-                                                            data-size="7" id="id_country">
+                                                        <select class="form-control prompt srch_explore" name="country" title="Select Country"
+                                                            data-size="7" id="id_country" required>
+                                                            <option value="" selected hidden>Select Country</option>
                                                             <option value="Afghanistan">Afghanistan</option>
                                                             <option value="Albania">Albania</option>
                                                             <option value="Algeria">Algeria</option>
@@ -365,55 +366,61 @@
                                                             <option value="Zambia">Zambia</option>
                                                             <option value="Zimbabwe">Zimbabwe</option>
                                                         </select>
+                                                        <div class="invalid-feedback">Please select your Country.</div>
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="ui search focus mt-30 lbel25">
-                                                            <label>Address*</label>
-                                                            <div class="ui left icon input swdh11 swdh19">
+                                                            <label class="title-field">Address*</label>
+                                                            <div class="ui left icon swdh11 swdh19">
                                                                 <textarea class="prompt srch_explore form-control"
                                                                     name="address" id="id_address" rows="5" cols="30"
                                                                     required placeholder="Address"></textarea>
+                                                                    <div class="invalid-feedback">Please enter your Address.</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="ui search focus mt-30 lbel25">
-                                                            <label>City*</label>
-                                                            <div class="ui left icon input swdh11 swdh19">
+                                                            <label class="title-field">City*</label>
+                                                            <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="city" id="id_city" required maxlength="64"
                                                                     placeholder="City">
+                                                                    <div class="invalid-feedback">Please enter your City.</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="ui search focus mt-30 lbel25">
-                                                            <label>State / Province / Region*</label>
-                                                            <div class="ui left icon input swdh11 swdh19">
+                                                            <label class="title-field">State / Province / Region*</label>
+                                                            <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="state" id="id_state" required maxlength="64"
                                                                     placeholder="State / Province / Region">
+                                                                    <div class="invalid-feedback">Please enter your State.</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="ui search focus mt-30 lbel25">
-                                                            <label>Zip/Postal Code*</label>
-                                                            <div class="ui left icon input swdh11 swdh19">
+                                                            <label class="title-field">Zip/Postal Code*</label>
+                                                            <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="zip_code" id="id_zip" required maxlength="64"
                                                                     placeholder="Zip / Postal Code">
+                                                                    <div class="invalid-feedback">Please enter your Pincode.</div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="ui search focus mt-30 lbel25">
-                                                            <label>Phone Number*</label>
-                                                            <div class="ui left icon input swdh11 swdh19">
+                                                            <label class="title-field">Phone Number*</label>
+                                                            <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control"
                                                                     type="number" name="phone"
                                                                     value="{{ Auth::user()->phone_number }}" id="id_phone"
-                                                                    required="" maxlength="12" placeholder="Phone Number">
+                                                                    required maxlength="12" placeholder="Phone Number">
+                                                                    <div class="invalid-feedback">Please enter your Phone number.</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -534,6 +541,14 @@
             $("#saveAddressBtn").on("click", function (event) {
                 event.preventDefault();
 
+                // Add Bootstrap validation
+                var form = $("#checkout-form")[0];
+                if (form.checkValidity() === false) {
+                    event.stopPropagation();
+                    $(form).addClass('was-validated');
+                    return;
+                }
+
                 savedAddress = {
                     first_name: $("#id_name").val() || "",
                     last_name: $("#id_surname").val() || "",
@@ -544,18 +559,18 @@
                     phone: $("#id_phone").val() || "",
                     country: $("#id_country").val() || ""
                 };
+
                 var formattedAddress = `${savedAddress.first_name} ${savedAddress.last_name} <br>
-                                                ${savedAddress.address} <br>
-                                                ${savedAddress.city}, ${savedAddress.state} - ${savedAddress.zip_code} <br>
-                                                ${savedAddress.country} <br>
-                                                Phone: ${savedAddress.phone}`;
+                                        ${savedAddress.address} <br>
+                                        ${savedAddress.city}, ${savedAddress.state} - ${savedAddress.zip_code} <br>
+                                        ${savedAddress.country} <br>
+                                        Phone: ${savedAddress.phone}`;
 
                 // Update the address display
                 $("#addressText").html(formattedAddress);
                 console.log("Address saved:", savedAddress);
                 alert("Address saved successfully!");
             });
-
             // Checkout process
             $("#checkoutButton").on("click", function () {
                 event.preventDefault();

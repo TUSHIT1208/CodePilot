@@ -272,6 +272,7 @@
                 "positionClass": "toast-top-right",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
+                "timeOut": "2000",
                 "onShown": function() {
                     $('.toast-success').css({
                         'background-color': '#28a745',

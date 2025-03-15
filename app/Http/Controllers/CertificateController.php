@@ -44,7 +44,7 @@ class CertificateController extends Controller
             'emailaddress' => 'required|email|max:64',
             'phonenumber' => 'required|string|max:10',
         ]);
-
+        logger("create");
         Certificate::create([
 
             'user_id' => Auth::user()->id,
@@ -53,12 +53,14 @@ class CertificateController extends Controller
             'email' => $request->emailaddress,
             'phone_no' => $request->phonenumber,
         ]);
-
+        logger("create...");
         $course = session('course');
+        logger($course);
 
         $test = test::with(['testquestion.testoption'])->where('course_id', $course)->first();
-
+        logger($test);
         if (!$test) {
+            logger('No test found for this course');
             return redirect()->back()->with('error', 'No test found for this course');
         }
 
