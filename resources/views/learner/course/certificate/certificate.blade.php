@@ -116,10 +116,11 @@
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="certificate">
             @if($certificate)
+                <p>{{$certificate->created_at}}</p>
                 <div class="gold-seal">Award</div>
                 <h1>CERTIFICATE</h1>
                 <h3>OF ACHIEVEMENT</h3>
-                <h1>WORD PRESS </h1>
+                <h1>{{ $tname }} </h1>
                 <p>THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
                 <div class="name">{{ $certificate->name }}</div>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et

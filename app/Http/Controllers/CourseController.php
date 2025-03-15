@@ -194,16 +194,18 @@ class CourseController extends Controller
         $users = User::find($courseDetail->user_id);
         // return $video;
         $cid = $courseDetail->id;
+        session()->put('course', $cid);
         $userId = auth()->user()->id; // Get the authenticated user's ID
+        //  $userId = 1; // Example user ID
 
+        $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
 
-        //session()->put('course', $cid);
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users'));
+            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase'));
         }
     }
 
@@ -256,11 +258,7 @@ class CourseController extends Controller
         if (auth()->user()->role->name == 'admin') {
             return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
         } else if (auth()->user()->role->name == 'insructor') {
-<<<<<<< HEAD
-            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories'));
-=======
             return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
         }
     }
 

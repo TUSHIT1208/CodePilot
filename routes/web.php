@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\certificate;
+use App\Models\faq;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CartController;
@@ -44,6 +45,15 @@ Route::get('/list/instructor', function () {
 Route::get('contact', function () {
     return view('front.contact');
 })->name('contact');
+
+
+
+Route::get('Faq', function () {
+    $faqs = faq::all();
+    return view('front.faq', compact('faqs'));
+})->name('faq.display');
+
+
 
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
@@ -150,7 +160,8 @@ Route::resource('subcategory', SubCategoryController::class)->middleware('auth')
 Route::post('/sub_categories/bulk-delete', [SubCategoryController::class, 'bulkDelete'])->name('subcategories.bulk-delete');
 Route::post('/subcategory/update-subcategory-status', [SubCategoryController::class, 'updateSubCategoryStatus'])->name('update.subcategory.status');
 
-Route::resource('faq', FaqController::class)->middleware('auth');
+Route::resource('faq', controller: FaqController::class)->middleware('auth');
+//Route::get('display/faqs', [FaqController::class, 'display'])->name('faq.display');
 Route::post('/faqs/bulk-delete', [FaqController::class, 'bulkDelete'])->name('faq.bulk-delete');
 
 Route::resource('learningpath', LearningPathController::class)->middleware('auth');
@@ -268,4 +279,4 @@ Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name
 
 Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit');
 
-// Route::get('/result/test', [TestResultController::class, 'result'])->name('test.result');
+//Route::get('/result/test', [TestResultController::class, 'result'])->name('test.result');

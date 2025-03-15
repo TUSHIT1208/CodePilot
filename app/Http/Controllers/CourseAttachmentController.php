@@ -67,8 +67,8 @@ class CourseAttachmentController extends Controller
         $request->validate([
             'video_title' => 'required|string|max:255',
             'video_discription' => 'required|string',
-            'playlist_file' => 'required|file|mimes:mp4,pdf,doc,docx|max:20480', // Allowing both video and assignment files
-            'playlist_thumbnail' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Max size 2MB
+            'playlist_file' => 'required|file|mimes:mp4,pdf,doc,docx', // Allowing both video and assignment files
+            'playlist_thumbnail' => 'required|image|mimes:jpg,jpeg,png', // Max size 2MB
             'type' => 'required|in:video,document',
         ]);
 

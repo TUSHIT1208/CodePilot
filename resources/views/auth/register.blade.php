@@ -36,6 +36,9 @@
 </head>
 
 <body>
+    <div class="text-end mt-3 fs-4 gray-s">
+        <a href="{{ route('index') }}" class="text-dark"><i class="uil uil-times container"></i></a>
+    </div>
     <!-- Signup Start -->
     <div class="sign_in_up_bg">
         <div class="container">

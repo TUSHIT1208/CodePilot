@@ -103,6 +103,35 @@
 
 <script>
     $(document).ready(function() {
+        // Set global Toastr options
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "timeOut": "5000",
+            "extendedTimeOut": "2000",
+            "positionClass": "toast-top-right",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "onShown": function() {
+                $('.toast-success').css({
+                    'background-color': '#28a745', // Green for success
+                    'opacity': '1' // Adjust opacity
+                });
+                $('.toast-error').css({
+                    'background-color': '#dc3545', // Red for error
+                    'opacity': '1'
+                });
+                $('.toast-warning').css({
+                    'background-color': '#ffc107', // Yellow for warning
+                    'opacity': '1'
+                });
+                $('.toast-info').css({
+                    'background-color': '#17a2b8', // Blue for info
+                    'opacity': '1'
+                });
+            }
+        };
+
         $('#file_upload').on('change', function() {
             var file = this.files[0];
             if (file) {
@@ -182,6 +211,34 @@
 
 <script>
     $(document).ready(function() {
+        // Set global Toastr options
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "timeOut": "5000",
+            "extendedTimeOut": "2000",
+            "positionClass": "toast-top-right",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "onShown": function() {
+                $('.toast-success').css({
+                    'background-color': '#28a745', // Green for success
+                    'opacity': '1' // Adjust opacity
+                });
+                $('.toast-error').css({
+                    'background-color': '#dc3545', // Red for error
+                    'opacity': '1'
+                });
+                $('.toast-warning').css({
+                    'background-color': '#ffc107', // Yellow for warning
+                    'opacity': '1'
+                });
+                $('.toast-info').css({
+                    'background-color': '#17a2b8', // Blue for info
+                    'opacity': '1'
+                });
+            }
+        };
         var courseId = $('input[name="course_id"]').val();
 
         $('#videoTable').DataTable({

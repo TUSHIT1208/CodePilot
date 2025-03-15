@@ -12,12 +12,16 @@
                     <div class="col-lg-12">
                         <div class="section3125">
                             <div class="row justify-content-center">
-                                <div class="col-xl-4 col-lg-5 col-md-6">
+                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                                     <div class="preview_video">
                                         <a href="#" class="fcrse_img" data-bs-toggle="modal" data-bs-target="#videoModal">
+<<<<<<< HEAD
+                                            <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}" alt="Course Thumbnail" class="img-fluid" />
+=======
                                             <!-- Display the course thumbnail -->
                                             <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
                                                 alt="Course Thumbnail" />
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                             <div class="course-overlay">
                                                 <div class="badge_seller">Bestseller</div>
                                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
@@ -25,21 +29,13 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <div class="_215b10">
-                                        <a href="#" class="_215b11">
-                                            <span><i class="uil uil-heart"></i></span>Save
-                                        </a>
-                                    </div>
                                 </div>
 
-                                <!-- Modal -->
-                                <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel"
-                                    aria-hidden="true">
+                                <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <video id="videoPlayer" width="100%" controls>
@@ -50,19 +46,25 @@
                                     </div>
                                 </div>
                                 <script>
-                                    // When the modal is shown, set the video source dynamically (but don't autoplay)
                                     var videoModal = document.getElementById('videoModal');
+<<<<<<< HEAD
+                                    videoModal.addEventListener('show.bs.modal', function(event) {
+                                        var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}";
+=======
                                     videoModal.addEventListener('show.bs.modal', function (event) {
                                         var button = event.relatedTarget; // The element that triggered the modal
                                         var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}"; // Video URL
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         var videoSource = videoModal.querySelector('#videoSource');
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
 
-                                        // Set the video source but don't play it automatically
                                         videoSource.setAttribute('src', videoUrl);
                                         videoPlayer.load();
                                     });
 
+<<<<<<< HEAD
+                                    videoModal.addEventListener('hidden.bs.modal', function() {
+=======
                                     // When the user clicks on the play button in the modal, start the video
                                     var videoPlayer = document.querySelector('#videoPlayer');
                                     videoPlayer.addEventListener('play', function () {
@@ -71,17 +73,17 @@
 
                                     // When the modal is hidden, stop the video
                                     videoModal.addEventListener('hidden.bs.modal', function () {
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
-                                        videoPlayer.pause(); // Pause the video when modal is closed
-                                        videoPlayer.currentTime = 0; // Reset the video to the beginning
+                                        videoPlayer.pause();
+                                        videoPlayer.currentTime = 0;
                                     });
                                 </script>
 
-                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
                                     <div class="_215b03">
                                         <h2>{{ $courseDetail->title }}</h2>
-                                        <span class="_215b04">The only course you need to learn web development - HTML, CSS,
-                                            JS, Node, and More!</span>
+                                        <span class="_215b04">The only course you need to learn web development - HTML, CSS, JS, Node, and More!</span>
                                     </div>
                                     <div class="_215b05">
                                         <div class="crse_reviews mr-2">
@@ -89,22 +91,14 @@
                                         </div>
                                         (81,665 ratings)
                                     </div>
-                                    <div class="_215b05">
-                                        114,521 students enrolled
-                                    </div>
+                                    <div class="_215b05">114,521 students enrolled</div>
                                     <div class="_215b06">
                                         <div class="_215b07">
                                             <span><i class='uil uil-comment'></i></span>
                                             English
                                         </div>
                                     </div>
-                                    <div class="_215b05">
-                                        Last updated {{ $courseDetail->updated_at }}
-                                    </div>
-                                    <ul class="_215b31">
-                                        <li><button class="btn_adcart">Add to Cart</button></li>
-                                        <li><button class="btn_buy">Buy Now</button></li>
-                                    </ul>
+                                    <div class="_215b05">Last updated {{ $courseDetail->updated_at }}</div>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +115,7 @@
                                 <div class="live_user_dt">
                                     <div class="user_img5">
                                         @if (!empty(auth()->user()->profile_picture_url))
-                                            <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
+                                            <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}" class="img-fluid">
                                         @else
                                             <h1 id="default_avtar" style="position: relative; right: 28%;">
                                                 {{ substr(Auth::user()->username, 0, 1) }}
@@ -134,6 +128,8 @@
                                     </div>
                                 </div>
                             </div>
+<<<<<<< HEAD
+=======
                             <div class="user_dt_right">
                                 <ul>
                                     <li>
@@ -150,16 +146,14 @@
                                     </li>
                                 </ul>
                             </div>
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                         </div>
                         <div class="course_tabs">
                             <nav>
                                 <div class="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" id="nav-about-tab" data-bs-toggle="tab"
-                                        href="#nav-about" role="tab" aria-selected="true">About</a>
-                                    <a class="nav-item nav-link" id="nav-courses-tab" data-bs-toggle="tab"
-                                        href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
-                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
-                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
+                                    <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab" href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
+                                    <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about" role="tab" aria-selected="true">About</a>
+                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab" href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
                                 </div>
                             </nav>
                         </div>
@@ -173,7 +167,7 @@
                     <div class="col-lg-12">
                         <div class="course_tab_content">
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="nav-about" role="tabpanel">
+                                <div class="tab-pane fade show" id="nav-about" role="tabpanel">
                                     <div class="_htg451">
                                         <div class="_htg452">
                                             <h3>Requirements</h3>
@@ -230,8 +224,55 @@
                                                                                     
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="nav-courses" role="tabpanel">
+                                <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
+<<<<<<< HEAD
+                                        @foreach ($courseDetail->courseattachment as $attachment)
+                                            <div class="crse_content container mx-auto p-4">
+                                                <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
+                                                    <div class="w-full md:w-1/3">
+                                                        @if ($attachment->type === 'video')
+                                                            <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $attachment->id]) }}" class="hf_img relative block">
+                                                                <img src="{{ asset('courseThumbnail/' . $attachment->thumbnail_url) }}" alt="{{ $attachment->title }}" class="w-full rounded-lg">
+                                                                <div class="course-overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
+                                                                    <div class="badge_seller bg-blue-500 text-white px-2 py-1 rounded-full">Featured</div>
+                                                                    <div class="crse_reviews text-white mt-2"><i class="uil uil-star"></i>4.5</div>
+                                                                    <span class="play_btn1 text-white text-2xl"><i class="uil uil-play"></i></span>
+                                                                    <div class="crse_timer text-white" id="video-duration-{{ $attachment->id }}">Loading...</div>
+                                                                </div>
+                                                            </a>
+                                                            <video id="temp-video-{{ $attachment->id }}" style="display:none;">
+                                                                <source src="{{ asset('courseVideo/' . $attachment->url) }}" type="video/mp4">
+                                                            </video>
+                                                            <script>
+                                                                document.addEventListener('DOMContentLoaded', function() {
+                                                                    const video = document.getElementById('temp-video-{{ $attachment->id }}');
+                                                                    video.addEventListener('loadedmetadata', () => {
+                                                                        const duration = video.duration;
+                                                                        const minutes = Math.floor(duration / 60);
+                                                                        const seconds = Math.floor(duration % 60);
+                                                                        const formattedDuration = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')} minutes` : `${seconds} seconds`;
+                                                                        document.getElementById('video-duration-{{ $attachment->id }}').innerText = formattedDuration;
+                                                                    });
+                                                                    video.load();
+                                                                });
+                                                            </script>
+                                                        @elseif ($attachment->type === 'document' && Str::endsWith($attachment->url, '.pdf'))
+                                                            <a href="{{ asset('courseAssignments/' . $attachment->url) }}" target="_blank" class="hf_img">
+                                                                <div class="pdf-thumbnail bg-gray-200 flex items-center justify-center rounded-2xl h-40">
+                                                                    <img src="{{ asset('images/PDF_file_icon.svg.webp') }}" alt="PDF Document" class="w-24">
+                                                                </div>
+                                                            </a>
+                                                            <div class="eps_dots eps_dots10 more_dropdown relative">
+                                                                <i class="uil uil-ellipsis-v text-lg cursor-pointer"></i>
+                                                                <div class="dropdown-content hidden absolute bg-white shadow-lg rounded-lg p-2">
+                                                                    <a href="{{ asset('courseAssignments/' . $attachment->url) }}" download="{{ $attachment->title }}" class="bg-blue-500 text-white px-4 py-2 rounded-2xl">Download</a>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="hs_content w-full md:w-2/3">
+=======
                                         @foreach ($courseDetail->courseattachment as $video)
                                             <div class="crse_content container">
                                                 <div class="fcrse_1">
@@ -275,18 +316,33 @@
                                                                         class='uil uil-times'></i>Remove</span>
                                                             </div>
                                                         </div>
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                                         <div class="vdtodt">
-                                                            <span class="vdt14">{{ $video->views ?? '0' }} views</span>
+                                                            <span class="vdt14">{{ $attachment->views ?? '0' }} views</span>
                                                         </div>
+<<<<<<< HEAD
+                                                        <a href="javascript:void(0);" class="crse14s title900 text-lg font-bold">{{ $attachment->title }} | {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
+                                                        <p class="text-gray-700">{{ $attachment->discription }}</p>
+                                                        <div class="auth1lnkprce">
+                                                            <p>By <a href="javascript:;" class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a></p>
+                                                        </div>
+=======
                                                         <a href="javascript:void(0);" class="crse14s title900">{{ $video->title }} |
                                                             {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
                                                         <p>{{ $video->discription }}</p>
 
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                                     </div>
                                                 </div>
                                             </div>
                                         @endforeach
                                     @else
+<<<<<<< HEAD
+                                        <div class="no-categories-container text-center py-10">
+                                            <i class="uil uil-folder-minus text-5xl text-gray-300"></i>
+                                            <h3 class="mt-3 text-2xl text-gray-500">No Content Found</h3>
+                                            <p class="text-gray-400">It looks like you don't have any content yet. Add one now to get started!</p>
+=======
                                         <div class="no-categories-container text-center fade-in-animation footer">
                                             <i class="uil uil-folder-minus bounce-effect"
                                                 style="font-size: 50px; color: #d1d1d1;"></i>
@@ -295,6 +351,7 @@
                                             <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you
                                                 don't have any
                                                 content yet. Add one now to get started!</p>
+>>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         </div>
                                     @endif
                                 </div>

@@ -15,14 +15,17 @@
                                 <div class="ttl121">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="{{ route('learner.dashboard') }}">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="{{ route('certificate.center') }}">Certificate Center</a></li>
+                                            <li class="breadcrumb-item"><a href="{{ route('learner.dashboard') }}">Home</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a
+                                                    href="{{ route('certificate.center') }}">Certificate Center</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Test View</li>
                                         </ol>
                                     </nav>
                                 </div>
                             </div>
-                            <div class="titleright"><a href="{{ route('certificate.center') }}" class="blog_link"><i class="uil uil-angle-double-left"></i>Back to Certification Center</a></div>
+                            <div class="titleright"><a href="{{ route('certificate.center') }}" class="blog_link"><i
+                                        class="uil uil-angle-double-left"></i>Back to Certification Center</a></div>
                         </div>
                         <div class="title126">
                             <h2>Test View</h2>
@@ -72,7 +75,8 @@
                                             @foreach ($question->testoption as $option)
                                                 <div class="field">
                                                     <div class="ui radio checkbox">
-                                                        <input type="radio" name="answers[{{ $question->id }}]" value="{{ $option->id }}" tabindex="0" class="hidden">
+                                                        <input type="radio" name="answers[{{ $question->id }}]"
+                                                            value="{{ $option->id }}" tabindex="0" class="hidden">
                                                         <label>{{ $option->option_text }}</label>
                                                     </div>
                                                 </div>
@@ -93,67 +97,67 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-    const timerElement = document.getElementById('timer');
-    let timeLeft;
+            const timerElement = document.getElementById('timer');
+            let timeLeft;
 
-    // Handle both "HH:MM:SS" and "minutes" format
-    if (timerElement.textContent.includes(':')) {
-        // Format: HH:MM:SS
-        const timeParts = timerElement.textContent.split(':');
-        let hours = parseInt(timeParts[0], 10) || 0;
-        let minutes = parseInt(timeParts[1], 10) || 0;
-        let seconds = parseInt(timeParts[2], 10) || 0;
-        timeLeft = (hours * 3600) + (minutes * 60) + seconds;
-    } else {
-        // Format: Minutes only
-        timeLeft = parseInt(timerElement.textContent, 10) * 60;
-    }
+            // Handle both "HH:MM:SS" and "minutes" format
+            if (timerElement.textContent.includes(':')) {
+                // Format: HH:MM:SS
+                const timeParts = timerElement.textContent.split(':');
+                let hours = parseInt(timeParts[0], 10) || 0;
+                let minutes = parseInt(timeParts[1], 10) || 0;
+                let seconds = parseInt(timeParts[2], 10) || 0;
+                timeLeft = (hours * 3600) + (minutes * 60) + seconds;
+            } else {
+                // Format: Minutes only
+                timeLeft = parseInt(timerElement.textContent, 10) * 60;
+            }
 
-    function updateTimerDisplay() {
-        const displayHours = Math.floor(timeLeft / 3600);
-        const displayMinutes = Math.floor((timeLeft % 3600) / 60);
-        const displaySeconds = timeLeft % 60;
+            function updateTimerDisplay() {
+                const displayHours = Math.floor(timeLeft / 3600);
+                const displayMinutes = Math.floor((timeLeft % 3600) / 60);
+                const displaySeconds = timeLeft % 60;
 
-        timerElement.textContent =
-            `${displayHours.toString().padStart(2, '0')}:${displayMinutes.toString().padStart(2, '0')}:${displaySeconds.toString().padStart(2, '0')}`;
-    }
+                timerElement.textContent =
+                    `${displayHours.toString().padStart(2, '0')}:${displayMinutes.toString().padStart(2, '0')}:${displaySeconds.toString().padStart(2, '0')}`;
+            }
 
-    updateTimerDisplay();
+            updateTimerDisplay();
 
-    const timerInterval = setInterval(() => {
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
+            const timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    Swal.fire({
+                        title: 'Time’s Up!',
+                        text: 'Your test time has ended. Submitting your answers now.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    }).then(() => {
+                        document.getElementById('testForm').submit();
+                    });
+                    return;
+                }
+
+                timeLeft--;
+                updateTimerDisplay();
+            }, 1000);
+        });
+
+        function confirmSubmit() {
             Swal.fire({
-                title: 'Time’s Up!',
-                text: 'Your test time has ended. Submitting your answers now.',
-                icon: 'warning',
-                confirmButtonText: 'OK',
-                allowOutsideClick: false,
-                allowEscapeKey: false
-            }).then(() => {
-                document.getElementById('testForm').submit();
+                title: 'Submit Test?',
+                text: 'Are you sure you want to submit your test?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Submit',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('testForm').submit();
+                }
             });
-            return;
         }
-
-        timeLeft--;
-        updateTimerDisplay();
-    }, 1000);
-});
-
-function confirmSubmit() {
-    Swal.fire({
-        title: 'Submit Test?',
-        text: 'Are you sure you want to submit your test?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, Submit',
-        cancelButtonText: 'Cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('testForm').submit();
-        }
-    });
-}
     </script>
 @endsection

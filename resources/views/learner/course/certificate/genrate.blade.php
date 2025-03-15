@@ -15,18 +15,18 @@
                         <div class="title125">
                             <div class="titleleft">
                                 <div class="ttl121">
-                                    <nav aria-label="breadcrumb">
+                                    {{-- <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                                             <li class="breadcrumb-item"><a href="certification_center.html">Certification
                                                     Center</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Result</li>
                                         </ol>
-                                    </nav>
+                                    </nav> --}}
                                 </div>
                             </div>
                             <div class="titleright">
-                                <a href="certification_center.html" class="blog_link"><i
+                                <a href="{{route('certificate.center')}}" class="blog_link"><i
                                         class="uil uil-angle-double-left"></i>Back to Certification Center</a>
                             </div>
                         </div>
@@ -65,15 +65,19 @@
                                             </li>
                                         </ul>
                                         <div class="result_content">
-                                            <h2>Congratulation! Joginder</h2>
-                                            <p>You are eligible for this certificate</p>
 
-                                            <form action="/cirty">
-                                                @csrf
-                                                <button type="submit" class="download_btn" target="_blank">Download
-                                                    Certificate</button>
-                                            </form>
 
+                                            @if($p_marks < $test_result->overall_score)
+                                                <h2>Congratulation! {{ Auth::user()->username }}</h2>
+                                                <p>You are eligible for this certificate</p>
+                                                <form action="/cirty">
+                                                    @csrf
+                                                    <button type="submit" class="download_btn" target="_blank">Download
+                                                        Certificate</button>
+                                                </form>
+                                            @else
+                                                BETTER LUCK NEXT TIME......
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -83,5 +87,4 @@
             </div>
         </div>
 
-        @include('frontside.layouts.footer')
 @endsection

@@ -445,32 +445,15 @@
                     success: function (response) {
                         if (response.success) {
                             
-    
+                            toastr.success(response.success, 'Success');
                             $("#editSubcategoryModal").modal("hide");
     
                             // Reload the page after a short delay
                             setTimeout(function () {
                                 location.reload();
-                            }, 0000);
+                            }, 2000);
                         }
                     }
-                    // error: function (xhr) {
-                    //     // Remove existing validation feedback
-                    //     $(".is-invalid").removeClass("is-invalid");
-                    //     $(".invalid-feedback").remove();
-    
-                    //     if (xhr.status === 422) {
-                    //         let errors = xhr.responseJSON.errors;
-    
-                    //         for (let field in errors) {
-                    //             let inputField = $('input[name="' + field + '"], textarea[name="' + field + '"]');
-                    //             inputField.addClass("is-invalid");
-    
-                    //             // Append error message
-                    //             inputField.after('<div class="invalid-feedback">' + errors[field][0] + "</div>");
-                    //         }
-                    //     } 
-                    // },
                 });
             });
         });

@@ -81,16 +81,15 @@
                             <!-- Category Name Field -->
                             <div class="mb-3">
                                 <label for="edit_category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control _dlor1" id="edit_category_name" name="category_name"
-                                    placeholder="Enter the category name" required>
+                                <input type="text" class="form-control _dlor1" id="edit_category_name"
+                                    name="category_name" placeholder="Enter the category name" required>
                                 <div class="invalid-feedback">Please provide a category name.</div>
                             </div>
 
                             <!-- Category Description Field -->
                             <div class="mb-3">
                                 <label for="edit_category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control _dlor1" id="edit_category_description"
-                                    name="category_description" rows="4"
+                                <textarea class="form-control _dlor1" id="edit_category_description" name="category_description" rows="4"
                                     placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
@@ -118,14 +117,14 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="category_name" class="form-label">Category Name</label>
-                                <input type="text" class="form-control _dlor1" id="category_name" name="category_name"
-                                    placeholder="Enter the category name" required>
+                                <input type="text" class="form-control _dlor1" id="category_name"
+                                    name="category_name" placeholder="Enter the category name" required>
                                 <div class="invalid-feedback">Please enter a category name.</div>
                             </div>
                             <div class="mb-3">
                                 <label for="category_description" class="form-label">Category Description</label>
-                                <textarea class="form-control _dlor1" id="category_description" name="category_description"
-                                    rows="4" placeholder="Enter the category description ( OPTIONAL )"></textarea>
+                                <textarea class="form-control _dlor1" id="category_description" name="category_description" rows="4"
+                                    placeholder="Enter the category description ( OPTIONAL )"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -143,11 +142,11 @@
     {{-- vaildation --}}
     <script>
         // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             var forms = document.querySelectorAll(".needs-validation");
             Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener("submit", function (event) {
+                .forEach(function(form) {
+                    form.addEventListener("submit", function(event) {
                         if (!form.checkValidity()) {
                             event.preventDefault();
                             event.stopPropagation();
@@ -160,40 +159,40 @@
 
     {{-- Dispplay list using datatable with bulk delete --}}
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let table = $('#category-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('category.index') }}", // Adjust this route
                 columns: [{
-                    data: 'id',
-                    render: function (data) {
-                        return '<input type="checkbox" class="category-checkbox" value="' +
-                            data + '">';
+                        data: 'id',
+                        render: function(data) {
+                            return '<input type="checkbox" class="category-checkbox" value="' +
+                                data + '">';
+                        },
+                        orderable: false,
+                        searchable: false
                     },
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'description',
-                    name: 'description'
-                },
-                {
-                    data: 'status',
-                    name: 'status',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'description',
+                        name: 'description'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
                 ]
             });
 
@@ -206,10 +205,10 @@
                 "positionClass": "toast-top-right",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
-                "onShown": function () {
+                "onShown": function() {
                     $('.toast-success').css({
                         'background-color': '#28a745', // Green for success
-                        'opacity': '1'  // Adjust opacity
+                        'opacity': '1' // Adjust opacity
                     });
                     $('.toast-error').css({
                         'background-color': '#dc3545', // Red for error
@@ -228,13 +227,13 @@
 
 
             // Handle "Select All" checkbox
-            $('#category-table tbody').on('change', '.category-checkbox', function () {
+            $('#category-table tbody').on('change', '.category-checkbox', function() {
                 let allChecked = $('.category-checkbox').length === $('.category-checkbox:checked').length;
                 $('#select-all').prop('checked', allChecked);
                 toggleBulkDeleteButton();
             });
 
-            $('#select-all').on('change', function () {
+            $('#select-all').on('change', function() {
                 $('.category-checkbox').prop('checked', $(this).prop('checked'));
                 toggleBulkDeleteButton();
             });
@@ -245,8 +244,8 @@
             }
 
             // Bulk Delete Functionality
-            $('#bulk-delete-btn').on('click', function () {
-                let selectedIds = $('.category-checkbox:checked').map(function () {
+            $('#bulk-delete-btn').on('click', function() {
+                let selectedIds = $('.category-checkbox:checked').map(function() {
                     return $(this).val();
                 }).get();
 
@@ -274,7 +273,7 @@
                                 _token: '{{ csrf_token() }}',
                                 ids: selectedIds,
                             },
-                            success: function (response) {
+                            success: function(response) {
                                 if (response.success) {
                                     $('#select-all').prop('checked', false);
                                     $('#bulk-delete-btn').prop('disabled', true);
@@ -285,7 +284,7 @@
                                         'Error');
                                 }
                             },
-                            error: function (xhr) {
+                            error: function(xhr) {
                                 if (xhr.status === 400) {
                                     toastr.error(xhr.responseJSON.error, 'Error');
                                 } else {
@@ -302,16 +301,16 @@
 
     {{-- AJAX form submission for Add Category --}}
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let isCancelClicked = false;
 
             // Track if the cancel button is clicked
-            $('.cancel-btn').on('click', function () {
+            $('.cancel-btn').on('click', function() {
                 isCancelClicked = true;
                 $('#addCategoryModal').modal('hide'); // Close modal properly
             });
 
-            $('#addCategoryModal form').on('submit', function (e) {
+            $('#addCategoryModal form').on('submit', function(e) {
                 e.preventDefault();
 
                 var form = $(this)[0];
@@ -327,11 +326,11 @@
                         url: $(this).attr('action'),
                         method: $(this).attr('method'),
                         data: formData,
-                        success: function (response) {
+                        success: function(response) {
                             if (response.success) {
                                 $('#addCategoryModal').modal('hide');
                                 toastr.success(response.success, 'Success');
-                                setTimeout(function () {
+                                setTimeout(function() {
                                     location.reload();
                                 }, 2000);
                             }
@@ -355,13 +354,12 @@
                 }
             });
         });
-
     </script>
 
     <!-- JavaScript for Delete Confirmation -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.body.addEventListener("click", function (event) {
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.addEventListener("click", function(event) {
                 if (event.target.closest(".delete-btn")) {
                     event.preventDefault(); // Prevent default anchor behavior
 
@@ -390,8 +388,8 @@
 
     {{-- Use event delegation to handle dynamically loaded toggle switches --}}
     <script>
-        $(document).ready(function () {
-            $(document).on('change', '.toggle-input', function () {
+        $(document).ready(function() {
+            $(document).on('change', '.toggle-input', function() {
                 let categoryId = $(this).data('id');
                 let isActive = $(this).is(':checked') ? 1 : 0;
 
@@ -403,10 +401,10 @@
                         category_id: categoryId,
                         is_active: isActive
                     },
-                    success: function (response) {
+                    success: function(response) {
                         toastr.success(response.success, 'Success');
                     },
-                    error: function () {
+                    error: function() {
                         toastr.error('Error updating category status.', 'Error');
                     }
                 });
@@ -414,10 +412,10 @@
         });
     </script>
 
-    {{-- Open Edit Mod al and Populate Data --}}
+    {{-- Open Edit Modal and Populate Data --}}
     <script>
-        $(document).ready(function () {
-            $(document).on('click', '.edit-category', function () {
+        $(document).ready(function() {
+            $(document).on('click', '.edit-category', function() {
                 let categoryId = $(this).data('id');
                 let categoryName = $(this).data('name');
                 let categoryDescription = $(this).data('description');
@@ -432,7 +430,7 @@
             });
 
             // Handle Update Category Submission via AJAX
-            $('#editCategoryForm').submit(function (e) {
+            $('#editCategoryForm').submit(function(e) {
                 e.preventDefault(); // Prevent default form submission
 
                 let categoryId = $('#edit_category_id').val();
@@ -442,33 +440,17 @@
                     url: `/category/${categoryId}`, // Resourceful route
                     method: 'PUT', // Laravel requires PUT for update
                     data: formData,
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
                             toastr.success(response.success, 'Success');
 
                             // Close modal and reload table
                             $('#editCategoryModal').modal('hide');
-                            location.reload();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         }
                     }
-                    // error: function(xhr) {
-                    //     $('.is-invalid').removeClass('is-invalid');
-                    //     $('.invalid-feedback').remove();
-
-                    //     if (xhr.status === 422) {
-                    //         let errors = xhr.responseJSON.errors;
-                    //         for (let field in errors) {
-                    //             let inputField = $(`[name="${field}"]`);
-                    //             inputField.addClass('is-invalid');
-                    //             inputField.after(
-                    //                 `<div class="invalid-feedback">${errors[field][0]}</div>`
-                    //             );
-                    //         }
-                    //     } else {
-                    //         toastr.error('An unexpected error occurred. Please try again.',
-                    //             'Error');
-                    //     }
-                    // }
                 });
             });
         });
