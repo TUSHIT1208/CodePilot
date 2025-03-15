@@ -28,8 +28,8 @@ class ContactusController extends Controller
                 ->rawColumns(['checkbox', 'action'])  // Allow raw HTML in the actions and checkbox columns
                 ->make(true);  // Return the DataTables response
         }
-
-        return view('admin.contectus.list');  // Render the view for DataTable
+        $contactus = Contactus::all();
+        return view('admin.contectus.list',compact('contactus'));  // Render the view for DataTable
     }
 
     public function create()

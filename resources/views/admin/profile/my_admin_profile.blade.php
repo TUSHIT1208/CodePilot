@@ -182,6 +182,7 @@
             </div>
         </div>
     </div>
+    @include('admin.layouts.footer')
     <script>
         document.addEventListener("DOMContentLoaded", function () {
          // When the "Edit Profile" button is clicked, trigger file input

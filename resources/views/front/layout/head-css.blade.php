@@ -15,6 +15,8 @@
  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
 
  <!-- First, load jQuery -->
  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
