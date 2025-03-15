@@ -111,13 +111,11 @@
                                             </form>
                                         </li>
                                         <li><button class="btn_buy">Buy Now</button></li>
-                                        @if(isset($hasPurchased))
-                                            <li>
-                                                <a href="{{ route('certificate.center') }}">
-                                                    <button class="btn_buy">Test</button>
-                                                </a>
-                                            </li>
-                                        @endif
+                                        <li>
+                                            <a href="{{ route('certificate.center') }}">
+                                                <button class="btn_buy">Test</button>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>

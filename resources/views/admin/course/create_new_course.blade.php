@@ -46,10 +46,10 @@
                                 </li>
                             </ul>
                             <div class="step-content">
-                                @include('admin.course.basic_information') 									    
+                                @include('admin.course.basic_information')
                                 @include('admin.course.test')
-                                @include('admin.course.media')								
-                                @include('admin.course.price')								
+                                @include('admin.course.media')
+                                @include('admin.course.price')
                                 <div class="step-tab-panel step-tab-location" id="tab_step5">
                                     <div class="tab-from-content">
                                         <div class="title-icon">
@@ -62,7 +62,6 @@
                                             this course. For students that are already enrolled, this course will not
                                             appear on their student Dashboard.</p>
                                     </div>
-                                    
                                 </div>
                             </div>
                             <div class="step-footer step-tab-pager mb-3">
@@ -70,46 +69,47 @@
                                 <button data-direction="next" class="main-btn">Next</button>
                                 <button data-direction="finish" class="main-btn">Submit for Review</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<style>
-    .step-steps li.disabled {
-    pointer-events: none; /* Prevent clicking */
-    opacity: 0.5; /* Make it look inactive */
-    cursor: not-allowed; /* Show not-allowed cursor */
-}
-</style>
-<script>
-$(document).ready(function () {
-    
 
-    // Disable all tabs except the first one
-    $(".step-steps li:not(:first)").addClass("disabled");
-    
-     if(window.location.pathname.endsWith("/edit")) {
-        $(".step-steps li").removeClass("disabled");
-    };
-});
+    <style>
+        .step-steps li.disabled {
+            pointer-events: none;
+            /* Prevent clicking */
+            opacity: 0.5;
+            /* Make it look inactive */
+            cursor: not-allowed;
+            /* Show not-allowed cursor */
+        }
+    </style>
 
-</script>
+    <script>
+        $(document).ready(function () {
+            // Disable all tabs except the first one
+            $(".step-steps li:not(:first)").addClass("disabled");
+
+            if (window.location.pathname.endsWith("/edit")) {
+                $(".step-steps li").removeClass("disabled");
+            };
+        });
+
+    </script>
 
 
-    
+
     {{-- hide button --}}
     <script>
-         document.addEventListener("DOMContentLoaded", function () {
-             // Select all buttons inside the step-footer
-             var buttons = document.querySelectorAll('.step-footer .main-btn');
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select all buttons inside the step-footer
+            var buttons = document.querySelectorAll('.step-footer .main-btn');
             buttons.forEach(function (button) {
-                 button.style.visibility = "hidden"; // Hide each button
-             });
-         });
-
+                button.style.visibility = "hidden"; // Hide each button
+            });
+        });
 
         // Initialize CKEditor instances
         // ClassicEditor.create(document.querySelector('#editor1'))
@@ -122,7 +122,11 @@ $(document).ready(function () {
         // Steps wizard initialization
         $('#add-course-tab').steps({
             onFinish: function () {
-                alert('Course Completed');
+                toastr.success('Course create successfully');
+                setTimeout(function () {
+                    location.reload(); // Reload the page after a short delay
+                }, 2000);
+                //alert('Course Completed');
                 window.location.href = "{{ route('course.index') }}";
             }
         });
@@ -140,23 +144,20 @@ $(document).ready(function () {
             //     // Trigger the next button automatically after receiving success
             //     $('#add-course-tab .step-footer button[data-direction="next"]').click();
             // }
-           
-
 
             if ('{{ session('success') }}') {
-                
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
-               
+
             }
-            if(window.location.pathname.endsWith("/edit")){
+            if (window.location.pathname.endsWith("/edit")) {
                 // Trigger the next button automatically after receiving success
                 var buttons = document.querySelectorAll('.step-footer .main-btn');
-                    buttons.forEach(function (button) {
-                 button.style.visibility = "visible"; // Hide each button
-             });
+                buttons.forEach(function (button) {
+                    button.style.visibility = "visible"; // Hide each button
+                });
             }
-            
-            
+
+
             if (course) {
                 $('#add-course-tab .step-footer button[data-direction="prev"]').click();
             }
@@ -164,4 +165,5 @@ $(document).ready(function () {
 
         });
     </script>
+
     {{-- @endsection --}}

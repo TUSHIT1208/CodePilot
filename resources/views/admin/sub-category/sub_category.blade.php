@@ -214,31 +214,7 @@
                             location.reload(); // Reload the page
                         }, 2000);
                     }
-                },
-                // error: function(xhr) {
-                //     // Remove existing validation feedback
-                //     $('.is-invalid').removeClass('is-invalid');
-                //     $('.invalid-feedback').remove();
-
-                //     if (xhr.status === 422) { // Validation error
-                //         var errors = xhr.responseJSON.errors;
-
-                //         for (var field in errors) {
-                //             // Highlight the field with error
-                //             var inputField = $('input[name="' + field +
-                //                 '"], select[name="' + field + '"], textarea[name="' +
-                //                 field + '"]');
-                //             inputField.addClass('is-invalid');
-
-                //             // Add error message
-                //             inputField.after('<div class="invalid-feedback">' + errors[
-                //                 field][0] + '</div>');
-                //         }
-                //     } else {
-                //         toastr.error('An unexpected error occurred. Please try again.',
-                //             'Error');
-                //     }
-                // }
+                }
             });
         });
     </script>

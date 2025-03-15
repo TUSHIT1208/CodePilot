@@ -190,28 +190,20 @@ class CourseController extends Controller
 
     public function show($id)
     {
-
         $courseDetail = Course::with(['category', 'subcategory', 'courseattachment'])->where('id', $id)->first();
         $users = User::find($courseDetail->user_id);
         // return $video;
         $cid = $courseDetail->id;
-
-        $userId = Auth::user()->id; // Replace with actual user ID
-        $courseId = $id; // Replace with actual course ID
-        $hasPurchased = user_course::where('user_id', $userId)
-            ->where('course_id', $courseId)->get();
-        //return $hasPurchased;
-
-        session()->put('course', $cid);
+        $userId = auth()->user()->id; // Get the authenticated user's ID
 
 
-
+        //session()->put('course', $cid);
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users', 'hasPurchased'));
+            return view('learner.course.each_course', compact('courseDetail', 'users'));
         }
     }
 
@@ -264,7 +256,7 @@ class CourseController extends Controller
         if (auth()->user()->role->name == 'admin') {
             return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
         } else if (auth()->user()->role->name == 'insructor') {
-            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
+            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories'));
         }
     }
 
@@ -444,6 +436,21 @@ class CourseController extends Controller
             return response()->json(['success' => true, 'message' => 'Course published successfully!']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Something went wrong!'], 500);
+        }
+    }
+
+    public function toggleStatus(Request $request, Course $course)
+    {
+        try {
+            $course->update(['is_active' => $request->is_active]);
+            return response()->json(['success' => true, 'message' => 'Course status updated successfully']);
+        } catch (\Exception $e) {
+            Log::error('Error updating course status', [
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ]);
+            return response()->json(['success' => false, 'message' => 'Failed to update course status']);
         }
     }
 
