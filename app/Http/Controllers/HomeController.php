@@ -2,27 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\course;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+        $learnerCount = User::where('role_id', 3)->count();
+        $instructorCount = User::where('role_id', 2)->count();
+        $courseCount = course::all()->count();
+    
+        return view('front.index', compact('learnerCount', 'instructorCount','courseCount'));
     }
+    
+    public function about()
+    {
+        $learnerCount = User::where('role_id', 3)->count();
+        $instructorCount = User::where('role_id', 2)->count();
+        $courseCount = course::all()->count();
+    
+        return view('front.about', compact('learnerCount', 'instructorCount','courseCount'));
+    }  
 }

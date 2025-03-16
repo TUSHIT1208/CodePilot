@@ -189,7 +189,6 @@ class CourseController extends Controller
     {
         $courseDetail = Course::with(['category', 'subcategory', 'courseattachment'])->where('id', $id)->first();
         $users = User::find($courseDetail->user_id);
-        // return $video;
         $cid = $courseDetail->id;
         session()->put('course', $cid);
         if (auth()->user()->role->name === 'admin') {

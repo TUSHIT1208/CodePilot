@@ -15,14 +15,8 @@
                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
                                     <div class="preview_video">
                                         <a href="#" class="fcrse_img" data-bs-toggle="modal" data-bs-target="#videoModal">
-<<<<<<< HEAD
-                                            <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}" alt="Course Thumbnail" class="img-fluid" />
-=======
-                                            <!-- Display the course thumbnail -->
-                                            <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
-                                                alt="Course Thumbnail" />
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
-                                            <div class="course-overlay">
+                                            <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}" alt="Course Thumbnail" class="img-fluid" style="height : 213px;"/>
+                                            <div class="course-overlay intro_overlay">
                                                 <div class="badge_seller">Bestseller</div>
                                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                 <span class="_215b02">Preview this course</span>
@@ -47,14 +41,8 @@
                                 </div>
                                 <script>
                                     var videoModal = document.getElementById('videoModal');
-<<<<<<< HEAD
                                     videoModal.addEventListener('show.bs.modal', function(event) {
                                         var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}";
-=======
-                                    videoModal.addEventListener('show.bs.modal', function (event) {
-                                        var button = event.relatedTarget; // The element that triggered the modal
-                                        var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}"; // Video URL
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         var videoSource = videoModal.querySelector('#videoSource');
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
 
@@ -62,18 +50,7 @@
                                         videoPlayer.load();
                                     });
 
-<<<<<<< HEAD
                                     videoModal.addEventListener('hidden.bs.modal', function() {
-=======
-                                    // When the user clicks on the play button in the modal, start the video
-                                    var videoPlayer = document.querySelector('#videoPlayer');
-                                    videoPlayer.addEventListener('play', function () {
-                                        videoPlayer.play(); // Manually start the video when the play button is clicked
-                                    });
-
-                                    // When the modal is hidden, stop the video
-                                    videoModal.addEventListener('hidden.bs.modal', function () {
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                         var videoPlayer = videoModal.querySelector('#videoPlayer');
                                         videoPlayer.pause();
                                         videoPlayer.currentTime = 0;
@@ -128,25 +105,6 @@
                                     </div>
                                 </div>
                             </div>
-<<<<<<< HEAD
-=======
-                            <div class="user_dt_right">
-                                <ul>
-                                    <li>
-                                        <a href="#" class="lkcm152"><i class="uil uil-eye"></i><span>1452</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-up"></i><span>100</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="lkcm152"><i class="uil uil-thumbs-down"></i><span>20</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="lkcm152"><i class="uil uil-share-alt"></i><span>9</span></a>
-                                    </li>
-                                </ul>
-                            </div>
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                         </div>
                         <div class="course_tabs">
                             <nav>
@@ -226,7 +184,6 @@
                                 </div>
                                 <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
-<<<<<<< HEAD
                                         @foreach ($courseDetail->courseattachment as $attachment)
                                             <div class="crse_content container mx-auto p-4">
                                                 <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
@@ -236,7 +193,7 @@
                                                                 <img src="{{ asset('courseThumbnail/' . $attachment->thumbnail_url) }}" alt="{{ $attachment->title }}" class="w-full rounded-lg">
                                                                 <div class="course-overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
                                                                     <div class="badge_seller bg-blue-500 text-white px-2 py-1 rounded-full">Featured</div>
-                                                                    <div class="crse_reviews text-white mt-2"><i class="uil uil-star"></i>4.5</div>
+                                                                    <div class="crse_reviews text-white playlist_review"><i class="uil uil-star"></i>4.5</div>
                                                                     <span class="play_btn1 text-white text-2xl"><i class="uil uil-play"></i></span>
                                                                     <div class="crse_timer text-white" id="video-duration-{{ $attachment->id }}">Loading...</div>
                                                                 </div>
@@ -272,87 +229,26 @@
                                                         @endif
                                                     </div>
                                                     <div class="hs_content w-full md:w-2/3">
-=======
-                                        @foreach ($courseDetail->courseattachment as $video)
-                                            <div class="crse_content container">
-                                                <div class="fcrse_1">
-                                                    <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $video->id]) }}"
-                                                        class="hf_img"
-                                                        onclick="playVideo('{{ asset('courseVideo/' . $video->url) }}', '{{ $video->video_title }}', '{{ $video->description }}')">
-                                                        <img src="{{ asset('courseThumbnail/' . $video->thumbnail_url) }}"
-                                                            alt="{{ $video->video_title }}" style="width: 61%;">
-                                                        <div class="course-overlay" style="width: 61%;">
-                                                            <div class="badge_seller">Featured</div>
-                                                            <div class="crse_reviews">
-                                                                <i class="uil uil-star"></i>4.5
-                                                            </div>
-                                                            <span class="play_btn1"><i class="uil uil-play"></i></span>
-                                                            <div class="crse_timer" id="video-duration-{{ $video->id }}">Loading...
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <video id="temp-video-{{ $video->id }}" style="display:none;">
-                                                        <source src="{{ asset('courseVideo/' . $video->url) }}" type="video/mp4">
-                                                    </video>
-                                                    <script>
-                                                        document.addEventListener('DOMContentLoaded', function () {
-                                                            const video = document.getElementById('temp-video-{{ $video->id }}');
-                                                            video.addEventListener('loadedmetadata', () => {
-                                                                const duration = video.duration;
-                                                                const minutes = Math.floor(duration / 60);
-                                                                const seconds = Math.floor(duration % 60);
-                                                                const formattedDuration = minutes > 0 ? `${minutes}:${seconds.toString().padStart(2, '0')} minutes` :
-                                                                    `${seconds} seconds`;
-                                                                document.getElementById('video-duration-{{ $video->id }}').innerText = formattedDuration;
-                                                            });
-                                                            video.load(); // Ensure the metadata loads
-                                                        });
-                                                    </script>
-                                                    <div class="hs_content">
-                                                        <div class="eps_dots eps_dots10 more_dropdown">
-                                                            <a href="javascript:;"><i class="uil uil-ellipsis-v"></i></a>
-                                                            <div class="dropdown-content">
-                                                                <span onclick="removeVideo('{{ $video->id }}')"><i
-                                                                        class='uil uil-times'></i>Remove</span>
-                                                            </div>
-                                                        </div>
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                                         <div class="vdtodt">
                                                             <span class="vdt14">{{ $attachment->views ?? '0' }} views</span>
                                                         </div>
-<<<<<<< HEAD
                                                         <a href="javascript:void(0);" class="crse14s title900 text-lg font-bold">{{ $attachment->title }} | {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
                                                         <p class="text-gray-700">{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;" class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a></p>
                                                         </div>
-=======
-                                                        <a href="javascript:void(0);" class="crse14s title900">{{ $video->title }} |
-                                                            {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
-                                                        <p>{{ $video->discription }}</p>
-
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
                                                     </div>
                                                 </div>
                                             </div>
                                         @endforeach
                                     @else
-<<<<<<< HEAD
-                                        <div class="no-categories-container text-center py-10">
-                                            <i class="uil uil-folder-minus text-5xl text-gray-300"></i>
-                                            <h3 class="mt-3 text-2xl text-gray-500">No Content Found</h3>
-                                            <p class="text-gray-400">It looks like you don't have any content yet. Add one now to get started!</p>
-=======
-                                        <div class="no-categories-container text-center fade-in-animation footer">
-                                            <i class="uil uil-folder-minus bounce-effect"
-                                                style="font-size: 50px; color: #d1d1d1;"></i>
-                                            <h3 class="mt-5 scale-in-text" style="color: #777;">No content
-                                                Found</h3>
-                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you
-                                                don't have any
-                                                content yet. Add one now to get started!</p>
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
-                                        </div>
+                                    <div class="no-categories-container text-center fade-in-animation footer mt-3">
+                                        <i class="uil uil-folder-minus bounce-effect"
+                                            style="font-size: 50px; color: #d1d1d1;"></i>
+                                        <h3 class="mt-3 scale-in-text" style="color: #777;">No content Found</h3>
+                                        <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
+                                            content yet. Add one now to get started!</p>
+                                    </div>
                                     @endif
                                 </div>
                                 <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
@@ -643,4 +539,5 @@
                 </div>
             </div>
         </div>
+        @include('admin.layouts.footer')
 @endsection

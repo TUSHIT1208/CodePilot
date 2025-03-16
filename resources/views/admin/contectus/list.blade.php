@@ -10,7 +10,6 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-<<<<<<< HEAD
                         <h2 class="st_title"><i class="uil uil-folder-plus"></i> Contact Detail's </h2>
                     </div>
                 </div>
@@ -54,35 +53,6 @@
                         </div>
                     </div>
                 </div>
-=======
-                        <h2 class="st_title"><i class="uil uil-folder-plus"></i> Contect Us </h2>
-                    </div>
-                </div>
-                @if ($contactus->isEmpty())
-                    <!-- No Records Found -->
-                    <div class="no-categories-container text-center fade-in-animation footer">
-                        <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
-                        <h3 class="mt-3 scale-in-text" style="color: #777;">No Inquery Found</h3>
-                        <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
-                            Inquery yet. Add one now to get started!</p>
-                    </div>
-                @else
-                    <button type="button" id="delete-selected" class="main-btn text-end">Delete Selected</button>
-                    <table class="ucp-table" id="contactus-table">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox" id="select-all"></th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Subject</th>
-                                <th>Message</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                    </table>
-                @endif
-                @include('admin.layouts.footer')
->>>>>>> c2468064bcbe287aabec5d5bb4dd25c109f788ad
             </div>
         </div>
      @include('admin.layouts.footer')

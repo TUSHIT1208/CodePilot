@@ -151,16 +151,5 @@ class CourseAttachmentController extends Controller
         } else if (auth()->user()->role->name === 'learner') {
             return view('learner.course.debugger_code', compact('course_detail'));
         }
-
-    }
-
-    public function track(Request $request){
-        user_video_tracker::create([
-            'user_id' => $request->user_id,
-            'course_attachment_id' => $request->course_attachment_id,
-            'time' => $request->current_time,
-            'event' => $request->event,
-            'created_by' => $request->created_by,            
-        ]);
     }
 }

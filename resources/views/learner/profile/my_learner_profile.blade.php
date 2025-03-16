@@ -123,7 +123,7 @@
                                                                 <img src="{{ $course->course->thumbnail_url ? asset('courseThumbnail/' . $course->course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                                     alt="Course Thumbnail">    
             
-                                                                <div class="course-overlay">
+                                                                <div class="course-overlay" style="position: absolute;width : 100%;"> 
                                                                     @if ($course->course->is_active)
                                                                         <div class="badge_seller">Active</div>
                                                                     @else
