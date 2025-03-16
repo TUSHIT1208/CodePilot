@@ -86,7 +86,6 @@
                 </div>
             </div>
         </div>
-        @include('frontside.layouts.footer')
         <script>
             // Bootstrap Form Validation
             (function () {

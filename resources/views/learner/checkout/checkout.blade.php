@@ -61,13 +61,14 @@
                                                             <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control"
                                                                     type="hidden" name="user_id" id="user_id"
-                                                                    value="{{ Auth::user()->id }}" required
-                                                                    maxlength="64" placeholder="First Name">
+                                                                    value="{{ Auth::user()->id }}" required maxlength="64"
+                                                                    placeholder="First Name">
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="first_name" id="id_name"
                                                                     value="{{ Auth::user()->first_name }}" required=""
                                                                     maxlength="64" placeholder="First Name">
-                                                                    <div class="invalid-feedback">Please enter your first name.</div>
+                                                                <div class="invalid-feedback">Please enter your first name.
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -79,7 +80,8 @@
                                                                     name="last_name" value="{{ Auth::user()->last_name }}"
                                                                     id="id_surname" required maxlength="64"
                                                                     placeholder="Last Name">
-                                                                    <div class="invalid-feedback">Please enter your Last name.</div>
+                                                                <div class="invalid-feedback">Please enter your Last name.
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -87,8 +89,8 @@
                                                         <div class="mt-30 lbel25">
                                                             <label class="title-field">Country*</label>
                                                         </div>
-                                                        <select class="form-control prompt srch_explore" name="country" title="Select Country"
-                                                            data-size="7" id="id_country" required>
+                                                        <select class="form-control prompt srch_explore" name="country"
+                                                            title="Select Country" data-size="7" id="id_country" required>
                                                             <option value="" selected hidden>Select Country</option>
                                                             <option value="Afghanistan">Afghanistan</option>
                                                             <option value="Albania">Albania</option>
@@ -375,7 +377,8 @@
                                                                 <textarea class="prompt srch_explore form-control"
                                                                     name="address" id="id_address" rows="5" cols="30"
                                                                     required placeholder="Address"></textarea>
-                                                                    <div class="invalid-feedback">Please enter your Address.</div>
+                                                                <div class="invalid-feedback">Please enter your Address.
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -386,7 +389,7 @@
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="city" id="id_city" required maxlength="64"
                                                                     placeholder="City">
-                                                                    <div class="invalid-feedback">Please enter your City.</div>
+                                                                <div class="invalid-feedback">Please enter your City.</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -397,7 +400,7 @@
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="state" id="id_state" required maxlength="64"
                                                                     placeholder="State / Province / Region">
-                                                                    <div class="invalid-feedback">Please enter your State.</div>
+                                                                <div class="invalid-feedback">Please enter your State.</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -408,7 +411,8 @@
                                                                 <input class="prompt srch_explore form-control" type="text"
                                                                     name="zip_code" id="id_zip" required maxlength="64"
                                                                     placeholder="Zip / Postal Code">
-                                                                    <div class="invalid-feedback">Please enter your Pincode.</div>
+                                                                <div class="invalid-feedback">Please enter your Pincode.
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -420,7 +424,8 @@
                                                                     type="number" name="phone"
                                                                     value="{{ Auth::user()->phone_number }}" id="id_phone"
                                                                     required maxlength="12" placeholder="Phone Number">
-                                                                    <div class="invalid-feedback">Please enter your Phone number.</div>
+                                                                <div class="invalid-feedback">Please enter your Phone
+                                                                    number.</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -561,21 +566,21 @@
                 };
 
                 var formattedAddress = `${savedAddress.first_name} ${savedAddress.last_name} <br>
-                                        ${savedAddress.address} <br>
-                                        ${savedAddress.city}, ${savedAddress.state} - ${savedAddress.zip_code} <br>
-                                        ${savedAddress.country} <br>
-                                        Phone: ${savedAddress.phone}`;
+                                            ${savedAddress.address} <br>
+                                            ${savedAddress.city}, ${savedAddress.state} - ${savedAddress.zip_code} <br>
+                                            ${savedAddress.country} <br>
+                                            Phone: ${savedAddress.phone}`;
 
                 // Update the address display
                 $("#addressText").html(formattedAddress);
                 console.log("Address saved:", savedAddress);
-                alert("Address saved successfully!");
+                toastr.success("address saved successfully...");
             });
             // Checkout process
             $("#checkoutButton").on("click", function () {
                 event.preventDefault();
                 if (!savedAddress.first_name) {
-                    alert("Please save your address first.");
+                    toastr.success("Please save your address first...");
                     return;
                 }
 

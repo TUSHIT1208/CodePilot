@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\test;
 use App\Models\test_result;
 use App\Models\TestQuestion;
 use Illuminate\Http\Request;
@@ -25,7 +26,9 @@ class TestResultController extends Controller
     public function submitTest(Request $request, $testId)
     {
         $userId = auth()->id();
-
+        $course = session('course');
+        $test_id = test::where('course_id', $course)->first();
+        $p_marks = $test_id->passing_mark;
         $totalCorrect = 0;
         $totalWrong = 0;
         $totalAttempted = 0;
@@ -93,7 +96,7 @@ class TestResultController extends Controller
 
             DB::commit();
 
-            return redirect()->route('test.result')->with('success', 'Test submitted successfully!');
+            return view('learner.course.certificate.test', compact('p_marks', 'test'))->with('success', 'Test submitted successfully!');
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Test Submission Error: ' . $e->getMessage());

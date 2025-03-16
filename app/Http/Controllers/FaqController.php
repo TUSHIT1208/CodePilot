@@ -47,6 +47,13 @@ class FaqController extends Controller
             ]);
             return redirect()->back()->with('error', 'Failed to load FAQs.');
         }
+
+    }
+
+    public function display(Request $request)
+    {
+        $faqs = faq::all();
+        return view('front.faq', compact('faqs'));
     }
 
     public function store(Request $request)

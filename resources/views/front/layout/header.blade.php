@@ -7,13 +7,17 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a></li>
+                <li><a href="{{ route('index') }}" class="{{ request()->routeIs('index') ? 'active' : '' }}">Home</a>
+                </li>
                 <li><a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
                 </li>
                 <li><a href="{{ route('course') }}"
                         class="{{ request()->routeIs('course') ? 'active' : '' }}">Courses</a></li>
                 <li><a href="{{ route('contact') }}"
                         class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
+
+                <li><a href="{{ route('faq.display') }}" class="{{ request()->routeIs('Faq') ? 'active' : '' }}">Faq</a>
+                </li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>

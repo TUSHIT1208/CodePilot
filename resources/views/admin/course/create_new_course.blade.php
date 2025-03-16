@@ -62,7 +62,6 @@
                                             this course. For students that are already enrolled, this course will not
                                             appear on their student Dashboard.</p>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="step-footer step-tab-pager mb-3">
@@ -70,7 +69,6 @@
                                 <button data-direction="next" class="main-btn">Next</button>
                                 <button data-direction="finish" class="main-btn">Submit for Review</button>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -196,14 +194,13 @@
 
     {{-- hide button --}}
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Select all buttons inside the step-footer
             var buttons = document.querySelectorAll('.step-footer .main-btn');
-            buttons.forEach(function(button) {
+            buttons.forEach(function (button) {
                 button.style.visibility = "hidden"; // Hide each button
             });
         });
-
 
         // Initialize CKEditor instances
         // ClassicEditor.create(document.querySelector('#editor1'))
@@ -215,8 +212,12 @@
         //     });
         // Steps wizard initialization
         $('#add-course-tab').steps({
-            onFinish: function() {
-                alert('Course Completed');
+            onFinish: function () {
+                toastr.success('Course create successfully');
+                setTimeout(function () {
+                    location.reload(); // Reload the page after a short delay
+                }, 2000);
+                //alert('Course Completed');
                 window.location.href = "{{ route('course.index') }}";
             }
         });
@@ -245,7 +246,7 @@
             if (window.location.pathname.endsWith("/edit")) {
                 // Trigger the next button automatically after receiving success
                 var buttons = document.querySelectorAll('.step-footer .main-btn');
-                buttons.forEach(function(button) {
+                buttons.forEach(function (button) {
                     button.style.visibility = "visible"; // Hide each button
                 });
             }
@@ -258,4 +259,5 @@
 
         });
     </script>
+
     {{-- @endsection --}}

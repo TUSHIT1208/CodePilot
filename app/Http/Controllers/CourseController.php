@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\certificate;
 use App\Models\test;
 use App\Models\User;
+use App\Models\user_course;
 use App\Models\video;
 use App\Models\course;
 use App\Models\category;
 use App\Models\sub_category;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 
@@ -191,13 +194,17 @@ class CourseController extends Controller
         $users = User::find($courseDetail->user_id);
         $cid = $courseDetail->id;
         session()->put('course', $cid);
+        $userId = auth()->user()->id; // Get the authenticated user's ID
+        //  $userId = 1; // Example user ID
+
+        $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
+
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
-
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users'));
+            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase'));
         }
     }
 
