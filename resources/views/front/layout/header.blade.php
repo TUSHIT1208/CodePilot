@@ -22,11 +22,12 @@
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a href="javascript:;" class="user" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+        {{-- <a href="javascript:;" class="user" data-bs-toggle="dropdown" data-bs-auto-close="outside"
             aria-expanded="false"><i class="uil uil-user-circle"></i></a>
         <div class="dropdown-menu dropdown_account drop-down mt-2">
             <a href="{{ route('login') }}" class="item channel_item front-register">Sign In</a><br>
             <a href="{{ route('register') }}" class="item channel_item front-register">Sign Up</a>
-        </div>
+        </div> --}}
+        <a class="btn-getstarted" href="{{ route('login') }}">Login</a>
     </div>
 </header>

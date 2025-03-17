@@ -54,7 +54,8 @@
                                                         <div class="dropdown-content">
                                                             <form class="wishlistForm">
                                                                 @csrf
-                                                                <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                                                <input type="hidden" name="course_id"
+                                                                    value="{{ $course->id }}">
                                                                 <span class="wishlistButton"><i
                                                                         class="uil uil-heart"></i>Save</span>
                                                             </form>
@@ -63,7 +64,8 @@
                                                     </div>
                                                     <div class="vdtodt">
                                                         <span class="vdt14">50 views</span>
-                                                        <span class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
+                                                        <span
+                                                            class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
                                                     </div>
                                                     <a href="{{ route('course.show', $course->id) }}"
@@ -74,14 +76,19 @@
                                                         <p>By <a
                                                                 href="javascript:;">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown' }}</a>
                                                         </p>
-                                                        <div class="prce142">₹{{ $course->price ?? 'Free' }}</div>
-                                                        <form class="cartForm">
-                                                            @csrf
-                                                            <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                                            <button type="submit" class="shrt-cart-btn" title="Add to Cart">
-                                                                <i class="uil uil-shopping-cart-alt"></i>
-                                                            </button>
-                                                        </form>
+                                                        <div class="prce142">
+                                                            {{ $course->price == 0 ? 'Free' : '₹' . $course->price }}</div>
+                                                        @if ($course->price != 0)
+                                                            <form class="cartForm">
+                                                                @csrf
+                                                                <input type="hidden" name="course_id"
+                                                                    value="{{ $course->id }}">
+                                                                <button type="submit" class="shrt-cart-btn"
+                                                                    title="Add to Cart">
+                                                                    <i class="uil uil-shopping-cart-alt"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
 
                                                     </div>
                                                 </div>
@@ -107,24 +114,31 @@
         @include('learner.layout.footer')
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let wishlistButtons = document.getElementsByClassName('wishlistButton');
             let wishlistForms = document.getElementsByClassName('wishlistForm');
 
             Array.from(wishlistButtons).forEach((button, index) => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     let form = wishlistForms[index];
                     let formData = new FormData(form);
 
                     fetch("{{ route('wishlist.store') }}", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
-                        }
-                    })
-                        .then(response => response.json().then(data => ({ status: response.status, body: data })))
-                        .then(({ status, body }) => {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('input[name=_token]')
+                                    .value
+                            }
+                        })
+                        .then(response => response.json().then(data => ({
+                            status: response.status,
+                            body: data
+                        })))
+                        .then(({
+                            status,
+                            body
+                        }) => {
                             if (status === 201) {
                                 toastr.options = {
                                     closeButton: true,
@@ -139,10 +153,10 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function () {
+                                    onShown: function() {
                                         $(".toast-success").css({
                                             'background-color': '#28a745', // Green for success
-                                            'opacity': '1'  // Adjust opacity
+                                            'opacity': '1' // Adjust opacity
                                         });
                                     }
                                 };
@@ -162,14 +176,15 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function () {
+                                    onShown: function() {
                                         $(".toast-warning").css({
                                             'background-color': '#ffc107', // yellow for success
-                                            'opacity': '1'  // Adjust opacity
+                                            'opacity': '1' // Adjust opacity
                                         });
                                     }
                                 };
-                                toastr.warning(body.message); // Show warning for duplicate entry
+                                toastr.warning(body
+                                .message); // Show warning for duplicate entry
                             } else {
                                 toastr.options = {
                                     closeButton: true,
@@ -184,10 +199,10 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function () {
+                                    onShown: function() {
                                         $(".toast-error").css({
                                             'background-color': '#dc3545', // Green for success
-                                            'opacity': '1'  // Adjust opacity
+                                            'opacity': '1' // Adjust opacity
                                         });
                                     }
                                 };
@@ -203,20 +218,27 @@
 
             // Handle Cart
             document.querySelectorAll('.cartForm').forEach((form, index) => {
-                form.addEventListener('submit', function (event) {
+                form.addEventListener('submit', function(event) {
                     event.preventDefault();
                     let formData = new FormData(this);
                     let messageDiv = document.querySelectorAll('.cartMessage')[index];
 
                     fetch("{{ route('cart.store') }}", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value
-                        }
-                    })
-                        .then(response => response.json().then(data => ({ status: response.status, body: data })))
-                        .then(({ status, body }) => {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('input[name=_token]')
+                                    .value
+                            }
+                        })
+                        .then(response => response.json().then(data => ({
+                            status: response.status,
+                            body: data
+                        })))
+                        .then(({
+                            status,
+                            body
+                        }) => {
                             if (status === 201) {
                                 toastr.options = {
                                     closeButton: true,
@@ -231,10 +253,10 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function () {
+                                    onShown: function() {
                                         $(".toast-success").css({
                                             'background-color': '#28a745', // Green for success
-                                            'opacity': '1'  // Adjust opacity
+                                            'opacity': '1' // Adjust opacity
                                         });
                                     }
                                 };
@@ -253,14 +275,15 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function () {
+                                    onShown: function() {
                                         $(".toast-warning").css({
                                             'background-color': '#ffc107', // Green for success
-                                            'opacity': '1'  // Adjust opacity
+                                            'opacity': '1' // Adjust opacity
                                         });
                                     }
                                 };
-                                toastr.warning(body.message); // Show warning for duplicate entry
+                                toastr.warning(body
+                                .message); // Show warning for duplicate entry
                             } else {
                                 toastr.options = {
                                     closeButton: true,
@@ -275,10 +298,10 @@
                                     hideEasing: "linear",
                                     showMethod: "fadeIn",
                                     hideMethod: "fadeOut",
-                                    onShown: function () {
+                                    onShown: function() {
                                         $(".toast-error").css({
                                             'background-color': '#dc3545', // Green for success
-                                            'opacity': '1'  // Adjust opacity
+                                            'opacity': '1' // Adjust opacity
                                         });
                                     }
                                 };

@@ -15,8 +15,6 @@
                                 <div class="ttl121">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="{{ route('learner.dashboard') }}">Home</a>
-                                            </li>
                                             <li class="breadcrumb-item"><a
                                                     href="{{ route('certificate.center') }}">Certificate Center</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Test View</li>
@@ -94,7 +92,7 @@
             </div>
         </div>
     </div>
-
+    @include('learner.layout.footer')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const timerElement = document.getElementById('timer');

@@ -1353,6 +1353,22 @@ Night Mood
     color: white;
 }
 
+.night-mode .btn_buy{
+    color: white;
+    border: 1px solid white;
+}
+
+.night-mode .thumb-item-preview{
+    background-color: #333 !important;
+}
+
+.night-mode .media-datatable {
+    background-color: #333 !important;
+}
+
+.night-mode .panel-body{
+    background-color: #333;
+}
 .night-mode .msg125{
     color: white;
     border: 1px solid white;

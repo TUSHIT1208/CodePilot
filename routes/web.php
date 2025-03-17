@@ -235,16 +235,15 @@ Route::post('/order/store', [OrderController::class, 'store'])->name('order.stor
 
 Route::get('/certificate/center', function () {
     return view('learner.course.certificate.certificat_Center');
-})->name('certificate.center');
+})->name('certificate.center')->middleware('auth');
 
 Route::get('/certificate/fillout', function () {
     return view('learner.course.certificate.fill');
-})->name('learner.fill.certificate');
+})->name('learner.fill.certificate')->middleware('auth');
 
 Route::get('/test/certification', function () {
     return view('learner.course.certificate.test');
-})->name('learner.certification.exam');
-
+})->name('learner.certification.exam')->middleware('auth');
 
 
 Route::resource('certificate', CertificateController::class);

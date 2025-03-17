@@ -63,8 +63,8 @@
                                                                     type="hidden" name="user_id" id="user_id"
                                                                     value="{{ Auth::user()->id }}" required maxlength="64"
                                                                     placeholder="First Name">
-                                                                <input class="prompt srch_explore form-control" type="text"
-                                                                    name="first_name" id="id_name"
+                                                                <input class="prompt srch_explore form-control"
+                                                                    type="text" name="first_name" id="id_name"
                                                                     value="{{ Auth::user()->first_name }}" required=""
                                                                     maxlength="64" placeholder="First Name">
                                                                 <div class="invalid-feedback">Please enter your first name.
@@ -76,10 +76,10 @@
                                                         <div class="ui search focus mt-30 lbel25">
                                                             <label class="title-field">Last Name*</label>
                                                             <div class="ui left icon swdh11 swdh19">
-                                                                <input class="prompt srch_explore form-control" type="text"
-                                                                    name="last_name" value="{{ Auth::user()->last_name }}"
-                                                                    id="id_surname" required maxlength="64"
-                                                                    placeholder="Last Name">
+                                                                <input class="prompt srch_explore form-control"
+                                                                    type="text" name="last_name"
+                                                                    value="{{ Auth::user()->last_name }}" id="id_surname"
+                                                                    required maxlength="64" placeholder="Last Name">
                                                                 <div class="invalid-feedback">Please enter your Last name.
                                                                 </div>
                                                             </div>
@@ -335,7 +335,8 @@
                                                             <option value="Togo">Togo</option>
                                                             <option value="Tokelau">Tokelau</option>
                                                             <option value="Tonga">Tonga</option>
-                                                            <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                                                            <option value="Trinidad and Tobago">Trinidad and Tobago
+                                                            </option>
                                                             <option value="Tunisia">Tunisia</option>
                                                             <option value="Turkey">Turkey</option>
                                                             <option value="Turkmenistan">Turkmenistan</option>
@@ -374,8 +375,7 @@
                                                         <div class="ui search focus mt-30 lbel25">
                                                             <label class="title-field">Address*</label>
                                                             <div class="ui left icon swdh11 swdh19">
-                                                                <textarea class="prompt srch_explore form-control"
-                                                                    name="address" id="id_address" rows="5" cols="30"
+                                                                <textarea class="prompt srch_explore form-control" name="address" id="id_address" rows="5" cols="30"
                                                                     required placeholder="Address"></textarea>
                                                                 <div class="invalid-feedback">Please enter your Address.
                                                                 </div>
@@ -386,9 +386,9 @@
                                                         <div class="ui search focus mt-30 lbel25">
                                                             <label class="title-field">City*</label>
                                                             <div class="ui left icon swdh11 swdh19">
-                                                                <input class="prompt srch_explore form-control" type="text"
-                                                                    name="city" id="id_city" required maxlength="64"
-                                                                    placeholder="City">
+                                                                <input class="prompt srch_explore form-control"
+                                                                    type="text" name="city" id="id_city" required
+                                                                    maxlength="64" placeholder="City">
                                                                 <div class="invalid-feedback">Please enter your City.</div>
                                                             </div>
                                                         </div>
@@ -397,10 +397,12 @@
                                                         <div class="ui search focus mt-30 lbel25">
                                                             <label class="title-field">State / Province / Region*</label>
                                                             <div class="ui left icon swdh11 swdh19">
-                                                                <input class="prompt srch_explore form-control" type="text"
-                                                                    name="state" id="id_state" required maxlength="64"
+                                                                <input class="prompt srch_explore form-control"
+                                                                    type="text" name="state" id="id_state" required
+                                                                    maxlength="64"
                                                                     placeholder="State / Province / Region">
-                                                                <div class="invalid-feedback">Please enter your State.</div>
+                                                                <div class="invalid-feedback">Please enter your State.
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -408,8 +410,9 @@
                                                         <div class="ui search focus mt-30 lbel25">
                                                             <label class="title-field">Zip/Postal Code*</label>
                                                             <div class="ui left icon swdh11 swdh19">
-                                                                <input class="prompt srch_explore form-control" type="text"
-                                                                    name="zip_code" id="id_zip" required maxlength="64"
+                                                                <input class="prompt srch_explore form-control"
+                                                                    type="text" name="zip_code" id="id_zip"
+                                                                    required maxlength="64"
                                                                     placeholder="Zip / Postal Code">
                                                                 <div class="invalid-feedback">Please enter your Pincode.
                                                                 </div>
@@ -422,8 +425,9 @@
                                                             <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control"
                                                                     type="number" name="phone"
-                                                                    value="{{ Auth::user()->phone_number }}" id="id_phone"
-                                                                    required maxlength="12" placeholder="Phone Number">
+                                                                    value="{{ Auth::user()->phone_number }}"
+                                                                    id="id_phone" required maxlength="12"
+                                                                    placeholder="Phone Number">
                                                                 <div class="invalid-feedback">Please enter your Phone
                                                                     number.</div>
                                                             </div>
@@ -455,7 +459,8 @@
                                         <div class="order_dt_section">
                                             @foreach ($cartItems as $item)
                                                 <div class="course_item">
-                                                    <input type="hidden" class="course_id" value="{{ $item->course->id }}">
+                                                    <input type="hidden" class="course_id"
+                                                        value="{{ $item->course->id }}">
                                                     <input type="hidden" class="course_price"
                                                         value="{{ $item->course->price }}">
                                                     <input type="hidden" class="course_discount"
@@ -471,7 +476,7 @@
                                                     <div class="order_title">
                                                         <h3>Total</h3>
                                                         <div class="order_price">
-                                                            <strong>₹{{ $item->course->price - $item->course->discount}}</strong>
+                                                            <strong>₹{{ $item->course->price - $item->course->discount }}</strong>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -515,35 +520,11 @@
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-
-        // $(document).ready(function () {
-        //     var savedAddress = {};
-
-        //     // Save address when the "Save Address" button is clicked
-        //     $("#saveAddressBtn").on("click", function (event) {
-        //         event.preventDefault();
-
-        //         savedAddress = {
-        //             first_name: $("#id_name").val() || "",
-        //             last_name: $("#id_surname").val() || "",
-        //             address: $("#id_address").val() || "",
-        //             city: $("#id_city").val() || "",
-        //             state: $("#id_state").val() || "",
-        //             zip_code: $("#id_zip").val() || "",
-        //             phone: $("#id_phone").val() || "",
-        //             country: $("#id_country").val() || ""
-        //         };
-
-        //         console.log("Address saved:", savedAddress);
-        //         alert("Address saved successfully!");
-        //     });
-
-
-        $(document).ready(function () {
+        $(document).ready(function() {
             var savedAddress = {};
 
             // Save address when the "Save Address" button is clicked
-            $("#saveAddressBtn").on("click", function (event) {
+            $("#saveAddressBtn").on("click", function(event) {
                 event.preventDefault();
 
                 // Add Bootstrap validation
@@ -574,13 +555,53 @@
                 // Update the address display
                 $("#addressText").html(formattedAddress);
                 console.log("Address saved:", savedAddress);
+                toastr.options = {
+                    closeButton: true,
+                    debug: false,
+                    newestOnTop: true,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    preventDuplicates: true,
+                    timeOut: 2000,
+                    extendedTimeOut: 1000,
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    onShown: function () {
+                        $(".toast-success").css({
+                            'background-color': '#28a745', // Green for success
+                            'opacity': '1'  // Adjust opacity
+                        });;
+                    }
+                };
                 toastr.success("address saved successfully...");
             });
             // Checkout process
-            $("#checkoutButton").on("click", function () {
+            $("#checkoutButton").on("click", function() {
                 event.preventDefault();
                 if (!savedAddress.first_name) {
-                    toastr.success("Please save your address first...");
+                    toastr.options = {
+                    closeButton: true,
+                    debug: false,
+                    newestOnTop: true,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    preventDuplicates: true,
+                    timeOut: 2000,
+                    extendedTimeOut: 1000,
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut",
+                    onShown: function () {
+                        $(".toast-success").css({
+                            'background-color': '#28a745', // Green for success
+                            'opacity': '1'  // Adjust opacity
+                        });
+                    }
+                };
+                    toastr.warning("Please save your address first...");
                     return;
                 }
 
@@ -593,7 +614,7 @@
                 console.log("total_payable", total_payable);
                 var courses = [];
 
-                $(".course_item").each(function () {
+                $(".course_item").each(function() {
                     var courseId = $(this).find(".course_id").val() || "";
                     var price = parseFloat($(this).find(".course_price").val()) || 0;
                     var discount = parseFloat($(this).find(".course_discount").val()) || 0;
@@ -628,12 +649,13 @@
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                     },
-                    success: function (response) {
+                    success: function(response) {
                         if (response.success) {
-                            startRazorpayPayment(response.razorpay_order_id, response.amount, response.order_id);
+                            startRazorpayPayment(response.razorpay_order_id, response
+                                .amount, response.order_id);
                         }
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         alert("Error placing order. Please try again.");
                         console.error(xhr.responseText);
                     }
@@ -650,7 +672,7 @@
                 "name": "CodePilot",
                 "description": "Course Purchase",
                 "order_id": razorpay_order_id,
-                "handler": function (response) {
+                "handler": function(response) {
                     // ✅ Send payment success details to backend
                     $.post("/razorpay/success", {
                         _token: $('meta[name="csrf-token"]').attr("content"),
@@ -658,7 +680,7 @@
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_signature: response.razorpay_signature
-                    }, function (res) {
+                    }, function(res) {
                         if (res.success) {
                             Swal.fire({
                                 title: "Payment Successful!",
@@ -690,103 +712,16 @@
             var rzp1 = new Razorpay(options);
             rzp1.open();
         }
-
-        // // {{-- address array --}}
-        // $(document).ready(function () {
-        //     var savedAddress = {};
-
-        //     // Save address when "Save Address" button is clicked
-        //     $("#saveAddressBtn").on("click", function (event) {
-        //         event.preventDefault();
-
-        //         savedAddress = {
-        //             first_name: $("#id_name").val() || "",
-        //             last_name: $("#id_surname").val() || "",
-        //             address: $("#id_address").val() || "",
-        //             city: $("#id_city").val() || "",
-        //             state: $("#id_state").val() || "",
-        //             zip_code: $("#id_zip").val() || "",
-        //             phone: $("#id_phone").val() || "",
-        //             country: $("#id_country").val() || ""
-        //         };
-
-        //         console.log("Address saved:", savedAddress);
-        //         alert("Address saved successfully!");
-        //     });
-
-        //     // Checkout process
-        //     $("#checkoutButton").on("click", function () {
-        //         if (!savedAddress.first_name) {
-        //             alert("Please save your address first.");
-        //             return;
-        //         }
-
-        //         var courses = [];
-        //         var totalAmount = 0;
-        //         var totalDiscount = 0;
-
-        //         $(".course_item").each(function () {
-        //             var courseId = $(this).find(".course_id").val() || "";
-        //             var price = parseFloat($(this).find(".course_price").val()) || 0;
-        //             var discount = parseFloat($(this).find(".course_discount").val()) || 0;
-        //             var payableAmount = price - discount;
-
-        //             totalAmount += price;
-        //             totalDiscount += discount;
-
-        //             courses.push({
-        //                 course_id: courseId,
-        //                 amount: price,
-        //                 discount: discount,
-        //                 payable_amount: payableAmount
-        //             });
-        //         });
-
-        //         var orderData = {
-        //             user_id: $("#user_id").val() || "", // Get user ID dynamically
-        //             create_by: $("#user_id").val() || "",
-        //             booking_number: "BN" + Math.floor(Math.random() * 1000000),
-        //             payment_status: "pending",
-        //             total_course: courses.length,
-        //             total_amount: totalAmount,
-        //             total_discount: totalDiscount,
-        //             payable_amount: totalAmount - totalDiscount,
-        //             courses: courses,
-        //             address: savedAddress
-        //         };
-        //         console.log("Order data:", orderData);
-        //         sendOrder(orderData);
-        //     });
-
-        //     // Function to send order data using jQuery AJAX
-        //     function sendOrder(data) {
-        //         $.ajax({
-        //             url: "/checkout/store",
-        //             type: "POST",
-        //             data: JSON.stringify(data),
-        //             contentType: "application/json",
-        //             headers: {
-        //                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-        //             },
-        //             success: function (response) {
-        //                 alert("Order placed successfully!");
-        //                 console.log("Response:", response);
-        //             },
-        //             error: function (xhr) {
-        //                 alert("Error placing order. Please try again.");
-        //                 console.error("Error response:", xhr.responseText);
-        //             }
-        //         });
-        //     }
-        // });
     </script>
 
 
     <script>
         // only display
-        document.addEventListener("DOMContentLoaded", function () {
-            var originalPrice = parseFloat(document.getElementById("originalPrice").getAttribute("data-value")) || 0;
-            var discountPrice = parseFloat(document.getElementById("discountPrice").getAttribute("data-value")) || 0;
+        document.addEventListener("DOMContentLoaded", function() {
+            var originalPrice = parseFloat(document.getElementById("originalPrice").getAttribute("data-value")) ||
+                0;
+            var discountPrice = parseFloat(document.getElementById("discountPrice").getAttribute("data-value")) ||
+                0;
 
             var totalPrice = originalPrice - discountPrice;
 

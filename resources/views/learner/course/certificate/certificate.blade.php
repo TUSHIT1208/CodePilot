@@ -1,34 +1,3 @@
-{{-- <!-- resources/views/learner/course/certificate/certificate.blade.php -->
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Certificate</title>
-</head>
-
-<body>
-    <h1>Certificate of Completion</h1>
-
-    <p>Dear {{ Auth::user()->name }},</p>
-
-    <p>Congratulations on completing the following courses:</p>
-
-    <ul>
-        @foreach($certificate as $cert)
-        <li>{{ $cert->test_id }} - {{ $cert->name }}</li>
-        @endforeach
-    </ul>
-
-    <p>Thank you for your dedication!</p>
-</body> --}}
-
-{{--
-
-</html> --}}
-
 <!DOCTYPE html>
 <html lang="en">
 

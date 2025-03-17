@@ -15,18 +15,22 @@
                         <div class="title125">
                             <div class="titleleft">
                                 <div class="ttl121">
-                                    {{-- <nav aria-label="breadcrumb">
+                                    <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="certification_center.html">Certification
-                                                    Center</a></li>
-                                            <li class="breadcrumb-item active" aria-current="page">Result</li>
+                                            <li class="breadcrumb-item active" aria-current="page"><a
+                                                href="{{ route('learner.dashboard') }}">Home</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a
+                                                    href="{{ route('certificate.center') }}">Certificate Center</a></li>
+                                           
+                                            <li class="breadcrumb-item active" aria-current="page">Result
+                                            </li>
                                         </ol>
-                                    </nav> --}}
+                                    </nav>
                                 </div>
                             </div>
                             <div class="titleright">
-                                <a href="{{route('certificate.center')}}" class="blog_link"><i
+                                <a href="{{ route('certificate.center') }}" class="blog_link"><i
                                         class="uil uil-angle-double-left"></i>Back to Certification Center</a>
                             </div>
                         </div>
@@ -86,5 +90,5 @@
                 </div>
             </div>
         </div>
-
+        @include('learner.layout.footer')
 @endsection

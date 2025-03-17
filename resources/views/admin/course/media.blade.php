@@ -57,7 +57,7 @@
                                     <div class="row">
                                         <div class="col-lg-5 col-md-6">
                                             <label class="label25 text-left">Course Thumbnail*</label>
-                                            <div class="thumb-item-preview" style="background-color: #333 !important;">
+                                            <div class="thumb-item-preview">
                                                 <img src="{{ asset('images/thumbnail-demo.jpg') }}" alt=""
                                                     style="width : 100%;">
                                                 <div class="thumb-dt text-center">
@@ -82,8 +82,7 @@
 
                 </div>
 
-                <div class="col-lg-12 mt-4"
-                    style="background-color: #333 !important; border-radius: 10px; padding: 2%;">
+                <div class="col-lg-12 mt-4 media-datatable">
                     <table id="videoTable" class="ucp-table">
                         <thead>
                             <tr>

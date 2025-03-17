@@ -1120,6 +1120,7 @@ i.icon1 {
     display: none;
 }
 
+/* Show cart button when hovering over the card */
 .fcrse_1:hover .auth1lnkprce .shrt-cart-btn {
     display: block;
     visibility: visible;
@@ -1127,22 +1128,21 @@ i.icon1 {
     transition: all 0.5s ease;
 }
 
-.shrt-cart-btn:hover {
-    color: #ed2a26;
+/* Prevent hover effect on the icon */
+.shrt-cart-btn i {
+    transition: none !important;
 }
 
+/* Card hover effect */
 .fcrse_1:hover {
     transition: all 0.5s ease;
     transform: translateY(-5px);
-    -webkit-transform: translateY(1px);
-    -moz-transform: translateY(-5px);
-    -ms-transform: translateY(-5px);
-    -o-transform: translateY(-5px);
 }
+
 
 .shrt-cart-btn {
     font-size: 18px;
-    color: #333;
+    color: red;
     background: transparent;
     padding: 0;
     border-radius: 3px;
@@ -3030,12 +3030,12 @@ i.icon2 {
     border: 0;
     padding: 0 25px;
     border-radius: 3px;
-    color: #fff;
+    color: black;
     font-size: 14px;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     background: transparent;
-    border: 1px solid #fff;
+    border: 1px solid black;
 }
 
 .btn_buy:hover {
@@ -7291,7 +7291,7 @@ a.rmv-btn i {
 
 ._215certibg:before {
     content: "";
-    background: url(../images/cerificate_center/center_bg.jpg) no-repeat bottom;
+    background: url(../images/center_bg.jpg) no-repeat bottom;
     left: 0;
     right: 0;
     top: 0;
@@ -7438,6 +7438,16 @@ a.rmv-btn i {
     pointer-events: none;
     background-size: cover;
     opacity: 0.06;
+}
+
+.thumb-item-preview {
+    background-color: white;
+}
+
+.media-datatable {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2%;
 }
 
 .titleceti89 h2 {
@@ -8535,7 +8545,7 @@ basic_form .basic_form .bootstrap-select .dropdown-item:hover {
 .basic_form .bootstrap-select .dropdown-item.selected {
     color: #ed2a26 !important;
     border-radius: 8px;
-    background-color: #f7f7f7 !important;
+    background-color: #333 !important;
 }
 
 .basic_form .bootstrap-select.show-tick .dropdown-menu .selected span.check-mark {
