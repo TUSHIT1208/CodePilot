@@ -1279,6 +1279,18 @@ Night Mood
     background: #313131;
 }
 
+.night-mode ._215b04{
+    color: white;
+}
+
+.night-mode ._215b05{
+    color: white;
+}
+
+.night-mode ._215b07 {
+    color: white;
+}
+
 .night-mode .ui.dropdown .menu>.item>.description, .night-mode .ui.dropdown>.text>.description {
     float: right;
     margin: 0 0 0 1em;
@@ -1335,6 +1347,15 @@ Night Mood
 .night-mode .cmmnt_1526 {
     background: #333;
 	border: 1px solid #242424;
+}
+
+.night-mode ._ttl121{
+    color: white;
+}
+
+.night-mode .msg125{
+    color: white;
+    border: 1px solid white;
 }
 
 .night-mode .cmnt-btn:hover {

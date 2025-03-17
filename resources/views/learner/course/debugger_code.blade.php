@@ -8,7 +8,8 @@
     <div class="wrapper">
         <div class="sa4d25">
             <div class="container-fluid">
-                <a href="{{ route('course.show',$course_detail->course_id) }}"><button class="main-btn">Back to Course</button></a>
+                <a href="{{ route('course.show', $course_detail->course_id) }}"><button class="main-btn">Back to
+                        Course</button></a>
                 <div style="display: flex; gap: 20px;" class="mt-4">
                     <div style="flex: 1;">
                         <div class="video-container">
@@ -21,13 +22,8 @@
                         </div>
                     </div>
                     <div style="flex: 1;">
-                        <iframe
-                            id="code-iframe"
-                            src="https://onecompiler.com/embed/python"
-                            width="100%"
-                            height="500px"
-                            frameborder="0"
-                            allowfullscreen>
+                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
+                            frameborder="0" allowfullscreen>
                         </iframe>
                     </div>
                 </div>
@@ -35,12 +31,12 @@
         </div>
     </div>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let video = document.querySelector(".video-container video");
             let courseAttachmentId = "{{ $course_detail->id }}";
             let userId = "{{ auth()->id() }}";
             let interval;
-    
+
             function sendTrackingData(eventType) {
                 $.ajax({
                     url: "{{ route('courseAttachment.track') }}",
@@ -53,27 +49,27 @@
                         created_by: userId,
                         event: eventType
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log("Tracking updated:", response);
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.error("Tracking error:", error);
                     }
                 });
             }
-    
+
             if (video) {
-                video.addEventListener("play", function () {
+                video.addEventListener("play", function() {
                     sendTrackingData("play");
                     interval = setInterval(() => sendTrackingData("progress"), 30000);
                 });
-    
-                video.addEventListener("pause", function () {
+
+                video.addEventListener("pause", function() {
                     sendTrackingData("pause");
                     clearInterval(interval);
                 });
-    
-                video.addEventListener("ended", function () {
+
+                video.addEventListener("ended", function() {
                     sendTrackingData("ended");
                     clearInterval(interval);
                 });

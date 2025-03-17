@@ -39,7 +39,7 @@
                                                     <img src="{{ isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                         alt="Course Thumbnail">
 
-                                                    <div class="course-overlay">
+                                                    <div class="course-overlay list_overlay">
                                                         @if ($course->is_active)
                                                             <div class="badge_seller">Active</div>
                                                         @else

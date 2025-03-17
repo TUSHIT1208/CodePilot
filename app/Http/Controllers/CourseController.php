@@ -192,7 +192,6 @@ class CourseController extends Controller
     {
         $courseDetail = Course::with(['category', 'subcategory', 'courseattachment'])->where('id', $id)->first();
         $users = User::find($courseDetail->user_id);
-        // return $video;
         $cid = $courseDetail->id;
         session()->put('course', $cid);
         $userId = auth()->user()->id; // Get the authenticated user's ID

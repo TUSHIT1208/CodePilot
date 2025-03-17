@@ -99,6 +99,10 @@
             </div>
         </div>
     </div>
+    <div class="loader-overlay" id="loader">
+        <div class="loader"></div>
+    </div>
+    
 </div>
 
 <script>
@@ -107,7 +111,7 @@
         toastr.options = {
             "closeButton": true,
             "progressBar": true,
-            "timeOut": "5000",
+            "timeOut": "2000",
             "extendedTimeOut": "2000",
             "positionClass": "toast-top-right",
             "showMethod": "fadeIn",
@@ -151,16 +155,16 @@
                 return;
             }
             var formData = new FormData(form);
-
+            $('#loader').show();
+    $('.tab-from-content').addClass('blurred');
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
-                "timeOut": "5000",
+                "timeOut": "2000",
                 "extendedTimeOut": "2000",
                 "positionClass": "toast-top-right",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
-                "timeOut": "2000",
                 "onShown": function() {
                     $('.toast-success').css({
                         'background-color': '#28a745',
@@ -203,7 +207,12 @@
                 },
                 error: function(xhr) {
                     alert('An error occurred: ' + xhr.responseText);
-                }
+                },
+                complete: function() {
+            // 👉 Hide loader and remove blur
+            $('#loader').hide();
+            $('.tab-from-content').removeClass('blurred');
+        }
             });
         });
     });
@@ -300,7 +309,7 @@
                                 let successMessage = attachmentType === 'video' ?
                                     'Video deleted successfully!' :
                                     'Document deleted successfully!';
-                                toastr.success(successMessage, 'Success');
+                                //toastr.success(successMessage, 'Success');
                                 $('#videoTable').DataTable().ajax.reload();
                             } else {
                                 toastr.error('Failed to delete the ' +

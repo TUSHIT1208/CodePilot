@@ -25,10 +25,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-         // Share category data with all views
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time',   3600);
+
+        // Share category data with all views
         View::composer('learner.layout.sidebar', function ($view) {
-        $categories = Category::with('sub_categories.courses')->get();
-        $view->with('categories', $categories);
-    });
+            $categories = Category::with('sub_categories.courses')->get();
+            $view->with('categories', $categories);
+        });
     }
+
 }

@@ -75,7 +75,6 @@
             </div>
         </div>
     </div>
-
     <style>
         .step-steps li.disabled {
             pointer-events: none;
@@ -85,10 +84,103 @@
             cursor: not-allowed;
             /* Show not-allowed cursor */
         }
-    </style>
 
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            /* Dark background */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            position: absolute;
+            top: 50%;
+            /* Center vertically */
+            left: 50%;
+            /* Center horizontally */
+            transform: translate(-50%, -50%);
+            /* Adjust positioning to center perfectly */
+        }
+
+        .loader:before {
+            content: '';
+            width: 48px;
+            height: 5px;
+            background: #dc354580;
+            /* Red with opacity */
+            position: absolute;
+            top: 60px;
+            left: 0;
+            border-radius: 50%;
+            animation: shadow324 0.5s linear infinite;
+        }
+
+        .loader:after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: #ed2a26;
+            /* 🔴 Red color */
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 4px;
+            animation: jump7456 0.5s linear infinite;
+        }
+
+        @keyframes jump7456 {
+            15% {
+                border-bottom-right-radius: 3px;
+            }
+
+            25% {
+                transform: translateY(9px) rotate(22.5deg);
+            }
+
+            50% {
+                transform: translateY(18px) scale(1, .9) rotate(45deg);
+                border-bottom-right-radius: 40px;
+            }
+
+            75% {
+                transform: translateY(9px) rotate(67.5deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(90deg);
+            }
+        }
+
+        @keyframes shadow324 {
+
+            0%,
+            100% {
+                transform: scale(1, 1);
+            }
+
+            50% {
+                transform: scale(1.2, 1);
+            }
+        }
+
+        .blurred {
+            filter: blur(4px);
+            pointer-events: none;
+        }
+    </style>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
+
+
             // Disable all tabs except the first one
             $(".step-steps li:not(:first)").addClass("disabled");
 
@@ -96,7 +188,6 @@
                 $(".step-steps li").removeClass("disabled");
             };
         });
-
     </script>
 
 
@@ -132,20 +223,23 @@
         });
 
         // Make sortable
-        $(function () {
+        $(function() {
             $(".sortable").sortable();
             $(".sortable").disableSelection();
         });
 
         // Triggering the next button for both Basic Information and Course Creation
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Check if the success message exists in the session (after redirect)
             // if ('{{ session('success') }}') {
             //     // Trigger the next button automatically after receiving success
             //     $('#add-course-tab .step-footer button[data-direction="next"]').click();
             // }
 
+
+
             if ('{{ session('success') }}') {
+
                 $('#add-course-tab .step-footer button[data-direction="next"]').click();
 
             }

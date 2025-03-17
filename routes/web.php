@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserVideoTrackerController;
 use App\Models\certificate;
 use App\Models\faq;
 use Illuminate\Support\Facades\Route;
@@ -25,14 +27,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PaymentTransactionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
+Route::get('/',[HomeController::class,'index'])->name('index');
 
-Route::get('/', function () {
-    return view('front.index');
-})->name('index');
-
-Route::get('/about', function () {
-    return view('front.about');
-})->name('about');
+Route::get('/about',[HomeController::class,'about'])->name('about');
 
 Route::get('/courses', function () {
     return view('front.course');
@@ -183,9 +180,8 @@ route::resource('testquestion', TestQuestionController::class);
 route::resource('testoption', TestOptionController::class);
 
 Route::resource('courseAttachment', CourseAttachmentController::class);
-Route::post('/video/track', [CourseAttachmentController::class, 'track'])->name('courseAttachment.track');
+Route::post('/video/progress/track', [UserVideoTrackerController::class, 'track'])->name('video.progress.track');
 
-// Add this route to handle the AJAX request for subcategories
 Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
 Route::get('/code-debugger/{id}/{video_id}', [CourseAttachmentController::class, 'debugger_code'])->name('codeDebugger');
 
@@ -256,10 +252,6 @@ Route::resource('certificate', CertificateController::class);
 Route::get('/genarate', [CertificateController::class, 'index']);
 Route::get('/cirty', [CertificateController::class, 'cirty']);
 
-
-// Route::get('/genarate', function () {
-//     return view('learner.course.certificate.genrate');
-// });
 route::get('/learning-path', [LearningPathController::class, 'learningpath_learner'])->name('learning.path')->middleware('auth');
 
 Route::resource('contactus', ContactusController::class);
