@@ -16,10 +16,9 @@
                                 <div class="ttl121">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                            {{-- <li class="breadcrumb-item"><a
+                                            <li class="breadcrumb-item"><a
                                                     href="{{ route('certificate.center') }}">Certificate Center</a></li>
-                                            --}}
+                                           
                                             <li class="breadcrumb-item active" aria-current="page">Certification Fill Form
                                             </li>
                                         </ol>
@@ -27,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="titleright">
-                                <a href="certification_center.html" class="blog_link"><i
+                                <a href="{{ route('certificate.center') }}" class="blog_link"><i
                                         class="uil uil-angle-double-left"></i>Back to Certification Center</a>
                             </div>
                         </div>
@@ -86,6 +85,7 @@
                 </div>
             </div>
         </div>
+        @include('learner.layout.footer')
         <script>
             // Bootstrap Form Validation
             (function () {

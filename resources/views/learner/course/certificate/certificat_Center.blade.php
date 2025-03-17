@@ -15,11 +15,14 @@
                             <h1>Certification Center</h1>
                             <p>For Students and Instructors</p>
                             <ul class="certi_icons">
-                                <li><a href="#" class="edttslogo"><img src="images/logo1.svg" alt=""></a></li>
+                                <li><a href="#" class="edttslogo"><img src="{{ asset('images/logo1.svg') }} " alt=""></a></li>
                                 <li>
-                                    <div class="edttsplus"><img src="images/cerificate_center/plus.svg" alt=""></div>
+                                <div class="edttsplus">
+                                    <img src="{{ asset('images/plus.svg') }}" alt="">
+                                  </div>
+                                  
                                 </li>
-                                <li><a href="#" class="edttslogo1"><img src="images/cerificate_center/certicon.svg"
+                                <li><a href="#" class="edttslogo1"><img src="{{ asset('images/certicon.svg') }}"
                                             alt=""></a></li>
                             </ul>
                             <a href="{{ route('learner.fill.certificate') }}"><button class="certi-btn">Start
@@ -40,7 +43,7 @@
                     <div class="col-lg-3 col-md-5 col-sm-6">
                         <div class="who_get">
                             <div class="who_img">
-                                <img src="images/cerificate_center/student.svg" alt="">
+                                <img src="{{ asset('images/student.svg') }}" alt="">
                             </div>
                             <h4>Students</h4>
                         </div>
@@ -48,7 +51,7 @@
                     <div class="col-lg-3 col-md-5 col-sm-6">
                         <div class="who_get">
                             <div class="who_img">
-                                <img src="images/cerificate_center/instructor.svg" alt="">
+                                <img src="{{ asset('images/instructor.svg') }}" alt="">
                             </div>
                             <h4>Instructor</h4>
                         </div>
@@ -62,7 +65,7 @@
                     <div class="col-lg-12">
                         <div class="title589">
                             <h2>What Will You Get?</h2>
-                            <p>Cursus company, which confirms your skills and knowledge of Certification</p>
+                            <p>Code pilot, which confirms your skills and knowledge of Certification</p>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -78,10 +81,10 @@
                                 elementum tortor, ac aliquet dolor vehicula et. Nulla vehicula pharetra lacus ornare
                                 gravida. Vivamus mollis ullamcorper dui quis gravida. Aenean pulvinar pulvinar arcu a
                                 suscipit.</p>
-                            <button class="knowledge_btn" onclick="window.location.href = '#';">Knowledge Base</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @include('learner.layout.footer')
 @endsection

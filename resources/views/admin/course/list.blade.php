@@ -101,7 +101,7 @@
                                                         <p class="cr1fot">By <a
                                                                 href="#">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown' }}</a>
                                                         </p>
-                                                        <div class="prce142">₹{{ $course->price ?? 'Free' }}</div>
+                                                        <div class="prce142">{{ $course->price == 0 ? 'Free' : '₹' . $course->price }}</div>
                                                     </div>
                                                 </div>
                                             </div>
