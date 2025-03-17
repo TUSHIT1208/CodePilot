@@ -22,9 +22,23 @@
                         </div>
                     </div>
                     <div style="flex: 1;">
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
+                        @if ($title->title === 'Python')
+                            <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%"
+                                height="500px" frameborder="0" allowfullscreen>
+                            </iframe>
+                        @elseif($title->title === 'Php')
+                            <iframe id="code-iframe" src="https://onecompiler.com/embed/php" width="100%" height="500px"
+                                frameborder="0" allowfullscreen>
+                            </iframe>
+                        @elseif($title->title === 'Html')
+                            <iframe id="code-iframe" src="https://onecompiler.com/embed/html" width="100%" height="500px"
+                                frameborder="0" allowfullscreen>
+                            </iframe>
+                        @else
+                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%"
+                                height="500px" frameborder="0" allowfullscreen>
+                            </iframe>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -39,7 +53,7 @@
 
             function sendTrackingData(eventType) {
                 $.ajax({
-                    url: "{{ route('courseAttachment.track') }}",
+                    url: "{{ route('video.progress.track') }}",
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",

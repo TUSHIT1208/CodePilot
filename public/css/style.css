@@ -6147,6 +6147,10 @@ a.rmv-btn i {
     text-align: center;
 }
 
+.learning-path-course-overlay{
+    width: 100%;
+}
+
 .sign_form p {
     font-size: 14px;
     margin-bottom: 47px;

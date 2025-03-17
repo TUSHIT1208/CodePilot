@@ -14,44 +14,47 @@ class FaqSeeder extends Seeder
         // Insert dummy data using the Faq model
         Faq::insert([
             [
-                'question' => 'What is Laravel?',
-                'answer' => 'Laravel is a PHP framework that helps developers build modern web applications. It is known for its elegant syntax, scalability, and a rich set of features.',
+                'question' => 'How to create a course?',
+                'answer' => 'In the dashboard, click on "Course" and then select "Create New Course." Fill in the basic details, test, media, price, and then publish the course.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'question' => 'How do I install Laravel?',
-                'answer' => 'You can install Laravel using Composer by running the following command: composer create-project --prefer-dist laravel/laravel your-project-name.',
+                'question' => 'How to purchase a course?',
+                'answer' => 'Go to the student dashboard, select a course, and click on "Add to Cart." Then, click on the "Checkout" button, complete the payment, and the course will be added to your profile.',
+
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'question' => 'What is Eloquent ORM?',
-                'answer' => 'Eloquent is Laravel\'s built-in ORM (Object-Relational Mapping) for interacting with databases. It allows you to work with your database tables as if they were simple PHP objects.',
+                'question' => 'How to get a certificate?',
+                'answer' => 'First, you need to complete all the videos in the course. Then, take the course test. If you pass the test, you will receive a certificate.',
+
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'question' => 'How can I migrate the database?',
-                'answer' => 'You can migrate the database using the following Artisan command: php artisan migrate. This will run all the pending migrations and create the necessary database tables.',
+                'question' => 'How to take a test?',
+                'answer' => 'Go to your profile, select the course, click on "Test," and then click on "Start Certification" to begin the test.',
+
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'question' => 'What is middleware in Laravel?',
-                'answer' => 'Middleware provides a convenient mechanism for filtering HTTP requests entering your application. For example, you might want to check if the user is authenticated before accessing certain pages.',
+                'question' => 'How to watch videos and run code?',
+                'answer' => 'First, you need to purchase the course. Once purchased, the course content will be displayed. Click on the video to watch it and access the code to run it.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'question' => 'How do I use validation in Laravel?',
-                'answer' => 'You can validate data in Laravel using the validate method on the request. For example: request()->validate([\'email\' => \'required|email\']);',
+                'question' => 'How to use the free course?',
+                'answer' => 'You just need to register on our website to access the free course.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'question' => 'What is Artisan in Laravel?',
-                'answer' => 'Artisan is the command-line interface included with Laravel. It provides a number of helpful commands for common tasks such as database migrations, running tests, and more.',
+                'question' => 'How to interact with us?',
+                'answer' => 'Visit our "Contact Us" page, fill out the form, and submit it. Our team will get in touch with you shortly.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

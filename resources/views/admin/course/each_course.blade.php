@@ -136,10 +136,10 @@
                                             @if (strpos($content, '<table') !== false)
                                                 {!! str_replace('<table', '<table class="table table-striped table-hover"', $content) !!}
                                             @else
-                                                <ul class="list-group">
+                                                <ul>
                                                     @foreach(explode('.', $content) as $item)
                                                         @if(trim($item) != '')
-                                                            <li class="list-group-item"><span class="_5f7g11">{{ trim($item) }}</span></li>
+                                                            <li><span class="_5f7g11">{!! strip_tags(trim($item)) !!}</span></li>
                                                         @endif
                                                     @endforeach
                                                 </ul>

@@ -202,14 +202,14 @@
                                 @foreach ($transaction->order->order_items as $item)
                                 <tr>
                                     <td>{{ $item->course->title }}</td>
-                                    <td>₹{{ number_format($item->course->price, 2) }}</td>
-                                    <td>₹{{ number_format($item->course->discount, 2) }}</td>
-                                    <td>₹{{ number_format($item->payable_amount, 2) }}</td>
+                                    <td>{{ number_format($item->course->price, 2) }}</td>
+                                    <td>{{ number_format($item->course->discount, 2) }}</td>
+                                    <td>{{ number_format($item->payable_amount, 2) }}</td>
                                 </tr>
                                 @endforeach
                                 <tr>
                                     <td colspan="3" class="text-right"><strong>Invoice Total:</strong></td>
-                                    <td>₹{{ number_format($transaction->amount, 2) }}</td>
+                                    <td>{{ number_format($transaction->amount, 2) }}</td>
                                 </tr>
                             </tbody>
                         </table>
