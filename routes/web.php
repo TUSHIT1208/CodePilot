@@ -27,9 +27,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PaymentTransactionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
-Route::get('/',[HomeController::class,'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::get('/about',[HomeController::class,'about'])->name('about');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::get('/courses', function () {
     return view('front.course');

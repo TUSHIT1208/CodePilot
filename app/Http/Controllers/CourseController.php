@@ -46,6 +46,8 @@ class CourseController extends Controller
     }
 
 
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -199,14 +201,14 @@ class CourseController extends Controller
 
         $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
 
-        $coursePrice=course::where('id',$cid)->first();
+        $coursePrice = course::where('id', $cid)->first();
 
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase','coursePrice'));
+            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice'));
         }
     }
 
