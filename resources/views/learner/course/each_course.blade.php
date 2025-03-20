@@ -156,22 +156,20 @@
                                         <div class="_htg452">
                                             <h3>Requirements</h3>
                                             @php
-                                                $content = $courseDetail->requirement;
-                                            @endphp
-
-                                            @if (strpos($content, '<table') !== false)
-                                                {!! str_replace('<table', '<table class="table table-striped table-hover"', $content) !!}
-                                            @else
-                                                <ul class="list-group">
-                                                    @foreach (explode('.', $content) as $item)
-                                                        @if (trim($item) != '')
-                                                            <li class="list-group-item"><span
-                                                                    class="_5f7g11">{{ trim($item) }}</span></li>
-                                                        @endif
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-
+                                            $content = $courseDetail->requirement;
+                                        @endphp
+                                        
+                                        @if (strpos($content, '<table') !== false)
+                                            {!! str_replace('<table', '<table class="table table-striped table-hover"', $content) !!}
+                                        @else
+                                            <ul>
+                                                @foreach(explode('.', $content) as $item)
+                                                    @if(trim($item) != '')
+                                                        <li><span class="_5f7g11">{!! strip_tags(trim($item)) !!}</span></li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                         </div>
                                         <div class="_htg452 mt-35">
                                             <h3>Description</h3>

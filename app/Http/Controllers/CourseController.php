@@ -162,6 +162,7 @@ class CourseController extends Controller
                 'price' => $request->price ?? 0,
                 'discount' => $request->discount ?? null,
                 'is_active' => 0,
+                'is_active_home' => 0,
                 'published_at' => null,
                 'course_type' => $request->course_type,
                 'title' => $request->title,
@@ -271,17 +272,17 @@ class CourseController extends Controller
         try {
             $validated = $request->validate([
                 'title' => 'required|string|min:3|max:255',
-                'description' => 'required|string|min:10|max:1000',
+                'description' => 'required|string|min:10',
                 'course_description' => 'required|string',
-                'learn_in_course' => 'required|string|min:10|max:1000',
-                'requirement' => 'required|string|min:10|max:1000',
+                'learn_in_course' => 'required|string|min:10',
+                'requirement' => 'required|string|min:10',
                 'course_level' => 'required|string|in:Beginner,Intermediate,Expert',
                 'course_type' => 'required|string|in:text,video',
                 'category_id' => 'required|exists:categories,id',
                 'sub_category_id' => 'required|exists:sub_categories,id',
                 'meta_keyword' => 'required|string|min:3|max:255',
                 'meta_title' => 'required|string|min:3|max:255',
-                'meta_description' => 'required|string|min:10|max:1000',
+                'meta_description' => 'required|string|min:10',
             ]);
             Log::info('Validated request data', ['data' => $validated]);
 
@@ -335,6 +336,16 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'An error occurred while updateing the course.');
         }
     }
+    public function addToHome(Request $request)
+    {
+        $course = Course::findOrFail($request->course_id); // Find the course by ID
+
+        // Update the 'is_added_to_home' field to true or 1
+        $course->is_active_home = true;
+        $course->save();
+
+        return response()->json(['success' => true]);
+    }
 
     public function price(Request $request, Course $course)
     {
@@ -375,7 +386,7 @@ class CourseController extends Controller
                 <div class="fcrse_1 mt-30">
                     <a href="' . route('course.show', $course->id) . '" class="fcrse_img">
                         <img src="' . (isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg')) . '" alt="Course Thumbnail">
-                        <div class="course-overlay">
+                        <div class="course-overlay learning-path-course-overlay">
                             ' . ($course->is_active ? '<div class="badge_seller">Active</div>' : '<div class="badge_seller">InActive</div>') . '
                             <div class="crse_reviews"><i class="uil uil-star"></i> 5</div>
                             <span class="play_btn1"><i class="uil uil-play"></i></span>

@@ -143,13 +143,15 @@ class CourseAttachmentController extends Controller
     public function debugger_code($id, $video_id)
     {
         $course_detail = courseAttachment::where('id', $video_id)->first();
+        $title = course::where('id',$course_detail->course_id)->first();
+        logger($title);
 
         if (auth()->user()->role->name === 'admin') {
-            return view('admin.course.debugger_code', compact('course_detail'));
+            return view('admin.course.debugger_code', compact('course_detail','title'));
         } else if (auth()->user()->role->name === 'insructor') {
-            return view('instructor.course.debugger_code', compact('course_detail'));
+            return view('instructor.course.debugger_code', compact('course_detail','title'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.debugger_code', compact('course_detail'));
+            return view('learner.course.debugger_code', compact('course_detail','title'));
         }
     }
 }
