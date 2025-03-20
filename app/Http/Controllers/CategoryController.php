@@ -43,11 +43,11 @@ class CategoryController extends Controller
                             </label>
                         </div>';
                     })
-                    ->rawColumns(['action', 'status'])                                
+                    ->rawColumns(['action', 'status'])
                     ->make(true);
             }
 
-            $categories = Category::all();  
+            $categories = Category::all();
             return view('admin.category.category', compact('categories'));
         } catch (Exception $e) {
             Log::error('Error fetching categories: ' . $e->getMessage());
@@ -101,15 +101,28 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::find($id);
+
             if (!$category) {
-                return redirect()->back()->with('error', 'Category not found.');
+                return response()->json(['error' => 'Category not found.'], 404);
             }
+
+            if ($category->sub_categories()->where('is_active', 1)->exists()) {
+                return response()->json(['error' => 'This category has active Sub-category. Please delete or deactivate them first before deleting the category.'], 400);
+            }
+
+            // Check if the category has any associated active courses
+            if ($category->courses()->where('is_active', 1)->exists()) {
+                return response()->json(['error' => 'This category has active courses. Please delete or deactivate them first before deleting the category.'], 400);
+            }
+
+            // If only inactive courses exist, allow deletion
             $category->delete();
             Log::info('Category deleted: ', ['id' => $id]);
-            return redirect()->back()->with('success', 'Category deleted successfully!');
+
+            return response()->json(['success' => 'Category deleted successfully!'], 200);
         } catch (Exception $e) {
             Log::error('Error deleting category: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while deleting the category.');
+            return response()->json(['error' => 'An error occurred while deleting the category.'], 500);
         }
     }
 
@@ -149,7 +162,7 @@ class CategoryController extends Controller
     public function category_list()
     {
         $categories = Category::with('sub_categories.courses')->get();
-        
+
         return view('learner.layout.sidebar', compact('categories'));
     }
 }
