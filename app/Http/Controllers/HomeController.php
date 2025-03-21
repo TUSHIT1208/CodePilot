@@ -13,7 +13,7 @@ class HomeController extends Controller
         $learnerCount = User::where('role_id', 3)->count();
         $instructorCount = User::where('role_id', 2)->count();
         $courseCount = course::where('is_active', 1)->count();
-        $courses = Course::with('user')->where('is_active', 1)->take(3)->get();
+        $courses = Course::with('user')->where('is_active_home', 1)->take(3)->get();
 
 
         return view('front.index', compact('learnerCount', 'courses', 'instructorCount', 'courseCount'));

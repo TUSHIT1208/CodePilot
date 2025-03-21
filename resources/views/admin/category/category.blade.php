@@ -335,37 +335,50 @@
                                 }, 2000);
                             }
                         }
-                        // error: function(xhr) {
-                        //     if (xhr.status === 422) {
-                        //         var errors = xhr.responseJSON.errors;
-                        //         for (var field in errors) {
-                        //             var inputField = $([name="${field}"]);
-                        //             inputField.addClass('is-invalid');
-                        //             inputField.after(
-                        //                 <div class="invalid-feedback">${errors[field][0]}</div>
-                        //             );
-                        //         }
-                        //     } else {
-                        //         toastr.error('An unexpected error occurred. Please try again.',
-                        //             'Error');
-                        //     }
-                        // }
                     });
                 }
             });
         });
     </script>
 
-    <!-- JavaScript for Delete Confirmation -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Set global Toastr options
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000",
+                "extendedTimeOut": "2000",
+                "positionClass": "toast-top-right",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "onShown": function() {
+                    $('.toast-success').css({
+                        'background-color': '#28a745', // Green for success
+                        'opacity': '1' // Adjust opacity
+                    });
+                    $('.toast-error').css({
+                        'background-color': '#dc3545', // Red for error
+                        'opacity': '1'
+                    });
+                    $('.toast-warning').css({
+                        'background-color': '#ffc107', // Yellow for warning
+                        'opacity': '1'
+                    });
+                    $('.toast-info').css({
+                        'background-color': '#17a2b8', // Blue for info
+                        'opacity': '1'
+                    });
+                }
+            };
             document.body.addEventListener("click", function(event) {
                 if (event.target.closest(".delete-btn")) {
-                    event.preventDefault(); // Prevent default anchor behavior
+                    event.preventDefault();
 
                     const button = event.target.closest(".delete-btn");
                     const form = button.closest(".delete-form");
                     const categoryName = button.getAttribute("data-username");
+                    const actionUrl = form.getAttribute("action");
 
                     Swal.fire({
                         title: `Are you sure?`,
@@ -378,13 +391,43 @@
                         cancelButtonText: "Cancel",
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit(); // Submit the form if the user confirms
+                            fetch(actionUrl, {
+                                    method: "POST",
+                                    headers: {
+                                        "X-CSRF-TOKEN": document.querySelector(
+                                            'meta[name="csrf-token"]').getAttribute(
+                                            "content"),
+                                        "X-Requested-With": "XMLHttpRequest",
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        _method: "DELETE"
+                                    })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        toastr.success('suc',data.success);
+                                        setTimeout(function() {
+                                            location
+                                        .reload(); // Reload the page after a short delay
+                                        }, 2000);
+                                    } else {
+                                        Swal.fire("Warning!", data.error, "warning");
+                                    }
+                                })
+                                .catch(error => {
+                                    Swal.fire("Error!",
+                                        "An error occurred while deleting the category.",
+                                        "error");
+                                });
                         }
                     });
                 }
             });
         });
     </script>
+
 
     {{-- Use event delegation to handle dynamically loaded toggle switches --}}
     <script>

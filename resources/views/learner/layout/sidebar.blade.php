@@ -4,7 +4,7 @@
 		<div class="left_section">
 			<ul>
 				<li class="menu--item">
-					<a href="{{ route('learner.dashboard') }}" class="menu--link active" title="Dashboard">
+					<a href="{{ route('learner.dashboard') }}" class="menu--link" title="Dashboard">
 						<i class="uil uil-apps menu--icon"></i>
 						<span class="menu--label">Dashboard</span>
 					</a>
@@ -57,56 +57,12 @@
 						<span class="menu--label">Saved Courses</span>
 					</a>
 				</li>
-				{{-- <li class="menu--item">
-					<a href="{{route('learner.list')}}" class="menu--link" title="My Certificates">
+				<li class="menu--item">
+					<a href="student_my_certificates.html" class="menu--link" title="My Certificates">
 						<i class='uil uil-award menu--icon'></i>
 						<span class="menu--label">My Certificates</span>
 					</a>
-				</li> --}}
-				{{-- <li class="menu--item">
-					<a href="{{ route('payment.history') }}" class="menu--link" title="Transactions History">
-						<i class='uil uil-box menu--icon'></i>
-						<span class="menu--label">Order History</span>
-					</a>
-				</li> --}}
-
-				{{-- <li class="menu--item">
-					<a href="student_courses.html" class="menu--link" title="Courses">
-						<i class='uil uil-book-alt menu--icon'></i>
-						<span class="menu--label">Purchased Courses</span>
-					</a>
 				</li>
-				<li class="menu--item">
-					<a href="student_messages.html" class="menu--link" title="Messages">
-						<i class='uil uil-comments menu--icon'></i>
-						<span class="menu--label">Messages</span>
-					</a>
-				</li>
-				<li class="menu--item">
-					<a href="student_notifications.html" class="menu--link" title="Notifications">
-						<i class='uil uil-bell menu--icon'></i>
-						<span class="menu--label">Notifications</span>
-					</a>
-				</li>
-
-				<li class="menu--item">
-					<a href="student_all_reviews.html" class="menu--link" title="Reviews">
-						<i class='uil uil-star menu--icon'></i>
-						<span class="menu--label">Reviews</span>
-					</a>
-				</li>
-				<li class="menu--item">
-					<a href="student_credits.html" class="menu--link" title="Credits">
-						<i class='uil uil-wallet menu--icon'></i>
-						<span class="menu--label">Credits</span>
-					</a>
-				</li>
-				<li class="menu--item">
-					<a href="student_statements.html" class="menu--link" title="Statements">
-						<i class='uil uil-file-alt menu--icon'></i>
-						<span class="menu--label">Statements</span>
-					</a>
-				</li> --}}
 			</ul>
 		</div>
 		<div class="left_section pt-2">
@@ -117,16 +73,48 @@
 						<span class="menu--label">Setting</span>
 					</a>
 				</li>
-				{{-- <li class="menu--item">
+				<li class="menu--item">
 					<a href="feedback.html" class="menu--link" title="Send Feedback">
 						<i class='uil uil-comment-alt-exclamation menu--icon'></i>
 						<span class="menu--label">Send Feedback</span>
 					</a>
-				</li> --}}
+				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
-<style>
 
-</style>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		// Get all menu links
+		let menuLinks = document.querySelectorAll(".menu--item .menu--link");
+
+		// Function to remove active class from all links
+		function removeActiveClass() {
+			menuLinks.forEach(link => {
+				link.classList.remove("active");
+			});
+		}
+
+		// Add click event to each menu link
+		menuLinks.forEach(link => {
+			link.addEventListener("click", function () {
+				removeActiveClass(); // Remove active class from all links
+				this.classList.add("active"); // Add active class to clicked link
+
+				// Store the active link in localStorage
+				localStorage.setItem("activeMenu", this.getAttribute("href"));
+			});
+		});
+
+		// Retain the active class on page reload
+		let activeMenu = localStorage.getItem("activeMenu");
+		if (activeMenu) {
+			menuLinks.forEach(link => {
+				if (link.getAttribute("href") === activeMenu) {
+					link.classList.add("active");
+				}
+			});
+		}
+	});
+</script>

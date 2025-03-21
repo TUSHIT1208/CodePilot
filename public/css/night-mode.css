@@ -50,15 +50,15 @@ Night Mood
 }
 
 
-.night-mode html , 
-.night-mode body , 
-.night-mode .main_content ,
-.night-mode .bg-gradient-warning  ,
-.night-mode .sidebar ,
-.night-mode .nav-profile ,
+.night-mode html,
+.night-mode body,
+.night-mode .main_content,
+.night-mode .bg-gradient-warning,
+.night-mode .sidebar,
+.night-mode .nav-profile,
 .night-mode .post .post-add-comment-text-area,
 .night-mode .dt-input,
-.night-mode .post .post-add-comment-text-area input{
+.night-mode .post .post-add-comment-text-area input {
     background-color: #333 !important;
     border-color: #242424 !important;
     color: hsla(0, 0%, 100%, 0.79) !important;
@@ -66,7 +66,7 @@ Night Mood
 
 .night-mode body {
     background: #000 !important;
-	height: auto;
+    height: auto;
     float: left;
     width: 100%;
 }
@@ -91,8 +91,8 @@ Night Mood
     border: 4px solid transparent;
     background-clip: padding-box;
     -webkit-border-radius: 7px;
-    background-color: rgba(51,51,51,.6);
-    -webkit-box-shadow: inset -1px -1px 0 rgba(51,51,51,.05), inset 1px 1px 0 rgba(51,51,51,.05);
+    background-color: rgba(51, 51, 51, .6);
+    -webkit-box-shadow: inset -1px -1px 0 rgba(51, 51, 51, .05), inset 1px 1px 0 rgba(51, 51, 51, .05);
 }
 
 .night-mode .header {
@@ -100,7 +100,7 @@ Night Mood
 }
 
 .night-mode .srch10 {
-    background: rgba(255, 255, 255, 0.15)!important;
+    background: rgba(255, 255, 255, 0.15) !important;
     border: 0 !important;
     color: #393939 !important;
 }
@@ -111,11 +111,11 @@ Night Mood
 }
 
 .night-mode .ui[class*="left icon"].swdh10.input>input:focus {
-	background-color: #fff !important;
+    background-color: #fff !important;
 }
 
 .night-mode .srch10:focus+.icon1 {
-	color: #333 !important;
+    color: #333 !important;
 }
 
 .night-mode .upload_btn {
@@ -126,12 +126,12 @@ Night Mood
     background: #ed2a26;
     padding: 9px 15px;
     border-radius: 3px;
-	margin-right: 10px;
+    margin-right: 10px;
 }
 
 .night-mode .upload_btn i {
     font-size: 16px;
-    margin-right:3px;
+    margin-right: 3px;
 }
 
 .night-mode .menu.dropdown_ms {
@@ -156,7 +156,7 @@ Night Mood
     margin-top: 0 !important;
     border-top: 1px solid #242424 !important;
     border-radius: 3px !important;
-	background: #171717 !important;
+    background: #171717 !important;
 }
 
 .night-mode .channel_my {
@@ -167,7 +167,7 @@ Night Mood
     white-space: normal;
 }
 
-.night-mode  .pd_content p {
+.night-mode .pd_content p {
     color: #c7c7c7 !important;
 }
 
@@ -179,7 +179,7 @@ Night Mood
 .night-mode .ui.menu.cate-dpdwn {
     box-shadow: none !important;
     border: 0 !important;
-	background: transparent !important;
+    background: transparent !important;
 }
 
 .night-mode .ui.menu.cate-dpdwn>.item:hover {
@@ -212,12 +212,13 @@ Night Mood
     color: #fff !important;
 }
 
-.night-mode  .option_links:hover, .night-mode  .option_links:focus {
+.night-mode .option_links:hover,
+.night-mode .option_links:focus {
     color: #fff !important;
 }
 
 .night-mode .night_mode_switch__btn a i {
-	background-color: #333 !important;
+    background-color: #333 !important;
     color: white !important;
 }
 
@@ -231,7 +232,7 @@ Night Mood
 
 .night-mode .ui.dropdown .menu>.channel_item {
     color: #c7c7c7 !important;
-    padding: .78571429rem 1.14285714rem!important;
+    padding: .78571429rem 1.14285714rem !important;
     font-size: 14px !important;
     font-family: 'Roboto', sans-serif;
 }
@@ -242,12 +243,12 @@ Night Mood
 }
 
 .night-mode .menu--link.active {
-    background: #12141E ;
+    background: #12141E;
     color: #fff;
 }
 
 .night-mode .menu--link.active {
-    background: #12141E ;
+    background: #12141E;
     color: #fff;
 }
 
@@ -255,8 +256,9 @@ Night Mood
     background: #333;
 }
 
-.night-mode  .menu--link:hover, .night-mode .menu--link:hover .menu--label {
-	background: #242424;
+.night-mode .menu--link:hover,
+.night-mode .menu--link:hover .menu--label {
+    background: #242424;
 }
 
 .night-mode .menu--link {
@@ -264,13 +266,13 @@ Night Mood
 }
 
 .night-mode .sub_menu--link:hover {
-	color: #fff !important;
-	background: #333;
+    color: #fff !important;
+    background: #333;
 }
 
 .night-mode .sub_menu--link.active {
-	color: #fff;
-	font-weight: 500;
+    color: #fff;
+    font-weight: 500;
 }
 
 .night-mode .menu--subitens__opened {
@@ -278,13 +280,13 @@ Night Mood
 }
 
 .night-mode .menu--link:hover {
-	background: #333;
-	color: #fff !important;
+    background: #333;
+    color: #fff !important;
 }
 
 .night-mode .menu--link.active {
-	background: #242424;
-	color: #fff !important;
+    background: #242424;
+    color: #fff !important;
 }
 
 .night-mode .left_section {
@@ -292,7 +294,7 @@ Night Mood
 }
 
 .night-mode .stream_1 {
-    background: rgba(51,51,51, 0.5);
+    background: rgba(51, 51, 51, 0.5);
 }
 
 .night-mode .fcrse_1 {
@@ -320,112 +322,112 @@ Night Mood
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
 .night-mode .live_stream .owl-nav .owl-prev {
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
 .night-mode .live_stream .owl-nav .owl-prev:hover {
-	color: #fff !important;
-	opacity: 1;
-	background: #ed2a26 !important;
-	border: 1px solid #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
-}	
+    color: #fff !important;
+    opacity: 1;
+    background: #ed2a26 !important;
+    border: 1px solid #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+}
 
 .night-mode .live_stream .owl-nav .owl-next:hover {
-	color: #fff !important;
-	opacity: 1;
-	border: 1px solid #ed2a26 !important;
-	background: #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+    color: #fff !important;
+    opacity: 1;
+    border: 1px solid #ed2a26 !important;
+    background: #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .night-mode .featured_courses .owl-nav .owl-next {
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
 .night-mode .featured_courses .owl-nav .owl-prev {
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
 .night-mode .featured_courses .owl-nav .owl-prev:hover {
-	color: #fff !important;
-	opacity: 1;
-	background: #ed2a26 !important;
-	border: 1px solid #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
-}	
+    color: #fff !important;
+    opacity: 1;
+    background: #ed2a26 !important;
+    border: 1px solid #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+}
 
 .night-mode .featured_courses .owl-nav .owl-next:hover {
-	color: #fff !important;
-	opacity: 1;
-	border: 1px solid #ed2a26 !important;
-	background: #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+    color: #fff !important;
+    opacity: 1;
+    border: 1px solid #ed2a26 !important;
+    background: #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .night-mode .Student_says .owl-nav .owl-next {
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
 .night-mode .Student_says .owl-nav .owl-prev {
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
 .night-mode .Student_says .owl-nav .owl-prev:hover {
-	color: #fff !important;
-	opacity: 1;
-	background: #ed2a26 !important;
-	border: 1px solid #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
-}	
+    color: #fff !important;
+    opacity: 1;
+    background: #ed2a26 !important;
+    border: 1px solid #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+}
 
 .night-mode .Student_says .owl-nav .owl-next:hover {
-	color: #fff !important;
-	opacity: 1;
-	border: 1px solid #ed2a26 !important;
-	background: #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+    color: #fff !important;
+    opacity: 1;
+    border: 1px solid #ed2a26 !important;
+    background: #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .night-mode .dropdown-content {
     background-color: #242424;
-    box-shadow: 0 2px 3px 0 rgba(34,36,38,.15);
-    border: 1px solid rgba(25,29,47,.15);
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, .15);
+    border: 1px solid rgba(25, 29, 47, .15);
 }
 
 .night-mode .dropdown-content span {
-	color: #c7c7c7;
+    color: #c7c7c7;
 }
 
 .night-mode .dropdown-content span:hover {
-	color: #fff !important;
-	background-color: #333;
+    color: #fff !important;
+    background-color: #333;
 }
 
 .night-mode .value_props {
     background: #333;
 }
 
-.night-mode  .value_icon i {
+.night-mode .value_icon i {
     color: #fff;
     background: #242424;
 }
@@ -504,7 +506,7 @@ Night Mood
 }
 
 .night-mode .live_link:hover {
-	color: #fff;
+    color: #fff;
     background: #cc2622;
 }
 
@@ -546,11 +548,12 @@ Night Mood
     background: #333;
 }
 
-.night-mode  .tab_crse .nav-link {
+.night-mode .tab_crse .nav-link {
     color: #c7c7c7 !important;
 }
 
-.night-mode .course_tabs .nav-tabs .nav-item.show .nav-link, .night-mode .course_tabs .nav-tabs .nav-link.active {
+.night-mode .course_tabs .nav-tabs .nav-item.show .nav-link,
+.night-mode .course_tabs .nav-tabs .nav-link.active {
     color: #fff !important;
 }
 
@@ -605,7 +608,7 @@ Night Mood
 }
 
 .night-mode .add_stream_content {
-	background: #333;
+    background: #333;
     border: 1px solid #242424;
 }
 
@@ -614,7 +617,7 @@ Night Mood
 }
 
 .night-mode p {
-	color: #c7c7c7;
+    color: #c7c7c7;
 }
 
 .night-mode .stm_key {
@@ -637,15 +640,16 @@ Night Mood
     color: #08090f !important;
 }
 
-.night-mode .slive_tabs .nav-item.show .nav-link, .night-mode .slive_tabs .nav-link.active {
+.night-mode .slive_tabs .nav-item.show .nav-link,
+.night-mode .slive_tabs .nav-link.active {
     color: #fff !important;
     background-color: #ed2a26 !important;
     border-color: #ed2a26 !important;
     border-radius: 20px;
 }
 
-.night-mode ._dlor1 {	
-	background: #242424 !important;
+.night-mode ._dlor1 {
+    background: #242424 !important;
     border: 1px solid #4d4646 !important;
     color: #dbdbdb !important;
 }
@@ -665,7 +669,8 @@ Night Mood
     color: #fff;
 }
 
-.night-mode .ui.toggle.checkbox .box:before, .night-mode .ui.toggle.checkbox label:before {
+.night-mode .ui.toggle.checkbox .box:before,
+.night-mode .ui.toggle.checkbox label:before {
     background-color: rgba(36, 36, 36) !important;
 }
 
@@ -673,11 +678,13 @@ Night Mood
     color: #c7c7c7 !important;
 }
 
-.night-mode .ui.toggle.checkbox input:checked~.box, .night-mode .ui.toggle.checkbox input:checked~label {
+.night-mode .ui.toggle.checkbox input:checked~.box,
+.night-mode .ui.toggle.checkbox input:checked~label {
     color: #fff !important;
 }
 
-.night-mode .ui.toggle.checkbox input:focus:checked~.box, .night-mode .ui.toggle.checkbox input:focus:checked~label {
+.night-mode .ui.toggle.checkbox input:focus:checked~.box,
+.night-mode .ui.toggle.checkbox input:focus:checked~label {
     color: #fff !important;
 }
 
@@ -685,7 +692,7 @@ Night Mood
     background: #333 !important;
     border: 1px solid #242424 !important;
     color: #787878 !important;
-	box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.02) !important;
+    box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.02) !important;
 }
 
 .night-mode i.icon2 {
@@ -694,11 +701,11 @@ Night Mood
 }
 
 .night-mode .ui[class*="left icon"].swdh11.input>input:focus {
-	background-color: #fff !important;
+    background-color: #fff !important;
 }
 
 .night-mode .srch_explore:focus+.icon2 {
-	color: #333 !important;
+    color: #333 !important;
 }
 
 /* === Animation Loader === */
@@ -715,48 +722,61 @@ Night Mood
     cursor: pointer;
 }
 
-.night-mode .spinner > div {
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+.night-mode .spinner>div {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
 }
 
 .night-mode .spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-  background-color: #c7c7c7;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+    background-color: #c7c7c7;
 }
 
 .night-mode .spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
-  background-color: #c7c7c7;
-  opacity: 0.702;
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+    background-color: #c7c7c7;
+    opacity: 0.702;
 }
 
 .night-mode .spinner .bounce3 {
-  -webkit-animation-delay: -0.12s;
-  animation-delay: -0.12s;
-  background-color: #c7c7c7;
-  opacity: 0.4;
+    -webkit-animation-delay: -0.12s;
+    animation-delay: -0.12s;
+    background-color: #c7c7c7;
+    opacity: 0.4;
 }
 
 @-webkit-keyframes sk-bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0) }
-  40% { -webkit-transform: scale(1.0) }
+
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0)
+    }
+
+    40% {
+        -webkit-transform: scale(1.0)
+    }
 }
 
 @keyframes sk-bouncedelay {
-  0%, 80%, 100% { 
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  } 40% { 
-    -webkit-transform: scale(1.0);
-    transform: scale(1.0);
-  }
+
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
 }
 
 .night-mode ._215b15 {
@@ -788,20 +808,21 @@ Night Mood
 
 .night-mode .ui.selection.dropdown.cntry152 {
     border: 1px solid #242424 !important;
-	box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.3) !important;
-	background: #333;
+    box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.3) !important;
+    background: #333;
 }
 
 .night-mode .dropdown-menu {
-    background: #171717  !important;
-    border: 1px solid rgba(36,36,36,.15) !important;
+    background: #171717 !important;
+    border: 1px solid rgba(36, 36, 36, .15) !important;
 }
 
 .night-mode .dropdown-menu>.item {
     border-top: 1px solid #242424 !important;
 }
 
-.night-mode .dropdown-menu>.item:hover, .night-mode .dropdown-menu>.item:focus {
+.night-mode .dropdown-menu>.item:hover,
+.night-mode .dropdown-menu>.item:focus {
     background: #333 !important;
     color: #fff !important;
 }
@@ -810,12 +831,13 @@ Night Mood
     color: #c7c7c7 !important;
 }
 
-.night-mode .dropdown-menu .selected.item, .night-mode .dropdown-menu.selected {
+.night-mode .dropdown-menu .selected.item,
+.night-mode .dropdown-menu.selected {
     color: #c7c7c7 !important;
 }
 
 .night-mode .ui.selection.cntry152.dropdown {
-	color: #c7c7c7 !important;
+    color: #c7c7c7 !important;
 }
 
 .night-mode .form-group1 label {
@@ -851,7 +873,7 @@ Night Mood
 .night-mode .ui.form.swdh30 textarea:focus {
     border: 1px solid #242424;
     box-shadow: none;
-	background: #fff;
+    background: #fff;
 }
 
 .night-mode .save_btn:hover {
@@ -863,7 +885,7 @@ Night Mood
     color: #fff;
 }
 
-.night-mode  .prev_title {
+.night-mode .prev_title {
     color: #c7c7c7;
 }
 
@@ -871,7 +893,7 @@ Night Mood
     color: #fff;
 }
 
-.night-mode  .prev_title1 {
+.night-mode .prev_title1 {
     color: #c7c7c7;
 }
 
@@ -883,34 +905,34 @@ Night Mood
     color: #fff;
 }
 
-.night-mode .feature_careers  .owl-nav .owl-next {
+.night-mode .feature_careers .owl-nav .owl-next {
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
-.night-mode .feature_careers  .owl-nav .owl-prev {
+.night-mode .feature_careers .owl-nav .owl-prev {
     color: #fff !important;
     background: #242424 !important;
     border: 1px solid #333 !important;
-	box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.6);
 }
 
 .night-mode .feature_careers .owl-nav .owl-prev:hover {
-	color: #fff !important;
-	opacity: 1;
-	background: #ed2a26 !important;
-	border: 1px solid #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
-}	
+    color: #fff !important;
+    opacity: 1;
+    background: #ed2a26 !important;
+    border: 1px solid #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+}
 
 .night-mode .feature_careers .owl-nav .owl-next:hover {
-	color: #fff !important;
-	opacity: 1;
-	border: 1px solid #ed2a26 !important;
-	background: #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+    color: #fff !important;
+    opacity: 1;
+    border: 1px solid #ed2a26 !important;
+    background: #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .night-mode .apply_job_link {
@@ -940,21 +962,22 @@ Night Mood
     background: #333;
 }
 
-.night-mode  .login-btn:hover {
+.night-mode .login-btn:hover {
     color: #fff;
     background: #cc2622;
 }
 
-.night-mode .catey-tabs .nav-pills .nav-link.active, .night-mode .catey-tabs .nav-pills .show>.nav-link {
-    color: #fff !important; 
+.night-mode .catey-tabs .nav-pills .nav-link.active,
+.night-mode .catey-tabs .nav-pills .show>.nav-link {
+    color: #fff !important;
     background-color: #ed2a26 !important;
 }
 
 .night-mode .certilink__152 {
     background: #333;
     color: #c7c7c7 !important;
-	border: 1px solid #242424;
-	position: relative;
+    border: 1px solid #242424;
+    position: relative;
     top: 0;
     -webkit-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
@@ -963,9 +986,9 @@ Night Mood
 }
 
 .night-mode .certilink__152:hover {
-    box-shadow: -0.083333333in 0.5pc 1.125pc -7px rgba(25,42,70,.6);
-	color: #fff !important;
-	top: -10px;
+    box-shadow: -0.083333333in 0.5pc 1.125pc -7px rgba(25, 42, 70, .6);
+    color: #fff !important;
+    top: -10px;
 }
 
 .night-mode ._485td5 {
@@ -989,11 +1012,13 @@ Night Mood
     border-top: 1px solid #242424;
 }
 
-.night-mode .ui.checkbox label, .night-mode .ui.checkbox+label {
+.night-mode .ui.checkbox label,
+.night-mode .ui.checkbox+label {
     color: #fff !important;
 }
 
-.night-mode .ui.checkbox label:hover, .night-mode .ui.checkbox+label:hover {
+.night-mode .ui.checkbox label:hover,
+.night-mode .ui.checkbox+label:hover {
     color: #fff !important;
 }
 
@@ -1002,12 +1027,12 @@ Night Mood
 }
 
 .night-mode .download_btn {
-	color: #fff !important;
+    color: #fff !important;
 }
 
 .night-mode .download_btn:hover {
-	color: #fff !important;
-	background: #cc2622;
+    color: #fff !important;
+    background: #cc2622;
 }
 
 .night-mode .test_timer_bg {
@@ -1043,7 +1068,7 @@ Night Mood
 }
 
 .night-mode .membership_chk_bg {
-	background: #333;
+    background: #333;
     border: 1px solid #242424;
 }
 
@@ -1055,7 +1080,7 @@ Night Mood
     color: #c7c7c7;
 }
 
-.night-mode  .help-block {
+.night-mode .help-block {
     color: #c7c7c7;
 }
 
@@ -1067,11 +1092,11 @@ Night Mood
 .night-mode .checkout-tabs .nav-tabs .nav-item {
     width: 33.333%;
     text-align: center;
-    border-right: 1px solid #333; 
+    border-right: 1px solid #333;
 }
 
 .night-mode .checkout-tabs .nav-tabs .nav-item:last-child {
-    border-right: 0; 
+    border-right: 0;
 }
 
 .night-mode .checkout-tabs .nav-tabs {
@@ -1083,7 +1108,7 @@ Night Mood
 
 .night-mode .checkout-tabs .nav-tabs .nav-item .nav-link:hover {
     color: #fff !important;
-	border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #fff;
 }
 
 .night-mode .chckout_order_dt {
@@ -1140,7 +1165,7 @@ Night Mood
 
 .night-mode .cmpylink:hover {
     color: #fff !important;
-	text-decoration: underline !important;
+    text-decoration: underline !important;
 }
 
 .night-mode .contact_link_step {
@@ -1189,7 +1214,7 @@ Night Mood
 
 .night-mode .accordion-header {
     border: solid 1px #242424;
-	background: #333;
+    background: #333;
 }
 
 .night-mode .accordion-header .section-title-text {
@@ -1279,11 +1304,11 @@ Night Mood
     background: #313131;
 }
 
-.night-mode ._215b04{
+.night-mode ._215b04 {
     color: white;
 }
 
-.night-mode ._215b05{
+.night-mode ._215b05 {
     color: white;
 }
 
@@ -1291,10 +1316,11 @@ Night Mood
     color: white;
 }
 
-.night-mode .ui.dropdown .menu>.item>.description, .night-mode .ui.dropdown>.text>.description {
+.night-mode .ui.dropdown .menu>.item>.description,
+.night-mode .ui.dropdown>.text>.description {
     float: right;
     margin: 0 0 0 1em;
-    color: rgba(255,255,255,.6);
+    color: rgba(255, 255, 255, .6);
 }
 
 .night-mode .sign_in_up_bg:before {
@@ -1302,12 +1328,12 @@ Night Mood
 }
 
 .night-mode .ui[class*="left icon"].swdh95.input>input:focus {
-	background-color: #fff !important;
+    background-color: #fff !important;
 }
 
 .night-mode .sign_in_up_bg {
     height: 100% !important;
-	background: #000 !important;
+    background: #000 !important;
 }
 
 .night-mode .sign_footer {
@@ -1346,30 +1372,51 @@ Night Mood
 
 .night-mode .cmmnt_1526 {
     background: #333;
-	border: 1px solid #242424;
+    border: 1px solid #242424;
 }
 
-.night-mode ._ttl121{
+.night-mode ._ttl121 {
     color: white;
 }
 
-.night-mode .btn_buy{
+.night-mode .btn_buy {
     color: white;
     border: 1px solid white;
 }
 
-.night-mode .thumb-item-preview{
+.night-mode .thumb-item-preview {
     background-color: #333 !important;
+}
+
+.night-mode .option-item {
+    background: #333 !important;
+}
+
+#title-field::placeholder {
+    color: #787878 !important;
+    opacity: 1;
+    /* Ensure full visibility */
+}
+
+#title-field:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: white;
+}
+
+#title-field::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: white;
 }
 
 .night-mode .media-datatable {
     background-color: #333 !important;
 }
 
-.night-mode .panel-body{
+.night-mode .panel-body {
     background-color: #333;
 }
-.night-mode .msg125{
+
+.night-mode .msg125 {
     color: white;
     border: 1px solid white;
 }
@@ -1393,7 +1440,7 @@ Night Mood
 
 .night-mode .live_input {
     color: #333;
-	background: #242424;
+    background: #242424;
 }
 
 .night-mode .live_comment {
@@ -1401,7 +1448,7 @@ Night Mood
 }
 
 .night-mode .live_input:focus {
-	background: #fff;
+    background: #fff;
 }
 
 .night-mode .membership_bg {
@@ -1489,7 +1536,7 @@ Night Mood
     color: #fff;
 }
 
-.night-mode  .filter__counter {
+.night-mode .filter__counter {
     color: #dbdbdb;
 }
 
@@ -1557,10 +1604,11 @@ Night Mood
 
 .night-mode .main-tabs .nav-tabs .nav-item .nav-link:hover {
     color: #fff !important;
-	border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #fff;
 }
 
-.night-mode .main-tabs .nav-tabs .nav-item.show .nav-link, .night-mode .main-tabs .nav-tabs .nav-link.active {
+.night-mode .main-tabs .nav-tabs .nav-item.show .nav-link,
+.night-mode .main-tabs .nav-tabs .nav-link.active {
     color: #fff !important;
     background-color: none !important;
     border-bottom: 2px solid #ed2a26 !important;
@@ -1570,8 +1618,8 @@ Night Mood
     color: #fff !important;
 }
 
- /* Instructor Dashbaord Studio */ 
- 
+/* Instructor Dashbaord Studio */
+
 .night-mode .card_dash {
     background: #333;
     border: 1px solid #242424;
@@ -1592,59 +1640,59 @@ Night Mood
 }
 
 .night-mode .courses_performance .owl-nav .owl-prev {
-	background: #242424 !important;
-	border: 1px solid #333 !important;
-	color: #fff !important;
+    background: #242424 !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
 }
 
 .night-mode .courses_performance .owl-nav .owl-next {
-	background: #242424 !important;
-	border: 1px solid #333 !important;
-	color: #fff !important;
+    background: #242424 !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
 }
 
 .night-mode .courses_performance .owl-nav .owl-prev:hover {
-	color: #fff !important;
-	opacity: 1;
-	background: #ed2a26 !important;
-	border: 1px solid #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
-}	
+    color: #fff !important;
+    opacity: 1;
+    background: #ed2a26 !important;
+    border: 1px solid #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+}
 
 .night-mode .courses_performance .owl-nav .owl-next:hover {
-	color: #fff !important;
-	opacity: 1;
-	border: 1px solid #ed2a26 !important;
-	background: #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+    color: #fff !important;
+    opacity: 1;
+    border: 1px solid #ed2a26 !important;
+    background: #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .night-mode .edututs_news .owl-nav .owl-prev {
-	background: #242424 !important;
-	border: 1px solid #333 !important;
-	color: #fff !important;
+    background: #242424 !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
 }
 
 .night-mode .edututs_news .owl-nav .owl-next {
-	background: #242424 !important;
-	border: 1px solid #333 !important;
-	color: #fff !important;
+    background: #242424 !important;
+    border: 1px solid #333 !important;
+    color: #fff !important;
 }
 
 .night-mode .edututs_news .owl-nav .owl-prev:hover {
-	color: #fff !important;
-	opacity: 1;
-	background: #ed2a26 !important;
-	border: 1px solid #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
-}	
+    color: #fff !important;
+    opacity: 1;
+    background: #ed2a26 !important;
+    border: 1px solid #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+}
 
 .night-mode .edututs_news .owl-nav .owl-next:hover {
-	color: #fff !important;
-	opacity: 1;
-	border: 1px solid #ed2a26 !important;
-	background: #ed2a26 !important;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
+    color: #fff !important;
+    opacity: 1;
+    border: 1px solid #ed2a26 !important;
+    background: #ed2a26 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .night-mode .crse-perf-left {
@@ -1660,7 +1708,7 @@ Night Mood
 }
 
 .night-mode .new_links10 {
-	color: #fff !important;
+    color: #fff !important;
     border-bottom: 1px dashed #242424;
 }
 
@@ -1672,7 +1720,8 @@ Night Mood
     color: #fff !important;
 }
 
-.night-mode .my_courses_tabs .nav-pills .nav-link.active, .night-mode .my_courses_tabs .nav-pills .show>.nav-link {
+.night-mode .my_courses_tabs .nav-pills .nav-link.active,
+.night-mode .my_courses_tabs .nav-pills .show>.nav-link {
     color: #fff !important;
     background-color: #ed2a26 !important;
 }
@@ -1701,9 +1750,10 @@ Night Mood
     background-color: #171717 !important;
 }
 
-.night-mode .ucp-table td, .night-mode .ucp-table th {
+.night-mode .ucp-table td,
+.night-mode .ucp-table th {
     border-top: 1px solid #242424 !important;
-	color: #fff;
+    color: #fff;
 }
 
 .night-mode .ucp-table tbody {
@@ -1711,16 +1761,16 @@ Night Mood
 }
 
 .night-mode .ucp-table tbody tr {
-    border-bottom: 1px solid #897272; 
+    border-bottom: 1px solid #897272;
 }
 
 .night-mode .ucp-table tbody tr:hover {
-    background-color: #3a3a3a; 
-    color: #ffffff; 
-    border-bottom: 1px solid #ffffff; 
+    background-color: #3a3a3a;
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 
-.night-mode .edit-btn{
+.night-mode .edit-btn {
     color: #decccc;
     font-size: 117%;
     position: relative;
@@ -1740,7 +1790,7 @@ Night Mood
 }
 
 .night-mode .ui[class*="left icon"].swdh19.input>input:focus {
-	background-color: #fff !important;
+    background-color: #fff !important;
 }
 
 .night-mode .discount_btn:hover {
@@ -1763,16 +1813,17 @@ Night Mood
     border: 1px solid #242424 !important;
 }
 
-.night-mode  .analysis_card .card-header {
+.night-mode .analysis_card .card-header {
     background-color: #333 !important;
-    border-bottom: 1px solid #242424!important;
+    border-bottom: 1px solid #242424 !important;
 }
 
 .night-mode .analysis_card .card-header h2 {
     color: #fff !important;
 }
 
-.night-mode .analysis_card .nav-tabs .nav-item.show .nav-link, .night-mode .analysis_card .nav-tabs .nav-link.active {
+.night-mode .analysis_card .nav-tabs .nav-item.show .nav-link,
+.night-mode .analysis_card .nav-tabs .nav-link.active {
     color: #fff !important;
     background-color: #333 !important;
     border-color: transparent #242424 #333 !important;
@@ -1782,7 +1833,7 @@ Night Mood
     color: #fff !important;
     background-color: #333 !important;
     border-color: transparent #242424 #333 !important;
-	border: 1px solid;
+    border: 1px solid;
 }
 
 .night-mode .nav-tabs {
@@ -1805,23 +1856,25 @@ Night Mood
     border-bottom: 1px solid #242424 !important;
 }
 
-.night-mode  #add-course-tab .step-steps > li.active > a > .step-name, .night-mode #add-course-tab .step-steps > li.done > a > .step-name {
+.night-mode #add-course-tab .step-steps>li.active>a>.step-name,
+.night-mode #add-course-tab .step-steps>li.done>a>.step-name {
     color: #fff;
 }
 
-.night-mode #add-course-tab .step-steps > li:before {
+.night-mode #add-course-tab .step-steps>li:before {
     background-color: #5d5d5d;
 }
 
-.night-mode #add-course-tab .step-steps > li > a > .number {
+.night-mode #add-course-tab .step-steps>li>a>.number {
     background-color: #575757;
 }
 
-.night-mode #add-course-tab .step-steps > li.active > a > .number, .night-mode #add-course-tab .step-steps > li.done > a > .number {
+.night-mode #add-course-tab .step-steps>li.active>a>.number,
+.night-mode #add-course-tab .step-steps>li.done>a>.number {
     background-color: #ed2a26;
 }
 
-.night-mode #add-course-tab .step-steps > li.done:before {
+.night-mode #add-course-tab .step-steps>li.done:before {
     background-color: #ed2a26;
 }
 
@@ -1846,7 +1899,7 @@ Night Mood
     border: 1px solid #242424;
 }
 
-.night-mode #add-course-tab > .step-content .step-tab-gallery .custom-file-label {
+.night-mode #add-course-tab>.step-content .step-tab-gallery .custom-file-label {
     color: #c7c7c7;
     background-color: #333;
     border: 1px solid #242424;
@@ -1865,10 +1918,10 @@ Night Mood
 .night-mode .ui.form.swdh339 textarea:focus {
     background: #fff;
     color: #333;
-	border-top-left-radius: 0 !important;
-	border-top-right-radius: 0 !important;
-	border-bottom-left-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
 .night-mode .course_des_ttle {
@@ -1920,19 +1973,20 @@ Night Mood
 }
 
 .night-mode .srch_explore:focus+.icon8 {
-	color: #333 !important;
+    color: #333 !important;
 }
 
-.night-mode .chat__message__dt.active, .night-mode .chat__message__dt:hover {
+.night-mode .chat__message__dt.active,
+.night-mode .chat__message__dt:hover {
     border-left: 4px solid #ed2a26;
     background: #242424;
 }
 
-.night-mode .message-inner-dt > p {
+.night-mode .message-inner-dt>p {
     color: #fff !important;
 }
 
-.night-mode .message-dt.st3 .message-inner-dt > p {
+.night-mode .message-dt.st3 .message-inner-dt>p {
     background-color: #242424;
     color: #fff !important;
 }
@@ -2007,7 +2061,7 @@ Night Mood
 
 .night-mode .ui.selection.vchrt-dropdown.visible.dropdown>.text:not(.default) {
     font-weight: 400;
-    color: rgba(255,255,255,.8);
+    color: rgba(255, 255, 255, .8);
 }
 
 .night-mode .payout_content img {
@@ -2037,7 +2091,7 @@ Night Mood
 }
 
 .night-mode .payout__btn {
-    color: #fff !important; 
+    color: #fff !important;
 }
 
 .night-mode .payout__btn:hover {
@@ -2104,7 +2158,7 @@ Night Mood
 }
 
 .night-mode .page-item.disabled .page-link {
-    color: #727272!important;
+    color: #727272 !important;
     background-color: #313131;
     border-color: #333;
 }
@@ -2130,54 +2184,107 @@ Night Mood
 }
 
 .night-mode .adcrse1250 {
-	border: 1px solid #242424;
+    border: 1px solid #242424;
 }
 
 .night-mode .adcrse_body {
-	background: #242424;
+    background: #242424;
     border-left: 1px solid #242424;
     border-right: 1px solid #242424;
     border-bottom: 1px solid #242424;
 }
 
- /* all theme custom cards */ 
-.night-mode .nav-single-group ,
-.night-mode .setting-menu ,
-.night-mode .group-card ,
-.night-mode .events-list ,
-.night-mode .event-info-date ,
-.night-mode  ,
-.night-mode .nav-profile ,
-.night-mode .post ,
-.night-mode .post-new ,
-.night-mode .profile-friend-card ,
-.night-mode .contact-list-box{
+/* all theme custom cards */
+.night-mode .nav-single-group,
+.night-mode .setting-menu,
+.night-mode .group-card,
+.night-mode .events-list,
+.night-mode .event-info-date,
+.night-mode,
+.night-mode .nav-profile,
+.night-mode .post,
+.night-mode .post-new,
+.night-mode .profile-friend-card,
+.night-mode .contact-list-box {
     background-color: #000;
     box-shadow: 0px 2px 10px 0px #0000001a;
 }
 
 .night-mode #logo img {
-      display:none;
-  }
- .night-mode #logo .logo-inverse{
-      display:inline !important
-  }
- 
+    display: none;
+}
+
+.night-mode #logo .logo-inverse {
+    display: inline !important
+}
+
 /* Titles & texts */
-.night-mode .uk-h1, .night-mode h1, .night-mode .uk-h2, .night-mode h2, .night-mode .uk-h3, .night-mode h3, .night-mode .uk-h4, .night-mode h4, .night-mode .uk-h5, .night-mode h5, .night-mode .uk-h6, .night-mode h6, .night-mode .uk-text-black, .night-mode .uk-text-danger, .night-mode .uk-text-primary, .night-mode .uk-text-sucess, .night-mode .uk-text-muted, .night-mode .uk-card-default .uk-card-title, .night-mode .uk-card-default, .night-mode .uk-text-lead, .night-mode .text-black, .night-mode .text-danger, .night-mode .text-primary, .night-mode .text-sucess, .night-mode .text-muted, .night-mode .text-lead, .night-mode .section-header-left>*,.night-mode .contact-list-box p {
+.night-mode .uk-h1,
+.night-mode h1,
+.night-mode .uk-h2,
+.night-mode h2,
+.night-mode .uk-h3,
+.night-mode h3,
+.night-mode .uk-h4,
+.night-mode h4,
+.night-mode .uk-h5,
+.night-mode h5,
+.night-mode .uk-h6,
+.night-mode h6,
+.night-mode .uk-text-black,
+.night-mode .uk-text-danger,
+.night-mode .uk-text-primary,
+.night-mode .uk-text-sucess,
+.night-mode .uk-text-muted,
+.night-mode .uk-card-default .uk-card-title,
+.night-mode .uk-card-default,
+.night-mode .uk-text-lead,
+.night-mode .text-black,
+.night-mode .text-danger,
+.night-mode .text-primary,
+.night-mode .text-sucess,
+.night-mode .text-muted,
+.night-mode .text-lead,
+.night-mode .section-header-left>*,
+.night-mode .contact-list-box p {
     color: #fff !important;
 }
 
 
 /* button hover */
-.night-mode .button:hover, .night-mode .button.danger:hover, .night-mode .button.grey:hover, .night-mode .button-info:hover, .night-mode .button.white:hover, .night-mode .button.success:hover, .night-mode .button.secondary:hover, .night-mode .button.primary:hover, .night-mode .button.light:hover, .night-mode .button.dark:hover, .night-mode .button.default:hover, .night-mode .Markup-botton:hover, .night-mode :not(pre)>code:hover, .night-mode .uk-label:hover, .night-mode .uk-icon-button:hover, .night-mode .uk-modal-close-full:hover, .night-mode .uk-pagination>.uk-active>*, .night-mode .slidenav-next:hover, .night-mode .slidenav-prev:hover, .night-mode #backtotop a:hover, .night-mode .comment-by a.reply, .night-mode .Markup-botton:hover, .night-mode .Markup-botton::before, .night-mode .grid-slider-header .slide-nav-prev, .night-mode .grid-slider-header .slide-nav-next ,
-.night-mode ul.dropdown-user-menu li a i  ,
+.night-mode .button:hover,
+.night-mode .button.danger:hover,
+.night-mode .button.grey:hover,
+.night-mode .button-info:hover,
+.night-mode .button.white:hover,
+.night-mode .button.success:hover,
+.night-mode .button.secondary:hover,
+.night-mode .button.primary:hover,
+.night-mode .button.light:hover,
+.night-mode .button.dark:hover,
+.night-mode .button.default:hover,
+.night-mode .Markup-botton:hover,
+.night-mode :not(pre)>code:hover,
+.night-mode .uk-label:hover,
+.night-mode .uk-icon-button:hover,
+.night-mode .uk-modal-close-full:hover,
+.night-mode .uk-pagination>.uk-active>*,
+.night-mode .slidenav-next:hover,
+.night-mode .slidenav-prev:hover,
+.night-mode #backtotop a:hover,
+.night-mode .comment-by a.reply,
+.night-mode .Markup-botton:hover,
+.night-mode .Markup-botton::before,
+.night-mode .grid-slider-header .slide-nav-prev,
+.night-mode .grid-slider-header .slide-nav-next,
+.night-mode ul.dropdown-user-menu li a i,
 .night-mode header .head_user .opts_icon:hover,
-.night-mode header .head_user .opts_icon:focus ,
-.night-mode header .opts_icon_link:hover ,
-.night-mode .post-comment-opt:hover, .night-mode .post-comment-opt:focus ,
-.night-mode header .icon-browse .icon-menu-item:hover{
-    background-color: #242424  !important;
+.night-mode header .head_user .opts_icon:focus,
+.night-mode header .opts_icon_link:hover,
+.night-mode .post-comment-opt:hover,
+.night-mode .post-comment-opt:focus,
+.night-mode header .icon-browse .icon-menu-item:hover {
+    background-color: #242424 !important;
     color: white !important;
 }
 
@@ -2190,7 +2297,7 @@ Night Mood
 .night-mode .uk-accordion-title::before,
 .night-mode .dropdown-user-name,
 .night-mode .dropdown-user-name span,
-.night-mode .comment-by ,
+.night-mode .comment-by,
 .night-mode .post .post-state .post-state-btns {
     color: #c7c7c7 !important;
 }
@@ -2201,35 +2308,39 @@ Night Mood
 .night-mode .uk-accordion-title::before,
 .night-mode .responsive-tab.style-2.uk-active,
 .night-mode .responsive-tab .uk-active a,
-.night-mode .uk-tab>.uk-active>a{
+.night-mode .uk-tab>.uk-active>a {
     color: white !important;
 }
- 
-/* all borders  */ 
-.night-mode .sidebar .sidebar_innr .sections ,
-.night-mode ul.dropdown-user-menu .menu-divider, 
+
+/* all borders  */
+.night-mode .sidebar .sidebar_innr .sections,
+.night-mode ul.dropdown-user-menu .menu-divider,
 .night-mode ul.dropdown-search-list .list-title,
 .night-mode ul.dropdown-search-list .menu-divider,
-.night-mode .dropdown-notifications-content ul li, 
+.night-mode .dropdown-notifications-content ul li,
 .night-mode .dropdown-notifications-headline,
-.night-mode .dropdown-notifications-footer ,
-.night-mode .dropdown-user-details, 
-.night-mode .uk-tab>.uk-active>a ,
-.night-mode .main_sidebar .sidebar-header ,
-.night-mode pre , 
+.night-mode .dropdown-notifications-footer,
+.night-mode .dropdown-user-details,
+.night-mode .uk-tab>.uk-active>a,
+.night-mode .main_sidebar .sidebar-header,
+.night-mode pre,
 .night-mode .nav-profile,
-.night-mode .contact-list-media img ,
-.night-mode .contact-list-media .online-dot , 
-.night-mode .contact-list-media .offline-dot{
+.night-mode .contact-list-media img,
+.night-mode .contact-list-media .online-dot,
+.night-mode .contact-list-media .offline-dot {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 
 
 /* Remove border color  */
-.night-mode .post .post-state ,
+.night-mode .post .post-state,
 .night-mode header .head_search .head_search_cont input,
-.night-mode header,  .night-mode header .icon-browse .more-app, .night-mode .section-header, .night-mode .footer, .night-mode .uk-tab::before{
+.night-mode header,
+.night-mode header .icon-browse .more-app,
+.night-mode .section-header,
+.night-mode .footer,
+.night-mode .uk-tab::before {
     border-color: transparent !important;
 }
 
@@ -2248,21 +2359,21 @@ Night Mood
     background-color: #201f23 !important;
 }
 
-.night-mode .bg-white, 
-.night-mode .bg-transparent, 
-.night-mode .slide-nav-next.uk-invisible{
+.night-mode .bg-white,
+.night-mode .bg-transparent,
+.night-mode .slide-nav-next.uk-invisible {
     background-color: #131313 !important;
 }
 
-.night-mode .responsive-tab:before ,
-.night-mode .responsive-tab .uk-active a:before ,
- .night-mode .sidebar .sidebar_innr .sections li a:hover{
+.night-mode .responsive-tab:before,
+.night-mode .responsive-tab .uk-active a:before,
+.night-mode .sidebar .sidebar_innr .sections li a:hover {
     background: transparent;
 }
- 
-  
+
+
 /* framework */
-.night-mode .dropdown-notifications-footer ,
+.night-mode .dropdown-notifications-footer,
 .night-mode .uk-card-default,
 .night-mode .uk-card-primary,
 .night-mode .uk-card-muted,
@@ -2293,7 +2404,7 @@ Night Mood
 .night-mode .uk-list-striped>li:nth-of-type(odd),
 .night-mode .uk-overlay-default,
 .night-mode .uk-table-striped>tr:nth-of-type(odd),
-.night-mode .uk-table-striped tbody tr:nth-of-type(odd)  ,
+.night-mode .uk-table-striped tbody tr:nth-of-type(odd),
 .night-mode .glyph.fs1:hover span:not([class*="mls"]) {
     background: #12141E !important;
 }
@@ -2311,10 +2422,10 @@ Night Mood
 .night-mode .uk-textarea,
 .night-mode .uk-heading-divider,
 .night-mode .uk-input:disabled,
-.night-mode .uk-select:disabled, 
-.night-mode .uk-textarea:disabled ,
+.night-mode .uk-select:disabled,
+.night-mode .uk-textarea:disabled,
 .night-mode .uk-heading-bullet::before,
-.night-mode .uk-divider-small::after ,
+.night-mode .uk-divider-small::after,
 .night-mode .uk-list-divider>li:nth-child(n+2),
 .night-mode .uk-table-divider>tr:not(:first-child),
 .night-mode .uk-table-divider> :not(:first-child)>tr,
@@ -2328,10 +2439,10 @@ Night Mood
 
 
 .night-mode .syntaxhighlighter,
-.night-mode .syntaxhighlighter .line.alt1 ,
-.night-mode .syntaxhighlighter .line.alt2 , 
-.night-mode pre ,
-.night-mode .responsive-tab.style-4 :before{
+.night-mode .syntaxhighlighter .line.alt1,
+.night-mode .syntaxhighlighter .line.alt2,
+.night-mode pre,
+.night-mode .responsive-tab.style-4 :before {
     background-color: #393942 !important;
 }
 
@@ -2340,12 +2451,28 @@ Night Mood
     background-color: #45454d !important;
 
 }
- 
-  
-.night-mode .dropdown-notifications-content ul li:hover, .night-mode .notifications-not-read, .night-mode ul.dropdown-search-list .list-title, .night-mode ul.dropdown-search-list li a:hover, .night-mode .setting-menu ul li a:hover, .night-mode ul.dropdown-user-menu li a:hover, .night-mode .sidebar .sidebar_innr .sections li.active a, .night-mode .sidebar .sidebar_innr .sections li a:focus, .night-mode .sidebar .sidebar_innr .sections li.active a, .night-mode .sidebar .sidebar_innr .sections li.active a, .night-mode .contact-list:hover, .night-mode .bg-secondary-hover:hover, .night-mode .responsive-tab a span, .night-mode .event-info-date, .night-mode .post .post-state .post-state-btns:hover, .night-mode .post-new-type > a:hover , .night-mode .post-comment-text-inner ,
-.night-mode .contact-list-box-btns .button  ,
-.night-mode .dropdown-user-details:before ,
-.night-mode header .icon-browse .more-app ,
+
+
+.night-mode .dropdown-notifications-content ul li:hover,
+.night-mode .notifications-not-read,
+.night-mode ul.dropdown-search-list .list-title,
+.night-mode ul.dropdown-search-list li a:hover,
+.night-mode .setting-menu ul li a:hover,
+.night-mode ul.dropdown-user-menu li a:hover,
+.night-mode .sidebar .sidebar_innr .sections li.active a,
+.night-mode .sidebar .sidebar_innr .sections li a:focus,
+.night-mode .sidebar .sidebar_innr .sections li.active a,
+.night-mode .sidebar .sidebar_innr .sections li.active a,
+.night-mode .contact-list:hover,
+.night-mode .bg-secondary-hover:hover,
+.night-mode .responsive-tab a span,
+.night-mode .event-info-date,
+.night-mode .post .post-state .post-state-btns:hover,
+.night-mode .post-new-type>a:hover,
+.night-mode .post-comment-text-inner,
+.night-mode .contact-list-box-btns .button,
+.night-mode .dropdown-user-details:before,
+.night-mode header .icon-browse .more-app,
 .night-mode .list-items:hover {
     background-color: #191d2f !important;
 }
@@ -2362,19 +2489,20 @@ Night Mood
     background-color: rgb(255, 255, 255);
 }
 
-.night-mode .responsive-tab.style-4 .uk-active a:before ,
+.night-mode .responsive-tab.style-4 .uk-active a:before,
 .night-mode .responsive-tab.style-2 .uk-active a:before {
     background: white !important;
 }
 
- 
-.night-mode .photo-card ,
-.night-mode .nav-single-group ,
+
+.night-mode .photo-card,
+.night-mode .nav-single-group,
 .night-mode .post .post-state-details * img {
-    border-color:#08090f
+    border-color: #08090f
 }
-.night-mode .btn-subscribe .button:before ,
-.night-mode .post-comment-text::before{
+
+.night-mode .btn-subscribe .button:before,
+.night-mode .post-comment-text::before {
     border-right-color: #201f23;
 }
 
@@ -2447,8 +2575,8 @@ Night Mood
     border-bottom: 1px solid #545454;
     border-right: 1px solid #545454;
     border-left: 0;
-	color: #fff !important;
-	background: #242424;
+    color: #fff !important;
+    background: #242424;
 }
 
 .night-mode .label25 {
@@ -2458,13 +2586,13 @@ Night Mood
 .night-mode .form_input_1 {
     border: 1px solid #333;
     background: #333;
-	color: #787878 !important;
+    color: #787878 !important;
 }
 
 .night-mode .form_input_1:focus {
     border: 1px solid #242424 !important;
     box-shadow: none;
-	background: #fff;
+    background: #fff;
 }
 
 .night-mode .video-category label span {
@@ -2478,7 +2606,7 @@ Night Mood
     border: 2px dashed #545454;
 }
 
-.night-mode .upload-btn [type="file"] + label {
+.night-mode .upload-btn [type="file"]+label {
     color: #fff;
     background-color: #ed2a26;
     border: 1px solid #ed2a26;
@@ -2528,7 +2656,7 @@ Night Mood
 
 .night-mode .int4856 {
     color: #fff !important;
-    background-color: #545454!important;
+    background-color: #545454 !important;
     border: 1px solid #333 !important;
     border-radius: 3px !important;
 }
@@ -2581,16 +2709,16 @@ Night Mood
 }
 
 .night-mode .back-to-curriculum {
-    background: rgb(247,247,247,0.2);
+    background: rgb(247, 247, 247, 0.2);
 }
 
 .night-mode .btn1452 {
     color: #fff;
-    background: rgb(247,247,247,0.2);
+    background: rgb(247, 247, 247, 0.2);
 }
 
 .night-mode .enptdwn {
-    background: rgb(247,247,247,0.2);
+    background: rgb(247, 247, 247, 0.2);
     opacity: 1 !important;
 }
 
@@ -2625,9 +2753,10 @@ Night Mood
 
 /* --- New Css --- */
 
-.night-mode .bootstrap-select .dropdown-item.active, .night-mode .bootstrap-select .dropdown-item:active {
+.night-mode .bootstrap-select .dropdown-item.active,
+.night-mode .bootstrap-select .dropdown-item:active {
     color: #fff !important;
-	opacity: 1;
+    opacity: 1;
     background-color: #242424 !important;
 }
 
@@ -2636,11 +2765,12 @@ Night Mood
 }
 
 .night-mode .bootstrap-select .dropdown-item:hover {
-	color: #fff !important;
-	background-color: #242424 !important;
+    color: #fff !important;
+    background-color: #242424 !important;
 }
 
-.night-mode .btn-light.focus, .night-mode .btn-light:focus {
+.night-mode .btn-light.focus,
+.night-mode .btn-light:focus {
     color: #fff !important;
     background-color: #333 !important;
     border-color: #242424 !important;
@@ -2652,7 +2782,10 @@ Night Mood
     border: 1px solid #242424 !important;
 }
 
-.night-mode .bootstrap-select>.dropdown-toggle.bs-placeholder, .night-mode .bootstrap-select>.dropdown-toggle.bs-placeholder:active, .night-mode .bootstrap-select>.dropdown-toggle.bs-placeholder:focus, .bootstrap-select>.dropdown-toggle.bs-placeholder:hover {
+.night-mode .bootstrap-select>.dropdown-toggle.bs-placeholder,
+.night-mode .bootstrap-select>.dropdown-toggle.bs-placeholder:active,
+.night-mode .bootstrap-select>.dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select>.dropdown-toggle.bs-placeholder:hover {
     color: #797979 !important;
 }
 
@@ -2673,14 +2806,17 @@ Night Mood
     background-color: #1e1e1e;
     color: #ffffff;
 }
+
 .night-mode .learning-card {
     background-color: #2a2a2a;
     color: #ffffff;
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
 }
+
 .night-mode .icon-badge {
     background: #444;
 }
+
 .night-mode .progress-bar {
     background-color: #ffcc00;
 }

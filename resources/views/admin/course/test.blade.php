@@ -232,7 +232,7 @@
                                         </form>
                                         <!-- DataTable to display quiz data -->
                                         @if (!isset($test))
-                                            <table id="quizDataTable" class="display" style="width:100%">
+                                            <table id="quizDataTable" class="display mt-2" style="width:100%">
                                                 <thead>
                                                     <tr>
                                                         <th>Questions</th>
@@ -244,21 +244,6 @@
                                                     <!-- Quiz data will be populated here -->
                                                 </tbody>
                                             </table>
-                                        @else
-                                            {{-- <table id="testTable" class="table table-striped table-bordered">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Test Title</th>
-                                                        <th>Passing Mark</th>
-                                                        <th>Total Marks</th>
-                                                        <th>Time</th>
-                                                        <th>Questions</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table> --}}
                                         @endif
                                         <div class="mt-4 text-end">
                                             <button type="button" class="main-btn color btn-hover"

@@ -19,7 +19,7 @@
                                 <div class="ui search focus mt-30 lbel25">
                                     <label for="title-field">Video Title*</label>
                                     <div class="ui left icon">
-                                        <input type="text" name="video_title" id="meta_keyword-field"
+                                        <input type="text" name="video_title" id="title-field"
                                             class="prompt srch_explore form-control"
                                             placeholder="Course meta keyword here" required>
                                         <div class="invalid-feedback">Video Title is required.</div>
