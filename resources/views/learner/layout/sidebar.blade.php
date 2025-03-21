@@ -73,12 +73,6 @@
 						<span class="menu--label">Setting</span>
 					</a>
 				</li>
-				<li class="menu--item">
-					<a href="feedback.html" class="menu--link" title="Send Feedback">
-						<i class='uil uil-comment-alt-exclamation menu--icon'></i>
-						<span class="menu--label">Send Feedback</span>
-					</a>
-				</li>
 			</ul>
 		</div>
 	</div>

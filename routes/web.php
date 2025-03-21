@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserVideoTrackerController;
 use App\Models\certificate;
 use App\Models\faq;
+use App\Models\sub_category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CartController;
@@ -281,3 +282,7 @@ Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest']
 
 Route::get('/total/learners',[DashboardController::class,'learner'])->name('totalLearners');
 Route::get('/total/courses',[DashboardController::class,'course'])->name('totalCourses');
+Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
+    $subcategories = sub_category::where('category_id', $categoryId)->get();
+    return response()->json($subcategories);
+});
