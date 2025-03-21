@@ -41,4 +41,8 @@ class course extends Model
     public function userCourse(){
         return $this->hasMany(user_course::class);
     }
+    public function review(){
+        return $this->hasMany(review::class);
+    }
+    
 }

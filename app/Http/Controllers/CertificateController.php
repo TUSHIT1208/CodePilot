@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\certificate;
 use App\Models\test;
-use App\Models\PaymentTransaction;
+use App\Models\certificate;
 use App\Models\test_result;
-use App\Models\test_result_answer;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Mail\CourseCertificate;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\PaymentTransaction;
+use App\Models\test_result_answer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CertificateController extends Controller
 {
@@ -63,7 +65,9 @@ class CertificateController extends Controller
         // return $course;
 
         $test = test::with(['testquestion.testoption'])->where('course_id', $course)->first();
+
         logger($test);
+
         if (!$test) {
             logger($course);
             logger('No test found for this course');
@@ -78,6 +82,7 @@ class CertificateController extends Controller
     }
     public function cirty()
     {
+        logger('in cirty');
         $course = session('course');
         $test_id = test::where('course_id', $course)->first();
         $tid = $test_id->id;
@@ -89,8 +94,20 @@ class CertificateController extends Controller
         //$test=test::where()
         //return $certificate;
         // Load the view and pass the certificate data
+        logger($certificate);
+        $test_result = test_result::where('user_id', auth()->id())
+        ->where('test_id', $tid)
+        ->latest() //last record
+        ->first();
+        logger($test_result);
         $pdf = PDF::loadView('learner.course.certificate.certificate', compact('tname', 'certificate'));
-
+        logger('pdf');
+        try {
+            Mail::to(Auth::user()->email)->send(new CourseCertificate($certificate, $test_result, $pdf));
+            logger('Certificate email sent successfully');
+        } catch (\Exception $e) {
+            logger(' Error sending email: ' . $e->getMessage());
+        }
         // Return the PDF as a downloadable file
         return $pdf->download('certificate.pdf');
     }
