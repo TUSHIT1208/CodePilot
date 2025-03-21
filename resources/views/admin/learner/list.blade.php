@@ -12,7 +12,6 @@
                         <h2 class="st_title"><i class="uil uil-folder-plus"></i> Learners</h2>
                     </div>
                 </div>
-                
                     <div class="col-md-12">
                         <div class="card_dash1">
                             <div class="row mt-2">
