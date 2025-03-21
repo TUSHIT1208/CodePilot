@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\role;
 use App\Models\User;
 use App\Models\course;
+use App\Models\category;
 use App\Models\user_course;
 use Illuminate\Http\Request;
 use App\Models\PaymentTransaction;
 use Yajra\DataTables\Facades\DataTables;
-use Carbon\Carbon;
 
 
 class DashboardController extends Controller
@@ -153,12 +154,26 @@ class DashboardController extends Controller
         //
     }
 
-    public function course()
+
+
+    public function course(Request $request)
     {
-        $courses = Course::with(['courseattachment', 'user'])->get();
-        return view('admin.report.total_course.list', compact('courses'));
-        // return $courses;
+        if ($request->ajax()) {
+            $courses = Course::with(['courseattachment', 'user'])->select('id', 'title', 'user_id', 'created_at');
+
+            return datatables()->of($courses)
+                ->addColumn('instructor', function ($course) {
+                    return $course->user ? $course->user->name : 'N/A';
+                })
+                ->addColumn('attachments', function ($course) {
+                    return $course->courseattachment ? count($course->courseattachment) . ' files' : 'No Attachments';
+                })
+                ->make(true);
+        }
+
+        return view('admin.report.total_course.list');
     }
+
 
     public function learner(Request $request)
     {
@@ -191,6 +206,8 @@ class DashboardController extends Controller
         }
 
         $learners = User::where('role_id', 3)->get();
-        return view('admin.report.total_learner.list', compact('learners'));
+        $categories = category::all();
+        $userCourses = user_course::get();
+        return view('admin.report.total_learner.list', compact('learners','categories'));
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Models\faq;
+use App\Models\category;
 use App\Models\certificate;
+use App\Models\sub_category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CartController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\purchesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactusController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TestOptionController;
 use App\Http\Controllers\TestResultController;
@@ -293,3 +295,7 @@ Route::get('/total/earning',[DashboardController::class,'total_earning'])->name(
 Route::get('/total/enroll',[DashboardController::class,'total_enroll'])->name('total.enroll');
 Route::get('/total/learners',[DashboardController::class,'learner'])->name('totalLearners');
 Route::get('/total/courses',[DashboardController::class,'course'])->name('totalCourses');
+Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
+    $subcategories = sub_category::where('category_id', $categoryId)->get();
+    return response()->json($subcategories);
+});

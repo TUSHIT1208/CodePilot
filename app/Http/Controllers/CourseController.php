@@ -445,10 +445,14 @@ class CourseController extends Controller
             $course = Course::where('id', $request->course_id)
                 ->where('user_id', auth()->id()) // Ensure user owns the course
                 ->firstOrFail();
+<<<<<<< HEAD
         
             logger('Course found: ' . $course->title);
         
             // Check if already published
+=======
+
+>>>>>>> 4c1c3348840ac3df724932c550c4ad38d83ba813
             if ($course->is_active == 1) {
                 logger('Course is already published.');
                 return response()->json(['success' => false, 'message' => 'Course is already published.'], 400);
@@ -458,6 +462,17 @@ class CourseController extends Controller
             if (!$hasTest) {
                 return response()->json(['success' => false, 'message' => 'At least one test is required to publish this course.'], 400);
             }
+<<<<<<< HEAD
+=======
+
+            $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
+            if (!$hasMedia) {
+                return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
+            }
+
+            $course->is_active = 1;
+            $course->save();
+>>>>>>> 4c1c3348840ac3df724932c550c4ad38d83ba813
 
             $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
             if (!$hasMedia) {

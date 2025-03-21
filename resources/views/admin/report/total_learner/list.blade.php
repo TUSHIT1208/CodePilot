@@ -24,9 +24,26 @@
                                     <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have
                                         any
                                         categories yet. Add one now to get started!</p>
-
                                 </div>
                             @else
+                                <div class="row mb-4">
+                                    <div class="col-sm-3">
+                                        <label for="category">Select Category</label>
+                                        <select id="category" class="form-control">
+                                            <option value="">-- Select Category --</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label for="subcategory">Select Subcategory</label>
+                                        <select id="subcategory" class="form-control">
+                                            <option value="">-- Select Subcategory --</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="table-responsive mt-3">
                                     <table class="ucp-table" id="myTable">
                                         <thead>
@@ -49,6 +66,7 @@
         @include('admin.layouts.footer')
         <script>
             $(document).ready(function() {
+                // Initialize DataTable
                 $('#myTable').DataTable({
                     processing: true,
                     serverSide: true,
@@ -73,6 +91,28 @@
                         }
                     ]
                 });
+
+                // Load Subcategories on Category Selection
+                $('#category').change(function() {
+                    var categoryId = $(this).val();
+                    if (categoryId) {
+                        $.ajax({
+                            url: "/get-subcategories/" + categoryId,
+                            type: "GET",
+                            success: function(data) {
+                                $('#subcategory').empty().append(
+                                    '<option value="">Select Subcategory</option>');
+                                $.each(data, function(key, value) {
+                                    $('#subcategory').append('<option value="' + value.id +
+                                        '">' + value.name + '</option>');
+                                });
+                            }
+                        });
+                    } else {
+                        $('#subcategory').empty().append('<option value="">Select Subcategory</option>');
+                    }
+                });
             });
         </script>
+
     @endsection
