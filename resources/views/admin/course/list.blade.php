@@ -56,6 +56,11 @@
                                                     <div class="eps_dots more_dropdown">
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                         <div class="dropdown-content">
+
+                                                            <span class="add-to-home-text" data-id="{{ $course->id }}" style="cursor: pointer;">
+                                                                <i class="uil uil-windsock"></i> add to home
+                                                            </span>
+
                                                             <span class="publish-text" data-id="{{ $course->id }}"
                                                                 style="cursor: pointer;">
                                                                 <i class="uil uil-windsock"></i> Publish
@@ -70,7 +75,7 @@
                                                         <span
                                                             class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
-                                                    </div>
+                                                    </div>  
                                                     <a href="{{ route('course.show', $course->id) }}"
                                                         class="crse14s">{{ $course->title }}</a>
                                                     <div class="row">
@@ -84,7 +89,7 @@
                                                                 @csrf
                                                                 @method('PATCH')
                                                                 <div class="toggle-button mt-2">
-                                                                    <input type="checkbox" class="toggle-input"
+                                                                     <input type="checkbox" class="toggle-input"
                                                                         id="toggle{{ $course->id }}"
                                                                         data-id="{{ $course->id }}"
                                                                         {{ $course->is_active ? 'checked' : '' }}
@@ -101,7 +106,16 @@
                                                         <p class="cr1fot">By <a
                                                                 href="#">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown' }}</a>
                                                         </p>
-                                                        <div class="prce142">{{ $course->price == 0 ? 'Free' : '₹' . $course->price }}</div>
+                                                        <div class="prce142">
+                                                            @if ($course->price == 0)
+                                                                Free
+                                                            @else
+                                                                @if ($course->discount > 0)
+                                                                <s style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
+                                                                @endif
+                                                                ₹{{ $course->price - ($course->discount ?? 0) }}
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -119,53 +133,56 @@
             $(document).ready(function() {
                 $('.publish-text').click(function() {
                     var courseId = $(this).data('id');
+
                     Swal.fire({
                         title: "Are you sure?",
                         text: "Do you want to publish this course?",
                         icon: "warning",
-                        background: '#f8f9fa', // Light background color
-                        color: '#343a40', // Dark text color
+                        background: '#f8f9fa',
+                        color: '#343a40',
                         showCancelButton: true,
-                        confirmButtonColor: "#28a745", // Green color for confirm button
-                        cancelButtonColor: "#dc3545", // Red color for cancel button
+                        confirmButtonColor: "#28a745",
+                        cancelButtonColor: "#dc3545",
                         confirmButtonText: "Yes, Publish it!",
-                        cancelButtonText: "No, Cancel",
-                        customClass: {
-                            title: 'swal-title', // Custom class for title
-                            content: 'swal-content', // Custom class for content
-                            confirmButton: 'swal-confirm-button', // Custom class for confirm button
-                            cancelButton: 'swal-cancel-button' // Custom class for cancel button
-                        }
+                        cancelButtonText: "No, Cancel"
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                url: "{{ route('course.publish') }}", // Add your URL here
+                                url: "{{ route('course.publish') }}", // Ensure the correct route
                                 type: "POST",
                                 data: {
                                     _token: "{{ csrf_token() }}",
-                                    course_id: courseId // Include course ID in the data
+                                    course_id: courseId
                                 },
                                 success: function(response) {
                                     Swal.fire({
                                         title: "Published!",
-                                        text: "The course has been published.",
+                                        text: response
+                                        .message, // Display success message
                                         icon: "success",
-                                        background: '#d4edda', // Light green background for success
-                                        color: '#155724', // Dark green text color
-                                        confirmButtonColor: "#28a745" // Green color for confirm button
+                                        background: '#d4edda',
+                                        color: '#155724',
+                                        confirmButtonColor: "#28a745"
+                                    }).then(() => {
+                                        location
+                                    .reload(); // Reload page only after success
                                     });
-                                    location.reload(); // Reload page after update
                                 },
                                 error: function(xhr) {
-                                    var errorMessage = xhr.responseJSON.message ||
-                                        "Something went wrong.";
+                                    var errorMessage = "Something went wrong.";
+
+                                    if (xhr.status === 400) {
+                                        // Handle validation errors (e.g., missing test/media)
+                                        errorMessage = xhr.responseJSON.message;
+                                    }
+
                                     Swal.fire({
-                                        title: "Error!",
+                                        title: "Warning!",
                                         text: errorMessage,
-                                        icon: "error",
-                                        background: '#f8d7da', // Light red background for error
-                                        color: '#721c24', // Dark red text color
-                                        confirmButtonColor: "#dc3545" // Red color for confirm button
+                                        icon: "warning",
+                                        background: '#f8d7da',
+                                        color: '#721c24',
+                                        confirmButtonColor: "#dc3545"
                                     });
                                 }
                             });
@@ -220,4 +237,63 @@
                     .catch(error => console.error('Error:', error));
             }
         </script>
-    @endsection
+        <script>
+            $(document).ready(function () {
+                $('.add-to-home-text').click(function () {
+                    var courseId = $(this).data('id');
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Do you want to add this course to home?",
+                        icon: "warning",
+                        background: '#f8f9fa',
+                        color: '#343a40',
+                        showCancelButton: true,
+                        confirmButtonColor: "#28a745",
+                        cancelButtonColor: "#dc3545",
+                        confirmButtonText: "Yes, Add it!",
+                        cancelButtonText: "No, Cancel",
+                        customClass: {
+                            title: 'swal-title',
+                            content: 'swal-content',
+                            confirmButton: 'swal-confirm-button',
+                            cancelButton: 'swal-cancel-button'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "{{ route('courses.addToHome') }}", // Add your route here
+                                type: "POST",
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                    course_id: courseId
+                                },
+                                success: function (response) {
+                                    Swal.fire({
+                                        title: "Added to Home!",
+                                        text: "The course has been added to home.",
+                                        icon: "success",
+                                        background: '#d4edda',
+                                        color: '#155724',
+                                        confirmButtonColor: "#28a745"
+                                    });
+                                    location.reload(); // Reload page after update
+                                },
+                                error: function (xhr) {
+                                    var errorMessage = xhr.responseJSON.message || "Something went wrong.";
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: errorMessage,
+                                        icon: "error",
+                                        background: '#f8d7da',
+                                        color: '#721c24',
+                                        confirmButtonColor: "#dc3545"
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+
+@endsection

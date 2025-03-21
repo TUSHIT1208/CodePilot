@@ -255,280 +255,39 @@
                                     <div class="student_reviews">
                                         <div class="row">
                                             <div class="col-lg-5">
-                                                <div class="reviews_left">
-                                                    <h3>Student Feedback</h3>
-                                                    <div class="total_rating">
-                                                        <div class="_rate001">4.6</div>
-                                                        <div class="rating-box">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star half-star"></span>
+                                                <form action="{{ route('review.store') }}" method="POST" id="review-form">
+                                                    @csrf
+                                                    <input type="hidden" name="course_id" value="{{ $courseDetail->id }}">
+                                                
+                                                    <div class="review-container">
+                                                        <h3 class="review-title">Give Your Review</h3>
+                                                
+                                                        <!-- Star Rating -->
+                                                        <div class="rating-stars">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <span class="star" data-value="{{ $i }}">★</span>
+                                                            @endfor
+                                                            <input type="hidden" name="rating" id="rating-value" value="0">
                                                         </div>
-                                                        <div class="_rate002">Course Rating</div>
+                                                
+                                                        <!-- Review Text -->
+                                                        <textarea name="review" id="review-text" class="review-input" placeholder="Write your review..." rows="5"></textarea>
+                                                
+                                                        <!-- Submit Button -->
+                                                        <button type="submit" class="submit-btn" id="submit-review">Submit Review</button>
                                                     </div>
-                                                    <div class="_rate003">
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-70" role="progressbar"
-                                                                    aria-valuenow="70" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">70%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-30" role="progressbar"
-                                                                    aria-valuenow="30" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">40%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-5" role="progressbar"
-                                                                    aria-valuenow="10" aria-valuemin="0"
-                                                                    aria-valuemax="100"></div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">5%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-2" role="progressbar"
-                                                                    aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
-                                                                </div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">1%</div>
-                                                        </div>
-                                                        <div class="_rate004">
-                                                            <div class="progress progress1">
-                                                                <div class="progress-bar w-1" role="progressbar"
-                                                                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                                                </div>
-                                                            </div>
-                                                            <div class="rating-box">
-                                                                <span class="rating-star full-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                                <span class="rating-star empty-star"></span>
-                                                            </div>
-                                                            <div class="_rate002">1%</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </form>   
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="review_right">
                                                     <div class="review_right_heading">
                                                         <h3>Reviews</h3>
-                                                        <div class="review_search">
-                                                            <input class="rv_srch" type="text"
-                                                                placeholder="Search reviews...">
-                                                            <button class="rvsrch_btn"><i
-                                                                    class='uil uil-search'></i></button>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="review_all120">
-                                                    <div class="review_item">
-                                                        <div class="review_usr_dt">
-                                                            <img src="images/left-imgs/img-1.jpg" alt="">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">John Doe</h4>
-                                                                <span class="time_145">2 hour ago</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-box mt-20">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star half-star"></span>
-                                                        </div>
-                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
-                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
-                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
-                                                        <div class="rpt100">
-                                                            <span>Was this review helpful?</span>
-                                                            <div class="radio--group-inline-container">
-                                                                <div class="radio-item">
-                                                                    <input id="radio-1" name="radio" type="radio">
-                                                                    <label for="radio-1" class="radio-label">Yes</label>
-                                                                </div>
-                                                                <div class="radio-item">
-                                                                    <input id="radio-2" name="radio" type="radio">
-                                                                    <label for="radio-2" class="radio-label">No</label>
-                                                                </div>
-                                                            </div>
-                                                            <a href="#" class="report145">Report</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <div class="review_usr_dt">
-                                                            <img src="images/left-imgs/img-2.jpg" alt="">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">Jassica William</h4>
-                                                                <span class="time_145">12 hour ago</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-box mt-20">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star empty-star"></span>
-                                                        </div>
-                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
-                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
-                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
-                                                        <div class="rpt100">
-                                                            <span>Was this review helpful?</span>
-                                                            <div class="radio--group-inline-container">
-                                                                <div class="radio-item">
-                                                                    <input id="radio-3" name="radio1" type="radio">
-                                                                    <label for="radio-3" class="radio-label">Yes</label>
-                                                                </div>
-                                                                <div class="radio-item">
-                                                                    <input id="radio-4" name="radio1" type="radio">
-                                                                    <label for="radio-4" class="radio-label">No</label>
-                                                                </div>
-                                                            </div>
-                                                            <a href="#" class="report145">Report</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <div class="review_usr_dt">
-                                                            <img src="images/left-imgs/img-3.jpg" alt="">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">Albert Dua</h4>
-                                                                <span class="time_145">5 days ago</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-box mt-20">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star half-star"></span>
-                                                            <span class="rating-star empty-star"></span>
-                                                        </div>
-                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
-                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
-                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
-                                                        <div class="rpt100">
-                                                            <span>Was this review helpful?</span>
-                                                            <div class="radio--group-inline-container">
-                                                                <div class="radio-item">
-                                                                    <input id="radio-5" name="radio2" type="radio">
-                                                                    <label for="radio-5" class="radio-label">Yes</label>
-                                                                </div>
-                                                                <div class="radio-item">
-                                                                    <input id="radio-6" name="radio2" type="radio">
-                                                                    <label for="radio-6" class="radio-label">No</label>
-                                                                </div>
-                                                            </div>
-                                                            <a href="#" class="report145">Report</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <div class="review_usr_dt">
-                                                            <img src="images/left-imgs/img-4.jpg" alt="">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">Zoena Singh</h4>
-                                                                <span class="time_145">15 days ago</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-box mt-20">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                        </div>
-                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
-                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
-                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
-                                                        <div class="rpt100">
-                                                            <span>Was this review helpful?</span>
-                                                            <div class="radio--group-inline-container">
-                                                                <div class="radio-item">
-                                                                    <input id="radio-7" name="radio3" type="radio">
-                                                                    <label for="radio-7" class="radio-label">Yes</label>
-                                                                </div>
-                                                                <div class="radio-item">
-                                                                    <input id="radio-8" name="radio3" type="radio">
-                                                                    <label for="radio-8" class="radio-label">No</label>
-                                                                </div>
-                                                            </div>
-                                                            <a href="#" class="report145">Report</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <div class="review_usr_dt">
-                                                            <img src="images/left-imgs/img-5.jpg" alt="">
-                                                            <div class="rv1458">
-                                                                <h4 class="tutor_name1">Joy Dua</h4>
-                                                                <span class="time_145">20 days ago</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="rating-box mt-20">
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star full-star"></span>
-                                                            <span class="rating-star empty-star"></span>
-                                                            <span class="rating-star empty-star"></span>
-                                                        </div>
-                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
-                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
-                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
-                                                        <div class="rpt100">
-                                                            <span>Was this review helpful?</span>
-                                                            <div class="radio--group-inline-container">
-                                                                <div class="radio-item">
-                                                                    <input id="radio-9" name="radio4" type="radio">
-                                                                    <label for="radio-9" class="radio-label">Yes</label>
-                                                                </div>
-                                                                <div class="radio-item">
-                                                                    <input id="radio-10" name="radio4" type="radio">
-                                                                    <label for="radio-10" class="radio-label">No</label>
-                                                                </div>
-                                                            </div>
-                                                            <a href="#" class="report145">Report</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="review_item">
-                                                        <a href="#" class="more_reviews">See More Reviews</a>
-                                                    </div>
+                                                <div class="review_all120" id="review-container">
+                                                    <!-- Dynamic Reviews Will be Loaded Here -->
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -540,4 +299,133 @@
             </div>
         </div>
         @include('admin.layouts.footer')
+        <script>
+            $(document).ready(function () {
+                const courseId = {{ $courseDetail->id }};
+                const stars = $('.star');
+                const ratingValue = $('#rating-value');
+        
+                // ⭐ Handle star click event
+                stars.on('click', function () {
+                    const value = parseInt($(this).data('value'));
+                    ratingValue.val(value);
+                    updateStars(value);
+                });
+        
+                // ⭐ Function to fill stars
+                function updateStars(rating) {
+                    stars.each(function () {
+                        const value = parseInt($(this).data('value'));
+                        $(this).toggleClass('filled', value <= rating);
+                    });
+                }
+        
+                // ⭐ Submit form with AJAX and Swal
+                $('#review-form').on('submit', function (event) {
+                    event.preventDefault();
+        
+                    const formData = $(this).serialize();
+        
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'POST',
+                        data: formData,
+                        success: function (data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: data.success,
+                                confirmButtonColor: '#f39c12'
+                            });
+                            $('#review-form')[0].reset(); // ✅ Reset form
+                            resetStars(); // ✅ Reset stars
+                            loadReviews(); // ✅ Reload reviews after submission
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to submit review',
+                                confirmButtonColor: '#d33'
+                            });
+                        }
+                    });
+                });
+        
+                // ⭐ Reset stars after submission
+                function resetStars() {
+                    stars.removeClass('filled');
+                    ratingValue.val(0);
+                }
+        
+                // ⭐ Load all reviews
+                function loadReviews() {
+                    $.ajax({
+                        url: `/review/${courseId}`,
+                        type: 'GET',
+                        success: function (reviews) {
+                            console.log(reviews);
+        
+                            // 🔥 Convert object to array if needed
+                            if (!Array.isArray(reviews)) {
+                                reviews = [reviews];
+                            }
+        
+                            if (reviews.length > 0) {
+                                $('#review-container').empty();
+                                window.assetUrl = "{{ asset('') }}";
+                                reviews.forEach(review => {
+                                    let stars = '';
+                                    for (let i = 1; i <= 5; i++) {
+                                        if (i <= Math.floor(review.rating)) {
+                                            stars += `<span class="rating-star full-star">&#9733;</span>`;
+                                        } else if (i === Math.floor(review.rating) + 1 && review.rating % 1 !== 0) {
+                                            stars += `<span class="rating-star half-star">&#9733;</span>`;
+                                        } else {
+                                            stars += `<span class="rating-star empty-star">&#9733;</span>`;
+                                        }
+                                    }
+                                    
+                                    const reviewItem = `
+                                        <div class="review_item">
+                                            <div class="review_usr_dt">
+                                                 
+                                               ${review.user.profile_picture_url
+                                                ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
+                                                : `<h1 id="default_avtar1">
+                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                </h1>`}
+                                                <div class="rv1458">
+                                                    <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
+                                                    <span class="time_145">${formatTime(review.created_at)}</span>
+                                                </div>
+                                            </div>
+                                            <div class="rating-box mt-20">${stars}</div>
+                                            <p class="rvds10">${review.review || 'No review provided.'}</p>
+                                        </div>
+                                    `;
+        
+                                    $('#review-container').append(reviewItem);
+                                });
+                            } else {
+                                $('#review-container').html('<p>No reviews available.</p>');
+                            }
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+        
+                // ⭐ Format time (e.g., "2 hours ago")
+                function formatTime(time) {
+                    if (!time) return 'Unknown';
+                    const date = new Date(time);
+                    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                }
+        
+                // ⭐ Load reviews when page loads
+                loadReviews();
+            });
+        </script>
 @endsection

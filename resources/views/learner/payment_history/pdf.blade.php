@@ -209,7 +209,7 @@
                                 @endforeach
                                 <tr>
                                     <td colspan="3" class="text-right"><strong>Invoice Total:</strong></td>
-                                    <td>{{ number_format($transaction->amount, 2) }}</td>
+                                    <td><strong>Rs.</strong>{{ number_format($transaction->amount, 2) }}</td>
                                 </tr>
                             </tbody>
                         </table>

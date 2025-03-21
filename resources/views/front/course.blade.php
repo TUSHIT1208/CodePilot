@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-    <main class="main">
 
+    <main class="main">
         <!-- Page Title -->
         <div class="page-title" data-aos="fade">
             <div class="heading">
@@ -14,9 +14,10 @@
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
                             <h1>Courses</h1>
-                            <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint
-                                voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores.
-                                Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+                            <p class="mb-0">A course is a structured program of study on a specific subject, typically
+                                offered by schools, universities, or online
+                                platforms. Courses can be short or long and may include lectures, assignments, exams, and
+                                practical exercises.</p>
                         </div>
                     </div>
                 </div>
@@ -33,98 +34,55 @@
 
         <!-- Courses Section -->
         <section id="courses" class="courses section">
+            <a href="">
+                <div class="container">
+                    <div class="row">
+                        @foreach($courses as $courseItem)
+                            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
+                                data-aos-delay="100">
+                                <div class="mt-5">
+                                    <img src="{{ isset($courseItem->thumbnail_url) && $courseItem->thumbnail_url != null ? asset('courseThumbnail/' . $courseItem->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
+                                        alt="Course Thumbnail" class="thumbnail-course">
 
-            <div class="container">
+                                    <div class="course-content">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <p class="category">{{ $courseItem->title}}</p>
+                                            <p class="price">{{ $courseItem->price == 0 ? 'FREE' : '₹' . $courseItem->price }}
+                                            </p>
+                                        </div>
 
-                <div class="row">
+                                        {{-- <h3><a href="{{ route('course.details', ['id' => $courseItem->id]) }}">{{
+                                                $courseItem->title }}</a>
+                                        </h3> --}}
+                                        <p class="description">{{ Str::limit($courseItem->category->name, 100) }}</p>
+                                        <p class="description">{{ Str::limit($courseItem->description, 100) }}</p>
+                                        <div class="trainer d-flex justify-content-between align-items-center">
+                                            <div class="trainer-profile d-flex align-items-center">
+                                                <!-- Check if user has a profile photo, fall back to a default one -->
+                                                @if(!empty($courseItem->user->profile_picture_url))
+                                                    <img id="profile_picture"
+                                                        src="{{  asset($courseItem->user->profile_picture_url) }}">
+                                                @else
+                                                    <h1 id="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
+                                                @endif
+                                                {{-- <img
+                                                    src="{{ isset($courseItem->user->profile_picture_url) && $courseItem->user->profile_picture_url != null ? asset($courseItem->user->profile_picture_url) : 'https://via.placeholder.com/150/0000FF/808080?Text=' . strtoupper(substr($courseItem->user->first_name, 0, 1)) }}"
+                                                    class="img-fluid small-logo" alt="User Photo"> --}}
 
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="course-item">
-                            <img src="assets/img/course-1.jpg" class="img-fluid" alt="...">
-                            <div class="course-content">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <p class="category">Web Development</p>
-                                    <p class="price">$169</p>
-                                </div>
-
-                                <h3><a href="course-details.html">Website Design</a></h3>
-                                <p class="description">Et architecto provident deleniti facere repellat nobis iste. Id
-                                    facere quia quae dolores dolorem tempore.</p>
-                                <div class="trainer d-flex justify-content-between align-items-center">
-                                    <div class="trainer-profile d-flex align-items-center">
-                                        <img src="assets/img/trainers/trainer-1-2.jpg" class="img-fluid" alt="">
-                                        <a href="" class="trainer-link">Antonio</a>
-                                    </div>
-                                    <div class="trainer-rank d-flex align-items-center">
-                                        <i class="bi bi-person user-icon"></i>&nbsp;50
-                                        &nbsp;&nbsp;
-                                        <i class="bi bi-heart heart-icon"></i>&nbsp;65
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- End Course Item-->
-
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
-                        data-aos-delay="200">
-                        <div class="course-item">
-                            <img src="assets/img/course-2.jpg" class="img-fluid" alt="...">
-                            <div class="course-content">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <p class="category">Marketing</p>
-                                    <p class="price">$250</p>
-                                </div>
-
-                                <h3><a href="course-details.html">Search Engine Optimization</a></h3>
-                                <p class="description">Et architecto provident deleniti facere repellat nobis iste. Id
-                                    facere quia quae dolores dolorem tempore.</p>
-                                <div class="trainer d-flex justify-content-between align-items-center">
-                                    <div class="trainer-profile d-flex align-items-center">
-                                        <img src="assets/img/trainers/trainer-2-2.jpg" class="img-fluid" alt="">
-                                        <a href="" class="trainer-link">Lana</a>
-                                    </div>
-                                    <div class="trainer-rank d-flex align-items-center">
-                                        <i class="bi bi-person user-icon"></i>&nbsp;35
-                                        &nbsp;&nbsp;
-                                        <i class="bi bi-heart heart-icon"></i>&nbsp;42
+                                                <!-- Display the user's name -->
+                                                <h4>
+                                                    {{ $courseItem->user->first_name }} {{ $courseItem->user->last_name }}
+                                                </h4>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div> <!-- End Course Item-->
-
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in"
-                        data-aos-delay="300">
-                        <div class="course-item">
-                            <img src="assets/img/course-3.jpg" class="img-fluid" alt="...">
-                            <div class="course-content">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <p class="category">Content</p>
-                                    <p class="price">$180</p>
-                                </div>
-
-                                <h3><a href="course-details.html">Copywriting</a></h3>
-                                <p class="description">Et architecto provident deleniti facere repellat nobis iste. Id
-                                    facere quia quae dolores dolorem tempore.</p>
-                                <div class="trainer d-flex justify-content-between align-items-center">
-                                    <div class="trainer-profile d-flex align-items-center">
-                                        <img src="assets/img/trainers/trainer-3-2.jpg" class="img-fluid" alt="">
-                                        <a href="" class="trainer-link">Brandon</a>
-                                    </div>
-                                    <div class="trainer-rank d-flex align-items-center">
-                                        <i class="bi bi-person user-icon"></i>&nbsp;20
-                                        &nbsp;&nbsp;
-                                        <i class="bi bi-heart heart-icon"></i>&nbsp;85
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- End Course Item-->
+                            </div> <!-- End Course Item-->
+                        @endforeach
+                    </div>
 
                 </div>
-
-            </div>
-
+            </a>
         </section><!-- /Courses Section -->
 
     </main>

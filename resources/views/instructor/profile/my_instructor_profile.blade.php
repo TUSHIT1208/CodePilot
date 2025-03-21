@@ -129,7 +129,7 @@
                                                     <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
                                                         <img src="{{ $course->thumbnail_url ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                             alt="Course Thumbnail">    
-                                                        <div class="course-overlay">
+                                                        <div class="course-overlay" style="width:100%">
                                                             @if ($course->is_active)
                                                                 <div class="badge_seller">Active</div>
                                                             @else

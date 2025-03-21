@@ -12,7 +12,6 @@
                         <h2 class="st_title"><i class="uil uil-folder-plus"></i> Learners</h2>
                     </div>
                 </div>
-                
                     <div class="col-md-12">
                         <div class="card_dash1">
                             <div class="row mt-2">
@@ -101,7 +100,7 @@
                         <div class="mb-3">
                             <label for="editLearnerLastName" class="form-label">Last Name</label>
                             <input type="text" class="form-control _dlor1" id="editLearnerLastName" name="last_name" required>
-                            <div class="invalid-feedback">Last name is required.</div>
+                            
                         </div>
 
                         <div class="mb-3">
