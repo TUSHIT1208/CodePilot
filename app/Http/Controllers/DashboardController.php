@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\course;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -49,6 +50,13 @@ class DashboardController extends Controller
         //
     }
 
+    public function course()
+    {
+        $courses = Course::with(['courseattachment', 'user'])->get();
+        return view('admin.report.total_course.list', compact('courses'));
+        // return $courses;
+    }
+
     public function learner(Request $request)
     {
         if ($request->ajax()) {
@@ -64,20 +72,22 @@ class DashboardController extends Controller
             ])->where('role_id', 3);
 
             return DataTables::of($learners)
-                ->addColumn('profile', function ($row) {
-                    return '<img src="' . asset($row->profile_picture_url) . '" width="50" height="50" class="rounded-circle">';
+                ->addColumn('profile', function ($learner) {
+                    return !empty($learner->profile_picture_url)
+                        ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40">'
+                        : '<h1 id="default_avtar">' . strtoupper(substr($learner->first_name, 0, 1)) . '</h1>';
                 })
                 ->addColumn('full_name', function ($row) {
                     return $row->first_name . ' ' . ($row->middle_name ? $row->middle_name . ' ' : '') . $row->last_name;
                 })
                 ->addColumn('status', function ($row) {
-                    return $row->is_active ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>';
+                    return $row->is_active ? '<span class="badge badge-success active-learner">Active</span>' : '<span class="badge badge-danger inctive-learner">Inactive</span>';
                 })
                 ->rawColumns(['profile', 'status'])
                 ->make(true);
         }
-        
+
         $learners = User::where('role_id', 3)->get();
-        return view('admin.report.total_learner.list',compact('learners'));
+        return view('admin.report.total_learner.list', compact('learners'));
     }
 }

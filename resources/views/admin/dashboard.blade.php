@@ -40,8 +40,8 @@
                         <div class="card_dash_left">
                             <h5>Total Courses</h5>
                             <h2>130</h2>
-                            <span class="crdbg_3">New 5</span>
-                           
+                            {{-- <span class="crdbg_3">New 5</span> --}}
+                            <a href="{{ route('totalCourses') }}">View courses</a>
                         </div>
                         <div class="card_dash_right">
                             <img src="images/dashboard/online-course.svg" alt="">

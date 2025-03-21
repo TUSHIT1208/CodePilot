@@ -640,6 +640,16 @@ i.icon1 {
     object-fit: cover;
 }
 
+.active-learner{
+    background-color: green;
+    font-size: 12px;
+}
+
+.inctive-learner{
+    background-color: red;
+    font-size: 12px;
+}
+
 #default_avtar {
     width: 40px;
     border-radius: 50%;
