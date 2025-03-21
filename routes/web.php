@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserVideoTrackerController;
 use App\Models\certificate;
@@ -278,4 +279,4 @@ Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name
 
 Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit');
 
-//Route::get('/result/test', [TestResultController::class, 'result'])->name('test.result');
+Route::get('/total/learners',[DashboardController::class,'learnears'])->name('totalLearners');

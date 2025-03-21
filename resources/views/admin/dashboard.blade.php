@@ -41,6 +41,7 @@
                             <h5>Total Courses</h5>
                             <h2>130</h2>
                             <span class="crdbg_3">New 5</span>
+                           
                         </div>
                         <div class="card_dash_right">
                             <img src="images/dashboard/online-course.svg" alt="">
@@ -52,7 +53,8 @@
                         <div class="card_dash_left">
                             <h5>Total Students</h5>
                             <h2>2650</h2>
-                            <span class="crdbg_4">New 245</span>
+                            {{-- <span class="crdbg_4">New 245</span> --}}
+                            <a href="{{ route('totalLearners') }}">View learners</a>
                         </div>
                         <div class="card_dash_right">
                             <img src="images/dashboard/knowledge.svg" alt="">
