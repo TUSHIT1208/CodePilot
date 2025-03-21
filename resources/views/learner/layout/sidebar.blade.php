@@ -48,7 +48,7 @@
 				<li class="menu--item">
 					<a href="{{ route('learning.path') }}" class="menu--link" title="Saved Courses">
 						<i class="uil uil-bullseye menu--icon"></i>
-					  <span class="menu--label">Learnign Path</span>
+						<span class="menu--label">Learnign Path</span>
 					</a>
 				</li>
 				<li class="menu--item">
@@ -58,11 +58,17 @@
 					</a>
 				</li>
 				{{-- <li class="menu--item">
-                    <a href="{{ route('payment.history') }}" class="menu--link" title="Transactions History">
-                        <i class='uil uil-box menu--icon'></i>
-                        <span class="menu--label">Order History</span>
-                    </a>
-                </li> --}}
+					<a href="{{route('learner.list')}}" class="menu--link" title="My Certificates">
+						<i class='uil uil-award menu--icon'></i>
+						<span class="menu--label">My Certificates</span>
+					</a>
+				</li> --}}
+				{{-- <li class="menu--item">
+					<a href="{{ route('payment.history') }}" class="menu--link" title="Transactions History">
+						<i class='uil uil-box menu--icon'></i>
+						<span class="menu--label">Order History</span>
+					</a>
+				</li> --}}
 
 				{{-- <li class="menu--item">
 					<a href="student_courses.html" class="menu--link" title="Courses">
@@ -82,12 +88,7 @@
 						<span class="menu--label">Notifications</span>
 					</a>
 				</li>
-				<li class="menu--item">
-					<a href="student_my_certificates.html" class="menu--link" title="My Certificates">
-						<i class='uil uil-award menu--icon'></i>
-						<span class="menu--label">My Certificates</span>
-					</a>
-				</li>
+
 				<li class="menu--item">
 					<a href="student_all_reviews.html" class="menu--link" title="Reviews">
 						<i class='uil uil-star menu--icon'></i>

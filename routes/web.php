@@ -278,4 +278,5 @@ Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name
 
 Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit');
 
+
 //Route::get('/result/test', [TestResultController::class, 'result'])->name('test.result');

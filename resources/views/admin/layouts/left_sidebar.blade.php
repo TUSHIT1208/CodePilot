@@ -38,12 +38,14 @@
                         <span class="menu--label">Course</span>
                     </a>
                 </li>
-                {{--<li class="menu--item">
-                    <a href="{{route('admin.certificate')}}" class="menu--link" title="My Certificates">
+                {{-- <li class="menu--item">
+                    <a href="{{route('learner.list')}}" class="menu--link" title="My Certificates">
                         <i class='uil uil-award menu--icon'></i>
                         <span class="menu--label">My Certificates</span>
                     </a>
-                </li>
+                </li> --}}
+                {{--
+
                 <li class="menu--item">
                     <a href="{{route('admin.review')}}" class="menu--link" title="Reviews">
                         <i class='uil uil-star menu--icon'></i>

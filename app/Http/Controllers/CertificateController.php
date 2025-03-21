@@ -10,6 +10,8 @@ use App\Models\test_result_answer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Contracts\DataTable;
+use Yajra\DataTables\DataTables;
 
 class CertificateController extends Controller
 {
@@ -28,6 +30,8 @@ class CertificateController extends Controller
             compact('certificate', 'test_result', 'p_marks')
         );
     }
+
+
 
     /**
      * Show the form for creating a new resource.
