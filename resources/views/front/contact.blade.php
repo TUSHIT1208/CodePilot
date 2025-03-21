@@ -14,9 +14,8 @@
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
                             <h1>Contact</h1>
-                            <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint
-                                voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores.
-                                Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+                            <p class="mb-0">We'd love to hear from you! Whether you have questions, feedback, or need
+                                support, feel free to reach out to us.</p>
                         </div>
                     </div>
                 </div>
@@ -78,25 +77,23 @@
                             <div class="row gy-4">
 
                                 <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" placeholder="Your Name"
-                                        required>
+                                    <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                                     <div class="invalid-feedback">Name is required.</div>
                                 </div>
 
                                 <div class="col-md-6 ">
-                                    <input type="email" class="form-control" name="email" placeholder="Your Email"
-                                        required>
+                                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
                                     <div class="invalid-feedback">Email is required.</div>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control" name="subject" placeholder="Subject"
-                                        required>
+                                    <input type="text" class="form-control" name="subject" placeholder="Subject" required>
                                     <div class="invalid-feedback">Subject is required.</div>
                                 </div>
 
                                 <div class="col-md-12">
-                                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                                    <textarea class="form-control" name="message" rows="6" placeholder="Message"
+                                        required></textarea>
                                     <div class="invalid-feedback">Message is required.</div>
                                 </div>
 
@@ -120,12 +117,12 @@
     <div id="preloader"></div>
 
     <script>
-        (function() {
+        (function () {
             'use strict'
             var forms = document.querySelectorAll('.needs-validation')
             Array.prototype.slice.call(forms)
-                .forEach(function(form) {
-                    form.addEventListener('submit', function(event) {
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
                         if (!form.checkValidity()) {
                             event.preventDefault()
                             event.stopPropagation()
@@ -137,8 +134,8 @@
     </script>
 
     <script>
-        jQuery(document).ready(function($) {
-            $("#contactForm").submit(function(event) {
+        jQuery(document).ready(function ($) {
+            $("#contactForm").submit(function (event) {
                 event.preventDefault();
 
                 var form = $(this)[0];
@@ -153,7 +150,7 @@
                     url: $(this).attr('action'),
                     type: 'POST',
                     data: formData,
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             toastr.options = {
                                 closeButton: true,
@@ -168,7 +165,7 @@
                                 hideEasing: "linear",
                                 showMethod: "fadeIn",
                                 hideMethod: "fadeOut",
-                                onShown: function() {
+                                onShown: function () {
                                     $(".toast-success").css({
                                         'background-color': '#28a745', // Green for success
                                         'opacity': '1' // Adjust opacity
@@ -176,14 +173,14 @@
                                 }
                             };
                             toastr.success(response.success, 'Success');
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 location.reload();
                             }, 2000);
                         } else if (response.message) {
                             toastr.error(response.message, 'Error');
                         }
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         toastr.error('An error occurred. Please try again later.', 'Error');
                     }
                 });

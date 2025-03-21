@@ -46,6 +46,8 @@ class CourseController extends Controller
     }
 
 
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -160,6 +162,7 @@ class CourseController extends Controller
                 'price' => $request->price ?? 0,
                 'discount' => $request->discount ?? null,
                 'is_active' => 0,
+                'is_active_home' => 0,
                 'published_at' => null,
                 'course_type' => $request->course_type,
                 'title' => $request->title,
@@ -332,6 +335,16 @@ class CourseController extends Controller
 
             return redirect()->back()->with('error', 'An error occurred while updateing the course.');
         }
+    }
+    public function addToHome(Request $request)
+    {
+        $course = Course::findOrFail($request->course_id); // Find the course by ID
+
+        // Update the 'is_added_to_home' field to true or 1
+        $course->is_active_home = true;
+        $course->save();
+
+        return response()->json(['success' => true]);
     }
 
     public function price(Request $request, Course $course)

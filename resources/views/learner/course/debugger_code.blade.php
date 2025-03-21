@@ -45,7 +45,7 @@
         </div>
     </div>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let video = document.querySelector(".video-container video");
             let courseAttachmentId = "{{ $course_detail->id }}";
             let userId = "{{ auth()->id() }}";
@@ -63,27 +63,27 @@
                         created_by: userId,
                         event: eventType
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log("Tracking updated:", response);
                     },
-                    error: function(error) {
+                    error: function (error) {
                         console.error("Tracking error:", error);
                     }
                 });
             }
 
             if (video) {
-                video.addEventListener("play", function() {
+                video.addEventListener("play", function () {
                     sendTrackingData("play");
                     interval = setInterval(() => sendTrackingData("progress"), 30000);
                 });
 
-                video.addEventListener("pause", function() {
+                video.addEventListener("pause", function () {
                     sendTrackingData("pause");
                     clearInterval(interval);
                 });
 
-                video.addEventListener("ended", function() {
+                video.addEventListener("ended", function () {
                     sendTrackingData("ended");
                     clearInterval(interval);
                 });

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,14 +17,14 @@ return new class extends Migration
             $table->unsignedBigInteger('sub_category_id');
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');  
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->string('meta_keyword');
             $table->string('meta_title');
             $table->text('meta_description');
             $table->decimal('price', 10, 2)->default(0);
             $table->decimal('discount', 10, 2)->nullable();
-           
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_active_home')->default(true);
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
             $table->enum('course_type', ['text', 'video']);
@@ -36,7 +35,7 @@ return new class extends Migration
             $table->text('requirement');
             $table->string('url');
             $table->string('thumbnail_url')->nullable();
-            $table->enum('course_level', ['Intermediate', 'Beginner','Expert']);
+            $table->enum('course_level', ['Intermediate', 'Beginner', 'Expert']);
         });
     }
 

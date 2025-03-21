@@ -27,17 +27,25 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PaymentTransactionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
-Route::get('/',[HomeController::class,'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::get('/about',[HomeController::class,'about'])->name('about');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
 
-Route::get('/courses', function () {
-    return view('front.course');
-})->name('course');
+// Route::get('/courses', function () {
+//     return view('front.course');
+// })->name('course');
+
+Route::get('/courses', [HomeController::class, 'course'])->name('course');
+
+// routes/web.php
+Route::post('/courses/add-to-home', [CourseController::class, 'addToHome'])->name('courses.addToHome');
+
 
 Route::get('/list/instructor', function () {
     return view('front.list_trainer');
 })->name('listInstructor');
+
+
 
 Route::get('contact', function () {
     return view('front.contact');

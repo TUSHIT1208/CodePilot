@@ -14,9 +14,11 @@
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
                             <h1>About Us<br></h1>
-                            <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint
-                                voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores.
-                                Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+                            <p class="mb-0">Welcome to Codepilot, your go-to platform for high-quality courses designed to
+                                help you learn, grow, and
+                                achieve your goals. Whether you're looking for free or paid courses, we provide a wide range
+                                of options tailored to your
+                                needs.</p>
                         </div>
                     </div>
                 </div>
@@ -43,21 +45,30 @@
                     </div>
 
                     <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Voluptatem dignissimos provident quasi corporis</h3>
-                        <p class="fst-italic">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore
-                            magna aliqua.
-                        </p>
+                        <h3>Our Mission</h3>
+                        At CodePilote, we believe that learning should be accessible, flexible, and engaging. Our goal is to
+                        empower learners
+                        with expertly crafted courses that enhance knowledge, improve skills, and drive career growth.
+                        <h3 class="mt-2">Why Choose CodePilote?</h3>
+
                         <ul>
-                            <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat.</span></li>
-                            <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate
-                                    velit.</span></li>
-                            <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda
-                                    mastiro dolore eu fugiat nulla pariatur.</span></li>
+                            <li><i class="bi bi-check-circle"></i> <span>Diverse Course Selection - Covering programming,
+                                    design, business, and more.</li>
+                            <li><i class="bi bi-check-circle"></i> <span>Learn at Your Own Pace - Study anytime,
+                                    anywhere.</span></li>
+                            <li><i class="bi bi-check-circle"></i> <span>Expert Instructors - Industry professionals sharing
+                                    real-world knowledge.</span></li>
+                            <li><i class="bi bi-check-circle"></i> <span>Affordable & Free Options - Choose the best
+                                    learning path for you.</span></li>
+
                         </ul>
+                        <p class="fst-italic">
+                            At CodePilote, we are committed to making learning accessible, flexible, and impactful. Whether
+                            you're looking to
+                            enhance your skills, start a new career, or simply explore new subjects, our expertly designed
+                            courses are here to guide
+                            you. Join us today and take charge of your learning journey with confidence!
+                        </p>
                     </div>
 
                 </div>
@@ -75,24 +86,24 @@
 
                     <div class="col-lg-4 col-md-6">
                         <div class="stats-item text-center w-100 h-100">
-                            <span data-purecounter-start="0" data-purecounter-end="{{ $learnerCount }}" data-purecounter-duration="1"
-                                class="purecounter"></span>
+                            <span data-purecounter-start="0" data-purecounter-end="{{ $learnerCount }}"
+                                data-purecounter-duration="1" class="purecounter"></span>
                             <p>Students</p>
                         </div>
                     </div><!-- End Stats Item -->
 
                     <div class="col-lg-4 col-md-6">
                         <div class="stats-item text-center w-100 h-100">
-                            <span data-purecounter-start="0" data-purecounter-end="{{ $courseCount }}" data-purecounter-duration="1"
-                                class="purecounter"></span>
+                            <span data-purecounter-start="0" data-purecounter-end="{{ $courseCount }}"
+                                data-purecounter-duration="1" class="purecounter"></span>
                             <p>Courses</p>
                         </div>
                     </div><!-- End Stats Item -->
 
                     <div class="col-lg-4 col-md-6">
                         <div class="stats-item text-center w-100 h-100">
-                            <span data-purecounter-start="0" data-purecounter-end="{{ $instructorCount }}" data-purecounter-duration="1"
-                                class="purecounter"></span>
+                            <span data-purecounter-start="0" data-purecounter-end="{{ $instructorCount }}"
+                                data-purecounter-duration="1" class="purecounter"></span>
                             <p>Trainers</p>
                         </div>
                     </div><!-- End Stats Item -->
@@ -116,37 +127,36 @@
 
                 <div class="swiper init-swiper">
                     <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              },
-              "breakpoints": {
-                "320": {
-                  "slidesPerView": 1,
-                  "spaceBetween": 40
-                },
-                "1200": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 20
-                }
-              }
-            }
-          </script>
+                                                    {
+                                                      "loop": true,
+                                                      "speed": 600,
+                                                      "autoplay": {
+                                                        "delay": 5000
+                                                      },
+                                                      "slidesPerView": "auto",
+                                                      "pagination": {
+                                                        "el": ".swiper-pagination",
+                                                        "type": "bullets",
+                                                        "clickable": true
+                                                      },
+                                                      "breakpoints": {
+                                                        "320": {
+                                                          "slidesPerView": 1,
+                                                          "spaceBetween": 40
+                                                        },
+                                                        "1200": {
+                                                          "slidesPerView": 2,
+                                                          "spaceBetween": 20
+                                                        }
+                                                      }
+                                                    }
+                                                  </script>
                     <div class="swiper-wrapper">
 
                         <div class="swiper-slide">
                             <div class="testimonial-wrap">
                                 <div class="testimonial-item">
-                                    <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img"
-                                        alt="">
+                                    <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
                                     <h3>Saul Goodman</h3>
                                     <h4>Ceo &amp; Founder</h4>
                                     <div class="stars">
@@ -168,8 +178,7 @@
                         <div class="swiper-slide">
                             <div class="testimonial-wrap">
                                 <div class="testimonial-item">
-                                    <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img"
-                                        alt="">
+                                    <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
                                     <h3>Sara Wilsson</h3>
                                     <h4>Designer</h4>
                                     <div class="stars">
@@ -191,8 +200,7 @@
                         <div class="swiper-slide">
                             <div class="testimonial-wrap">
                                 <div class="testimonial-item">
-                                    <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img"
-                                        alt="">
+                                    <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
                                     <h3>Jena Karlis</h3>
                                     <h4>Store Owner</h4>
                                     <div class="stars">
@@ -214,8 +222,7 @@
                         <div class="swiper-slide">
                             <div class="testimonial-wrap">
                                 <div class="testimonial-item">
-                                    <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img"
-                                        alt="">
+                                    <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
                                     <h3>Matt Brandon</h3>
                                     <h4>Freelancer</h4>
                                     <div class="stars">
@@ -237,8 +244,7 @@
                         <div class="swiper-slide">
                             <div class="testimonial-wrap">
                                 <div class="testimonial-item">
-                                    <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img"
-                                        alt="">
+                                    <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
                                     <h3>John Larson</h3>
                                     <h4>Entrepreneur</h4>
                                     <div class="stars">

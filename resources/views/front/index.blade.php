@@ -14,8 +14,8 @@
 
             <div class="container">
                 <h2 data-aos="fade-up" data-aos-delay="100">Learning Today,<br>Leading Tomorrow</h2>
-                <p data-aos="fade-up" data-aos-delay="200">We are team of talented designers making websites with
-                    Bootstrap</p>
+                {{-- <p data-aos="fade-up" data-aos-delay="200">We are team of talented designers making websites with
+                    Bootstrap</p> --}}
                 <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
                     <a href="{{ route('course') }}" class="btn-get-started">Get Started</a>
                 </div>
@@ -35,22 +35,31 @@
                     </div>
 
                     <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
-                        <h3>Voluptatem dignissimos provident quasi corporis</h3>
+                        <h2>CodePilot</h2>
                         <p class="fst-italic">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore
-                            magna aliqua.
+
+                            CodePilot is an online coding education platform that enables users to learn, code, and debug in
+                            real-time while
+                            watching instructional videos.
+                            This platform is free to explore, offering a simple and effective
+                            way to enhance coding
+                            skills through interactive learning.
+                        <p>
+                            A Stage to Learn, Code, and Grow with CodePilot, users can practice coding while watching
+                            videos, ensuring a hands-on
+                            learning experience.
+                            The platform supports learners in developing coding skills and gaining
+                            expertise through real-time
+                            debugging and practical exercises.
+                        <p>
+                            CodePilot is more than just a coding platform. It provides a structured learning path designed
+                            to guide learners from
+                            beginner to advanced levels in Front-End, Back-End, and Full-Stack Development.
+                        <p>
+                            After completing a course, learners can take tests to check their knowledge. If they pass, they
+                            get a certificate, which
+                            they can use to showcase their skills.
                         </p>
-                        <ul>
-                            <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat.</span></li>
-                            <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in
-                                    voluptate velit.</span></li>
-                            <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate trideta
-                                    storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
-                        </ul>
-                
                     </div>
 
                 </div>
@@ -68,24 +77,24 @@
 
                     <div class="col-lg-4 col-md-6">
                         <div class="stats-item text-center w-100 h-100">
-                            <span data-purecounter-start="0" data-purecounter-end="{{ $learnerCount }}" data-purecounter-duration="1"
-                                class="purecounter"></span>
+                            <span data-purecounter-start="0" data-purecounter-end="{{ $learnerCount }}"
+                                data-purecounter-duration="1" class="purecounter"></span>
                             <p>Students</p>
                         </div>
                     </div><!-- End Stats Item -->
 
                     <div class="col-lg-4 col-md-6">
                         <div class="stats-item text-center w-100 h-100">
-                            <span data-purecounter-start="0" data-purecounter-end="{{ $courseCount }}" data-purecounter-duration="1"
-                                class="purecounter"></span>
+                            <span data-purecounter-start="0" data-purecounter-end="{{ $courseCount }}"
+                                data-purecounter-duration="1" class="purecounter"></span>
                             <p>Courses</p>
                         </div>
                     </div><!-- End Stats Item -->
 
                     <div class="col-lg-4 col-md-6">
                         <div class="stats-item text-center w-100 h-100">
-                            <span data-purecounter-start="0" data-purecounter-end="{{ $instructorCount }}" data-purecounter-duration="1"
-                                class="purecounter"></span>
+                            <span data-purecounter-start="0" data-purecounter-end="{{ $instructorCount }}"
+                                data-purecounter-duration="1" class="purecounter"></span>
                             <p>Trainers</p>
                         </div>
                     </div><!-- End Stats Item -->
@@ -105,12 +114,14 @@
 
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="why-box">
-                            <h3>Why Choose Our Products?</h3>
+                            <h3>Why Choose Our Courses?</h3>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                                Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus
-                                optio ad corporis.
+                                Courses is Stage to Learn, Code, and Grow with CodePilot, users can practice coding while
+                                watching videos, ensuring a hands-on
+                                learning experience. The platform supports learners in developing coding skills and gaining
+                                expertise through real-time
+                                debugging and practical exercises.
+
                             </p>
                         </div>
                     </div><!-- End Why Box -->
@@ -121,27 +132,31 @@
                             <div class="col-xl-4">
                                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                                     <i class="bi bi-clipboard-data"></i>
-                                    <h4>Corporis voluptates officia eiusmod</h4>
-                                    <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut
-                                        aliquip</p>
+                                    <h4>Test</h4>
+                                    <p>learners can take tests to check their knowledge. If they pass, they get a
+                                        certificate, which
+                                        they can use to showcase their skills.
+                                    </p>
                                 </div>
                             </div><!-- End Icon Box -->
 
                             <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
                                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                                     <i class="bi bi-gem"></i>
-                                    <h4>Ullamco laboris ladore pan</h4>
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                        deserunt</p>
+                                    <h4>Subscribtion</h4>
+                                    <p>A subscription can be either paid or free, depending on the user's preference. Users
+                                        can choose a course based on their
+                                        needs and availability.</p>
                                 </div>
                             </div><!-- End Icon Box -->
 
                             <div class="col-xl-4" data-aos="fade-up" data-aos-delay="400">
                                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                                     <i class="bi bi-inboxes"></i>
-                                    <h4>Labore consequatur incidid dolore</h4>
-                                    <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere
-                                    </p>
+                                    <h4>Learning Path</h4>
+                                    <p>learning path designed to guide learners from beginner to advanced levels in
+                                        Front-End, Back-End, and Full-Stack
+                                        Development.</p>
                                 </div>
                             </div><!-- End Icon Box -->
 
@@ -155,7 +170,7 @@
         </section><!-- /Why Us Section -->
 
         <!-- Features Section -->
-        <section id="features" class="features section">
+        {{-- <section id="features" class="features section">
 
             <div class="container">
 
@@ -249,7 +264,7 @@
 
             </div>
 
-        </section><!-- /Features Section -->
+        </section><!-- /Features Section --> --}}
 
         <!-- Courses Section -->
         <section id="courses" class="courses section">
@@ -263,90 +278,50 @@
             <div class="container">
 
                 <div class="row">
+                    @foreach($courses as $courseItem)
+                        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
+                            data-aos-delay="100">
+                            <div class="mt-5">
+                                <img src="{{ isset($courseItem->thumbnail_url) && $courseItem->thumbnail_url != null ? asset('courseThumbnail/' . $courseItem->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
+                                    alt="Course Thumbnail" class="thumbnail-course">
 
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="course-item">
-                            <img src="assets/img/course-1.jpg" class="img-fluid" alt="...">
-                            <div class="course-content">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <p class="category">Web Development</p>
-                                    <p class="price">$169</p>
-                                </div>
-
-                                <h3><a href="course-details.html">Website Design</a></h3>
-                                <p class="description">Et architecto provident deleniti facere repellat nobis iste. Id
-                                    facere quia quae dolores dolorem tempore.</p>
-                                <div class="trainer d-flex justify-content-between align-items-center">
-                                    <div class="trainer-profile d-flex align-items-center">
-                                        <img src="assets/img/trainers/trainer-1-2.jpg" class="img-fluid" alt="">
-                                        <a href="" class="trainer-link">Antonio</a>
+                                <div class="course-content">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <p class="category">{{ $courseItem->title}}</p>
+                                        <p class="price">{{ $courseItem->price == 0 ? 'FREE' : '₹' . $courseItem->price }}</p>
                                     </div>
-                                    <div class="trainer-rank d-flex align-items-center">
-                                        <i class="bi bi-person user-icon"></i>&nbsp;50
-                                        &nbsp;&nbsp;
-                                        <i class="bi bi-heart heart-icon"></i>&nbsp;65
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- End Course Item-->
 
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
-                        data-aos-delay="200">
-                        <div class="course-item">
-                            <img src="assets/img/course-2.jpg" class="img-fluid" alt="...">
-                            <div class="course-content">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <p class="category">Marketing</p>
-                                    <p class="price">$250</p>
-                                </div>
+                                    {{-- <h3><a href="{{ route('course.details', ['id' => $courseItem->id]) }}">{{
+                                            $courseItem->title }}</a>
+                                    </h3> --}}
+                                    <p class="description">{{ Str::limit($courseItem->category->name, 100) }}</p>
+                                    <p class="description">{{ Str::limit($courseItem->description, 100) }}</p>
+                                    <div class="trainer d-flex justify-content-between align-items-center">
+                                        <div class="trainer-profile d-flex align-items-center">
+                                            <!-- Check if user has a profile photo, fall back to a default one -->
+                                            @if(!empty($courseItem->user->profile_picture_url))
+                                                <img id="profile_picture"
+                                                    src="{{  asset($courseItem->user->profile_picture_url) }}">
+                                            @else
+                                                <h1 id="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
+                                            @endif
+                                            {{-- <img
+                                                src="{{ isset($courseItem->user->profile_picture_url) && $courseItem->user->profile_picture_url != null ? asset($courseItem->user->profile_picture_url) : 'https://via.placeholder.com/150/0000FF/808080?Text=' . strtoupper(substr($courseItem->user->first_name, 0, 1)) }}"
+                                                class="img-fluid small-logo" alt="User Photo"> --}}
 
-                                <h3><a href="course-details.html">Search Engine Optimization</a></h3>
-                                <p class="description">Et architecto provident deleniti facere repellat nobis iste. Id
-                                    facere quia quae dolores dolorem tempore.</p>
-                                <div class="trainer d-flex justify-content-between align-items-center">
-                                    <div class="trainer-profile d-flex align-items-center">
-                                        <img src="assets/img/trainers/trainer-2-2.jpg" class="img-fluid" alt="">
-                                        <a href="" class="trainer-link">Lana</a>
-                                    </div>
-                                    <div class="trainer-rank d-flex align-items-center">
-                                        <i class="bi bi-person user-icon"></i>&nbsp;35
-                                        &nbsp;&nbsp;
-                                        <i class="bi bi-heart heart-icon"></i>&nbsp;42
+
+                                            <!-- Display the user's name -->
+                                            <a href="{{ route('user.learner_show', $courseItem->user->id) }}"
+                                                class="trainer-link">
+                                                {{ $courseItem->user->first_name }} {{ $courseItem->user->last_name }}
+                                            </a>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div> <!-- End Course Item-->
-
-                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in"
-                        data-aos-delay="300">
-                        <div class="course-item">
-                            <img src="assets/img/course-3.jpg" class="img-fluid" alt="...">
-                            <div class="course-content">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <p class="category">Content</p>
-                                    <p class="price">$180</p>
-                                </div>
-
-                                <h3><a href="course-details.html">Copywriting</a></h3>
-                                <p class="description">Et architecto provident deleniti facere repellat nobis iste. Id
-                                    facere quia quae dolores dolorem tempore.</p>
-                                <div class="trainer d-flex justify-content-between align-items-center">
-                                    <div class="trainer-profile d-flex align-items-center">
-                                        <img src="assets/img/trainers/trainer-3-2.jpg" class="img-fluid" alt="">
-                                        <a href="" class="trainer-link">Brandon</a>
-                                    </div>
-                                    <div class="trainer-rank d-flex align-items-center">
-                                        <i class="bi bi-person user-icon"></i>&nbsp;20
-                                        &nbsp;&nbsp;
-                                        <i class="bi bi-heart heart-icon"></i>&nbsp;85
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- End Course Item-->
-
+                        </div> <!-- End Course Item-->
+                    @endforeach
                 </div>
 
             </div>
@@ -354,7 +329,7 @@
         </section><!-- /Courses Section -->
 
         <!-- Trainers Index Section -->
-        <section id="trainers-index" class="section trainers-index">
+        {{-- <section id="trainers-index" class="section trainers-index">
 
             <div class="container">
 
@@ -424,7 +399,7 @@
 
             </div>
 
-        </section><!-- /Trainers Index Section -->
+        </section><!-- /Trainers Index Section --> --}}
 
     </main>
 

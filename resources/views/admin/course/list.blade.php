@@ -56,6 +56,11 @@
                                                     <div class="eps_dots more_dropdown">
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                         <div class="dropdown-content">
+
+                                                            <span class="add-to-home-text" data-id="{{ $course->id }}" style="cursor: pointer;">
+                                                                <i class="uil uil-windsock"></i> add to home
+                                                            </span>
+
                                                             <span class="publish-text" data-id="{{ $course->id }}"
                                                                 style="cursor: pointer;">
                                                                 <i class="uil uil-windsock"></i> Publish
@@ -70,7 +75,7 @@
                                                         <span
                                                             class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
-                                                    </div>
+                                                    </div>  
                                                     <a href="{{ route('course.show', $course->id) }}"
                                                         class="crse14s">{{ $course->title }}</a>
                                                     <div class="row">
@@ -84,7 +89,7 @@
                                                                 @csrf
                                                                 @method('PATCH')
                                                                 <div class="toggle-button mt-2">
-                                                                    <input type="checkbox" class="toggle-input"
+                                                                     <input type="checkbox" class="toggle-input"
                                                                         id="toggle{{ $course->id }}"
                                                                         data-id="{{ $course->id }}"
                                                                         {{ $course->is_active ? 'checked' : '' }}
@@ -224,4 +229,63 @@
                     .catch(error => console.error('Error:', error));
             }
         </script>
-    @endsection
+        <script>
+            $(document).ready(function () {
+                $('.add-to-home-text').click(function () {
+                    var courseId = $(this).data('id');
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "Do you want to add this course to home?",
+                        icon: "warning",
+                        background: '#f8f9fa',
+                        color: '#343a40',
+                        showCancelButton: true,
+                        confirmButtonColor: "#28a745",
+                        cancelButtonColor: "#dc3545",
+                        confirmButtonText: "Yes, Add it!",
+                        cancelButtonText: "No, Cancel",
+                        customClass: {
+                            title: 'swal-title',
+                            content: 'swal-content',
+                            confirmButton: 'swal-confirm-button',
+                            cancelButton: 'swal-cancel-button'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "{{ route('courses.addToHome') }}", // Add your route here
+                                type: "POST",
+                                data: {
+                                    _token: "{{ csrf_token() }}",
+                                    course_id: courseId
+                                },
+                                success: function (response) {
+                                    Swal.fire({
+                                        title: "Added to Home!",
+                                        text: "The course has been added to home.",
+                                        icon: "success",
+                                        background: '#d4edda',
+                                        color: '#155724',
+                                        confirmButtonColor: "#28a745"
+                                    });
+                                    location.reload(); // Reload page after update
+                                },
+                                error: function (xhr) {
+                                    var errorMessage = xhr.responseJSON.message || "Something went wrong.";
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: errorMessage,
+                                        icon: "error",
+                                        background: '#f8d7da',
+                                        color: '#721c24',
+                                        confirmButtonColor: "#dc3545"
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+
+@endsection

@@ -13,6 +13,7 @@
                 </li>
                 <li><a href="{{ route('course') }}"
                         class="{{ request()->routeIs('course') ? 'active' : '' }}">Courses</a></li>
+
                 <li><a href="{{ route('contact') }}"
                         class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
 
