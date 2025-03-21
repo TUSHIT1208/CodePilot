@@ -52,7 +52,7 @@
                             <div class="card_dash_left">
                                 <h5>Total Students</h5>
                                 <h2>2650</h2>
-                                <a href="">view Students</a>
+                                <a href="{{route('totalLearners')}}">view Students</a>
                                 {{-- <span class="crdbg_4">New 245</span> --}}
                             </div>
                             <div class="card_dash_right">
