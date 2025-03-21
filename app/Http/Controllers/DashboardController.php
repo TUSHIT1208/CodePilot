@@ -31,8 +31,8 @@ class DashboardController extends Controller
     
         return view('admin.dashboard',compact('total_course','total_earning','total_enrollments','total_learners'));
     }
-    public function total_earning(Request $request){
-        $paymentTransactions = PaymentTransaction::whereIn('order_id', function ($query) {
+    public function total_earning(Request $request) {
+        $query = PaymentTransaction::whereIn('order_id', function ($query) {
             $query->select('order_id')
                 ->from('order_items')
                 ->whereIn('course_id', function ($subQuery) {
@@ -40,35 +40,65 @@ class DashboardController extends Controller
                         ->from('courses')
                         ->where('user_id', auth()->user()->id);
                 });
-        })->get();
-        if (auth()->user()->role->name === 'admin') {
-            if ($request->ajax()) {
-                logger($paymentTransactions);
-                return DataTables::of($paymentTransactions)
-                    ->addColumn('course_name', function ($row) {
-                        // Display all course names related to the payment transaction
-                        logger($row->order->order_items->pluck('course.title')->join(', '));
-                        return $row->order->order_items->pluck('course.title')->join(', ') ?? 'N/A';
-                    })
-                    ->editColumn('created_at', function ($row) {
-                        return Carbon::parse($row->created_at)->format('d M Y, h:i A'); // Example: 09 Mar 2025, 10:45 AM
-                    })
-                    ->make(true);
+        });
+    
+        // Filter by Course ID
+        if ($request->has('course_id') && !empty($request->course_id)) {
+            $query->whereHas('order.order_items', function ($q) use ($request) {
+                $q->where('course_id', $request->course_id);
+            });
+        }
+    
+        // Filter by Date Range
+        if ($request->has('date_range') && !empty($request->date_range)) {
+            $dates = explode(' - ', $request->date_range);
+            if (count($dates) == 2) {
+                $startDate = Carbon::parse($dates[0])->startOfDay();
+                $endDate = Carbon::parse($dates[1])->endOfDay();
+                $query->whereBetween('created_at', [$startDate, $endDate]);
             }
-            return view('admin.report.total_earning.list', compact('paymentTransactions'));
         }
-    }
-
-    public function total_enroll(Request $request){
-        $userCourses = user_course::with(['user', 'course'])->get();
-        
-        if ($request->has('course_id') && $request->course_id != '') {
-            $userCourses->where('course_id', $request->course_id);
-        }
-        
+    
+        // Get filtered transactions
+        $paymentTransactions = $query->get();
+    
+        // Handle AJAX request for DataTables
         if ($request->ajax()) {
-        
-            return DataTables::of($userCourses)
+            return DataTables::of($paymentTransactions)
+                ->addColumn('course_name', function ($row) {
+                    return $row->order->order_items->pluck('course.title')->join(', ') ?? 'N/A';
+                })
+                ->editColumn('created_at', function ($row) {
+                    return Carbon::parse($row->created_at)->format('d M Y, h:i A');
+                })
+                ->make(true);
+        }
+    
+        // Fetch all courses for the dropdown
+        $courses = Course::where('user_id', auth()->user()->id)->get();
+    
+        return view('admin.report.total_earning.list', compact('paymentTransactions', 'courses'));
+    }
+    
+
+    public function total_enroll(Request $request) {
+        $query = User_course::with(['user', 'course']);
+
+        if ($request->ajax()) {
+            if ($request->filled('course_id')) {
+                $query->where('course_id', $request->course_id);
+            }
+
+            // Date Range Filtering
+            if ($request->filled('date_range')) {
+                $dates = explode(' - ', $request->date_range);
+                $startDate = Carbon::parse($dates[0])->startOfDay();
+                $endDate = Carbon::parse($dates[1])->endOfDay();
+
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }
+
+            return DataTables::of($query)
                 ->addColumn('learner_name', function ($row) {
                     return optional($row->user)->first_name ?? 'N/A';
                 })
@@ -81,8 +111,10 @@ class DashboardController extends Controller
                 ->rawColumns(['learner_name', 'course_title', 'created_at'])
                 ->make(true);
         }
-        $courses = Course::all(); // Fetch courses for the dropdown
-        return view('admin.report.total_enroll.list',compact('userCourses','courses'));
+
+        $courses = Course::all();
+        return view('admin.report.total_enroll.list', compact('courses'));
+    
     }
     /**
      * Show the form for creating a new resource.

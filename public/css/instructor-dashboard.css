@@ -1729,6 +1729,7 @@ i.icon1 {
     border-radius: 3px;
     margin-bottom: 12px;
     overflow-x: inherit;
+    padding: 10px;
 }
 
 table.table.ucp-table {
@@ -5028,4 +5029,38 @@ button.close {
 
 .was-validated .form-control:invalid{
     border-color: #dc3545 !important;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-left: 0;
+    cursor: pointer;
+}
+
+
+/* Highlight selected date in Red */
+.daterangepicker td.active, 
+.daterangepicker td.active:hover {
+    background-color: red !important;
+    color: white !important;
+    border-radius: 50%;
+}
+
+
+/* Ensuring Date Picker Displays One Month */
+.daterangepicker {
+    border-radius: 10px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.daterangepicker .drp-calendar {
+    width: 100% !important;
+}
+
+.daterangepicker .drp-calendar.left {
+    display: block !important;
+}
+
+.daterangepicker .drp-calendar.right {
+    display: none !important;
 }

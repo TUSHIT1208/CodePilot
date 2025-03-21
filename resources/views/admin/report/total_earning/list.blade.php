@@ -13,11 +13,30 @@
                         <h2 class="st_title"><i class="uil uil-transaction"></i> Total Earning</h2>
                     </div>
                 </div>
+                
+
                 <div class="col-md-12">
                     <div class="card_dash1">
+                        <div class="row mb-3">
+                            <!-- Course Filter -->
+                            <div class="col-md-4">
+                                <label for="courseFilter">Filter by Course:</label>
+                                <select id="courseFilter" class="form-control">
+                                    <option value="">All Courses</option>
+                                    @foreach($courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+        
+                            <!-- Date Range Filter -->
+                            <div class="col-md-4">
+                                <label for="enrollDateRange">Filter by Enroll Date:</label>
+                                <input type="text" id="enrollDateRange" class="form-control" placeholder="Select Date Range">
+                            </div>
+                        </div>
                         <div class="table-responsive mt-30">
                             @if ($paymentTransactions->isEmpty())
-                                <!-- No Records Found -->
                                 <div class="no-categories-container text-center fade-in-animation footer">
                                     <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
                                     <h3 class="mt-3 scale-in-text" style="color: #777;">No payment Transactions Found</h3>
@@ -47,25 +66,61 @@
         @include('admin.layouts.footer')
     </div>
 
-    <!-- DataTables Script -->
+    <!-- DataTables and Filters Script -->
     <script>
         $(document).ready(function () {
-            $('#transactionTable').DataTable({
+            // Initialize Date Range Picker
+            $('#enrollDateRange').daterangepicker({
+                singleDatePicker: false,
+                showDropdowns: true,
+                autoApply: true, // Removes Apply/Cancel buttons
+                linkedCalendars: false, // Ensures only one month is displayed
+                opens: "left",
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+                maxDate: moment(), // Prevent future date selection
+            });
+
+            // Trigger filter on date selection
+            $('#enrollDateRange').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+                table.ajax.reload(); // Reload DataTable with selected date range
+            });
+
+            // Clear filter when input is cleared
+            $('#enrollDateRange').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+                table.ajax.reload();
+            });
+
+
+            // Initialize DataTable with AJAX Filters
+            let table = $('#transactionTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('total.earning') }}",
+                ajax: {
+                    url: "{{ route('total.earning') }}",
+                    data: function (d) {
+                        d.course_id = $('#courseFilter').val();
+                        d.date_range = $('#enrollDateRange').val();
+                    }
+                },
                 columns: [
                     { data: "transaction_id", name: "transaction_id" },
-                    { data: "course_name", name: "course_name" }, // Added Course Name
+                    { data: "course_name", name: "course_name" },
                     { data: "status", name: "status" },
                     { data: "amount", name: "amount" },
                     { data: "created_at", name: "created_at" }
-                ], language: {
+                ],
+                language: {
                     emptyTable: "No transaction history found"
-                },
-                error: function (xhr) {
-                    console.log("AJAX Error: ", xhr.responseText);
                 }
+            });
+
+            // Filter when selecting a course
+            $('#courseFilter').change(function () {
+                table.ajax.reload();
             });
         });
     </script>
