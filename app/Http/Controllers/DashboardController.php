@@ -116,6 +116,8 @@ class DashboardController extends Controller
             $query = User::select(
                 'users.id',
                 'users.first_name',
+                'users.middle_name',
+                'users.last_name',
                 'users.email',
                 'users.phone_number',
                 'users.profile_picture_url',
@@ -142,7 +144,16 @@ class DashboardController extends Controller
                 ->addColumn('is_active', function ($user) {
                     return $user->is_active ? '<span class="badge badge-success active-learner">Active</span>' : '<span class="badge badge-danger inctive-learner">Inactive</span>';
                 })
-                ->rawColumns(['profile_picture_url', 'is_active'])
+                ->addColumn('full_name', function ($user) {
+                    return trim($user->first_name . ' ' . ($user->middle_name ?? '') . ' ' . $user->last_name);
+                })
+                ->filterColumn('full_name', function ($query, $keyword) {
+                    $query->whereRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) LIKE ?", ["%{$keyword}%"]);
+                })
+                ->orderColumn('full_name', function ($query, $order) {
+                    $query->orderByRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) {$order}");
+                })
+                ->rawColumns(['profile_picture_url', 'is_active','full_name'])
                 ->make(true);
         }
 

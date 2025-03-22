@@ -83,7 +83,7 @@
                             searchable: false
                         },
                         {
-                            data: 'first_name'
+                            data: 'full_name'
                         },
                         {
                             data: 'email'
