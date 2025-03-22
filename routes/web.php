@@ -282,6 +282,7 @@ Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest']
 
 Route::get('/total/learners',[DashboardController::class,'learner'])->name('totalLearners');
 Route::get('/total/courses',[DashboardController::class,'course'])->name('totalCourses');
+
 Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
     $subcategories = sub_category::where('category_id', $categoryId)->get();
     return response()->json($subcategories);

@@ -74,39 +74,82 @@ class DashboardController extends Controller
     }
 
 
+    // public function learner(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $learners = User::select([
+    //             'id',
+    //             'profile_picture_url',
+    //             'first_name',
+    //             'middle_name',
+    //             'last_name',
+    //             'email',
+    //             'phone_number',
+    //             'is_active'
+    //         ])->where('role_id', 3);
+
+    //         return DataTables::of($learners)
+    //             ->addColumn('profile', function ($learner) {
+    //                 return !empty($learner->profile_picture_url)
+    //                     ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40">'
+    //                     : '<h1 id="default_avtar">' . strtoupper(substr($learner->first_name, 0, 1)) . '</h1>';
+    //             })
+    //             ->addColumn('full_name', function ($row) {
+    //                 return $row->first_name . ' ' . ($row->middle_name ? $row->middle_name . ' ' : '') . $row->last_name;
+    //             })
+    //             ->addColumn('status', function ($row) {
+    //                 return $row->is_active ? '<span class="badge badge-success active-learner">Active</span>' : '<span class="badge badge-danger inctive-learner">Inactive</span>';
+    //             })
+    //             ->rawColumns(['profile', 'status'])
+    //             ->make(true);
+    //     }
+
+    //     $learners = User::where('role_id', 3)->get();
+    //     $categories = category::all();
+    //     $userCourses = user_course::get();
+    //     return view('admin.report.total_learner.list', compact('learners','categories'));
+    // }
+
     public function learner(Request $request)
     {
         if ($request->ajax()) {
-            $learners = User::select([
-                'id',
-                'profile_picture_url',
-                'first_name',
-                'middle_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'is_active'
-            ])->where('role_id', 3);
+            $query = User::select(
+                'users.id',
+                'users.first_name',
+                'users.email',
+                'users.phone_number',
+                'users.profile_picture_url',
+                'users.is_active'
+            )
+                ->leftJoin('user_courses', 'users.id', '=', 'user_courses.user_id') // Allow users without courses
+                ->leftJoin('courses', 'user_courses.course_id', '=', 'courses.id')
+                ->where('users.role_id', 3); // Only learners
 
-            return DataTables::of($learners)
-                ->addColumn('profile', function ($learner) {
+            if ($request->category_id) {
+                $query->where('courses.category_id', $request->category_id);
+            }
+
+            if ($request->subcategory_id) {
+                $query->where('courses.sub_category_id', $request->subcategory_id);
+            }
+
+            return DataTables::of($query)
+                ->addColumn('profile_picture_url', function ($learner) {
                     return !empty($learner->profile_picture_url)
-                        ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40">'
+                        ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40" class="rounded-circle">'
                         : '<h1 id="default_avtar">' . strtoupper(substr($learner->first_name, 0, 1)) . '</h1>';
                 })
-                ->addColumn('full_name', function ($row) {
-                    return $row->first_name . ' ' . ($row->middle_name ? $row->middle_name . ' ' : '') . $row->last_name;
+                ->addColumn('is_active', function ($user) {
+                    return $user->is_active ? '<span class="badge badge-success active-learner">Active</span>' : '<span class="badge badge-danger inctive-learner">Inactive</span>';
                 })
-                ->addColumn('status', function ($row) {
-                    return $row->is_active ? '<span class="badge badge-success active-learner">Active</span>' : '<span class="badge badge-danger inctive-learner">Inactive</span>';
-                })
-                ->rawColumns(['profile', 'status'])
+                ->rawColumns(['profile_picture_url', 'is_active'])
                 ->make(true);
         }
 
-        $learners = User::where('role_id', 3)->get();
-        $categories = category::all();
-        $userCourses = user_course::get();
-        return view('admin.report.total_learner.list', compact('learners','categories'));
+        $learners = User::where('role_id', 3)->get(); // Get all learners initially
+        $categories = Category::all();
+
+        return view('admin.report.total_learner.list', compact('learners', 'categories'));
     }
+
 }

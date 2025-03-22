@@ -29,7 +29,7 @@
                                 <div class="row mb-4">
                                     <div class="col-sm-3">
                                         <label for="category">Select Category</label>
-                                        <select id="category" class="form-control">
+                                        <select id="category" class="form-control _dlor1">
                                             <option value="">-- Select Category --</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <label for="subcategory">Select Subcategory</label>
-                                        <select id="subcategory" class="form-control">
+                                        <select id="subcategory" class="form-control _dlor1">
                                             <option value="">-- Select Subcategory --</option>
                                         </select>
                                     </div>
@@ -64,20 +64,26 @@
             </div>
         </div>
         @include('admin.layouts.footer')
+
         <script>
             $(document).ready(function() {
-                // Initialize DataTable
-                $('#myTable').DataTable({
+                var table = $('#myTable').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('totalLearners') }}",
+                    ajax: {
+                        url: "{{ route('totalLearners') }}",
+                        data: function(d) {
+                            d.category_id = $('#category').val();
+                            d.subcategory_id = $('#subcategory').val();
+                        }
+                    },
                     columns: [{
-                            data: 'profile',
+                            data: 'profile_picture_url',
                             orderable: false,
                             searchable: false
                         },
                         {
-                            data: 'full_name'
+                            data: 'first_name'
                         },
                         {
                             data: 'email'
@@ -86,13 +92,19 @@
                             data: 'phone_number'
                         },
                         {
-                            data: 'status',
-                            orderable: false
+                            data: 'is_active',
+                            orderable: false,
+                            searchable: false
                         }
                     ]
                 });
 
-                // Load Subcategories on Category Selection
+                // Reload DataTable when category or subcategory changes
+                $('#category, #subcategory').change(function() {
+                    table.ajax.reload();
+                });
+
+                // Load Subcategories when Category is Selected
                 $('#category').change(function() {
                     var categoryId = $(this).val();
                     if (categoryId) {
@@ -101,7 +113,7 @@
                             type: "GET",
                             success: function(data) {
                                 $('#subcategory').empty().append(
-                                    '<option value="">Select Subcategory</option>');
+                                    '<option value="">-- Select Subcategory --</option>');
                                 $.each(data, function(key, value) {
                                     $('#subcategory').append('<option value="' + value.id +
                                         '">' + value.name + '</option>');
@@ -109,7 +121,7 @@
                             }
                         });
                     } else {
-                        $('#subcategory').empty().append('<option value="">Select Subcategory</option>');
+                        $('#subcategory').empty().append('<option value="">-- Select Subcategory --</option>');
                     }
                 });
             });
