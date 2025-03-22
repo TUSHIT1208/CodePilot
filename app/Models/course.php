@@ -44,5 +44,9 @@ class course extends Model
     public function review(){
         return $this->hasMany(review::class);
     }
+    public function order_item()
+    {
+        return $this->hasMany(Order_item::class, 'course_id');
+    }
     
 }

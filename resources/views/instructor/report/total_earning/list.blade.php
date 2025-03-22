@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('instructor.layouts.master')
 
 @section('title')
     Total Earning
@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        @include('admin.layouts.footer')
+        @include('instructor.layouts.footer')
     </div>
 
     <!-- DataTables and Filters Script -->
@@ -102,28 +102,31 @@
             // Trigger filter on date selection
             $('#enrollDateRange').on('apply.daterangepicker', function(ev, picker) {
                 $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
-                table.ajax.reload(); // Reload DataTable with selected date range
+                table.draw(); // Use draw() instead of ajax.reload()
             });
 
-            // Clear filter when input is cleared
-            $('#enrollDateRange').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-                table.ajax.reload();
-            });
+            // // Clear filter when input is cleared
+            // $('#enrollDateRange').on('cancel.daterangepicker', function(ev, picker) {
+            //     $(this).val('');
+            //     table.ajax.reload();
+            // });
 
 
-            // Initialize DataTable with AJAX Filters
+            // // Initialize DataTable with AJAX Filters
             let table = $('#transactionTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('total.earning') }}",
+                    url: "{{ route('total.instructor.earning') }}",
                     data: function (d) {
                         d.course_id = $('#courseFilter').val();
                         d.date_range = $('#enrollDateRange').val();
                         d.category_id = $('#category').val();
                         d.subcategory_id = $('#subcategory').val(); 
-                    }
+                    },
+                        error: function(xhr, error, thrown) { 
+                            console.error("AJAX Error: ", xhr.responseText); // Debugging
+                        }
                 },
                 columns: [
                     { data: "transaction_id", name: "transaction_id" },
@@ -138,10 +141,13 @@
             });
 
             // Filter when selecting a course
-            $('#courseFilter').change(function () {
-                table.ajax.reload();
+            $('#courseFilter, #category, #subcategory, #enrollDateRange').change(function () {
+                if ($.fn.DataTable.isDataTable('#transactionTable')) {
+                    table.ajax.reload();
+                } else {
+                    console.warn("DataTable not initialized yet!");
+                }
             });
-
             // Reload DataTable when filters change
             $('#category, #subcategory, #courseFilter, #enrollDateRange').on('change', function () {
                 console.log("Category Selected: ", $('#category').val());  // ✅ Debugging

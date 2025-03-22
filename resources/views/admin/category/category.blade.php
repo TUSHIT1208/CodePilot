@@ -407,7 +407,7 @@
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.success) {
-                                        toastr.success('suc',data.success);
+                                        //toastr.success('suc',data.success);
                                         setTimeout(function() {
                                             location
                                         .reload(); // Reload the page after a short delay

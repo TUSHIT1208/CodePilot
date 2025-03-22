@@ -125,9 +125,7 @@ Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
 })->name('learner.dashboard')->middleware('auth');
 
-Route::get('/dashboard/instructor', function () {
-    return view('instructor.dashboard');
-})->name('instructor.dashboard')->middleware('auth');
+Route::get('/dashboard/instructor', [DashboardController::class, 'instructor_index'])->name('instructor.dashboard')->middleware('auth');
 
 Route::resource('user', UserController::class);
 route::get('user/{id}', [UserController::class, 'destroy']);
@@ -292,7 +290,9 @@ Route::resource('dashboard', DashboardController::class)->middleware('auth');
 
 Route::get('/total/learners',[DashboardController::class,'learnears'])->name('totalLearners');
 Route::get('/total/earning',[DashboardController::class,'total_earning'])->name('total.earning');
+Route::get('/total/instructor/earning',[DashboardController::class,'instructor_total_earning'])->name('total.instructor.earning');
 Route::get('/total/enroll',[DashboardController::class,'total_enroll'])->name('total.enroll');
+Route::get('/total/instructor/enroll',[DashboardController::class,'instructor_total_enroll'])->name('total.instructor.enroll');
 Route::get('/total/learners',[DashboardController::class,'learner'])->name('totalLearners');
 Route::get('/total/courses',[DashboardController::class,'course'])->name('totalCourses');
 Route::get('/get-subcategories/{categoryId}', function ($categoryId) {

@@ -29,7 +29,7 @@
                                 <div class="row mb-4">
                                     <div class="col-sm-3">
                                         <label for="category">Select Category</label>
-                                        <select id="category" class="form-control">
+                                        <select id="category" class="form-control dt-input">
                                             <option value="">-- Select Category --</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <label for="subcategory">Select Subcategory</label>
-                                        <select id="subcategory" class="form-control">
+                                        <select id="subcategory" class="form-control dt-input">
                                             <option value="">-- Select Subcategory --</option>
                                         </select>
                                     </div>

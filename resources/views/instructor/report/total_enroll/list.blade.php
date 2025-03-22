@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('instructor.layouts.master')
 
 @section('title', 'User Course Enrollments')
 
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-    @include('admin.layouts.footer')
+    @include('instructor.layouts.footer')
 </div>
 
 <!-- DataTables and Date Range Picker Script -->
@@ -112,7 +112,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('total.enroll') }}",
+                url: "{{ route('total.instructor.enroll') }}",
                 data: function (d) {
                     d.course_id = $('#courseFilter').val();
                     d.date_range = $('#enrollDateRange').val();
