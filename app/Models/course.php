@@ -42,11 +42,16 @@ class course extends Model
         return $this->hasMany(user_course::class);
     }
     public function review(){
-        return $this->hasMany(review::class);
+        return $this->hasMany(review::class,'course_id');
     }
     public function order_item()
     {
         return $this->hasMany(Order_item::class, 'course_id');
     }
+    public function latestReview()
+    {
+        return $this->hasOne(Review::class, 'course_id')->latest();
+    }
+
     
 }

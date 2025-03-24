@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\role;
 use App\Models\User;
+use App\Models\review;
 use App\Models\course;
 use App\Models\category;
 use App\Models\order_item;
@@ -91,6 +92,24 @@ class DashboardController extends Controller
         logger("in instructor dashboard");
         $instructor = auth()->user(); // Get the authenticated instructor
 
+        $courses = Course::where('user_id', $instructor)
+        ->with(relations: ['userCourse.user']) // Load users who purchased
+        ->get();
+
+        // Prepare data for chart
+        $courseNames = [];
+        $userNames = [];
+
+        foreach ($courses as $course) {
+            foreach ($course->userCourse as $userCourse) {
+                $courseNames[] = $course->title; // Course name
+                $userNames[] = $userCourse->user->first_name; // User who purchased
+            }
+        }
+        logger($userNames);    
+        logger($courseNames);    
+
+
         // Total earnings for this instructor
         $total_earning = PaymentTransaction::whereHas('order', function ($query) use ($instructor) {
             $query->whereHas('order_items.course', function ($q) use ($instructor) {
@@ -166,11 +185,49 @@ class DashboardController extends Controller
         
         return view('instructor.dashboard', compact(
             'total_course', 'total_earning', 'total_enrollments', 
-            'courses', 'most_courses','pendingCourse'
+            'courses', 'most_courses','pendingCourse','courseNames', 'userNames'
         ));
     }
 
+    public function learner_index(){
 
+        $total_course =course::count('id');
+        logger($total_course);
+        $total_purcharsed_course =user_course::where('user_id',auth()->user()->id)->count('id');
+        logger($total_purcharsed_course);
+        $total_learners = User::whereHas('role', function ($query) {
+            $query->where('name', 'learner'); // Ensure this matches your database role name
+        })->count();
+        logger($total_learners);
+    
+
+        $most_courses = Course::with(['category', 'subcategory'])
+                    ->withCount(['order_item as total_sales' => function ($query) {
+                        $query->select(DB::raw('COUNT(*)')); // Count total sales
+                    }])
+                    ->orderByDesc('total_sales') // Sort by most sold
+                    ->take(3) // Get top 3 courses
+                    ->get();
+        $latest_courses = Course::latest()->take(3)->get();
+
+        $courses = Course::whereHas('review') // Only fetch courses that have reviews
+            ->with(['review' => function ($query) {
+            $query->orderByDesc('rating'); // Sort reviews from highest to lowest
+            }, 'review.user'])->take(5)
+            ->get();
+                    //dd($courses->toArray());  
+
+        // course purchase chart
+        $purchasesByMonth = PaymentTransaction::select(
+            DB::raw("DATE_FORMAT(created_at, '%M') as month"),
+            DB::raw("COUNT(id) as total_purchases")
+        )
+        ->where('created_by', auth()->user()->id)
+        ->groupBy('month')
+        ->orderBy(DB::raw("STR_TO_DATE(month, '%M')"), 'asc')
+        ->get();
+        return view('learner.dashboard',compact('most_courses','courses','total_learners','total_course','total_purcharsed_course','latest_courses','purchasesByMonth'));
+    }
     public function total_earning(Request $request) {
        
             $query = PaymentTransaction::whereIn('order_id', function ($query) {
@@ -295,6 +352,7 @@ class DashboardController extends Controller
 
 
     public function instructor_total_earning(request $request){
+
         logger("in instrctor total_earning");
         $instructor = auth()->user(); // Get authenticated instructor
 
@@ -425,7 +483,59 @@ class DashboardController extends Controller
     
         return view('instructor.report.total_enroll.list', compact('courses', 'categories'));
     }
+
+    public function learner_purchesed_course(Request $request)
+    {
+        $userId = auth()->id();
+
+        
+
+        // Fetch purchased courses with course details
+        $courses = User_course::with('course')
+            ->where('user_id', $userId)
+            ->get();
+
+        // Fetch payment transactions for the authenticated user
+        $transactions = PaymentTransaction::where('created_by', $userId)->get();
+
+        // Prepare formatted data for DataTables
+        $formattedCourses = $courses->map(function ($course) use ($transactions) {
+            $transaction = $transactions->where('order_id', $course->course_id)->first();
+
+            return [
+                'title' => $course->course->title ?? 'N/A',
+            'category_id' => $course->course->category_id ?? null,
+            'sub_category_id' => $course->course->sub_category_id ?? null,
+            'total_amount' => $transaction ? '₹' . number_format($transaction->amount, 2) : 'N/A',
+            'created_at' => $course->created_at ? $course->created_at->format('Y-m-d H:i:s') : 'N/A'
+            ];
+        });
+        if ($request->filled('date_range')) {
+            $dates = explode(' - ', $request->date_range);
+            $startDate = Carbon::parse(trim($dates[0]))->startOfDay();
+            $endDate = Carbon::parse(trim($dates[1]))->endOfDay();
+
+            // Filter courses within the selected date range
+            $formattedCourses = $formattedCourses->filter(function ($course) use ($startDate, $endDate) {
+                return Carbon::parse($course['created_at'])->between($startDate, $endDate);
+            });
+        }
+
+        if ($request->filled('category_id')) {
+            $formattedCourses = $formattedCourses->where('category_id', $request->category_id);
+        }
     
+        // Apply subcategory filter
+        if ($request->filled('subcategory_id')) {
+            $formattedCourses = $formattedCourses->where('sub_category_id', $request->subcategory_id);
+        }
+
+        if ($request->ajax()) {
+            return DataTables::of($formattedCourses)->make(true);
+        }
+        $categories = Category::all();
+        return view('learner.reports.purchesed_course.list',compact('formattedCourses','categories'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -463,8 +573,6 @@ class DashboardController extends Controller
         //
     }
 
-
-
     public function course(Request $request)
     {
         if ($request->ajax()) {
@@ -484,39 +592,78 @@ class DashboardController extends Controller
     }
 
 
+    public function learner_course(Request $request)
+    {
+        if ($request->ajax()) {
+            $courses = Course::with(['courseattachment', 'user'])->select('id', 'title', 'user_id', 'created_at');
+
+            return datatables()->of($courses)
+                ->addColumn('instructor', function ($course) {
+                    return $course->user ? $course->user->name : 'N/A';
+                })
+                ->addColumn('attachments', function ($course) {
+                    return $course->courseattachment ? count($course->courseattachment) . ' files' : 'No Attachments';
+                })
+                ->make(true);
+        }
+        
+            return view('learner.reports.total_course.list');
+        
+    }
+    
+
     public function learner(Request $request)
     {
         if ($request->ajax()) {
-            $learners = User::select([
-                'id',
-                'profile_picture_url',
-                'first_name',
-                'middle_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'is_active'
-            ])->where('role_id', 3);
+            $query = User::select(
+                'users.id',
+                'users.first_name',
+                'users.middle_name',
+                'users.last_name',
+                'users.email',
+                'users.phone_number',
+                'users.profile_picture_url',
+                'users.is_active'
+            )
+                ->leftJoin('user_courses', 'users.id', '=', 'user_courses.user_id') // Allow users without courses
+                ->leftJoin('courses', 'user_courses.course_id', '=', 'courses.id')
+                ->where('users.role_id', 3); // Only learners
 
-            return DataTables::of($learners)
-                ->addColumn('profile', function ($learner) {
+            if ($request->category_id) {
+                $query->where('courses.category_id', $request->category_id);
+            }
+
+            if ($request->subcategory_id) {
+                $query->where('courses.sub_category_id', $request->subcategory_id);
+            }
+
+            return DataTables::of($query)
+                ->addColumn('profile_picture_url', function ($learner) {
                     return !empty($learner->profile_picture_url)
-                        ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40">'
-                        : '<h1 id="default_avtar">' . strtoupper(substr($learner->first_name, 0, 1)) . '</h1>';
+                        ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40" class="rounded-circle">'
+                        : '<h1 class="default_avtar">' . strtoupper(substr($learner->first_name, 0, 1)) . '</h1>';
                 })
-                ->addColumn('full_name', function ($row) {
-                    return $row->first_name . ' ' . ($row->middle_name ? $row->middle_name . ' ' : '') . $row->last_name;
+                ->addColumn('is_active', function ($user) {
+                    return $user->is_active ? '<span class="badge badge-success active-learner">Active</span>' : '<span class="badge badge-danger inctive-learner">Inactive</span>';
                 })
-                ->addColumn('status', function ($row) {
-                    return $row->is_active ? '<span class="badge badge-success active-learner">Active</span>' : '<span class="badge badge-danger inctive-learner">Inactive</span>';
+                ->addColumn('full_name', function ($user) {
+                    return trim($user->first_name . ' ' . ($user->middle_name ?? '') . ' ' . $user->last_name);
                 })
-                ->rawColumns(['profile', 'status'])
+                ->filterColumn('full_name', function ($query, $keyword) {
+                    $query->whereRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) LIKE ?", ["%{$keyword}%"]);
+                })
+                ->orderColumn('full_name', function ($query, $order) {
+                    $query->orderByRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) {$order}");
+                })
+                ->rawColumns(['profile_picture_url', 'is_active','full_name'])
                 ->make(true);
         }
 
-        $learners = User::where('role_id', 3)->get();
-        $categories = category::all();
-        $userCourses = user_course::get();
-        return view('admin.report.total_learner.list', compact('learners','categories'));
+        $learners = User::where('role_id', 3)->get(); // Get all learners initially
+        $categories = Category::all();
+
+        return view('admin.report.total_learner.list', compact('learners', 'categories'));
     }
+
+   
 }

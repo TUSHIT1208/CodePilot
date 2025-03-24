@@ -41,7 +41,7 @@ class UserController extends Controller
                 ->addColumn('profile', function ($learner) {
                     return !empty($learner->profile_picture_url)
                         ? '<img id="profile_picture" src="' . asset($learner->profile_picture_url) . '" width="40">'
-                        : '<h1 id="default_avtar">' . strtoupper(substr($learner->first_name, 0, 1)) . '</h1>';
+                        : '<h1 class="default_avtar">' . strtoupper(substr($learner->first_name, 0, 1)) . '</h1>';
                 })
                 ->addColumn('status', function ($learner) {
                     return '<div class="toggle-button mt-2 text-center">
@@ -109,7 +109,7 @@ class UserController extends Controller
                 ->addColumn('profile', function ($instructors) {
                     return !empty($instructors->profile_picture_url)
                         ? '<img id="profile_picture" src="' . asset($instructors->profile_picture_url) . '" width="40">'
-                        : '<h1 id="default_avtar">' . strtoupper(substr($instructors->first_name, 0, 1)) . '</h1>';
+                        : '<h1 class="default_avtar">' . strtoupper(substr($instructors->first_name, 0, 1)) . '</h1>';
                 })
                 ->addColumn('status', function ($instructor) {
                     return '<div class="toggle-button mt-2 text-left">

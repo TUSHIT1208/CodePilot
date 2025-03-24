@@ -303,7 +303,7 @@
                                                 <img id="profile_picture"
                                                     src="{{  asset($courseItem->user->profile_picture_url) }}">
                                             @else
-                                                <h1 id="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
+                                                <h1 class="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
                                             @endif
                                             {{-- <img
                                                 src="{{ isset($courseItem->user->profile_picture_url) && $courseItem->user->profile_picture_url != null ? asset($courseItem->user->profile_picture_url) : 'https://via.placeholder.com/150/0000FF/808080?Text=' . strtoupper(substr($courseItem->user->first_name, 0, 1)) }}"
