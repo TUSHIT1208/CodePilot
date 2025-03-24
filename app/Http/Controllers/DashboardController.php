@@ -76,8 +76,8 @@ class DashboardController extends Controller
                 ->rawColumns(['profile', 'status'])
                 ->make(true);
         }
-        
+
         $learners = User::where('role_id', 3)->get();
-        return view('admin.report.total_learner.list',compact('learners'));
+        return view('admin.report.total_learner.list', compact('learners'));
     }
 }

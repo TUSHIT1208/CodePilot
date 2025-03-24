@@ -58,7 +58,7 @@
 					</a>
 				</li>
 				<li class="menu--item">
-					<a href="student_my_certificates.html" class="menu--link" title="My Certificates">
+					<a href="{{route('certificate.list')}}" class="menu--link" title="My Certificates">
 						<i class='uil uil-award menu--icon'></i>
 						<span class="menu--label">My Certificates</span>
 					</a>

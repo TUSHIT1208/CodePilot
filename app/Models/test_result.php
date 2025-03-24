@@ -21,7 +21,8 @@ class test_result extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function test_result_answer()  {
+    public function test_result_answer()
+    {
         return $this->hasMany(test_result_answer::class);
     }
 }

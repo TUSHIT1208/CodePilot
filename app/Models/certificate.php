@@ -22,4 +22,6 @@ class certificate extends Model
         return $this->belongsTo(Test::class);
     }
 
+
+
 }

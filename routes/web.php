@@ -255,10 +255,7 @@ Route::get('/test/certification', function () {
 })->name('learner.certification.exam')->middleware('auth');
 
 
-Route::resource('certificate', CertificateController::class);
 
-Route::get('/genarate', [CertificateController::class, 'index']);
-Route::get('/cirty', [CertificateController::class, 'cirty']);
 
 route::get('/learning-path', [LearningPathController::class, 'learningpath_learner'])->name('learning.path')->middleware('auth');
 
@@ -280,3 +277,16 @@ Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name
 Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit');
 
 Route::get('/total/learners', [DashboardController::class, 'learner'])->name('totalLearners');
+Route::get('/total/courses', [DashboardController::class, 'course'])->name('totalCourses');
+
+
+Route::resource('certificate', CertificateController::class);
+
+Route::get('/genarate', [CertificateController::class, 'index']);
+Route::get('/cirty', [CertificateController::class, 'cirty'])->name('downloadCerty');
+Route::get('/view/{certificate_id}', [CertificateController::class, 'view'])->name('certificate.download');
+
+
+route::get('/all_certificate', [CertificateController::class, 'list'])->name('certificate.list');
+
+Route::get('/give/test/learner', [CertificateController::class, 'gettest'])->name('Test_exam');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\certificate;
 use App\Models\test;
+use App\Models\test_result;
 use App\Models\User;
 use App\Models\user_course;
 use App\Models\video;
@@ -202,6 +203,19 @@ class CourseController extends Controller
 
         $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
 
+        $test = test::where('course_id', $cid)->first();
+        $test_result = test_result::where('test_id', $test->id)->first();
+        $pass = 0;
+        if ($test->passing_marks < $test_result->overall_score) {
+            $pass = 1;
+        }
+        // $hasGivenTest = test_result::whereHas
+        // ('test', function ($query) use ($cid) {
+        //     $query->where('course_id', $cid);
+        // })->where('user_id', $userId)->exists();
+
+        //  return $hasGivenTest;
+
         $coursePrice = course::where('id', $cid)->first();
 
         if (auth()->user()->role->name === 'admin') {
@@ -209,7 +223,7 @@ class CourseController extends Controller
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice'));
+            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice', 'pass'));
         }
     }
 

@@ -18,11 +18,11 @@
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item active" aria-current="page"><a
-                                                href="{{ route('learner.dashboard') }}">Home</a>
+                                                    href="{{ route('learner.dashboard') }}">Home</a>
                                             </li>
                                             <li class="breadcrumb-item"><a
                                                     href="{{ route('certificate.center') }}">Certificate Center</a></li>
-                                           
+
                                             <li class="breadcrumb-item active" aria-current="page">Result
                                             </li>
                                         </ol>
@@ -74,13 +74,14 @@
                                             @if($p_marks < $test_result->overall_score)
                                                 <h2>Congratulation! {{ Auth::user()->username }}</h2>
                                                 <p>You are eligible for this certificate</p>
-                                                <form action="/cirty">
+                                                <form action="{{ route('downloadCerty') }}">
                                                     @csrf
                                                     <button type="submit" class="download_btn" target="_blank">Download
                                                         Certificate</button>
                                                 </form>
                                             @else
                                                 BETTER LUCK NEXT TIME......
+
                                             @endif
                                         </div>
                                     </div>
