@@ -65,7 +65,7 @@
 							</span>
 						</a>
 					</div>
-					<a href="{{ route('admin.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
+					<a href="{{ route('dashboard.index') }}" class="item channel_item">CodePilot dashboard</a>
 					<a href="{{ route('setting') }}" class="item channel_item">Setting</a>
 					<a href="{{ route('admin.help') }}" class="item channel_item">Help</a>
 					<a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>

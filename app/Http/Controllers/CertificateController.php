@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\certificate;
 use App\Models\test;
-use App\Models\PaymentTransaction;
+use App\Models\certificate;
 use App\Models\test_result;
-use App\Models\test_result_answer;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Mail\CourseCertificate;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\PaymentTransaction;
+use App\Models\test_result_answer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Contracts\DataTable;
@@ -108,7 +109,9 @@ class CertificateController extends Controller
     {
         $course = session('course');
         $test = test::with(['testquestion.testoption'])->where('course_id', $course)->first();
+
         logger($test);
+
         if (!$test) {
             logger($course);
             logger('No test found for this course');
@@ -124,6 +127,7 @@ class CertificateController extends Controller
 
     public function cirty()
     {
+        logger('in cirty');
         $course = session('course');
 
         // Ensure test exists

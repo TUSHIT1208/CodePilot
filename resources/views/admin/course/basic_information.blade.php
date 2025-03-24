@@ -140,14 +140,14 @@
                             <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory"
                                 onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
-                                @if (isset($subcategories))
+                                {{-- @if (isset($subcategories))
                                     @foreach ($subcategories as $subcategory)
                                         <option value="{{ $subcategory->id }}"
                                             {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
                                             {{ $subcategory->name }}
                                         </option>
                                     @endforeach
-                                @endif
+                                @endif --}}
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
                                         {{ old('category_id', $course->category_id ?? '') == $category->id ? 'selected' : '' }}>

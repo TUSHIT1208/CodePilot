@@ -98,17 +98,17 @@ class TestResultController extends Controller
             DB::commit();
             $certificate = certificate::all()->last();
             $test_result = test_result::all()->last();
-            $course = session('course');
-            $test_id = test::where('course_id', $course)->first();
-            $p_marks = $test_id->passing_mark;
+            //$course = session('course');
+            // $test_id = test::where('course_id', $course)->first();
+            // $p_marks = $test_id->passing_mark;
             $test_answer = session(['test_answer_id' => $test_answer->test_user_id]);
 
 
 
-            $course = session('course');
-            $test = test::where('course_id', $course)->first();
-            $test_result = test_result::where('test_id', $testId)->first();
-            if ($test->passing_marks < $test_result->overall_score) {
+            // $course = session('course');
+            // $test = test::where('course_id', $course)->first();
+            // $test_result = test_result::where('test_id', $testId)->first();
+            if ($test_id->passing_marks < $test_result->overall_score) {
                 $certificate = Certificate::create([
                     'user_id' => Auth::user()->id,
                     'test_id' => $test_id->id,

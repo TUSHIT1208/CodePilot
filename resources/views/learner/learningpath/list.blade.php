@@ -4,10 +4,6 @@
     Learning path
 @endsection
 @section('content_learner')
-    <style>
-
-    </style>
-    </head>
     <div class="wrapper">
         <div class="sa4d25">
             <div class="container-fluid">
@@ -60,7 +56,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         @include('learner.layout.footer')

@@ -1,21 +1,23 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserVideoTrackerController;
-use App\Models\certificate;
 use App\Models\faq;
+use App\Models\category;
+use App\Models\certificate;
+use App\Models\sub_category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\purchesController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactusController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TestOptionController;
 use App\Http\Controllers\TestResultController;
@@ -24,6 +26,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\LearningPathController;
 use App\Http\Controllers\TestQuestionController;
 use App\Http\Controllers\CourseAttachmentController;
+use App\Http\Controllers\UserVideoTrackerController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\PaymentTransactionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -65,9 +68,9 @@ Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login_check', [LoginController::class, 'login_check'])->name('login_check');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard')->middleware('auth');
+// Route::get('/dashboard', function () {
+//     return view('admin.dashboard');
+// })->name('admin.dashboard')->middleware('auth');
 
 Route::get('/course', function () {
     return view('admin.course');
@@ -122,9 +125,7 @@ Route::get('/dashboard/learner', function () {
     return view('learner.dashboard');
 })->name('learner.dashboard')->middleware('auth');
 
-Route::get('/dashboard/instructor', function () {
-    return view('instructor.dashboard');
-})->name('instructor.dashboard')->middleware('auth');
+Route::get('/dashboard/instructor', [DashboardController::class, 'instructor_index'])->name('instructor.dashboard')->middleware('auth');
 
 Route::resource('user', UserController::class);
 route::get('user/{id}', [UserController::class, 'destroy']);
@@ -174,11 +175,11 @@ Route::resource('learningpath', LearningPathController::class)->middleware('auth
 Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDelete'])->name('learningpath.bulk-delete');
 
 
-Route::resource('course', CourseController::class);
+Route::resource('course', CourseController::class)->middleware('auth');
 Route::patch('/courses/toggle-status/{course}', [CourseController::class, 'toggleStatus'])->name('courses.toggle');
 
 
-Route::resource('test', TestController::class);
+Route::resource('test', TestController::class)->middleware('auth');
 Route::get('/test/{quiz}', [TestController::class, 'show'])->name('test.show');
 Route::put('/test/{quiz}', [TestController::class, 'update'])->name('test.update');
 
@@ -188,7 +189,7 @@ route::resource('testquestion', TestQuestionController::class);
 
 route::resource('testoption', TestOptionController::class);
 
-Route::resource('courseAttachment', CourseAttachmentController::class);
+Route::resource('courseAttachment', CourseAttachmentController::class)->middleware('auth');
 Route::post('/video/progress/track', [UserVideoTrackerController::class, 'track'])->name('video.progress.track');
 
 Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
@@ -213,7 +214,7 @@ Route::get('/learner/profile/{id}', [UserController::class, 'learner_show'])->na
 
 Route::get('/instructor/profile/{id}', [UserController::class, 'instructor_show'])->name('user.instructor_show')->middleware('auth');
 
-Route::post('/account/close', [LoginController::class, 'closeAccount'])->name('account.close');
+Route::post('/account/close', [LoginController::class, 'closeAccount'])->name('account.close')->middleware('auth');
 
 Route::get('/cart', function () {
     return view('learner.cart.shopping_cart');
@@ -228,7 +229,7 @@ route::resource('cart', CartController::class)->middleware('auth');
 route::resource('wishlist', WishlistController::class)->middleware('auth');
 route::resource('order', OrderController::class)->middleware('auth');
 
-Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts')->middleware();
+Route::get('/counts', [CartController::class, 'getCounts'])->name('cart.counts')->middleware('auth');
 
 Route::get('/payment/callback', [OrderController::class, 'paymentCallback']);
 Route::get('/payment-success', function () {
@@ -272,9 +273,9 @@ Route::get('/payment-history', [PaymentTransactionController::class, 'learner_pa
 Route::get('/invoice/view/{id}', [PaymentTransactionController::class, 'viewInvoice'])->name('invoice.view')->middleware('auth');
 Route::get('/invoice/download/{id}', [PaymentTransactionController::class, 'downloadInvoice'])->name('invoice.download')->middleware('auth');
 
-Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name('course.publish');
+Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name('course.publish')->middleware('auth');
 
-Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit');
+Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit')->middleware('auth');
 
 Route::get('/total/learners', [DashboardController::class, 'learner'])->name('totalLearners');
 Route::get('/total/courses', [DashboardController::class, 'course'])->name('totalCourses');
@@ -290,3 +291,22 @@ Route::get('/view/{certificate_id}', [CertificateController::class, 'view'])->na
 route::get('/all_certificate', [CertificateController::class, 'list'])->name('certificate.list');
 
 Route::get('/give/test/learner', [CertificateController::class, 'gettest'])->name('Test_exam');
+//Route::get('/result/test', [TestResultController::class, 'result'])->name('test.result');
+
+
+Route::get('/review/{courseId}', [ReviewController::class, 'getReview']);
+Route::resource('review', ReviewController::class);
+
+Route::resource('dashboard', DashboardController::class)->middleware('auth');
+
+Route::get('/total/learners', [DashboardController::class, 'learnears'])->name('totalLearners');
+Route::get('/total/earning', [DashboardController::class, 'total_earning'])->name('total.earning');
+Route::get('/total/instructor/earning', [DashboardController::class, 'instructor_total_earning'])->name('total.instructor.earning');
+Route::get('/total/enroll', [DashboardController::class, 'total_enroll'])->name('total.enroll');
+Route::get('/total/instructor/enroll', [DashboardController::class, 'instructor_total_enroll'])->name('total.instructor.enroll');
+Route::get('/total/learners', [DashboardController::class, 'learner'])->name('totalLearners');
+Route::get('/total/courses', [DashboardController::class, 'course'])->name('totalCourses');
+Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
+    $subcategories = sub_category::where('category_id', $categoryId)->get();
+    return response()->json($subcategories);
+});

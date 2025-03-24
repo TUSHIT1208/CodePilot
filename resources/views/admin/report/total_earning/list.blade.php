@@ -1,0 +1,172 @@
+@extends('admin.layouts.master')
+
+@section('title')
+    Total Earning
+@endsection
+
+@section('content')
+    <div class="wrapper">
+        <div class="sa4d25">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 class="st_title"><i class="uil uil-transaction"></i> Total Earning</h2>
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12">
+                    <div class="card_dash1">
+                        <div class="row mb-3">
+                            <!-- Course Filter -->
+                            <div class="col-md-3">
+                                <label for="courseFilter">Filter by Course:</label>
+                                <select id="courseFilter" class="form-control dt-input">
+                                    <option value="">All Courses</option>
+                                    @foreach($courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+        
+                            <!-- Date Range Filter -->
+                            <div class="col-md-3">
+                                <label for="enrollDateRange">Filter by Enroll Date:</label>
+                                <input type="text" id="enrollDateRange" class="form-control" placeholder="Select Date Range">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="category">Select Category</label>
+                                <select id="category" class="form-control dt-input">
+                                    <option value="">-- Select Category --</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="subcategory">Select Subcategory</label>
+                                <select id="subcategory" class="form-control dt-input">
+                                    <option value="">-- Select Subcategory --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-responsive mt-30">
+                            @if ($paymentTransactions->isEmpty())
+                                <div class="no-categories-container text-center fade-in-animation footer">
+                                    <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
+                                    <h3 class="mt-3 scale-in-text" style="color: #777;">No payment Transactions Found</h3>
+                                    <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any
+                                        payment Transactions yet. Add one now to get started!</p>
+                                </div>
+                            @else
+                                <table id="transactionTable" class="ucp-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Transaction ID</th>
+                                            <th>Course Name</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                            <th>Date & Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @include('admin.layouts.footer')
+    </div>
+
+    <!-- DataTables and Filters Script -->
+    <script>
+        $(document).ready(function () {
+            // Initialize Date Range Picker
+            $('#enrollDateRange').daterangepicker({
+                singleDatePicker: false,
+                showDropdowns: true,
+                autoApply: true, // Removes Apply/Cancel buttons
+                autoUpdateInput: false,
+                linkedCalendars: false, // Ensures only one month is displayed
+                opens: "left",
+                locale: {
+                    format: 'YYYY-MM-DD'
+                },
+                maxDate: moment(), // Prevent future date selection
+            });
+
+            // Trigger filter on date selection
+            $('#enrollDateRange').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+                table.ajax.reload(); // Reload DataTable with selected date range
+            });
+
+            // Clear filter when input is cleared
+            $('#enrollDateRange').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+                table.ajax.reload();
+            });
+
+
+            // Initialize DataTable with AJAX Filters
+            let table = $('#transactionTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('total.earning') }}",
+                    data: function (d) {
+                        d.course_id = $('#courseFilter').val();
+                        d.date_range = $('#enrollDateRange').val();
+                        d.category_id = $('#category').val();
+                        d.subcategory_id = $('#subcategory').val(); 
+                    }
+                },
+                columns: [
+                    { data: "transaction_id", name: "transaction_id" },
+                    { data: "course_name", name: "course_name" },
+                    { data: "status", name: "status" },
+                    { data: "amount", name: "amount" },
+                    { data: "created_at", name: "created_at" }
+                ],
+                language: {
+                    emptyTable: "No transaction history found"
+                }
+            });
+
+            // Filter when selecting a course
+            $('#courseFilter').change(function () {
+                table.ajax.reload();
+            });
+
+            // Reload DataTable when filters change
+            $('#category, #subcategory, #courseFilter, #enrollDateRange').on('change', function () {
+                console.log("Category Selected: ", $('#category').val());  // ✅ Debugging
+                console.log("Subcategory Selected: ", $('#subcategory').val());  // ✅ Debugging
+                table.ajax.reload();
+            });
+
+            // Load Subcategories based on Selected Category
+            $('#category').change(function() {
+                var categoryId = $(this).val();
+                if (categoryId) {
+                    $.ajax({
+                        url: "/get-subcategories/" + categoryId,
+                        type: "GET",
+                        success: function(data) {
+                            $('#subcategory').empty().append('<option value="">Select Subcategory</option>');
+                            $.each(data, function(key, value) {
+                                $('#subcategory').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#subcategory').empty().append('<option value="">Select Subcategory</option>');
+                }
+            });
+        });
+    </script>
+@endsection

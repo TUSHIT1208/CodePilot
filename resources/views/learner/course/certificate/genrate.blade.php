@@ -20,8 +20,7 @@
                                             <li class="breadcrumb-item active" aria-current="page"><a
                                                     href="{{ route('learner.dashboard') }}">Home</a>
                                             </li>
-                                            <li class="breadcrumb-item"><a
-                                                    href="{{ route('certificate.center') }}">Certificate Center</a></li>
+
 
                                             <li class="breadcrumb-item active" aria-current="page">Result
                                             </li>
@@ -29,10 +28,7 @@
                                     </nav>
                                 </div>
                             </div>
-                            <div class="titleright">
-                                <a href="{{ route('certificate.center') }}" class="blog_link"><i
-                                        class="uil uil-angle-double-left"></i>Back to Certification Center</a>
-                            </div>
+
                         </div>
                         <div class="title126">
                             <h2>Result</h2>

@@ -73,7 +73,8 @@
                                                 <a href="#" class="crse-cate">{{ $item->course->category->name ?? 'Uncategorized' }}</a>
                                                 <div class="auth1lnkprce">
                                                     <p class="cr1fot">By <a href="#">{{ $item->course->user->first_name ?? 'Unknown' }}</a></p>
-                                                    <div class="prce142">${{ $item->course->price }}</div>
+                                                    <div class="prce142">{{ $item->course->price == 0 ? 'Free' : '₹' . $item->course->price }}</div>
+                                                    @if($item->course->price != 0)
                                                     <form class="cartForm">
                                                         @csrf
                                                         <input type="hidden" name="course_id" value="{{ $item->course->id }}">
@@ -81,6 +82,7 @@
                                                             <i class="uil uil-shopping-cart-alt"></i>
                                                         </button>
                                                     </form>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

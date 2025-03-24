@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\course;
+use App\Mail\WelcomeEmail;
 use App\Models\user_course;
 use App\Models\adminprofile;
 use Illuminate\Http\Request;
@@ -11,8 +12,10 @@ use App\Models\LearnerProfile;
 use App\Models\InstractorProfile;
 use App\Models\PaymentTransaction;
 use Illuminate\Support\Facades\Log;
+use App\Mail\AdminNotificationEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -235,6 +238,12 @@ class UserController extends Controller
             'bio' => $request->bio,
             'skills' => $request->skill,
         ]);
+        Mail::to($user->email)->send(new WelcomeEmail($user));
+        // ✅ Send Notification to Admin
+        $admin = User::where('role_id', 1)->first(); // Assuming role_id = 1 is Admin
+        if ($admin) {
+            Mail::to($admin->email)->send(new AdminNotificationEmail($user));
+        }
         return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
     }
 
@@ -301,6 +310,7 @@ class UserController extends Controller
         LearnerProfile::create([
             'user_id' => $user->id,
         ]);
+        Mail::to($user->email)->send(new WelcomeEmail($user));
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
 

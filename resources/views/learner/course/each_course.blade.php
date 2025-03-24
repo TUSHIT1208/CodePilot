@@ -80,7 +80,8 @@
                                                 </div>
                                             </div>
                                             <div class="_215b05">Last updated {{ $courseDetail->updated_at }}</div>
-                                            @if (!$pass)
+
+                                            @if($test->passing_mark > $score)
                                                 @if ($coursePrice->price == 0)
                                                     <a href="{{ route('certificate.center') }}">
                                                         <button class="btn_buy mt-3">Test</button>
@@ -92,19 +93,10 @@
                                                         </a>
                                                     @endif
                                                 @endif
-                                          @else
-                                            <button class="btn_buy mt-3" id="testGivenBtn" disabled onclick="showTestError()">Test</button>
-                                            <script>
-                                                function showTestError() {
-                                                    toastr.warning('You have already taken this test!', 'Warning');
-                                                }
+                                            @else
+                                             <button type="button" class="btn_buy mt-3" id="testGivenBtn">Test</button>
 
-                                                // Auto-show warning after 2 seconds
-                                                setTimeout(() => {
-                                                    showTestError();
-                                                }, 2000);
-                                            </script>
-                                        @endif
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -594,6 +586,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -602,5 +595,13 @@
                         </div>
                     </div>
                 </div>
+
+                    <script>
+                        document.getElementById("testGivenBtn").addEventListener("click", function () {
+                            //setTimeout(() => {
+                                toastr.warning('You have already taken this test!', 'Warning');
+                           // }, 2000); // 2 seconds delay
+                        });
+                    </script>
                 @include('admin.layouts.footer')
 @endsection

@@ -32,3 +32,6 @@
 
 {{-- toggle_delete_edit_btn css --}}
 <link href="{{ asset('css/toogle_delete_edit_btn.css') }}" rel="stylesheet">
+
+<!-- Include Date Range Picker CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">

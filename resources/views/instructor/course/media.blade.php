@@ -1,3 +1,4 @@
+
 <div class="step-tab-panel step-tab-location" id="tab_step3">
     <div class="tab-from-content">
         <div class="title-icon">
@@ -28,8 +29,7 @@
                                     <label class="mt-4">Video Description*</label>
                                     <div class="ui form swdh30">
                                         <div class="field">
-                                            <textarea rows="3" class="form-control" name="video_discription"
-                                                placeholder="Video description" required></textarea>
+                                            <textarea rows="3" class="form-control" name="video_discription" placeholder="Video description" required></textarea>
                                             <div class="invalid-feedback">
                                                 The video Description is required.
                                             </div>
@@ -58,7 +58,7 @@
                                     <div class="row">
                                         <div class="col-lg-5 col-md-6">
                                             <label class="label25 text-left">Course Thumbnail*</label>
-                                            <div class="thumb-item-preview" style="background-color: #333 !important;">
+                                            <div class="thumb-item-preview">
                                                 <img src="{{ asset('images/thumbnail-demo.jpg') }}" alt=""
                                                     style="width : 100%;">
                                                 <div class="thumb-dt text-center">
@@ -83,8 +83,7 @@
 
                 </div>
 
-                <div class="col-lg-12 mt-4"
-                    style="background-color: #333 !important; border-radius: 10px; padding: 2%;">
+                <div class="col-lg-12 mt-4 media-datatable">
                     <table id="videoTable" class="ucp-table">
                         <thead>
                             <tr>
@@ -100,11 +99,44 @@
             </div>
         </div>
     </div>
+    <div class="loader-overlay" id="loader">
+        <div class="loader"></div>
+    </div>
+    
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('#file_upload').on('change', function () {
+    $(document).ready(function() {
+        // Set global Toastr options
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "timeOut": "2000",
+            "extendedTimeOut": "2000",
+            "positionClass": "toast-top-right",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "onShown": function() {
+                $('.toast-success').css({
+                    'background-color': '#28a745', // Green for success
+                    'opacity': '1' // Adjust opacity
+                });
+                $('.toast-error').css({
+                    'background-color': '#dc3545', // Red for error
+                    'opacity': '1'
+                });
+                $('.toast-warning').css({
+                    'background-color': '#ffc107', // Yellow for warning
+                    'opacity': '1'
+                });
+                $('.toast-info').css({
+                    'background-color': '#17a2b8', // Blue for info
+                    'opacity': '1'
+                });
+            }
+        };
+
+        $('#file_upload').on('change', function() {
             var file = this.files[0];
             if (file) {
                 var fileType = file.type;
@@ -116,13 +148,42 @@
             }
         });
 
-        $('#submitVideoButton').on('click', function (event) {
+        $('#submitVideoButton').on('click', function(event) {
             var form = document.getElementById('videoForm');
             if (!form.checkValidity()) {
                 form.classList.add('was-validated');
                 return;
             }
             var formData = new FormData(form);
+            $('#loader').show();
+    $('.tab-from-content').addClass('blurred');
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000",
+                "extendedTimeOut": "2000",
+                "positionClass": "toast-top-right",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "onShown": function() {
+                    $('.toast-success').css({
+                        'background-color': '#28a745',
+                        'opacity': '1'
+                    });
+                    $('.toast-error').css({
+                        'background-color': '#dc3545',
+                        'opacity': '1'
+                    });
+                    $('.toast-warning').css({
+                        'background-color': '#ffc107',
+                        'opacity': '1'
+                    });
+                    $('.toast-info').css({
+                        'background-color': '#17a2b8',
+                        'opacity': '1'
+                    });
+                }
+            };
 
             $.ajax({
                 url: "{{ route('courseAttachment.store') }}",
@@ -130,9 +191,10 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function (response) {
+                success: function(response) {
                     if (response.success) {
                         toastr.success(response.success, 'Success');
+                        
                     } else {
                         toastr.error('Something went wrong!', 'Error');
                     }
@@ -143,16 +205,49 @@
                         '{{ asset('images/thumbnail-demo.jpg') }}');
                     $('#videoTable').DataTable().ajax.reload();
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     alert('An error occurred: ' + xhr.responseText);
-                }
+                },
+                complete: function() {
+            
+            $('#loader').hide();
+            $('.tab-from-content').removeClass('blurred');
+        }
             });
         });
     });
 </script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
+        // Set global Toastr options
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "timeOut": "5000",
+            "extendedTimeOut": "2000",
+            "positionClass": "toast-top-right",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut",
+            "onShown": function() {
+                $('.toast-success').css({
+                    'background-color': '#28a745', // Green for success
+                    'opacity': '1' // Adjust opacity
+                });
+                $('.toast-error').css({
+                    'background-color': '#dc3545', // Red for error
+                    'opacity': '1'
+                });
+                $('.toast-warning').css({
+                    'background-color': '#ffc107', // Yellow for warning
+                    'opacity': '1'
+                });
+                $('.toast-info').css({
+                    'background-color': '#17a2b8', // Blue for info
+                    'opacity': '1'
+                });
+            }
+        };
         var courseId = $('input[name="course_id"]').val();
 
         $('#videoTable').DataTable({
@@ -165,28 +260,28 @@
                 }
             },
             columns: [{
-                data: 'title',
-                name: 'title'
-            },
-            {
-                data: 'discription',
-                name: 'discription'
-            },
-            {
-                data: 'url',
-                name: 'url'
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            }
+                    data: 'title',
+                    name: 'title'
+                },
+                {
+                    data: 'discription',
+                    name: 'discription'
+                },
+                {
+                    data: 'url',
+                    name: 'url'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
             ]
         });
 
         // Handle Delete Click Event with Swal.fire
-        $(document).on('click', '.deleteAttachment', function () {
+        $(document).on('click', '.deleteAttachment', function() {
             let attachmentId = $(this).data('id');
             let attachmentType = $(this).data('type'); // Get type: video or document
 
@@ -209,19 +304,19 @@
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
-                        success: function (response) {
+                        success: function(response) {
                             if (response.success) {
                                 let successMessage = attachmentType === 'video' ?
                                     'Video deleted successfully!' :
                                     'Document deleted successfully!';
-                                toastr.success(successMessage, 'Success');
+                                //toastr.success(successMessage, 'Success');
                                 $('#videoTable').DataTable().ajax.reload();
                             } else {
                                 toastr.error('Failed to delete the ' +
                                     attachmentType + '!', 'Error');
                             }
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             toastr.error('Something went wrong!', 'Error');
                         }
                     });
@@ -233,9 +328,9 @@
 
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         // File Preview (Video or Document)
-        document.getElementById("file_upload").addEventListener("change", function (event) {
+        document.getElementById("file_upload").addEventListener("change", function(event) {
             const file = event.target.files[0];
             const previewContainer = document.querySelector(".uploaded-id-preview");
 
@@ -269,11 +364,11 @@
         });
 
         // Thumbnail Preview
-        document.getElementById("video_thumbnail").addEventListener("change", function (event) {
+        document.getElementById("video_thumbnail").addEventListener("change", function(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     document.querySelector(".thumb-item-preview img").src = e.target.result;
                 };
                 reader.readAsDataURL(file);
