@@ -17,7 +17,7 @@
                             <div class="col-sm-2">
                                 <label>Category</label>
                                 <select id="categoryFilter" class="form-control _dlor1 mt-2">
-                                    <option value=""> -  - All Categories -  - </option>
+                                    <option value=""> - - All Categories - - </option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
@@ -26,15 +26,25 @@
                             <div class="col-sm-2">
                                 <label>Sub-Category</label>
                                 <select id="subCategoryFilter" class="form-control _dlor1 mt-2">
-                                    <option value=""> -  - All Sub-Categories -  - </option>
+                                    <option value=""> - - All Sub-Categories - - </option>
                                 </select>
                             </div>
                             <div class="col-sm-2">
                                 <label>Course Type</label>
                                 <select id="courseTypeFilter" class="form-control _dlor1 mt-2">
-                                    <option value=""> -  - Course Type -  - </option>
+                                    <option value=""> - - Course Type - - </option>
                                     <option value="free">Free</option>
                                     <option value="paid">Paid</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Instructor</label>
+                                <select id="instructorFilter" class="form-control _dlor1 mt-2">
+                                    <option value=""> - - All Instructors - - </option>
+                                    @foreach ($instructors as $instructor)
+                                        <option value="{{ $instructor->id }}">{{ $instructor->first_name }}
+                                            {{ $instructor->last_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -73,6 +83,7 @@
                         d.category_id = $('#categoryFilter').val();
                         d.sub_category_id = $('#subCategoryFilter').val();
                         d.course_type = $('#courseTypeFilter').val();
+                        d.instructor_id = $('#instructorFilter').val();
                     }
                 },
                 columns: [{
@@ -130,7 +141,7 @@
                 table.ajax.reload();
             });
 
-            $('#subCategoryFilter, #courseTypeFilter').change(function() {
+            $('#subCategoryFilter, #courseTypeFilter, #instructorFilter').change(function() {
                 table.ajax.reload();
             });
         });

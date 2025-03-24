@@ -522,13 +522,19 @@ class DashboardController extends Controller
                 $query->where('sub_category_id', $request->sub_category_id);
             }
 
+            // Filter by course type
             if ($request->course_type == 'free') {
                 $query->where(function ($q) {
                     $q->where('price', 0)
-                      ->orWhereNull('price'); // Check if price is 0 or NULL
+                        ->orWhereNull('price'); // Check if price is 0 or NULL
                 });
             } elseif ($request->course_type == 'paid') {
                 $query->where('price', '>', 0);
+            }
+
+            // **Filter by instructor**
+            if ($request->instructor_id) {
+                $query->where('user_id', $request->instructor_id);
             }
 
             return datatables()->of($query)
@@ -554,16 +560,18 @@ class DashboardController extends Controller
                 })
                 ->addColumn('status', function ($course) {
                     return $course->is_active
-                        ? '<span class="badge badge-success">Active</span>'
-                        : '<span class="badge badge-danger">Inactive</span>';
+                        ? '<span class="badge badge-success active-learner">Active</span>'
+                        : '<span class="badge badge-danger inctive-learner">Inactive</span>';
                 })
                 ->rawColumns(['status'])
                 ->make(true);
         }
 
         $categories = Category::all();
-        return view('admin.report.total_course.list', compact('categories'));
+        $instructors = User::where('role_id', 2)->get(); // Fetch only instructors
+        return view('admin.report.total_course.list', compact('categories', 'instructors'));
     }
+
 
     public function learner(Request $request)
     {
