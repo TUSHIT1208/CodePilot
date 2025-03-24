@@ -387,6 +387,7 @@ class CourseController extends Controller
 
         // Update the 'is_added_to_home' field to true or 1
         $course->is_active_home = true;
+        $course->published_at = now();
         $course->save();
 
         return response()->json(['success' => true]);
@@ -561,7 +562,10 @@ class CourseController extends Controller
     public function toggleStatus(Request $request, Course $course)
     {
         try {
-            $course->update(['is_active' => $request->is_active]);
+            $course->update([
+                'is_active' => $request->is_active,
+                'published_at' => now()
+            ]);
             return response()->json(['success' => true, 'message' => 'Course status updated successfully']);
         } catch (\Exception $e) {
             Log::error('Error updating course status', [

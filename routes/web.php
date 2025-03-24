@@ -306,7 +306,10 @@ Route::get('/total/enroll', [DashboardController::class, 'total_enroll'])->name(
 Route::get('/total/instructor/enroll', [DashboardController::class, 'instructor_total_enroll'])->name('total.instructor.enroll');
 Route::get('/total/learners', [DashboardController::class, 'learner'])->name('totalLearners');
 Route::get('/total/courses', [DashboardController::class, 'course'])->name('totalCourses');
+
 Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
     $subcategories = sub_category::where('category_id', $categoryId)->get();
     return response()->json($subcategories);
 });
+
+Route::get('/get-subcategories', [CourseController::class, 'getSubcategories'])->name('getSubcategories');
