@@ -94,7 +94,7 @@
                                         @if (!empty(auth()->user()->profile_picture_url))
                                             <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}" class="img-fluid">
                                         @else
-                                            <h1 id="default_avtar" style="position: relative; right: 28%;">
+                                            <h1 class="default_avtar" style="position: relative; right: 28%;">
                                                 {{ substr(Auth::user()->username, 0, 1) }}
                                             </h1>
                                         @endif

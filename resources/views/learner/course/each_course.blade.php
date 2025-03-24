@@ -603,5 +603,151 @@
                            // }, 2000); // 2 seconds delay
                         });
                     </script>
-                @include('admin.layouts.footer')
+            </div>
+        </div>
+        @include('learner.layout.footer')
+        <script>
+            $(document).ready(function () {
+                const courseId = {{ $courseDetail->id }};
+                const stars = $('.star');
+                const ratingValue = $('#rating-value');
+        
+                // ⭐ Handle star click event
+                stars.on('click', function () {
+                    const value = parseInt($(this).data('value'));
+                    ratingValue.val(value);
+                    updateStars(value);
+                });
+        
+                // ⭐ Function to fill stars
+                function updateStars(rating) {
+                    stars.each(function () {
+                        const value = parseInt($(this).data('value'));
+                        $(this).toggleClass('filled', value <= rating);
+                    });
+                }
+        
+                // ⭐ Submit form with AJAX and Swal
+                $('#review-form').on('submit', function (event) {
+                    event.preventDefault();
+        
+                    const formData = $(this).serialize();
+        
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'POST',
+                        data: formData,
+                        success: function (data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: data.success,
+                                confirmButtonColor: '#f39c12'
+                            });
+                            $('#review-form')[0].reset(); // ✅ Reset form
+                            resetStars(); // ✅ Reset stars
+                            loadReviews(); // ✅ Reload reviews after submission
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to submit review',
+                                confirmButtonColor: '#d33'
+                            });
+                        }
+                    });
+                });
+        
+                // ⭐ Reset stars after submission
+                function resetStars() {
+                    stars.removeClass('filled');
+                    ratingValue.val(0);
+                }
+        
+                // ⭐ Load all reviews
+                function loadReviews() {
+                    $.ajax({
+                        url: `/review/${courseId}`,
+                        type: 'GET',
+                        success: function (reviews) {
+                            console.log(reviews);
+        
+                            // 🔥 Convert object to array if needed
+                            if (!Array.isArray(reviews)) {
+                                reviews = [reviews];
+                            }
+        
+                            if (reviews.length > 0) {
+                                $('#review-container').empty();
+                                window.assetUrl = "{{ asset('') }}";
+                                reviews.forEach(review => {
+                                    let stars = '';
+                                    for (let i = 1; i <= 5; i++) {
+                                        if (i <= Math.floor(review.rating)) {
+                                            stars += `<span class="rating-star full-star">&#9733;</span>`;
+                                        } else if (i === Math.floor(review.rating) + 1 && review.rating % 1 !== 0) {
+                                            stars += `<span class="rating-star half-star">&#9733;</span>`;
+                                        } else {
+                                            stars += `<span class="rating-star empty-star">&#9733;</span>`;
+                                        }
+                                    }
+                                    
+                                    const reviewItem = `
+                                        <div class="review_item">
+                                            <div class="review_usr_dt">
+                                                 
+                                               ${review.user.profile_picture_url
+                                                ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
+                                                : `<h1 id="default_avtar1">
+                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                </h1>`}
+                                                <div class="rv1458">
+                                                    <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
+                                                    <span class="time_145">${formatTime(review.created_at)}</span>
+                                                </div>
+                                            </div>
+                                            <div class="rating-box mt-20">${stars}</div>
+                                            <p class="rvds10">${review.review || 'No review provided.'}</p>
+                                        </div>
+                                    `;
+        
+                                    $('#review-container').append(reviewItem);
+                                });
+                            } else {
+                                $('#review-container').html('<p>No reviews available.</p>');
+                            }
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+        
+                // ⭐ Format time (e.g., "2 hours ago")
+                function formatTime(time) {
+                    if (!time) return 'Unknown';
+                    const date = new Date(time);
+                    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                }
+        
+                // ⭐ Load reviews when page loads
+                loadReviews();
+            });
+            </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const video = document.getElementById('temp-video-{{ $attachment->id }}');
+                video.addEventListener('loadedmetadata', () => {
+                    const duration = video.duration;
+                    const minutes = Math.floor(duration / 60);
+                    const seconds = Math.floor(duration % 60);
+                    const formattedDuration = minutes > 0 
+                    ? `${minutes}:${seconds.toString().padStart(2, '0')} minutes` 
+                    : `${seconds} seconds`;
+                    document.getElementById('video-duration-{{ $attachment->id }}').innerText =formattedDuration;
+                });
+                video.load();
+            });
+            </script>
 @endsection

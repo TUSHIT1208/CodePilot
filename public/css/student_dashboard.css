@@ -4076,3 +4076,28 @@ button.close {
     text-shadow: 0 1px 0 #fff;
     opacity: .5;
 }
+.daterangepicker td.active, 
+.daterangepicker td.active:hover {
+    background-color: red !important;
+    color: white !important;
+    border-radius: 50%;
+}
+
+
+/* Ensuring Date Picker Displays One Month */
+.daterangepicker {
+    border-radius: 10px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.daterangepicker .drp-calendar {
+    width: 100% !important;
+}
+
+.daterangepicker .drp-calendar.left {
+    display: block !important;
+}
+
+.daterangepicker .drp-calendar.right {
+    display: none !important;
+}

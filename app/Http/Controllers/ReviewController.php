@@ -29,12 +29,12 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         logger('in review');
-        $request->validate([
-            'course_id' => 'required|exists:courses,id',
-            'rating' => 'required|integer|min:1|max:5',
-            'review' => 'nullable|string',
-        ]);
-
+        // $request->validate([
+        //     'course_id' => 'required|exists:courses,id',
+        //     'rating' => 'required|integer|min:1|max:5',
+        //     'review' => 'nullable|string',
+        // ]);
+        logger('valid..');
         $review=Review::create([
             'user_id' => auth()->user()->id,
             'course_id' => $request->course_id,

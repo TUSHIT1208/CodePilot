@@ -7,3 +7,9 @@
 <script src="{{ asset('js/night-mode.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="//cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
+
+<!-- Include jQuery and Moment.js (Required for Date Range Picker) -->
+<script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

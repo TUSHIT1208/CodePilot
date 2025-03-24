@@ -443,9 +443,9 @@
 </script>
 
 <script>
-    if (course) {
-        $('#add-course-tab .step-footer button[data-direction="prev"]').css('display', 'none');
-    }
+    // if (course) {
+    //     $('#add-course-tab .step-footer button[data-direction="prev"]').css('display', 'none');
+    // }
 </script>
 
 

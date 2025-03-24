@@ -28,3 +28,6 @@
 
 {{-- category css --}}
 <link href="{{ asset('css/category.css') }}" rel="stylesheet">
+
+<!-- Include Date Range Picker CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
