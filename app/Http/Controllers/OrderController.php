@@ -1,15 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use Razorpay\Api\Api;
-use App\Models\order;
 use App\Models\Cart;
-use Illuminate\Http\Request;
+use App\Models\order;
+use Razorpay\Api\Api;
+// use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+// use Barryvdh\DomPDF\PDF;
 use App\Models\order_item;
 use App\Models\user_course;
+use Illuminate\Http\Request;
 use App\Models\PaymentTransaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CoursePurchaseConfirmation;
+use App\Mail\CoursePurchasedNotification;
 
 class OrderController extends Controller
 {
@@ -166,18 +172,22 @@ class OrderController extends Controller
             Log::info("Razorpay Signature Verified Successfully", ['order_id' => $orderId]);
 
             // ✅ Update order payment status in database
-            PaymentTransaction::create([
+            $transaction=PaymentTransaction::create([
                 'order_id' => $orderId,
                 'transaction_id' => $razorpayPaymentId,
                 'status' => 'success',
                 'amount' => Order::find($orderId)->payable_amount,
                 'created_by' => auth()->id()
             ]);
+
             $order = Order::find($orderId);
             logger($order);
+
             $order->update(['payment_status' => 'paid']);
             logger('order updated');
+
             $orderItems = order_item::where('order_id', $orderId)->get();
+
             foreach ($orderItems as $item) {
                 user_course::create([
                     'user_id' => $order->user_id,
@@ -189,9 +199,31 @@ class OrderController extends Controller
                 Cart::where('user_id', $order->user_id)
                 ->where('course_id', $item->course_id)
                 ->delete();
-            }
+            
             logger('user_course created');
+            //for email
+            $course = $item->course;
+            $learner = $order->user;
+            $transaction = PaymentTransaction::where('order_id', $orderId)->first();
+            $pdf = PDF::loadView('learner.payment_history.pdf', [
+                'transaction' => $transaction,
+                'course' => $course,
+                'order' => $order
+            ]);
 
+            logger('pdf crdate');
+
+            // ✅ Send email to course creator (instructor or admin)
+            if ($course->user) {
+                Mail::to($course->user->email)->send(new CoursePurchasedNotification($course, $learner));
+                logger('send mail to creator');
+            }
+
+            // ✅ Send email to learner
+            Mail::to($learner->email)->send(new CoursePurchaseConfirmation($course, $learner, $pdf));
+            logger('send mail to learner');
+        
+        }
 
             Log::info("Payment Transaction Recorded Successfully", ['order_id' => $orderId]);
 

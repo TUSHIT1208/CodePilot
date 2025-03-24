@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\certificate;
 use App\Models\test;
 use App\Models\User;
-use App\Models\user_course;
 use App\Models\video;
 use App\Models\course;
 use App\Models\category;
+use App\Models\certificate;
+use App\Models\user_course;
 use App\Models\sub_category;
 use Illuminate\Http\Request;
+use App\Mail\CoursePublished;
 use App\Models\courseAttachment;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CourseController extends Controller
 {
@@ -201,9 +203,7 @@ class CourseController extends Controller
         //  $userId = 1; // Example user ID
 
         $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
-
-        $coursePrice = course::where('id', $cid)->first();
-
+        $coursePrice=course::where('id',$cid)->first();
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
@@ -342,6 +342,7 @@ class CourseController extends Controller
 
         // Update the 'is_added_to_home' field to true or 1
         $course->is_active_home = true;
+        $course->published_at = now();
         $course->save();
 
         return response()->json(['success' => true]);
@@ -414,15 +415,18 @@ class CourseController extends Controller
                         <a href="#" class="crse-cate">' . ($course->category->name ?? 'Uncategorized') . '</a>
                         <div class="auth1lnkprce">
                             <p>By <a href="javascript:;">' . ($course->user->first_name . ' ' . $course->user->last_name ?? 'unknown') . '</a></p>
-                            <div class="prce142">₹' . ($course->price ?? 'Free') . '</div>
-                            <form class="cartForm">
+                            <div class="prce142">'.($course->price == 0 ? 'Free' : '₹' . $course->price ). '</div>';
+                            
+                            if ($course->price != 0) {
+                              $html .= ' <form class="cartForm">
                                 ' . csrf_field() . '
                                 <input type="hidden" name="course_id" value="' . $course->id . '">
                                 <button type="submit" class="shrt-cart-btn" title="Add to Cart">
                                     <i class="uil uil-shopping-cart-alt"></i>
                                 </button>
-                            </form>
-                        </div>
+                            </form>';
+                            }
+                        $html .= '</div>
                     </div>
                 </div>
             </div>';
@@ -437,11 +441,17 @@ class CourseController extends Controller
     public function publishCourse(Request $request)
     {
         try {
+            logger('Starting course publishing process...');
+        
             $course = Course::where('id', $request->course_id)
                 ->where('user_id', auth()->id()) // Ensure user owns the course
                 ->firstOrFail();
-
+        
+            logger('Course found: ' . $course->title);
+        
+            // Check if already published
             if ($course->is_active == 1) {
+                logger('Course is already published.');
                 return response()->json(['success' => false, 'message' => 'Course is already published.'], 400);
             }
 
@@ -458,17 +468,59 @@ class CourseController extends Controller
             $course->is_active = 1;
             $course->save();
 
+            $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
+            if (!$hasMedia) {
+                return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
+            }
+
+            $course->is_active = 1;
+            $course->save();
+        
+            logger('Course published successfully.');
+            //send to creator of course
+            try {
+                logger('Sending email to course creator: ' . $course->user->email);
+                Mail::to($course->user->email)->send(new CoursePublished($course,true));
+                logger('Email sent to course creator: ' . $course->user->email);
+            } catch (\Exception $e) {
+                logger('Error sending email to course creator: ' . $e->getMessage());
+            }
+        
+            //Send email to all learners
+            $learners = User::whereHas('role', function ($query) {
+                $query->where('name', 'learner');
+            })->get();
+        
+            logger('Learners found: ' . $learners->count());
+        
+            foreach ($learners as $learner) {
+                logger('Start sending email to: ' . $learner->email);
+                try {
+                    Mail::to($learner->email)->send(new CoursePublished($course,false));
+                    logger('Email sent to: ' . $learner->email);
+                } catch (\Exception $e) {
+                    logger('Error sending email to ' . $learner->email . ': ' . $e->getMessage());
+                }
+            }
+        
+            logger('All emails processed.');
+        
             return response()->json(['success' => true, 'message' => 'Course published successfully!']);
         } catch (\Exception $e) {
+            logger('Error publishing course: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Something went wrong!'], 500);
         }
+        
     }
 
 
     public function toggleStatus(Request $request, Course $course)
     {
         try {
-            $course->update(['is_active' => $request->is_active]);
+            $course->update([
+                'is_active' => $request->is_active,
+                'published_at' => now()
+            ]);
             return response()->json(['success' => true, 'message' => 'Course status updated successfully']);
         } catch (\Exception $e) {
             Log::error('Error updating course status', [

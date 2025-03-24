@@ -14,9 +14,10 @@
                 <div class="col-xl-3 col-lg-6 col-md-6">
                     <div class="card_dash">
                         <div class="card_dash_left">
-                            <h5>Total Sales</h5>
-                            <h2>$350</h2>
-                            <span class="crdbg_1">New $50</span>
+                            <h5>Total Earning</h5>
+                            <h2>{{ number_format($total_earning, 0) }}</h2>
+                            {{-- <span class="crdbg_1">New $50</span> --}}
+                            <a href="{{ route('total.earning') }}">View Net Earning</a>
                         </div>
                         <div class="card_dash_right">
                             <img src="{{ asset('images/dashboard/achievement.svg') }}" alt="">
@@ -27,8 +28,9 @@
                     <div class="card_dash">
                         <div class="card_dash_left">
                             <h5>Total Enroll</h5>
-                            <h2>1500</h2>
-                            <span class="crdbg_2">New 125</span>
+                            <h2>{{ $total_enrollments }}</h2>
+                            {{-- <span class="crdbg_2">New 125</span> --}}
+                            <a href="{{ route('total.enroll') }}">View All Enroll</a>
                         </div>
                         <div class="card_dash_right">
                             <img src="images/dashboard/graduation-cap.svg" alt="">
@@ -39,7 +41,7 @@
                     <div class="card_dash">
                         <div class="card_dash_left">
                             <h5>Total Courses</h5>
-                            <h2>130</h2>
+                            <h2>{{ $total_course }}</h2>
                             {{-- <span class="crdbg_3">New 5</span> --}}
                             <a href="{{ route('totalCourses') }}">View courses</a>
                         </div>
@@ -52,7 +54,7 @@
                     <div class="card_dash">
                         <div class="card_dash_left">
                             <h5>Total Students</h5>
-                            <h2>2650</h2>
+                            <h2>{{ $total_learners }}</h2>
                             {{-- <span class="crdbg_4">New 245</span> --}}
                             <a href="{{ route('totalLearners') }}">View learners</a>
                         </div>
@@ -76,222 +78,218 @@
             <div class="row">
                 <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="section3125 mt-50">
-                        <h4 class="item_title">Latest Courses performance</h4>
+                        <h4 class="item_title">Latest Courses</h4>
                         <div class="la5lo1">
                             <div class="owl-carousel courses_performance owl-theme">
-                                <div class="item">
-                                    <div class="fcrse_1">
-                                        <a href="#" class="fcrse_img">
-                                            <img src="images/courses/img-1.jpg" alt="">
-                                            <div class="course-overlay"></div>
-                                        </a>
-                                        <div class="fcrse_content">
-                                            <div class="vdtodt">
-                                                <span class="vdt14">First 2 days 22 hours</span>
-                                            </div>
-                                            <a href="#" class="crsedt145">Complete Python Bootcamp: Go from zero to hero
-                                                in Python 3</a>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">View</div>
-                                                <div class="crse-perf-right">1.5k</div>
-                                            </div>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">Purchased</div>
-                                                <div class="crse-perf-right">150</div>
-                                            </div>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">Total Like</div>
-                                                <div class="crse-perf-right">1k</div>
-                                            </div>
-                                            <div class="auth1lnkprce">
-                                                <a href="#" class="cr1fot50">Go to course analytics</a>
-                                                <a href="#" class="cr1fot50">See comments (875)</a>
-                                                <a href="#" class="cr1fot50">See Reviews (105)</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="fcrse_1">
-                                        <a href="#" class="fcrse_img">
-                                            <img src="images/courses/img-2.jpg" alt="">
-                                            <div class="course-overlay"></div>
-                                        </a>
-                                        <div class="fcrse_content">
-                                            <div class="vdtodt">
-                                                <span class="vdt14">Second 4 days 9 hours</span>
-                                            </div>
-                                            <a href="#" class="crse14s">The Complete JavaScript Course 2020: Build Real
-                                                Projects!</a>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">View</div>
-                                                <div class="crse-perf-right">175k</div>
-                                            </div>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">Purchased</div>
-                                                <div class="crse-perf-right">1k</div>
-                                            </div>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">Total Like</div>
-                                                <div class="crse-perf-right">85k</div>
-                                            </div>
-                                            <div class="auth1lnkprce">
-                                                <a href="#" class="cr1fot50">Go to course analytics</a>
-                                                <a href="#" class="cr1fot50">See comments (915)</a>
-                                                <a href="#" class="cr1fot50">See Reviews (255)</a>
+                                @foreach($courses as $course)
+                                    <div class="item">
+                                        <div class="fcrse_1">
+                                            <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
+                                                <img src="{{ asset('courseThumbnail/'.$course->thumbnail_url ?? 'images/default-course.jpg') }}" alt="{{ $course->title }}">
+                                                <div class="course-overlay" style="width:100%"></div>
+                                            </a>
+                                            <div class="fcrse_content">
+                                                <div class="vdtodt">
+                                                    <span class="vdt14">
+                                                        {{ $course->created_at ? \Carbon\Carbon::parse($course->created_at)->diffForHumans() : 'Not Published' }}
+                                                    </span>
+                                                </div>
+                                                <a href="{{ route('course.show', $course->id) }}" class="crsedt145">{{ $course->title }}</a>
+                                                <p class="course-description">{!! Str::limit($course->course_description, 100) !!}</p>
+
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Price</div>
+                                                    <div class="crse-perf-right">
+                                                        @if($course->discount)
+                                                            <del>₹{{ number_format($course->price, 2) }}</del> ₹{{ number_format($course->price - $course->discount, 2) }}
+                                                        @else
+                                                        ₹{{ number_format($course->price, 2) }}
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Category</div>
+                                                    <div class="crse-perf-right">{{ $course->category->name ?? 'N/A' }}</div>
+                                                </div>
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Subcategory</div>
+                                                    <div class="crse-perf-right">{{ $course->subcategory->name ?? 'N/A' }}</div>
+                                                </div>
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Course Level</div>
+                                                    <div class="crse-perf-right">{{ $course->course_level }}</div>
+                                                </div>
+
+                                                <div class="auth1lnkprce">
+                                                    <a href="#" class="cr1fot50">See Reviews ({{ $course->reviews_count ?? 0 }})</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="item">
-                                    <div class="fcrse_1">
-                                        <a href="#" class="fcrse_img">
-                                            <img src="images/courses/img-3.jpg" alt="">
-                                            <div class="course-overlay"></div>
-                                        </a>
-                                        <div class="fcrse_content">
-                                            <div class="vdtodt">
-                                                <span class="vdt14">Third 6 days 11 hours:</span>
-                                            </div>
-                                            <a href="#" class="crse14s">Beginning C++ Programming - From Beginner to
-                                                Beyond</a>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">View</div>
-                                                <div class="crse-perf-right">17k</div>
-                                            </div>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">Purchased</div>
-                                                <div class="crse-perf-right">25</div>
-                                            </div>
-                                            <div class="allvperf">
-                                                <div class="crse-perf-left">Total Like</div>
-                                                <div class="crse-perf-right">15k</div>
-                                            </div>
-                                            <div class="auth1lnkprce">
-                                                <a href="#" class="cr1fot50">Go to course analytics</a>
-                                                <a href="#" class="cr1fot50">See comments (155)</a>
-                                                <a href="#" class="cr1fot50">See Reviews (15)</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="section3125 mt-50">
-                        <h4 class="item_title">News</h4>
+                        <h4 class="item_title">Most Selling Courses</h4>
                         <div class="la5lo1">
-                            <div class="owl-carousel edututs_news owl-theme">
-                                <div class="item">
-                                    <div class="fcrse_1">
-                                        <a href="#" class="fcrse_img">
-                                            <img src="images/courses/news-1.jpg" alt="">
-                                        </a>
-                                        <div class="fcrse_content">
-                                            <a href="#" class="crsedt145 mt-15">COVID-19 Updates & Resources</a>
-                                            <p class="news_des45">See the latest updates to coronavirus-related content,
-                                                including changes to monetization, and access new Creator support
-                                                resources</p>
-                                            <div class="auth1lnkprce">
-                                                <a href="#" class="cr1fot50">Learn More</a>
+                            <div class="owl-carousel courses_performance owl-theme">
+                                @foreach($most_courses as $course)
+                                    <div class="item">
+                                        <div class="fcrse_1">
+                                            <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
+                                                <img src="{{ asset('courseThumbnail/'.$course->thumbnail_url ?? 'images/default-course.jpg') }}" alt="{{ $course->title }}">
+                                                <div class="course-overlay" style="width:100%"></div>
+                                            </a>
+                                            <div class="fcrse_content">
+                                                <div class="vdtodt">
+                                                    <span class="vdt14">
+                                                        {{ $course->created_at ? \Carbon\Carbon::parse($course->created_at)->diffForHumans() : 'Not Published' }}
+                                                    </span>
+                                                </div>
+                                                <a href="{{ route('course.show', $course->id) }}" class="crsedt145">{{ $course->title }}</a>
+                                                <p class="course-description">{!! Str::limit($course->course_description, 100) !!}</p>
+
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Price</div>
+                                                    <div class="crse-perf-right">
+                                                        @if($course->discount)
+                                                            <del>₹{{ number_format($course->price, 2) }}</del> ₹{{ number_format($course->price - $course->discount, 2) }}
+                                                        @else
+                                                        ₹{{ number_format($course->price, 2) }}
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Category</div>
+                                                    <div class="crse-perf-right">{{ $course->category->name ?? 'N/A' }}</div>
+                                                </div>
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Subcategory</div>
+                                                    <div class="crse-perf-right">{{ $course->subcategory->name ?? 'N/A' }}</div>
+                                                </div>
+
+                                                <div class="allvperf">
+                                                    <div class="crse-perf-left">Course Level</div>
+                                                    <div class="crse-perf-right">{{ $course->course_level }}</div>
+                                                </div>
+
+                                                <div class="auth1lnkprce">
+                                                    <a href="#" class="cr1fot50">See Reviews ({{ $course->reviews_count ?? 0 }})</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="item">
-                                    <div class="fcrse_1">
-                                        <a href="#" class="fcrse_img">
-                                            <img src="images/courses/news-2.jpg" alt="">
-                                        </a>
-                                        <div class="fcrse_content">
-                                            <a href="#" class="crsedt145 mt-15">Watch: Edututs+ interview Mr.
-                                                Joginder</a>
-                                            <p class="news_des45">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                elit. Aenean ac eleifend ante. Duis ac pulvinar felis. Sed a nibh
-                                                ligula. Mauris eget tortor id mauris tristique accumsan.</p>
-                                            <div class="auth1lnkprce">
-                                                <a href="#" class="cr1fot50">Watch Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="fcrse_1">
-                                        <a href="#" class="fcrse_img">
-                                            <img src="images/courses/news-1.jpg" alt="">
-                                        </a>
-                                        <div class="fcrse_content">
-                                            <a href="#" class="crsedt145 mt-15">COVID-19 Updates - April 7</a>
-                                            <p class="news_des45">Ut porttitor mi vel orci CodePilot, nec elementum neque
-                                                malesuada. Phasellus imperdiet quam gravida pharetra aliquet. Integer
-                                                vel ligula eget nisl dignissim hendrerit.</p>
-                                            <div class="auth1lnkprce">
-                                                <a href="#" class="cr1fot50">Learn More</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6">
-                    <div class="section3125 mt-50">
-                        <h4 class="item_title">Profile Analytics</h4>
-                        <div class="la5lo1">
-                            <div class="fcrse_1">
-                                <div class="fcrse_content">
-                                    <h6 class="crsedt8145">Current subscribers</h6>
-                                    <h3 class="subcribe_title">856</h3>
-                                    <div class="allvperf">
-                                        <div class="crse-perf-left">View</div>
-                                        <div class="crse-perf-right">17k<span class="analyics_pr"><i
-                                                    class="uil uil-arrow-to-bottom"></i>75%</span></div>
-                                    </div>
-                                    <div class="allvperf">
-                                        <div class="crse-perf-left">Purchased<span class="per_text">(per hour)</span>
+                @if($topInstructor)
+                        <div class="section3125 mt-50">
+                            <h4 class="item_title">Top Instructor Analytics</h4>
+                            <div class="la5lo1">
+                                <div class="fcrse_1">
+                                    <div class="fcrse_content">
+                                        <h6 class="crsedt8145">Top Instructor</h6>
+                                        <h3 class="subcribe_title">{{ $topInstructor->first_name }} {{ $topInstructor->last_name }}</h3>
+
+                                        <div class="allvperf">
+                                            <div class="crse-perf-left">Total Course</div>
+                                            <div class="crse-perf-right">{{ $topInstructor->total_sales}}</div>
                                         </div>
-                                        <div class="crse-perf-right">1<span class="analyics_pr"><i
-                                                    class="uil uil-top-arrow-from-top"></i>100%</span></div>
-                                    </div>
-                                    <div class="allvperf">
-                                        <div class="crse-perf-left">Enroll<span class="per_text">(per hour)</span></div>
-                                        <div class="crse-perf-right">50<span class="analyics_pr"><i
-                                                    class="uil uil-top-arrow-from-top"></i>70%</span></div>
-                                    </div>
-                                    <div class="auth1lnkprce">
-                                        <a href="#" class="cr1fot50">Go to profile analytics</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="section3125 mt-50">
-                        <h4 class="item_title">Submit Courses</h4>
-                        <div class="la5lo1">
-                            <div class="fcrse_1">
-                                <div class="fcrse_content">
-                                    <div class="upcming_card">
-                                        <a href="#" class="crsedt145">The Complete JavaScript Course 2020: Build Real
-                                            Projects!<span class="pndng_145">Pending</span></a>
-                                        <p class="submit-course">Submitted<span>1 days ago</span></p>
-                                        <a href="#" class="delete_link10">Delete</a>
+                                        <div class="allvperf">
+                                            <div class="crse-perf-left">Total Revenue</div>
+                                            <div class="crse-perf-right">₹{{ number_format($topInstructor->total_revenue, 2) }}</div>
+                                        </div>
+                                        <div class="allvperf">
+                                            <div class="crse-perf-left">Email</div>
+                                            <div class="crse-perf-right">{{ $topInstructor->email }}</div>
+                                        </div>
+
+                                        <div class="allvperf">
+                                            <div class="crse-perf-left">Phone</div>
+                                            <div class="crse-perf-right">{{ $topInstructor->phone_number }}</div>
+                                        </div>
+
+                                        {{-- <div class="auth1lnkprce">
+                                            <a href="{{ route('instructor.profile', $topInstructor->id) }}" class="cr1fot50">View Instructor Profile</a>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="section3125 mt-50">
-                        <h4 class="item_title">What's new in CodePilot</h4>
-                        <div class="la5lo1">
-                            <div class="fcrse_1">
-                                <div class="fcrse_content">
-                                    <a href="#" class="new_links10">Improved performance on Studio Dashboard</a>
-                                    <a href="#" class="new_links10">See more Dashboard updates</a>
-                                    <a href="#" class="new_links10">See issues-at-glance for Live</a>
+                    
+                @else
+                        <div class="section3125 mt-50">
+                            <h4 class="item_title">Instructor Analytics</h4>
+                            <div class="la5lo1">
+                                <div class="fcrse_1">
+                                    <div class="fcrse_content">
+                                        <p class="text-muted">No instructor data available.</p>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    
+                @endif    
+                        <div class="section3125 mt-50">
+                            <h4 class="item_title">Submit Courses</h4>
+                            <div class="la5lo1">
+                                <div class="fcrse_1">
+                                    <div class="fcrse_content">
+                                        @if($pendingCourse)
+                                        <div class="upcming_card">
+                                            <a href="{{ route('course.show', $pendingCourse->id) }}" class="crsedt145">
+                                                {{ $pendingCourse->title }} 
+                                                <span class="pndng_145">Pending</span>
+                                            </a>
+                                            <p class="submit-course">Submitted <span>{{ $pendingCourse->created_at->diffForHumans() }}</span></p>
+                                        </div>
+                                        @else
+                                        <div class="upcming_card">
+                                            <p class="text-muted">No pending courses found.</p>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="section3125 mt-50">
+                    <h4 class="item_title">Top Orders</h4>
+                    <div class="la5lo1">
+                        <div class="fcrse_1">
+                            <div class="fcrse_content">
+                                <table id="ordersTable" class="display ucp-table">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Total Courses</th>
+                                            <th>Total Amount</th>
+                                            <th>Discount</th>
+                                            <th>Payable Amount</th>
+                                            <th>Booking Number</th>
+                                            <th>Payment Status</th>
+                                            <th>Phone</th>
+                                            <th>Date & Time</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            
+                                
                             </div>
                         </div>
                     </div>
@@ -301,4 +299,24 @@
     </div>
     @include('admin.layouts.footer')
 </div>
+<script>
+    $(document).ready(function () {
+        $('#ordersTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('dashboard.index') }}",
+            columns: [
+                { data: 'user', name: 'user' },
+                { data: 'total_course', name: 'total_course' },
+                { data: 'total_amount', name: 'total_amount' },
+                { data: 'total_discount', name: 'total_discount' },
+                { data: 'payable_amount', name: 'payable_amount' },
+                { data: 'booking_number', name: 'booking_number' },
+                { data: 'payment_status', name: 'payment_status' },
+                { data: 'phone', name: 'phone' },
+                { data: 'created_at', name: 'created_at' }
+            ]
+        });
+    });
+</script>
 @endsection

@@ -3,7 +3,7 @@
         <div class="left_section">
             <ul>
                 <li class="menu--item">
-                    <a href="{{ route('admin.dashboard') }}" class="menu--link" title="Dashboard">
+                    <a href="{{ route('dashboard.index') }}" class="menu--link" title="Dashboard">
                         <i class="uil uil-apps menu--icon"></i>
                         <span class="menu--label">Dashboard</span>
                     </a>

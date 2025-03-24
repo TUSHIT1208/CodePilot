@@ -1746,6 +1746,7 @@ i.icon1 {
     border-radius: 3px;
     margin-bottom: 12px;
     overflow-x: inherit;
+    padding: 10px;
 }
 
 table.table.ucp-table {

@@ -13,6 +13,10 @@ class user_course extends Model
 
     public function course()
     {
-        return $this->belongsTo(course::class);
+        return $this->belongsTo(course::class,'course_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

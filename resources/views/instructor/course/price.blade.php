@@ -26,17 +26,10 @@
                                                 <div class="price-require-dt">
                                                     <div class="cogs-toggle center_d">
                                                         <label class="switch">
-                                                            <input type="checkbox" id="require_login" value="">
+                                                            <input type="checkbox" id="require_login" value="" checked>
                                                             <span></span>
                                                         </label>
                                                         <label for="require_login" class="lbl-quiz">Require Log In</label>
-                                                    </div>
-                                                    <div class="cogs-toggle center_d mt-3">
-                                                        <label class="switch">
-                                                            <input type="checkbox" id="require_enroll" value="">
-                                                            <span></span>
-                                                        </label>
-                                                        <label for="require_enroll" class="lbl-quiz">Require Enroll</label>
                                                     </div>
                                                     <p>If the course is free, if student require to enroll your course, if not
                                                         required enroll, if students required sign in to your website to take
@@ -54,10 +47,10 @@
                                                             <div class="loc_group">
                                                                 <div class="ui left icon swdh19">
                                                                     <input class="prompt srch_explore form-control"
-                                                                        type="number" placeholder="₹0" name="price" id="price"
+                                                                        type="number" placeholder="₹1" name="price" id="price"
                                                                         value="" required><br>
                                                                     <span class="invalid-feedback">
-                                                                        Please enter a valid price (minimum: 0.00).
+                                                                        Please enter a valid price (minimum: 1.00).
                                                                     </span>
 
                                                                 </div>
@@ -93,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                </div>
+                    </div>
                 </form>
             @endif
     </div>
@@ -101,6 +94,16 @@
 </div>
 @if (isset($course))
     <script>
+        // jquery
+         $(document).ready(function() {
+        // Always keep the checkbox checked
+        $('#require_login').prop('checked', true);
+
+        // Prevent user from unchecking
+        $('#require_login').on('change', function() {
+            $(this).prop('checked', true);
+        });
+    });
         document.addEventListener("DOMContentLoaded", function () {
             const form = document.querySelector(".price-validation");
             const priceInput = document.getElementById("price");
@@ -109,11 +112,12 @@
 
             // Function to check validation before submitting
             function validateForm() {
+                //debugger;
                 let isValid = true;
                 form.classList.add("was-validated");
 
                 // Price validation
-                if (!priceInput.value || priceInput.value < 0 || priceInput.value > 99999999.99) {
+                if (!priceInput.value || priceInput.value < 1 || priceInput.value > 99999999.99) {
                     priceInput.classList.add("is-invalid");
                     isValid = false;
                 } else {

@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use App\Models\courseAttachment;
+use App\Models\user_video_tracker;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\IncompleteCourseReminder;
 
 class LoginController extends Controller
 {
@@ -29,10 +33,50 @@ class LoginController extends Controller
                 logger($userData);
                 log::info($user);
             if ($user->role && $user->role->name === 'admin') {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('dashboard.index');
             } elseif ($user->role && $user->role->name === 'insructor') {
                 return redirect()->route('instructor.dashboard');
             } elseif ($user->role && $user->role->name === 'learner') {
+                $oneMonthAgo = now()->subMonth();
+                logger($oneMonthAgo);
+                // Get distinct course IDs where the user has not watched the video for more than 1 month
+                $incompleteCourses = user_video_tracker::where('user_id', $user->id)
+                    ->where('updated_at', '<', $oneMonthAgo)
+                    ->distinct('course_attachment_id') //distinct remove duplicate record
+                    ->get();
+
+                    $coursesList = [];
+
+                    if ($incompleteCourses->count() > 0) {
+                        foreach ($incompleteCourses as $tracker) {
+                            $courseAttachment = CourseAttachment::find($tracker->course_attachment_id);
+
+                            if ($courseAttachment) {
+                                $courseTitle = $courseAttachment->course->title;
+                                $courseId = $courseAttachment->course_id;
+
+                                // Add to list of incomplete courses
+                                $coursesList[] = [
+                                    'course_id' => $courseId,
+                                    'course_title' => $courseTitle
+                                ];
+                            }
+                        }
+
+                        if (!empty($coursesList)) {
+                            try {
+                                logger("Sending reminder email to learner: " . $user->email);
+
+                                // Send email with all incomplete courses
+                                Mail::to($user->email)->send(new IncompleteCourseReminder($coursesList));
+
+                                logger("Reminder email sent for incomplete courses");
+                            } catch (\Exception $e) {
+                                logger('Error sending reminder email: ' . $e->getMessage());
+                            }
+                        }
+                    }
+    
                 return redirect()->route('learner.dashboard');
             }
 

@@ -101,7 +101,7 @@
                         <div class="mb-3">
                             <label for="editLastName" class="form-label">Last Name</label>
                             <input type="text" class="form-control _dlor1" id="editLastName" name="last_name" required>
-                            <div class="invalid-feedback">Last name is required.</div>
+                           
                         </div>
 
                         <div class="mb-3">

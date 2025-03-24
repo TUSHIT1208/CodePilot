@@ -9,7 +9,9 @@
 <script src="{{ asset('vendor/ckeditor5/ckeditor.js')}}"></script>
 <script src="//cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
 
-
+<!-- Include jQuery and Moment.js (Required for Date Range Picker) -->
+<script src="https://cdn.jsdelivr.net/npm/moment/min/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
