@@ -27,7 +27,7 @@ class DashboardController extends Controller
         logger($total_earning);
         $total_enrollments = user_course::distinct('user_id')->count('user_id');
         logger($total_enrollments);
-        $total_course = course::count('id');
+        $total_course = course::where('is_active', 1)->count('id');
         logger($total_course);
         $total_learners = User::whereHas('role', function ($query) {
             $query->where('name', 'learner'); // Ensure this matches your database role name
@@ -45,6 +45,7 @@ class DashboardController extends Controller
                 }
             ])
             ->orderByDesc('total_sales') // Sort by most sold
+            ->where('is_active', 1)
             ->take(3) // Get top 3 courses
             ->get();
 
@@ -139,10 +140,10 @@ class DashboardController extends Controller
         })->distinct('user_id')->count('user_id');
 
         // Total courses created by the instructor
-        $total_course = Course::where('user_id', $instructor->id)->count();
+        $total_course = Course::where('user_id', $instructor->id)->where('is_active', 1)->count();
 
         // Latest courses by the instructor
-        $courses = Course::where('user_id', $instructor->id)->latest()->take(3)->get();
+        $courses = Course::where('user_id', $instructor->id)->where('is_active', 1)->latest()->take(3)->get();
 
         // Most selling courses by the instructor
         $most_courses = Course::where('user_id', $instructor->id)
@@ -153,6 +154,7 @@ class DashboardController extends Controller
                 }
             ])
             ->orderByDesc('total_sales') // Sort by most sold
+            ->where('is_active', 1)
             ->take(3) // Get top 3 courses
             ->get();
 
@@ -225,7 +227,7 @@ class DashboardController extends Controller
     public function learner_index()
     {
 
-        $total_course = course::count('id');
+        $total_course = course::where('is_active', 1)->count('id');
         logger($total_course);
         $total_purcharsed_course = user_course::where('user_id', auth()->user()->id)->count('id');
         logger($total_purcharsed_course);
@@ -246,7 +248,7 @@ class DashboardController extends Controller
             ->orderByDesc('total_sales') // Sort by most sold
             ->take(3) // Get top 3 courses
             ->get();
-        $latest_courses = Course::latest()->take(3)->get();
+        $latest_courses = Course::where('is_active', 1)->latest()->take(3)->get();
 
         $courses = Course::whereHas('review') // Only fetch courses that have reviews
             ->with([
@@ -271,48 +273,63 @@ class DashboardController extends Controller
     }
 
 
-
     public function courseList(Request $request)
-    {
-        if ($request->ajax()) {
-            $user_id = auth()->user()->id;
-            $purchased_courses = User_course::where('user_id', $user_id)->get();
-            
-            $data = [];
-    
-            foreach ($purchased_courses as $course) {
-                $course_details = Course::find($course->course_id);
-                
-                if (!$course_details) {
-                    continue; // Skip if course not found
-                }
-    
-                // Count total learners
-                $total_learners = User_course::join('users', 'users.id', '=', 'user_courses.user_id')
-                    ->join('roles', 'roles.id', '=', 'users.role_id')
-                    ->where('roles.name', 'learner')
-                    ->where('user_courses.course_id', $course->course_id)
-                    ->count();
-    
-                // Get Course Price and Discount
-                $price = $course_details->price ?? 0;
-                $discount = $course_details->discount ?? 0;
-                $final_price = $price - $discount;
-    
-                // Add Data to Array
-                $data[] = [
-                    'title' => $course_details->title,
-                    'total_learners' => $total_learners,
-                    'final_price' => $final_price,
-                ];
-            }
-    
-            return response()->json(['data' => $data]);
-        }
-    
-        return view('learner.reports.course_learner.list');
+{
+    if ($request->ajax()) {
+        $user_id = auth()->user()->id;
+        $query = User_course::where('user_id', $user_id)->with('course');
 
+        // ✅ Show all courses if "All Courses" is selected
+        if ($request->filled('course_id')) {
+            $query->where('course_id', $request->course_id);
+        }
+
+        // ✅ Filter by Category (if selected)
+        if ($request->filled('category_id')) {
+            $query->whereHas('course', function ($q) use ($request) {
+                $q->where('category_id', $request->category_id);
+            });
+        }
+
+        // ✅ Filter by Subcategory (if selected)
+        if ($request->filled('subcategory_id')) {
+            $query->whereHas('course', function ($q) use ($request) {
+                $q->where('sub_category_id', $request->subcategory_id);
+            });
+        }
+
+        $purchased_courses = $query->get();
+        $data = [];
+
+        foreach ($purchased_courses as $course) {
+            $course_details = $course->course;
+            if (!$course_details) continue;
+
+            $total_learners = User_course::where('course_id', $course->course_id)->count();
+            $final_price = ($course_details->price ?? 0) - ($course_details->discount ?? 0);
+
+            $data[] = [
+                'title' => $course_details->title,
+                'total_learners' => $total_learners,
+                'final_price' => $final_price,
+                'actions' => '<a href="' . route('course.show', $course->course_id) . '" class="text-dark"><i class="uil uil-eye"></i> View</a>'
+            ];
+        }
+
+        return response()->json([
+            'draw' => intval($request->draw),
+            'recordsTotal' => count($data),
+            'recordsFiltered' => count($data),
+            'data' => $data
+        ]);
     }
+
+    $courses = User_course::where('user_id', auth()->user()->id)->with('course')->get();
+    $categories = Category::all();
+
+    return view('learner.reports.course_learner.list', compact('courses', 'categories'));
+}
+
 
     public function total_earning(Request $request)
     {
@@ -504,7 +521,7 @@ class DashboardController extends Controller
         }
 
         // Fetch instructor's courses for filtering dropdown
-        $courses = Course::where('user_id', $instructor->id)->get();
+        $courses = Course::where('user_id', $instructor->id)->where('is_active', 1)->get();
         $categories = Category::all();
 
         return view('instructor.report.total_earning.list', compact('paymentTransactions', 'courses', 'categories'));
@@ -568,7 +585,7 @@ class DashboardController extends Controller
                 ->make(true);
         }
 
-        $courses = Course::where('user_id', $instructorId)->get();
+        $courses = Course::where('user_id', $instructorId)->where('is_active', 1)->get();
         $categories = Category::all();
 
         return view('instructor.report.total_enroll.list', compact('courses', 'categories'));
