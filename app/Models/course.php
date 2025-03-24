@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class course extends Model
 {
@@ -53,5 +54,24 @@ class course extends Model
         return $this->hasOne(Review::class, 'course_id')->latest();
     }
 
-    
-}
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function learners(): HasManyThrough
+    {
+        return $this->hasManyThrough(Order::class, order_item::class, 'course_id', 'id', 'id', 'order_id')
+            ->join('users', 'orders.user_id', '=', 'users.id') // Join with users table
+            ->join('roles', 'users.role_id', '=', 'roles.id') // Join with roles table
+            ->where('roles.name', 'learner'); // Filter only learners
+    }
+    public function getTotalLearnersAttribute()
+    {
+        return $this->learners()->distinct('users.id')->count('users.id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(PaymentTransaction::class, 'order_id', 'id');
+    }
+} 

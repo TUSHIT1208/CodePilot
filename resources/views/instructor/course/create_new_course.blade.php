@@ -46,10 +46,10 @@
                                 </li>
                             </ul>
                             <div class="step-content">
-                                @include('admin.course.basic_information') 									    
-                                @include('admin.course.test')
-                                @include('admin.course.media')								
-                                @include('admin.course.price')								
+                                @include('instructor.course.basic_information') 									    
+                                @include('instructor.course.test')
+                                @include('instructor.course.media')								
+                                @include('instructor.course.price')								
                                 <div class="step-tab-panel step-tab-location" id="tab_step5">
                                     <div class="tab-from-content">
                                         <div class="title-icon">

@@ -490,7 +490,9 @@
                     const duration = video.duration;
                     const minutes = Math.floor(duration / 60);
                     const seconds = Math.floor(duration % 60);
-                    const formattedDuration = minutes > 0 ? ${minutes}:${seconds.toString().padStart(2, '0')} minutes : ${seconds} seconds;
+                    const formattedDuration = minutes > 0 
+                    ? `${minutes}:${seconds.toString().padStart(2, '0')} minutes` 
+                    : `${seconds} seconds`;
                     document.getElementById('video-duration-{{ $attachment->id }}').innerText =formattedDuration;
                 });
                 video.load();

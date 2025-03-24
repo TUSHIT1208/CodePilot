@@ -48,8 +48,9 @@
 				<div class="col-xl-4 col-lg-6 col-md-6">
 					<div class="card_dash">
 						<div class="card_dash_left">
-							<h5>Total Learner</h5>
+							<h5>Total Learner in courses</h5>
 							<h2>{{ $total_learners }}</h2>
+							<a href="{{ route('learner.courses.list')}}">View all Learner in courses</a>
 							{{-- <span class="crdbg_4">New 3</span> --}}
 						</div>
 						<div class="card_dash_right">
@@ -230,7 +231,6 @@
 						@endif
 					 </div>
 					</div>
-					
 				</div>
 			</div>
 			<div class="container mt-5">

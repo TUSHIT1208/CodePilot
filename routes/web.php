@@ -302,3 +302,5 @@ Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
 });
 
 Route::get('/instructor/enrollment-chart', [DashboardController::class, 'enrollmentChart'])->name('instructor.enrollment.chart');
+
+Route::get('/learner/courses', [DashboardController::class, 'courseList'])->name('learner.courses.list');
