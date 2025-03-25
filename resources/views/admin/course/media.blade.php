@@ -156,7 +156,7 @@
             }
             var formData = new FormData(form);
             $('#loader').show();
-    $('.tab-from-content').addClass('blurred');
+        $('.tab-from-content').addClass('blurred');
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,

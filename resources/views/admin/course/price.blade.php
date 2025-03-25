@@ -67,7 +67,7 @@
                                                                 <div class="ui left icon swdh19">
                                                                     <input class="prompt srch_explore form-control"
                                                                         type="number" placeholder="₹0" name="discount"
-                                                                        id="title-field" value="" required>
+                                                                        id="discount" value="" required>
                                                                     <span class="invalid-feedback">
                                                                         Discount price must be a valid number and not greater
                                                                         than the regular price.

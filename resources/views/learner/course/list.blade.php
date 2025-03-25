@@ -77,7 +77,15 @@
                                                                 href="javascript:;">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown' }}</a>
                                                         </p>
                                                         <div class="prce142">
-                                                            {{ $course->price == 0 ? 'Free' : '₹' . $course->price }}</div>
+                                                            @if ($course->price == 0)
+                                                                Free
+                                                            @else
+                                                                @if ($course->discount > 0)
+                                                                <s style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
+                                                                @endif
+                                                                ₹{{ $course->price - ($course->discount ?? 0) }}
+                                                            @endif    
+                                                        </div>
                                                         @if ($course->price != 0)
                                                             <form class="cartForm">
                                                                 @csrf

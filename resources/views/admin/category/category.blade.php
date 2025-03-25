@@ -47,7 +47,7 @@
                                                 </th>
                                                 <th class="text-left ucp-tabler" scope="col">Name</th>
                                                 <th class="text-left ucp-tabler" scope="col">Description</th>
-                                                <th class="text-left ucp-tabler" scope="col">Status</th>
+                                                 <th class="text-left ucp-tabler" scope="col">Status</th>
                                                 <th class="text-left ucp-tabler" scope="col">Actions</th>
                                             </tr>
                                         </thead>
