@@ -237,11 +237,11 @@
 
 
 
-            if ('{{ session('success') }}') {
+            // if ('{{ session('success') }}') {
 
-                $('#add-course-tab .step-footer button[data-direction="next"]').click();
+            //     $('#add-course-tab .step-footer button[data-direction="next"]').click();
 
-            }
+            // }
             if (window.location.pathname.endsWith("/edit")) {
                 // Trigger the next button automatically after receiving success
                 var buttons = document.querySelectorAll('.step-footer .main-btn');

@@ -181,7 +181,12 @@ class CourseController extends Controller
 
             Log::info('Course created successfully', ['course_id' => $course->id]);
 
-            return redirect()->route('course.edit', $course->id)->with('success', 'Course inserted successfully');
+            // return redirect()->route('course.edit', $course->id)->with('success', 'Course inserted successfully');
+            // DB::commit(); // Commit the transaction
+            return back()->with([
+                'success' => 'Course saved successfully!',
+                'course_id' => $course->id
+            ]);
 
         } catch (\Exception $e) {
             Log::error('Error inserting course', [
@@ -190,8 +195,13 @@ class CourseController extends Controller
                 'file' => $e->getFile(),
                 'trace' => $e->getTraceAsString()
             ]);
-
-            return redirect()->back()->with('error', 'An error occurred while inserting the course.');
+            return response()->json([
+                'error' => true,
+                'message' => 'An error occurred while inserting the course.',
+                'details' => $e->getMessage()
+            ], 500);
+    
+            // return redirect()->back()->with('error', 'An error occurred while inserting the course.');
         }
     }
 
@@ -369,7 +379,13 @@ class CourseController extends Controller
                 );
             }
 
-            return redirect()->back()->with('success', 'course updated successfully');
+            // return redirect()->back()->with('success', 'course updated successfully');
+            return response()->json([
+                'success' => true,
+                'message' => 'Course Update successfully!',
+                'course_id' => $course->id
+            ]);
+
         } catch (\Exception $e) {
             Log::error('Error inserting course', [
                 'message' => $e->getMessage(),
@@ -378,7 +394,13 @@ class CourseController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
 
-            return redirect()->back()->with('error', 'An error occurred while updateing the course.');
+            return response()->json([
+                'error' => true,
+                'message' => 'An error occurred while Update the course.',
+                'details' => $e->getMessage()
+            ], 500);
+    
+            // return redirect()->back()->with('error', 'An error occurred while updateing the course.');
         }
     }
     public function addToHome(Request $request)

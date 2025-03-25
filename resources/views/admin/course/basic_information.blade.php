@@ -5,9 +5,7 @@
         </div>
         <div class="course__form">
             <div class="general_info10">
-                <form
-                    action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}"
-                    method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
+                <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
                     @csrf
                     @if (isset($course))
                     @method('PUT')
@@ -303,11 +301,18 @@
                                     subCategorySelect.append('<option value="">No subcategories available</option>');
                                 }
 
-                                if ($.fn.selectpicker) {
-                                    subCategorySelect.selectpicker('refresh');
-                                } else {
-                                    console.warn("Bootstrap Select is not loaded.");
-                                }
+                                
+                                    //subCategorySelect.selectpicker('refresh'); // Refresh after initialization
+                                    if (subCategorySelect.length) {
+                                        if ($.fn.selectpicker) {
+                                            subCategorySelect.selectpicker(); // Initialize if not already
+                                            subCategorySelect.selectpicker('refresh'); // Refresh dropdown
+                                        } else {
+                                            console.warn("Bootstrap Select is not loaded.");
+                                        }
+                                    } else {
+                                        console.error("#sub_category_id select element not found.");
+                                    }
                             },
                             error: function() {
                                 console.log('Error fetching subcategories');
@@ -338,53 +343,52 @@
         </div>
     </div>
 </div>
-{{-- <script>
-        $(document).ready(function () {
-        $("#courseForm").on("submit", function (e) {
-            e.preventDefault(); // Prevent default form submission
-            
-            let formData = new FormData(this);
-            let isUpdate = $("input[name='_method']").val() === "PUT"; // Check if updating
-            
-            let method = isUpdate ? "POST" : "POST"; // Laravel requires POST with _method=PUT for updates
+<script>
+        // Ensure CKEditor data is added before form submission
+for (instance in CKEDITOR.instances) {
+    CKEDITOR.instances[instance].updateElement();
+}
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: method,
-                data: formData,
-                processData: false, // Important for FormData
-                contentType: false, // Important for FormData
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // CSRF token for security
-                },
-                beforeSend: function () {
-                    $("#submitButton").attr("disabled", true).text("Saving...");
-                },
-                success: function (response) {
-                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
-                    
-                    if (response.success) {
-                        alert(response.message); // Show success message
-                        window.location.href = "{{ route('course.index') }}"; // Redirect to course list
-                    } else {
-                        alert("Something went wrong, please try again!");
-                    }
-                },
-                error: function (xhr) {
-                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
+$("#courseForm").on("submit", function(e) {
+    e.preventDefault();
+    
+    let formData = new FormData(this);
+    // let actionUrl = $(this).attr("action"); // Get dynamic action URL
+    // let method = $(this).find("input[name='_method']").val() || "POST"; 
 
-                    let errors = xhr.responseJSON.errors;
-                    if (errors) {
-                        let errorMessages = Object.values(errors).map((error) => error[0]).join("\n");
-                        alert(errorMessages);
-                    } else {
-                        alert("An unexpected error occurred. Please try again.");
-                    }
-                },
-            });
-        });
-    });
-</script> --}}
+    $.ajax({
+    url: '/course/store',
+    type: 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+        alert(response.course_id);
+        if (response.success) {
+            debugger;
+            toastr.success(response.message, 'Success');
+
+            // Debugging Logs
+            console.log("Server Response:", response);
+            console.log("Redirecting to:", `/course/${response.course_id}/edit`);
+
+            // Force Redirection
+            setTimeout(() => {
+                window.location.replace = `/course/${response.course_id}/edit`;
+            }, 1000);
+        } else {
+            toastr.error('Error: ' + response.message, 'Error');
+        }
+    },
+    error: function (xhr) {
+        console.error('AJAX Error:', xhr.responseText);
+        toastr.error('An error occurred. Check console for details.', 'Error');
+    }
+});
+
+});
+
+</script>
 <script>
     // ckeditor
     document.addEventListener("DOMContentLoaded", function() {
