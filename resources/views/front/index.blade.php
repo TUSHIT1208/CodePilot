@@ -284,7 +284,7 @@
                                 <div class="mt-5">
                                     <img src="{{ isset($courseItem->thumbnail_url) && $courseItem->thumbnail_url != null ? asset('courseThumbnail/' . $courseItem->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                         alt="Course Thumbnail" class="thumbnail-course">
-
+                                    
                                     <div class="course-content">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <p class="category">{{ $courseItem->title}}</p>
