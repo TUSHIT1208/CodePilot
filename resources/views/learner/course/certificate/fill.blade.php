@@ -18,7 +18,7 @@
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item"><a
                                                     href="{{ route('certificate.center') }}">Certificate Center</a></li>
-                                           
+
                                             <li class="breadcrumb-item active" aria-current="page">Certification Fill Form
                                             </li>
                                         </ol>
@@ -77,8 +77,8 @@
 
 
 
-                                <p class="questrm145">Please be ready to answer <span>20 questions</span> within <span>1
-                                        hours</span>.</p>
+                                {{-- <p class="questrm145">Please be ready to answer <span> questions</span> within <span>
+                                        hours</span>.</p> --}}
                             </div>
                         </div>
                     </div>

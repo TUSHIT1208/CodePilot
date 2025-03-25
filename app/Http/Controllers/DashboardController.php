@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\sub_category;
 use Carbon\Carbon;
 use App\Models\role;
 use App\Models\User;
@@ -458,7 +459,6 @@ class DashboardController extends Controller
 
     public function instructor_total_earning(request $request)
     {
-
         logger("in instrctor total_earning");
         $instructor = auth()->user(); // Get authenticated instructor
 
@@ -683,19 +683,67 @@ class DashboardController extends Controller
     public function course(Request $request)
     {
         if ($request->ajax()) {
-            $courses = Course::with(['courseattachment', 'user'])->select('id', 'title', 'user_id', 'created_at');
+            $query = Course::with(['category', 'subCategory', 'user'])
+                ->select('id', 'title', 'user_id', 'category_id', 'sub_category_id', 'price', 'is_active', 'published_at');
 
-            return datatables()->of($courses)
+            // Filter by category
+            if ($request->category_id) {
+                $query->where('category_id', $request->category_id);
+            }
+
+            // Filter by sub-category
+            if ($request->sub_category_id) {
+                $query->where('sub_category_id', $request->sub_category_id);
+            }
+
+            // Filter by course type
+            if ($request->course_type == 'free') {
+                $query->where(function ($q) {
+                    $q->where('price', 0)
+                        ->orWhereNull('price'); // Check if price is 0 or NULL
+                });
+            } elseif ($request->course_type == 'paid') {
+                $query->where('price', '>', 0);
+            }
+
+            // **Filter by instructor**
+            if ($request->instructor_id) {
+                $query->where('user_id', $request->instructor_id);
+            }
+
+            return datatables()->of($query)
+                ->addColumn('category', function ($course) {
+                    return $course->category ? $course->category->name : 'N/A';
+                })
+                ->addColumn('sub_category', function ($course) {
+                    return $course->subCategory ? $course->subCategory->name : 'N/A';
+                })
                 ->addColumn('instructor', function ($course) {
-                    return $course->user ? $course->user->name : 'N/A';
+                    if ($course->user) {
+                        $fullName = trim($course->user->first_name . ' ' . ($course->user->middle_name ?? '') . ' ' . ($course->user->last_name ?? ''));
+                        $role = $course->user->role_id == 1 ? 'Admin' : ($course->user->role_id == 2 ? 'Instructor' : 'Other');
+                        return $fullName . " ($role)";
+                    }
+                    return 'N/A';
                 })
-                ->addColumn('attachments', function ($course) {
-                    return $course->courseattachment ? count($course->courseattachment) . ' files' : 'No Attachments';
+                ->addColumn('price', function ($course) {
+                    return $course->price > 0 ? '₹' . number_format($course->price, 2) : 'FREE';
                 })
+                ->addColumn('published_at', function ($course) {
+                    return $course->published_at ? Carbon::parse($course->published_at)->format('d M, Y h:i A') : 'Not Published';
+                })
+                ->addColumn('status', function ($course) {
+                    return $course->is_active
+                        ? '<span class="badge badge-success active-learner">Active</span>'
+                        : '<span class="badge badge-danger inctive-learner">Inactive</span>';
+                })
+                ->rawColumns(['status'])
                 ->make(true);
         }
 
-        return view('admin.report.total_course.list');
+        $categories = Category::all();
+        $instructors = User::where('role_id', 2)->get(); // Fetch only instructors
+        return view('admin.report.total_course.list', compact('categories', 'instructors'));
     }
 
 

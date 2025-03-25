@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -22,9 +21,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->text('profile_picture_url')->nullable();
             $table->string('date_of_birth');
-            $table->text('address
-            
-            ')->nullable();
+            $table->text('address')->nullable();
             $table->boolean('is_active');
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');

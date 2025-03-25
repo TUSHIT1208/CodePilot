@@ -34,7 +34,7 @@
 
         <!-- Courses Section -->
         <section id="courses" class="courses section">
-            <a href="">
+            <a href="{{route('login')}}">
                 <div class="container">
                     <div class="row">
                         @foreach($courses as $courseItem)

@@ -31,6 +31,8 @@ class HomeController extends Controller
     {
         // Get active courses and load the user associated with each course
         $courses = Course::with('user')->where('is_active_home', 1)->get();
+        // return 
+        // $check = $courses->id;
         //return $courses;
         // Pass courses to the view
         return view('front.course', compact('courses'));

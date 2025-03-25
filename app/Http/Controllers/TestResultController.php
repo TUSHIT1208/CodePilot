@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\certificate;
 use App\Models\test;
 use App\Models\test_result;
 use App\Models\TestQuestion;
@@ -77,7 +78,7 @@ class TestResultController extends Controller
                     $totalWrong++;
                 }
 
-                test_result_answer::create([
+                $test_answer = test_result_answer::create([
                     'test_user_id' => $testResult->id,
                     'question_id' => $questionId,
                     'answer_id' => $answerId,
@@ -95,8 +96,35 @@ class TestResultController extends Controller
             ]);
 
             DB::commit();
+            $certificate = certificate::all()->last();
+            $test_result = test_result::all()->last();
+            //$course = session('course');
+            // $test_id = test::where('course_id', $course)->first();
+            // $p_marks = $test_id->passing_mark;
+            $test_answer = session(['test_answer_id' => $test_answer->test_user_id]);
 
-            return view('learner.course.certificate.test', compact('p_marks', 'test'))->with('success', 'Test submitted successfully!');
+
+
+            // $course = session('course');
+            // $test = test::where('course_id', $course)->first();
+            // $test_result = test_result::where('test_id', $testId)->first();
+            if ($test_id->passing_marks < $test_result->overall_score) {
+                $certificate = Certificate::create([
+                    'user_id' => Auth::user()->id,
+                    'test_id' => $test_id->id,
+                    'name' => Auth()->user()->first_name,
+                    'email' => Auth()->user()->email,
+                    'phone_no' => Auth()->user()->phone_number,
+                ]);
+            }
+
+            //$test_result = session(['test_result_id' => $test_result->id]);
+
+            return view(
+                "learner.course.certificate.genrate",
+                compact('certificate', 'test_result', 'p_marks')
+            );
+            // return view('learner.course.certificate.test', compact('p_marks', 'test'))->with('success', 'Test submitted successfully!');
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Test Submission Error: ' . $e->getMessage());

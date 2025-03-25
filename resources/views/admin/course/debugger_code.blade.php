@@ -8,12 +8,8 @@
     <div class="wrapper">
         <div class="sa4d25">
             <div class="container-fluid">
-<<<<<<< HEAD
-                {{-- <a href="{{ route('course.show',$course_detail->course_id) }}"><button class="main-btn">Back to Course</button></a> --}}
-=======
-                <a href="{{ route('course.show', $course_detail->course_id) }}"><button class="main-btn">Back to
-                        Course</button></a>
->>>>>>> d0963a6947b685594484da7936e8c664fa721f02
+                {{-- <a href="{{ route('course.show',$course_detail->course_id) }}"><button class="main-btn">Back to
+                        Course</button></a> --}}
                 <div style="display: flex; gap: 20px;" class="mt-4">
                     <div style="flex: 1;">
                         <div class="video-container">
@@ -26,23 +22,9 @@
                         </div>
                     </div>
                     <div style="flex: 1;">
-<<<<<<< HEAD
-                        @if($title->title == "Python")
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                        @elseif($title->title == "Php")
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/php" width="100%" height="500px"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                        @elseif($title->title == "Html")
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/html" width="100%" height="500px"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-=======
                         @if ($title->title === 'Python')
-                            <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%"
-                                height="500px" frameborder="0" allowfullscreen>
+                            <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
+                                frameborder="0" allowfullscreen>
                             </iframe>
                         @elseif($title->title === 'Php')
                             <iframe id="code-iframe" src="https://onecompiler.com/embed/php" width="100%" height="500px"
@@ -53,10 +35,9 @@
                                 frameborder="0" allowfullscreen>
                             </iframe>
                         @else
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%"
-                                height="500px" frameborder="0" allowfullscreen>
+                            <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
+                                frameborder="0" allowfullscreen>
                             </iframe>
->>>>>>> d0963a6947b685594484da7936e8c664fa721f02
                         @endif
                     </div>
                 </div>

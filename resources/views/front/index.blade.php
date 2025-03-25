@@ -267,64 +267,67 @@
         </section><!-- /Features Section --> --}}
 
         <!-- Courses Section -->
+
         <section id="courses" class="courses section">
+            <a href="{{route('login')}}">
 
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Courses</h2>
-                <p>Popular Courses</p>
-            </div><!-- End Section Title -->
-
-            <div class="container">
-
-                <div class="row">
-                    @foreach($courses as $courseItem)
-                        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
-                            data-aos-delay="100">
-                            <div class="mt-5">
-                                <img src="{{ isset($courseItem->thumbnail_url) && $courseItem->thumbnail_url != null ? asset('courseThumbnail/' . $courseItem->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
-                                    alt="Course Thumbnail" class="thumbnail-course">
-
-                                <div class="course-content">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <p class="category">{{ $courseItem->title}}</p>
-                                        <p class="price">{{ $courseItem->price == 0 ? 'FREE' : '₹' . $courseItem->price }}</p>
-                                    </div>
-
-                                    {{-- <h3><a href="{{ route('course.details', ['id' => $courseItem->id]) }}">{{
-                                            $courseItem->title }}</a>
-                                    </h3> --}}
-                                    <p class="description">{{ Str::limit($courseItem->category->name, 100) }}</p>
-                                    <p class="description">{{ Str::limit($courseItem->description, 100) }}</p>
-                                    <div class="trainer d-flex justify-content-between align-items-center">
-                                        <div class="trainer-profile d-flex align-items-center">
-                                            <!-- Check if user has a profile photo, fall back to a default one -->
-                                            @if(!empty($courseItem->user->profile_picture_url))
-                                                <img id="profile_picture"
-                                                    src="{{  asset($courseItem->user->profile_picture_url) }}">
-                                            @else
-                                                <h1 class="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
-                                            @endif
-                                            {{-- <img
-                                                src="{{ isset($courseItem->user->profile_picture_url) && $courseItem->user->profile_picture_url != null ? asset($courseItem->user->profile_picture_url) : 'https://via.placeholder.com/150/0000FF/808080?Text=' . strtoupper(substr($courseItem->user->first_name, 0, 1)) }}"
-                                                class="img-fluid small-logo" alt="User Photo"> --}}
-
-
-                                            <!-- Display the user's name -->
-                                            <a href="{{ route('user.learner_show', $courseItem->user->id) }}"
-                                                class="trainer-link">
-                                                {{ $courseItem->user->first_name }} {{ $courseItem->user->last_name }}
-                                            </a>
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Courses</h2>
+                    <p>Popular Courses</p>
+                </div><!-- End Section Title -->
+                <div class="container">
+                    <div class="row">
+                        @foreach($courses as $courseItem)
+                            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
+                                data-aos-delay="100">
+                                <div class="mt-5">
+                                    <img src="{{ isset($courseItem->thumbnail_url) && $courseItem->thumbnail_url != null ? asset('courseThumbnail/' . $courseItem->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
+                                        alt="Course Thumbnail" class="thumbnail-course">
+                                    
+                                    <div class="course-content">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <p class="category">{{ $courseItem->title}}</p>
+                                            <p class="price">{{ $courseItem->price == 0 ? 'FREE' : '₹' . $courseItem->price }}
+                                            </p>
                                         </div>
 
+                                        {{-- <h3><a href="{{ route('course.details', ['id' => $courseItem->id]) }}">{{
+                                                $courseItem->title }}</a>
+                                        </h3> --}}
+                                        <p class="description">{{ Str::limit($courseItem->category->name, 100) }}</p>
+                                        <p class="description">{{ Str::limit($courseItem->description, 100) }}</p>
+                                        <div class="trainer d-flex justify-content-between align-items-center">
+                                            <div class="trainer-profile d-flex align-items-center">
+                                                <!-- Check if user has a profile photo, fall back to a default one -->
+                                                @if(!empty($courseItem->user->profile_picture_url))
+                                                    <img id="profile_picture"
+                                                        src="{{  asset($courseItem->user->profile_picture_url) }}">
+                                                @else
+                                                    <h1 id="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
+                                                @endif
+                                                {{-- <img
+                                                    src="{{ isset($courseItem->user->profile_picture_url) && $courseItem->user->profile_picture_url != null ? asset($courseItem->user->profile_picture_url) : 'https://via.placeholder.com/150/0000FF/808080?Text=' . strtoupper(substr($courseItem->user->first_name, 0, 1)) }}"
+                                                    class="img-fluid small-logo" alt="User Photo"> --}}
+
+
+                                                <!-- Display the user's name -->
+                                                <a href="{{ route('user.learner_show', $courseItem->user->id) }}"
+                                                    class="trainer-link">
+                                                    {{ $courseItem->user->first_name }} {{ $courseItem->user->last_name }}
+                                                </a>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div> <!-- End Course Item-->
-                    @endforeach
-                </div>
+                            </div> <!-- End Course Item-->
 
-            </div>
+                        @endforeach
+
+                    </div>
+
+            </a>
 
         </section><!-- /Courses Section -->
 
