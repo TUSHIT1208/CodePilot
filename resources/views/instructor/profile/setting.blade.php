@@ -258,6 +258,7 @@
                         </div>
                 </div>
         </div>
+        @include('admin.layouts.footer')
 </div>
 <script>
         // This script applies Bootstrap's custom validation to all forms with the .needs-validation class.

@@ -13,54 +13,45 @@
                         <div class="section3125">
                             <div class="row justify-content-center">
                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
-                                    <div class="preview_video">
-                                        <a href="#" class="fcrse_img" data-bs-toggle="modal" data-bs-target="#videoModal">
-                                            <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}" alt="Course Thumbnail" class="img-fluid" style="height : 213px;"/>
+                                    <div class="preview_video position-relative">
+                                        <a href="#" class="fcrse_img video-trigger">
+                                            <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
+                                                alt="Course Thumbnail" class="img-fluid thumbnail" style="height: 213px;">
                                             <div class="course-overlay intro_overlay">
                                                 <div class="badge_seller">Bestseller</div>
                                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                 <span class="_215b02">Preview this course</span>
                                             </div>
                                         </a>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <video id="videoPlayer" width="100%" controls>
-                                                    <source id="videoSource" src="" type="video/mp4">
-                                                </video>
-                                            </div>
-                                        </div>
+                                        <video id="videoPlayer" class="course-video" width="100%" controls>
+                                            <source src="{{ asset('courseVideo/' . $courseDetail->url) }}" type="video/mp4">
+                                        </video>
                                     </div>
                                 </div>
                                 <script>
-                                    var videoModal = document.getElementById('videoModal');
-                                    videoModal.addEventListener('show.bs.modal', function(event) {
-                                        var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}";
-                                        var videoSource = videoModal.querySelector('#videoSource');
-                                        var videoPlayer = videoModal.querySelector('#videoPlayer');
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        var previewContainer = document.querySelector('.preview_video');
+                                        var video = document.getElementById('videoPlayer');
+                                        var overlay = previewContainer.querySelector('.course-overlay');
 
-                                        videoSource.setAttribute('src', videoUrl);
-                                        videoPlayer.load();
-                                    });
+                                        previewContainer.addEventListener('click', function(event) {
+                                            event.preventDefault(); // Prevent default link behavior
+                                            previewContainer.classList.add('active'); // Show video
 
-                                    videoModal.addEventListener('hidden.bs.modal', function() {
-                                        var videoPlayer = videoModal.querySelector('#videoPlayer');
-                                        videoPlayer.pause();
-                                        videoPlayer.currentTime = 0;
+                                            video.play(); // Auto-play video
+                                        });
+
+                                        // Hide video and show thumbnail when video ends
+                                        video.addEventListener('ended', function() {
+                                            previewContainer.classList.remove('active');
+                                        });
                                     });
                                 </script>
 
                                 <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
                                     <div class="_215b03">
                                         <h2>{{ $courseDetail->title }}</h2>
-                                        <span class="_215b04">The only course you need to learn web development - HTML, CSS, JS, Node, and More!</span>
+                                        <span class="_215b04">{{ $courseDetail->description }}</span>
                                     </div>
                                     <div class="_215b05">
                                         <div class="crse_reviews mr-2">
@@ -185,7 +176,7 @@
                                 <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
                                         @foreach ($courseDetail->courseattachment as $attachment)
-                                            <div class="crse_content container mx-auto p-4">
+                                            <div class="crse_content container">
                                                 <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
                                                     <div class="w-full md:w-1/3">
                                                         @if ($attachment->type === 'video')

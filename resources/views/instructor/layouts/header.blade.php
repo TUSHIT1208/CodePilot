@@ -68,7 +68,6 @@
 					</div>
 					<a href="{{ route('instructor.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
 					<a href="{{ route('instructor.setting') }}" class="item channel_item">Setting</a>
-					<a href="" class="item channel_item">Help</a>
 					<a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>
 					<a href="{{ route('logout') }}" class="item channel_item">Sign Out</a>
 				</div>

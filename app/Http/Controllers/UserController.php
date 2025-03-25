@@ -359,11 +359,11 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
-                'last_name' => $request->last_name,
+                'last_name' => $request->surname,
                 'middle_name' => $request->middle_name,
                 'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'date_of_birth' => $request->date_of_birth,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
             ]);
             log::info('learner updated');
             LearnerProfile::where('user_id', $id)->update([
@@ -391,11 +391,11 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
-                'last_name' => $request->last_name,
+                'last_name' => $request->surname,
                 'middle_name' => $request->middle_name,
                 'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'date_of_birth' => $request->date_of_birth,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
             ]);
 
             InstractorProfile::where('user_id', $id)->update([

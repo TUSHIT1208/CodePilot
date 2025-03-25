@@ -1,4 +1,3 @@
-
 <div class="step-tab-panel step-tab-location" id="tab_step3">
     <div class="tab-from-content">
         <div class="title-icon">
@@ -80,21 +79,9 @@
                             <button type="button" class="main-btn mt-3" id="submitVideoButton">Save</button>
                         </div>
                     </form>
-
-                </div>
-
-                <div class="col-lg-12 mt-4 media-datatable">
-                    <table id="videoTable" class="ucp-table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Discription</th>
-                                <th>Content</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                    <div class="attachments-section">
+                        <div id="attachmentsList"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,7 +89,7 @@
     <div class="loader-overlay" id="loader">
         <div class="loader"></div>
     </div>
-    
+
 </div>
 
 <script>
@@ -156,7 +143,7 @@
             }
             var formData = new FormData(form);
             $('#loader').show();
-    $('.tab-from-content').addClass('blurred');
+            $('.tab-from-content').addClass('blurred');
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
@@ -194,7 +181,6 @@
                 success: function(response) {
                     if (response.success) {
                         toastr.success(response.success, 'Success');
-                        
                     } else {
                         toastr.error('Something went wrong!', 'Error');
                     }
@@ -209,123 +195,111 @@
                     alert('An error occurred: ' + xhr.responseText);
                 },
                 complete: function() {
-            // 👉 Hide loader and remove blur
-            $('#loader').hide();
-            $('.tab-from-content').removeClass('blurred');
-        }
+                    // 👉 Hide loader and remove blur
+                    $('#loader').hide();
+                    $('.tab-from-content').removeClass('blurred');
+                }
             });
         });
     });
 </script>
 
 <script>
-    $(document).ready(function() {
-        // Set global Toastr options
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "timeOut": "5000",
-            "extendedTimeOut": "2000",
-            "positionClass": "toast-top-right",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut",
-            "onShown": function() {
-                $('.toast-success').css({
-                    'background-color': '#28a745', // Green for success
-                    'opacity': '1' // Adjust opacity
-                });
-                $('.toast-error').css({
-                    'background-color': '#dc3545', // Red for error
-                    'opacity': '1'
-                });
-                $('.toast-warning').css({
-                    'background-color': '#ffc107', // Yellow for warning
-                    'opacity': '1'
-                });
-                $('.toast-info').css({
-                    'background-color': '#17a2b8', // Blue for info
-                    'opacity': '1'
-                });
-            }
-        };
+    $(document).ready(function () {
+    function loadAttachments() {
         var courseId = $('input[name="course_id"]').val();
+        $.ajax({
+            url: `/course/${courseId}/attachments`,
+            type: 'GET',
+            success: function (response) {
+                var attachmentsContainer = $("#attachmentsList");
+                attachmentsContainer.empty(); // Clear previous content
 
-        $('#videoTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: '{{ route('courseAttachment.index') }}',
-                data: {
-                    course_id: courseId
+                if (response.length === 0) {
+                    attachmentsContainer.append(`
+                        <div class="text-center fade-in-animation footer mt-3">
+                            <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
+                            <h3 class="mt-3 scale-in-text" style="color: #777;">No content Found</h3>
+                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any content yet. Add one now to get started!</p>
+                        </div>
+                    `);
+                    return;
                 }
+
+                response.forEach(attachment => {
+                    var fileType = attachment.url.split('.').pop().toLowerCase();
+                    var fileUrl = `/courseVideo/${attachment.url}`; // Ensure correct path
+                    var previewElement = '';
+
+                    if (fileType === 'mp4') {
+                        previewElement = `
+                            <a href="/codeDebugger/${attachment.id}" class="hf_img relative block">
+                                <img src="/courseThumbnail/${attachment.thumbnail_url}" alt="${attachment.video_title}" class="w-full rounded-lg">
+                                <div class="course-overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
+                                    <span class="play_btn1 text-white text-2xl"><i class="uil uil-play"></i></span>
+                                </div>
+                            </a>
+                            <video id="temp-video-${attachment.id}" style="display:none;">
+                                <source src="${fileUrl}" type="video/mp4">
+                            </video>
+                        `;
+                    } else if (fileType === 'pdf') {
+                        previewElement = `
+                            <a href="/courseAssignments/${attachment.url}" target="_blank" class="hf_img">
+                                <div class="pdf-thumbnail bg-gray-200 flex items-center justify-center rounded-2xl h-40">
+                                    <img src="/images/PDF_file_icon.svg.webp" alt="PDF Document" class="w-24">
+                                </div>
+                            </a>
+                            <div class="eps_dots eps_dots10 more_dropdown relative">
+                                <i class="uil uil-ellipsis-v text-lg cursor-pointer"></i>
+                                <div class="dropdown-content hidden absolute bg-white shadow-lg rounded-lg p-2">
+                                    <a href="/courseAssignments/${attachment.url}" download="${attachment.title}" class="bg-blue-500 text-white px-4 py-2 rounded-2xl">Download</a>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        previewElement = `<a href="${fileUrl}" target="_blank">Download File</a>`;
+                    }
+
+                    attachmentsContainer.append(`
+                        <div class="crse_content container">
+                            <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
+                                <div class="w-full md:w-1/3">
+                                    ${previewElement}
+                                </div>
+                                <div class="hs_content w-full md:w-2/3">
+                                    <div class="vdtodt">
+                                        <span class="vdt14">${attachment.views ?? '0'} views</span>
+                                    </div>
+                                    <a href="javascript:void(0);" class="crse14s title900 text-lg font-bold">
+                                        ${attachment.title} | ${attachment.category ?? 'Uncategorized'}
+                                    </a>
+                                    <p class="text-gray-700">${attachment.discription}</p>
+                                    <div class="auth1lnkprce">
+                                        <p>By <a href="javascript:;" class="text-blue-500">{{ auth()->user()->first_name . " " . auth()->user()->last_name ?? 'Unknown' }}</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
             },
-            columns: [{
-                    data: 'title',
-                    name: 'title'
-                },
-                {
-                    data: 'discription',
-                    name: 'discription'
-                },
-                {
-                    data: 'url',
-                    name: 'url'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
+            error: function () {
+                toastr.error('Failed to load attachments', 'Error');
+            }
         });
+    }
 
-        // Handle Delete Click Event with Swal.fire
-        $(document).on('click', '.deleteAttachment', function() {
-            let attachmentId = $(this).data('id');
-            let attachmentType = $(this).data('type'); // Get type: video or document
+    // Call function to load attachments
+    loadAttachments();
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You are about to delete this ' + attachmentType +
-                    '. This action cannot be undone.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: '{{ route('courseAttachment.destroy', '') }}/' +
-                            attachmentId,
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                let successMessage = attachmentType === 'video' ?
-                                    'Video deleted successfully!' :
-                                    'Document deleted successfully!';
-                                //toastr.success(successMessage, 'Success');
-                                $('#videoTable').DataTable().ajax.reload();
-                            } else {
-                                toastr.error('Failed to delete the ' +
-                                    attachmentType + '!', 'Error');
-                            }
-                        },
-                        error: function(xhr) {
-                            toastr.error('Something went wrong!', 'Error');
-                        }
-                    });
-                }
-            });
-        });
+    // Refresh attachments list after uploading a file
+    $('#submitVideoButton').on('click', function () {
+        setTimeout(loadAttachments, 2000);
     });
-</script>
+});
 
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

@@ -13,59 +13,45 @@
                         <div class="section3125">
                             <div class="row justify-content-center">
                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
-                                    <div class="preview_video">
-                                        <a href="#" class="fcrse_img" data-bs-toggle="modal"
-                                            data-bs-target="#videoModal">
+                                    <div class="preview_video position-relative">
+                                        <a href="#" class="fcrse_img video-trigger">
                                             <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
-                                                alt="Course Thumbnail" class="img-fluid" style="height : 213px;" />
+                                                alt="Course Thumbnail" class="img-fluid thumbnail" style="height: 213px;">
                                             <div class="course-overlay intro_overlay">
                                                 <div class="badge_seller">Bestseller</div>
                                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                 <span class="_215b02">Preview this course</span>
                                             </div>
                                         </a>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <video id="videoPlayer" width="100%" controls>
-                                                    <source id="videoSource" src="" type="video/mp4">
-                                                </video>
-                                            </div>
-                                        </div>
+                                        <video id="videoPlayer" class="course-video" width="100%" controls>
+                                            <source src="{{ asset('courseVideo/' . $courseDetail->url) }}" type="video/mp4">
+                                        </video>
                                     </div>
                                 </div>
                                 <script>
-                                    var videoModal = document.getElementById('videoModal');
-                                    videoModal.addEventListener('show.bs.modal', function(event) {
-                                        var videoUrl = "{{ asset('courseVideo/' . $courseDetail->url) }}";
-                                        var videoSource = videoModal.querySelector('#videoSource');
-                                        var videoPlayer = videoModal.querySelector('#videoPlayer');
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        var previewContainer = document.querySelector('.preview_video');
+                                        var video = document.getElementById('videoPlayer');
+                                        var overlay = previewContainer.querySelector('.course-overlay');
 
-                                        videoSource.setAttribute('src', videoUrl);
-                                        videoPlayer.load();
-                                    });
+                                        previewContainer.addEventListener('click', function(event) {
+                                            event.preventDefault(); // Prevent default link behavior
+                                            previewContainer.classList.add('active'); // Show video
 
-                                    videoModal.addEventListener('hidden.bs.modal', function() {
-                                        var videoPlayer = videoModal.querySelector('#videoPlayer');
-                                        videoPlayer.pause();
-                                        videoPlayer.currentTime = 0;
+                                            video.play(); // Auto-play video
+                                        });
+
+                                        // Hide video and show thumbnail when video ends
+                                        video.addEventListener('ended', function() {
+                                            previewContainer.classList.remove('active');
+                                        });
                                     });
                                 </script>
 
                                 <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
                                     <div class="_215b03">
                                         <h2>{{ $courseDetail->title }}</h2>
-                                        <span class="_215b04">The only course you need to learn web development - HTML, CSS,
-                                            JS, Node, and More!</span>
+                                        <span class="_215b04">{{ $courseDetail->description }}</span>
                                     </div>
                                     <div class="_215b05">
                                         <div class="crse_reviews mr-2">
@@ -117,8 +103,7 @@
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
-                                        <a href="{{ route('setting') }}"
-                                            class="mt-2 _df7852">{{ $users->username }}</a>
+                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">{{ $users->first_name . ' ' . $users->last_name ?? 'Unknown' }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -131,13 +116,14 @@
                                             href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                     @elseif($coursePrice->price != 0)
                                         @if (isset($checkPurchase))
-                                            <a class="nav-item nav-link" id="nav-courses-tab" data-bs-toggle="tab"
+                                            <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
                                                 href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                         @endif
                                     @endif
-                                    <a class="nav-item nav-link active" id="nav-about-tab" data-bs-toggle="tab"
-                                        href="#nav-about" role="tab" aria-selected="true">About</a>
-                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab" href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
+                                    <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
+                                        role="tab" aria-selected="true">About</a>
+                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
+                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
                                 </div>
                             </nav>
                         </div>
@@ -151,7 +137,7 @@
                     <div class="col-lg-12">
                         <div class="course_tab_content">
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="nav-about" role="tabpanel">
+                                <div class="tab-pane fade" id="nav-about" role="tabpanel">
                                     <div class="_htg451">
                                         <div class="_htg452">
                                             <h3>Requirements</h3>
@@ -165,8 +151,7 @@
                                                 <ul>
                                                     @foreach (explode('.', $content) as $item)
                                                         @if (trim($item) != '')
-                                                            <li><span
-                                                                    class="_5f7g11">{!! strip_tags(trim($item)) !!}</span></li>
+                                                            <li><span class="_5f7g11">{!! strip_tags(trim($item)) !!}</span></li>
                                                         @endif
                                                     @endforeach
                                                 </ul>
@@ -210,10 +195,10 @@
 
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="nav-courses" role="tabpanel">
+                                <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
                                         @foreach ($courseDetail->courseattachment as $attachment)
-                                            <div class="crse_content container mx-auto p-4">
+                                            <div class="crse_content container">
                                                 <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
                                                     <div class="w-full md:w-1/3">
                                                         @if ($attachment->type === 'video')
@@ -242,7 +227,7 @@
                                                                     src="{{ asset('courseVideo/' . $attachment->url) }}"
                                                                     type="video/mp4">
                                                             </video>
-                                                            {{-- <script>
+                                                            <script>
                                                                 document.addEventListener('DOMContentLoaded', function() {
                                                                     const video = document.getElementById('temp-video-{{ $attachment->id }}');
                                                                     video.addEventListener('loadedmetadata', () => {
@@ -250,13 +235,13 @@
                                                                         const minutes = Math.floor(duration / 60);
                                                                         const seconds = Math.floor(duration % 60);
                                                                         const formattedDuration = minutes > 0 ?
-                                                                            ${minutes}:${seconds.toString().padStart(2, '0')} minutes : ${seconds} seconds;
+                                                                            `${minutes}:${seconds.toString().padStart(2, '0')} minutes` : `${seconds} seconds`;
                                                                         document.getElementById('video-duration-{{ $attachment->id }}').innerText =
                                                                             formattedDuration;
                                                                     });
                                                                     video.load();
                                                                 });
-                                                            </script> --}}
+                                                            </script>
                                                         @elseif ($attachment->type === 'document' && Str::endsWith($attachment->url, '.pdf'))
                                                             <a href="{{ asset('courseAssignments/' . $attachment->url) }}"
                                                                 target="_blank" class="hf_img">
@@ -288,7 +273,7 @@
                                                         <p class="text-gray-700">{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;"
-                                                                    class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a>
+                                                                    class="text-blue-500">{{ $users->first_name . ' ' . $users->last_name ?? 'Unknown' }}</a>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -310,28 +295,33 @@
                                     <div class="student_reviews">
                                         <div class="row">
                                             <div class="col-lg-5">
-                                                <form action="{{ route('review.store') }}" method="POST" id="review-form">
+                                                <form action="{{ route('review.store') }}" method="POST"
+                                                    id="review-form">
                                                     @csrf
-                                                    <input type="hidden" name="course_id" value="{{ $courseDetail->id }}">
-                                                
+                                                    <input type="hidden" name="course_id"
+                                                        value="{{ $courseDetail->id }}">
+
                                                     <div class="review-container">
                                                         <h3 class="review-title">Give Your Review</h3>
-                                                
+
                                                         <!-- Star Rating -->
                                                         <div class="rating-stars">
                                                             @for ($i = 1; $i <= 5; $i++)
-                                                                <span class="star" data-value="{{ $i }}">★</span>
+                                                                <span class="star"
+                                                                    data-value="{{ $i }}">★</span>
                                                             @endfor
-                                                            <input type="hidden" name="rating" id="rating-value" value="0">
+                                                            <input type="hidden" name="rating" id="rating-value"
+                                                                value="0">
                                                         </div>
-                                                
+
                                                         <!-- Review Text -->
                                                         <textarea name="review" id="review-text" class="review-input" placeholder="Write your review..." rows="5"></textarea>
-                                                
+
                                                         <!-- Submit Button -->
-                                                        <button type="submit" class="submit-btn" id="submit-review">Submit Review</button>
+                                                        <button type="submit" class="submit-btn"
+                                                            id="submit-review">Submit Review</button>
                                                     </div>
-                                                </form>   
+                                                </form>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="review_right">
@@ -342,7 +332,7 @@
                                                 <div class="review_all120" id="review-container">
                                                     <!-- Dynamic Reviews Will be Loaded Here -->
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -355,37 +345,37 @@
         </div>
         @include('learner.layout.footer')
         <script>
-            $(document).ready(function () {
+            $(document).ready(function() {
                 const courseId = {{ $courseDetail->id }};
                 const stars = $('.star');
                 const ratingValue = $('#rating-value');
-        
+
                 // ⭐ Handle star click event
-                stars.on('click', function () {
+                stars.on('click', function() {
                     const value = parseInt($(this).data('value'));
                     ratingValue.val(value);
                     updateStars(value);
                 });
-        
+
                 // ⭐ Function to fill stars
                 function updateStars(rating) {
-                    stars.each(function () {
+                    stars.each(function() {
                         const value = parseInt($(this).data('value'));
                         $(this).toggleClass('filled', value <= rating);
                     });
                 }
-        
+
                 // ⭐ Submit form with AJAX and Swal
-                $('#review-form').on('submit', function (event) {
+                $('#review-form').on('submit', function(event) {
                     event.preventDefault();
-        
+
                     const formData = $(this).serialize();
-        
+
                     $.ajax({
                         url: $(this).attr('action'),
                         type: 'POST',
                         data: formData,
-                        success: function (data) {
+                        success: function(data) {
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Success!',
@@ -396,7 +386,7 @@
                             resetStars(); // ✅ Reset stars
                             loadReviews(); // ✅ Reload reviews after submission
                         },
-                        error: function () {
+                        error: function() {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error!',
@@ -406,26 +396,26 @@
                         }
                     });
                 });
-        
+
                 // ⭐ Reset stars after submission
                 function resetStars() {
                     stars.removeClass('filled');
                     ratingValue.val(0);
                 }
-        
+
                 // ⭐ Load all reviews
                 function loadReviews() {
                     $.ajax({
                         url: `/review/${courseId}`,
                         type: 'GET',
-                        success: function (reviews) {
+                        success: function(reviews) {
                             console.log(reviews);
-        
+
                             // 🔥 Convert object to array if needed
                             if (!Array.isArray(reviews)) {
                                 reviews = [reviews];
                             }
-        
+
                             if (reviews.length > 0) {
                                 $('#review-container').empty();
                                 window.assetUrl = "{{ asset('') }}";
@@ -433,14 +423,18 @@
                                     let stars = '';
                                     for (let i = 1; i <= 5; i++) {
                                         if (i <= Math.floor(review.rating)) {
-                                            stars += `<span class="rating-star full-star">&#9733;</span>`;
-                                        } else if (i === Math.floor(review.rating) + 1 && review.rating % 1 !== 0) {
-                                            stars += `<span class="rating-star half-star">&#9733;</span>`;
+                                            stars +=
+                                                `<span class="rating-star full-star">&#9733;</span>`;
+                                        } else if (i === Math.floor(review.rating) + 1 && review
+                                            .rating % 1 !== 0) {
+                                            stars +=
+                                                `<span class="rating-star half-star">&#9733;</span>`;
                                         } else {
-                                            stars += `<span class="rating-star empty-star">&#9733;</span>`;
+                                            stars +=
+                                                `<span class="rating-star empty-star">&#9733;</span>`;
                                         }
                                     }
-                                    
+
                                     const reviewItem = `
                                         <div class="review_item">
                                             <div class="review_usr_dt">
@@ -448,8 +442,8 @@
                                                ${review.user.profile_picture_url
                                                 ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
                                                 : `<h1 id="default_avtar1">
-                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
-                                                </h1>`}
+                                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                                </h1>`}
                                                 <div class="rv1458">
                                                     <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
                                                     <span class="time_145">${formatTime(review.created_at)}</span>
@@ -459,41 +453,28 @@
                                             <p class="rvds10">${review.review || 'No review provided.'}</p>
                                         </div>
                                     `;
-        
+
                                     $('#review-container').append(reviewItem);
                                 });
                             } else {
                                 $('#review-container').html('<p>No reviews available.</p>');
                             }
                         },
-                        error: function (xhr) {
+                        error: function(xhr) {
                             console.log(xhr.responseText);
                         }
                     });
                 }
-        
+
                 // ⭐ Format time (e.g., "2 hours ago")
                 function formatTime(time) {
                     if (!time) return 'Unknown';
                     const date = new Date(time);
                     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
                 }
-        
+
                 // ⭐ Load reviews when page loads
                 loadReviews();
             });
-            </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const video = document.getElementById('temp-video-{{ $attachment->id }}');
-                video.addEventListener('loadedmetadata', () => {
-                    const duration = video.duration;
-                    const minutes = Math.floor(duration / 60);
-                    const seconds = Math.floor(duration % 60);
-                    const formattedDuration = minutes > 0 ? ${minutes}:${seconds.toString().padStart(2, '0')} minutes : ${seconds} seconds;
-                    document.getElementById('video-duration-{{ $attachment->id }}').innerText =formattedDuration;
-                });
-                video.load();
-            });
-            </script>
-@endsection
+        </script>
+    @endsection

@@ -569,7 +569,12 @@ class DashboardController extends Controller
 
         $categories = Category::all();
         $instructors = User::where('role_id', 2)->get(); // Fetch only instructors
-        return view('admin.report.total_course.list', compact('categories', 'instructors'));
+
+        if (auth()->user()->role->name === 'admin') {
+            return view('admin.report.total_course.list', compact('categories', 'instructors'));
+        } else if (auth()->user()->role->name === 'insructor') {
+            return view('instructor.report.total_course.list', compact('categories', 'instructors'));
+        }
     }
 
 
@@ -584,7 +589,8 @@ class DashboardController extends Controller
                 'users.email',
                 'users.phone_number',
                 'users.profile_picture_url',
-                'users.is_active'
+                'users.is_active',
+                'courses.title as course_title'
             )
                 ->leftJoin('user_courses', 'users.id', '=', 'user_courses.user_id') // Allow users without courses
                 ->leftJoin('courses', 'user_courses.course_id', '=', 'courses.id')
@@ -616,7 +622,7 @@ class DashboardController extends Controller
                 ->orderColumn('full_name', function ($query, $order) {
                     $query->orderByRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) {$order}");
                 })
-                ->rawColumns(['profile_picture_url', 'is_active', 'full_name'])
+                ->rawColumns(['profile_picture_url', 'is_active'])
                 ->make(true);
         }
 

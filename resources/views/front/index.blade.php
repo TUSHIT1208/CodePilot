@@ -167,166 +167,63 @@
 
             </div>
 
-        </section><!-- /Why Us Section -->
-
-        <!-- Features Section -->
-        {{-- <section id="features" class="features section">
-
-            <div class="container">
-
-                <div class="row gy-4">
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="features-item">
-                            <i class="bi bi-eye" style="color: #ffbb2c;"></i>
-                            <h3><a href="" class="stretched-link">Lorem Ipsum</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="features-item">
-                            <i class="bi bi-infinity" style="color: #5578ff;"></i>
-                            <h3><a href="" class="stretched-link">Dolor Sitema</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="features-item">
-                            <i class="bi bi-mortarboard" style="color: #e80368;"></i>
-                            <h3><a href="" class="stretched-link">Sed perspiciatis</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="400">
-                        <div class="features-item">
-                            <i class="bi bi-nut" style="color: #e361ff;"></i>
-                            <h3><a href="" class="stretched-link">Magni Dolores</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="500">
-                        <div class="features-item">
-                            <i class="bi bi-shuffle" style="color: #47aeff;"></i>
-                            <h3><a href="" class="stretched-link">Nemo Enim</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="600">
-                        <div class="features-item">
-                            <i class="bi bi-star" style="color: #ffa76e;"></i>
-                            <h3><a href="" class="stretched-link">Eiusmod Tempor</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="700">
-                        <div class="features-item">
-                            <i class="bi bi-x-diamond" style="color: #11dbcf;"></i>
-                            <h3><a href="" class="stretched-link">Midela Teren</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="800">
-                        <div class="features-item">
-                            <i class="bi bi-camera-video" style="color: #4233ff;"></i>
-                            <h3><a href="" class="stretched-link">Pira Neve</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="900">
-                        <div class="features-item">
-                            <i class="bi bi-command" style="color: #b2904f;"></i>
-                            <h3><a href="" class="stretched-link">Dirada Pack</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="1000">
-                        <div class="features-item">
-                            <i class="bi bi-dribbble" style="color: #b20969;"></i>
-                            <h3><a href="" class="stretched-link">Moton Ideal</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="1100">
-                        <div class="features-item">
-                            <i class="bi bi-activity" style="color: #ff5828;"></i>
-                            <h3><a href="" class="stretched-link">Verdo Park</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                    <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="1200">
-                        <div class="features-item">
-                            <i class="bi bi-brightness-high" style="color: #29cc61;"></i>
-                            <h3><a href="" class="stretched-link">Flavor Nivelanda</a></h3>
-                        </div>
-                    </div><!-- End Feature Item -->
-
-                </div>
-
-            </div>
-
-        </section><!-- /Features Section --> --}}
+        </section>
 
         <!-- Courses Section -->
-        <section id="courses" class="courses section">
-
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Courses</h2>
-                <p>Popular Courses</p>
-            </div><!-- End Section Title -->
-
-            <div class="container">
-
-                <div class="row">
-                    @foreach($courses as $courseItem)
-                        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
-                            data-aos-delay="100">
-                            <div class="mt-5">
-                                <img src="{{ isset($courseItem->thumbnail_url) && $courseItem->thumbnail_url != null ? asset('courseThumbnail/' . $courseItem->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
-                                    alt="Course Thumbnail" class="thumbnail-course">
-
-                                <div class="course-content">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <p class="category">{{ $courseItem->title}}</p>
-                                        <p class="price">{{ $courseItem->price == 0 ? 'FREE' : '₹' . $courseItem->price }}</p>
-                                    </div>
-
-                                    {{-- <h3><a href="{{ route('course.details', ['id' => $courseItem->id]) }}">{{
-                                            $courseItem->title }}</a>
-                                    </h3> --}}
-                                    <p class="description">{{ Str::limit($courseItem->category->name, 100) }}</p>
-                                    <p class="description">{{ Str::limit($courseItem->description, 100) }}</p>
-                                    <div class="trainer d-flex justify-content-between align-items-center">
-                                        <div class="trainer-profile d-flex align-items-center">
-                                            <!-- Check if user has a profile photo, fall back to a default one -->
-                                            @if(!empty($courseItem->user->profile_picture_url))
-                                                <img id="profile_picture"
-                                                    src="{{  asset($courseItem->user->profile_picture_url) }}">
-                                            @else
-                                                <h1 id="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
-                                            @endif
-                                            {{-- <img
-                                                src="{{ isset($courseItem->user->profile_picture_url) && $courseItem->user->profile_picture_url != null ? asset($courseItem->user->profile_picture_url) : 'https://via.placeholder.com/150/0000FF/808080?Text=' . strtoupper(substr($courseItem->user->first_name, 0, 1)) }}"
-                                                class="img-fluid small-logo" alt="User Photo"> --}}
-
-
-                                            <!-- Display the user's name -->
-                                            <a href="{{ route('user.learner_show', $courseItem->user->id) }}"
-                                                class="trainer-link">
-                                                {{ $courseItem->user->first_name }} {{ $courseItem->user->last_name }}
-                                            </a>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- End Course Item-->
-                    @endforeach
+        @if ($courses->isNotEmpty())
+            <section id="courses" class="courses section">
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Courses</h2>
+                    <p>Popular Courses</p>
                 </div>
 
-            </div>
+                <div class="container">
+                    <div class="row">
+                        @foreach ($courses as $courseItem)
+                            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
+                                data-aos-delay="100">
+                                <div class="mt-5">
+                                    <a href="{{ route('course.show', $courseItem->id) }}" class="fcrse_img video-trigger">
+                                        <img src="{{ asset('courseThumbnail/' . $courseItem->thumbnail_url) }}"
+                                            alt="Course Thumbnail" class="img-fluid thumbnail" style="height: 213px;">
+                                    </a>
 
-        </section><!-- /Courses Section -->
+                                    <div class="course-content">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <p class="category">{{ $courseItem->title }}</p>
+                                            <p class="price">
+                                                {{ $courseItem->price == 0 ? 'FREE' : '₹' . $courseItem->price }}</p>
+                                        </div>
+
+                                        <p class="description">{{ Str::limit($courseItem->category->name, 100) }}</p>
+                                        <p class="description">{{ Str::limit($courseItem->description, 100) }}</p>
+
+                                        <div class="trainer d-flex justify-content-between align-items-center">
+                                            <div class="trainer-profile d-flex align-items-center">
+                                                @if (!empty($courseItem->user->profile_picture_url))
+                                                    <img id="profile_picture"
+                                                        src="{{ asset($courseItem->user->profile_picture_url) }}">
+                                                @else
+                                                    <h1 id="default_avtar">
+                                                        {{ substr($courseItem->user->first_name, 0, 1) }}</h1>
+                                                @endif
+
+                                                <a href="{{ route('user.learner_show', $courseItem->user->id) }}"
+                                                    class="trainer-link">
+                                                    {{ $courseItem->user->first_name }} {{ $courseItem->user->last_name }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- End Course Item-->
+                        @endforeach
+                    </div>
+                </div>
+            </section><!-- /Courses Section -->
+        @endif
+
 
         <!-- Trainers Index Section -->
         {{-- <section id="trainers-index" class="section trainers-index">

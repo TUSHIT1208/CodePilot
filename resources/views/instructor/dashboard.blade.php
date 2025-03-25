@@ -234,8 +234,8 @@
                 </div>
             </div>
         </div>
+        @include('admin.layouts.footer')
     </div>
-    @include('admin.layouts.footer')
 </div>
 <script>
     $(document).ready(function () {

@@ -48,6 +48,7 @@
                                     <table class="ucp-table" id="myTable">
                                         <thead>
                                             <tr>
+                                                <th>Course</th>
                                                 <th>Profile</th>
                                                 <th>Full Name</th>
                                                 <th>Email</th>
@@ -55,6 +56,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
+
                                     </table>
                                 </div>
                             @endif
@@ -78,6 +80,8 @@
                         }
                     },
                     columns: [{
+                            data: 'course_title',
+                        }, {
                             data: 'profile_picture_url',
                             orderable: false,
                             searchable: false
