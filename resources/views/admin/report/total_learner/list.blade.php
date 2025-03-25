@@ -18,8 +18,7 @@
                             @if ($learners->isEmpty())
                                 <!-- No Records Found -->
                                 <div class="no-categories-container text-center fade-in-animation footer mt-5">
-                                    <i class="uil uil-folder-minus bounce-effect"
-                                        style="font-size: 50px; color: #d1d1d1;"></i>
+                                    <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
                                     <h3 class="mt-3 scale-in-text" style="color: #777;">No Learner Found</h3>
                                     <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have
                                         any
@@ -68,13 +67,13 @@
         @include('admin.layouts.footer')
 
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 var table = $('#myTable').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
                         url: "{{ route('totalLearners') }}",
-                        data: function(d) {
+                        data: function (d) {
                             d.category_id = $('#category').val();
                             d.subcategory_id = $('#subcategory').val();
                         }
@@ -104,21 +103,21 @@
                 });
 
                 // Reload DataTable when category or subcategory changes
-                $('#category, #subcategory').change(function() {
+                $('#category, #subcategory').change(function () {
                     table.ajax.reload();
                 });
 
                 // Load Subcategories when Category is Selected
-                $('#category').change(function() {
+                $('#category').change(function () {
                     var categoryId = $(this).val();
                     if (categoryId) {
                         $.ajax({
                             url: "/get-subcategories/" + categoryId,
                             type: "GET",
-                            success: function(data) {
+                            success: function (data) {
                                 $('#subcategory').empty().append(
                                     '<option value="">-- Select Subcategory --</option>');
-                                $.each(data, function(key, value) {
+                                $.each(data, function (key, value) {
                                     $('#subcategory').append('<option value="' + value.id +
                                         '">' + value.name + '</option>');
                                 });
@@ -131,4 +130,4 @@
             });
         </script>
 
-    @endsection
+@endsection

@@ -121,9 +121,7 @@ Route::get('instructor/help', function () {
     return view('instructor.help');
 })->name('instructor.help')->middleware('auth');
 
-Route::get('/dashboard/learner', function () {
-    return view('learner.dashboard');
-})->name('learner.dashboard')->middleware('auth');
+Route::get('/dashboard/learner', [DashboardController::class, 'learner_index'])->name('learner.dashboard')->middleware('auth');
 
 Route::get('/dashboard/instructor', [DashboardController::class, 'instructor_index'])->name('instructor.dashboard')->middleware('auth');
 
@@ -257,10 +255,7 @@ Route::get('/test/certification', function () {
 })->name('learner.certification.exam')->middleware('auth');
 
 
-Route::resource('certificate', CertificateController::class)->middleware('auth');
 
-Route::get('/genarate', [CertificateController::class, 'index']);
-Route::get('/cirty', [CertificateController::class, 'cirty']);
 
 route::get('/learning-path', [LearningPathController::class, 'learningpath_learner'])->name('learning.path')->middleware('auth');
 
@@ -281,6 +276,20 @@ Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name
 
 Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit')->middleware('auth');
 
+Route::get('/total/learners', [DashboardController::class, 'learner'])->name('totalLearners');
+Route::get('/total/courses', [DashboardController::class, 'course'])->name('totalCourses');
+
+
+Route::resource('certificate', CertificateController::class);
+
+Route::get('/genarate', [CertificateController::class, 'index']);
+Route::get('/cirty', [CertificateController::class, 'cirty'])->name('downloadCerty');
+Route::get('/view/{certificate_id}', [CertificateController::class, 'view'])->name('certificate.download');
+
+
+route::get('/all_certificate', [CertificateController::class, 'list'])->name('certificate.list');
+
+Route::get('/give/test/learner', [CertificateController::class, 'gettest'])->name('Test_exam');
 //Route::get('/result/test', [TestResultController::class, 'result'])->name('test.result');
 
 
@@ -289,13 +298,15 @@ Route::resource('review', ReviewController::class);
 
 Route::resource('dashboard', DashboardController::class)->middleware('auth');
 
-Route::get('/total/learners',[DashboardController::class,'learnears'])->name('totalLearners');
-Route::get('/total/earning',[DashboardController::class,'total_earning'])->name('total.earning');
-Route::get('/total/instructor/earning',[DashboardController::class,'instructor_total_earning'])->name('total.instructor.earning');
-Route::get('/total/enroll',[DashboardController::class,'total_enroll'])->name('total.enroll');
-Route::get('/total/instructor/enroll',[DashboardController::class,'instructor_total_enroll'])->name('total.instructor.enroll');
-Route::get('/total/learners',[DashboardController::class,'learner'])->name('totalLearners');
-Route::get('/total/courses',[DashboardController::class,'course'])->name('totalCourses');
+Route::get('/total/learners', [DashboardController::class, 'learnears'])->name('totalLearners');
+Route::get('/total/purchased-course', [DashboardController::class, 'learner_purchesed_course'])->name('learner.purchased.course');
+Route::get('/total/earning', [DashboardController::class, 'total_earning'])->name('total.earning');
+Route::get('/total/instructor/earning', [DashboardController::class, 'instructor_total_earning'])->name('total.instructor.earning');
+Route::get('/total/enroll', [DashboardController::class, 'total_enroll'])->name('total.enroll');
+Route::get('/total/instructor/enroll', [DashboardController::class, 'instructor_total_enroll'])->name('total.instructor.enroll');
+Route::get('/total/learners', [DashboardController::class, 'learner'])->name('totalLearners');
+Route::get('/total/courses', [DashboardController::class, 'course'])->name('totalCourses');
+Route::get('/total/learner-courses', [DashboardController::class, 'learner_course'])->name('learner.course');
 
 Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
     $subcategories = sub_category::where('category_id', $categoryId)->get();
@@ -305,3 +316,6 @@ Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
 Route::get('/get-subcategories', [CourseController::class, 'getSubcategories'])->name('getSubcategories');
 
 Route::get('/course/{courseId}/attachments', [CourseAttachmentController::class, 'getAttachments'])->name('course.attachments');
+Route::get('/instructor/enrollment-chart', [DashboardController::class, 'enrollmentChart'])->name('instructor.enrollment.chart');
+
+Route::get('/learner/courses', [DashboardController::class, 'courseList'])->name('learner.courses.list');

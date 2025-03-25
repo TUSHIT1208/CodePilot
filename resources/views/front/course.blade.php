@@ -69,7 +69,7 @@
                                                     <img id="profile_picture"
                                                         src="{{  asset($courseItem->user->profile_picture_url) }}">
                                                 @else
-                                                    <h1 id="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
+                                                    <h1 class="default_avtar">{{ substr($courseItem->user->first_name, 0, 1) }}</h1>
                                                 @endif
                                                 <h4>
                                                     {{ $courseItem->user->first_name }} {{ $courseItem->user->last_name }}

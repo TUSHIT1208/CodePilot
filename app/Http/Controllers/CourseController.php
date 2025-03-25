@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\test;
+use App\Models\test_result;
 use App\Models\User;
 use App\Models\video;
 use App\Models\course;
@@ -17,6 +18,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use function PHPUnit\Framework\isEmpty;
 
 class CourseController extends Controller
 {
@@ -203,13 +205,56 @@ class CourseController extends Controller
         //  $userId = 1; // Example user ID
 
         $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
-        $coursePrice=course::where('id',$cid)->first();
+
+        $test = test::where('course_id', $cid)->first();
+        $test_result = test_result::where('test_id', $test->id)
+            ->latest('id') // Orders by ID in descending order
+            ->first();
+
+        if ($test_result === null) {
+            //$test_result = new test_result(); // Create a new instance if null
+            //$test_result->overallscore = 0;   // Set the overallscore to 0
+            $score = 0;
+
+        } else {
+            $score = $test_result->overall_score;
+        }
+
+
+        //return $test->passing_mark;
+
+
+        // return $test_result;
+
+        // //return $test_result;
+        // if (!isset($test_result->id)) {
+        //     $score = 0;
+        // } else {
+        //     $score = $test_result->overall_score;
+        // }
+        // return $score;
+        // $pass = false;
+        // if ($test->passing_marks < $score) {
+        //     $pass = true;
+        //     //return $pass;
+
+        // }
+        // return $pass;
+        // $hasGivenTest = test_result::whereHas
+        // ('test', function ($query) use ($cid) {
+        //     $query->where('course_id', $cid);
+        // })->where('user_id', $userId)->exists();
+
+        //  return $hasGivenTest;
+
+        $coursePrice = course::where('id', $cid)->first();
+
         if (auth()->user()->role->name === 'admin') {
             return view('admin.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'insructor') {
             return view('instructor.course.each_course', compact('courseDetail', 'users'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice'));
+            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice', 'test', 'score'));
         }
     }
 
@@ -415,18 +460,18 @@ class CourseController extends Controller
                         <a href="#" class="crse-cate">' . ($course->category->name ?? 'Uncategorized') . '</a>
                         <div class="auth1lnkprce">
                             <p>By <a href="javascript:;">' . ($course->user->first_name . ' ' . $course->user->last_name ?? 'unknown') . '</a></p>
-                            <div class="prce142">'.($course->price == 0 ? 'Free' : '₹' . $course->price ). '</div>';
-                            
-                            if ($course->price != 0) {
-                              $html .= ' <form class="cartForm">
+                            <div class="prce142">' . ($course->price == 0 ? 'Free' : '₹' . $course->price) . '</div>';
+
+                if ($course->price != 0) {
+                    $html .= ' <form class="cartForm">
                                 ' . csrf_field() . '
                                 <input type="hidden" name="course_id" value="' . $course->id . '">
                                 <button type="submit" class="shrt-cart-btn" title="Add to Cart">
                                     <i class="uil uil-shopping-cart-alt"></i>
                                 </button>
                             </form>';
-                            }
-                        $html .= '</div>
+                }
+                $html .= '</div>
                     </div>
                 </div>
             </div>';
@@ -442,13 +487,13 @@ class CourseController extends Controller
     {
         try {
             logger('Starting course publishing process...');
-        
+
             $course = Course::where('id', $request->course_id)
                 ->where('user_id', auth()->id()) // Ensure user owns the course
                 ->firstOrFail();
-        
+
             logger('Course found: ' . $course->title);
-        
+
             // Check if already published
             if ($course->is_active == 1) {
                 logger('Course is already published.');
@@ -475,42 +520,42 @@ class CourseController extends Controller
 
             $course->is_active = 1;
             $course->save();
-        
+
             logger('Course published successfully.');
             //send to creator of course
             try {
                 logger('Sending email to course creator: ' . $course->user->email);
-                Mail::to($course->user->email)->send(new CoursePublished($course,true));
+                Mail::to($course->user->email)->send(new CoursePublished($course, true));
                 logger('Email sent to course creator: ' . $course->user->email);
             } catch (\Exception $e) {
                 logger('Error sending email to course creator: ' . $e->getMessage());
             }
-        
+
             //Send email to all learners
             $learners = User::whereHas('role', function ($query) {
                 $query->where('name', 'learner');
             })->get();
-        
+
             logger('Learners found: ' . $learners->count());
-        
+
             foreach ($learners as $learner) {
                 logger('Start sending email to: ' . $learner->email);
                 try {
-                    Mail::to($learner->email)->send(new CoursePublished($course,false));
+                    Mail::to($learner->email)->send(new CoursePublished($course, false));
                     logger('Email sent to: ' . $learner->email);
                 } catch (\Exception $e) {
                     logger('Error sending email to ' . $learner->email . ': ' . $e->getMessage());
                 }
             }
-        
+
             logger('All emails processed.');
-        
+
             return response()->json(['success' => true, 'message' => 'Course published successfully!']);
         } catch (\Exception $e) {
             logger('Error publishing course: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Something went wrong!'], 500);
         }
-        
+
     }
 
 

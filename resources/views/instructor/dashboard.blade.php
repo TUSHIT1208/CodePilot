@@ -182,31 +182,42 @@
                         </div>
                     </div>
                 </div>
-                {{-- {{--  --}}
-                        <div class="section3125 mt-50">
-                            <h4 class="item_title">Submit Courses</h4>
-                            <div class="la5lo1">
-                                <div class="fcrse_1">
-                                    <div class="fcrse_content">
-                                        @if($pendingCourse)
-                                        <div class="upcming_card">
-                                            <a href="{{ route('course.show', $pendingCourse->id) }}" class="crsedt145">
-                                                {{ $pendingCourse->title }} 
-                                                <span class="pndng_145">Pending</span>
-                                            </a>
-                                            <p class="submit-course">Submitted <span>{{ $pendingCourse->created_at->diffForHumans() }}</span></p>
-                                        </div>
-                                        @else
-                                        <div class="upcming_card">
-                                            <p class="text-muted">No pending courses found.</p>
-                                        </div>
-                                        @endif
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <div class="section3125 mt-50">
+                        <h4 class="item_title">Submit Courses</h4>
+                        <div class="la5lo1">
+                            <div class="fcrse_1">
+                                <div class="fcrse_content">
+                                    @if($pendingCourse)
+                                    <div class="upcming_card">
+                                        <a href="{{ route('course.show', $pendingCourse->id) }}" class="crsedt145">
+                                            {{ $pendingCourse->title }} 
+                                            <span class="pndng_145">Pending</span>
+                                        </a>
+                                        <p class="submit-course">Submitted <span>{{ $pendingCourse->created_at->diffForHumans() }}</span></p>
                                     </div>
+                                    @else
+                                    <div class="upcming_card">
+                                        <p class="text-muted">No pending courses found.</p>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                    
+                    </div>    
+                    <div class="section3125 mt-50">
+                        <h4 class="item_title">Earnings Overview</h4>
+                        <div class="la5lo1">
+                            <div class="fcrse_1">
+                                <div class="fcrse_content">
+                                    <h2>Most Selling Courses</h2>
+                                    <canvas id="mostSellingChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="section3125 mt-50">
                     <h4 class="item_title">Top Orders</h4>
                     <div class="la5lo1">
@@ -255,6 +266,36 @@
                 { data: 'phone', name: 'phone' },
                 { data: 'created_at', name: 'created_at' }
             ]
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById("mostSellingChart").getContext("2d");
+
+        // Pass PHP data to JavaScript
+        const mostCourses = @json($most_courses);
+        const courseNames = mostCourses.map(course => course.title);
+        const courseSales = mostCourses.map(course => course.total_sales);
+
+        new Chart(ctx, {
+            type: "pie",
+            data: {
+                labels: courseNames,
+                datasets: [{
+                    data: courseSales,
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                    hoverBackgroundColor: ["#FF4D6D", "#1E88E5", "#FFB300"]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
         });
     });
 </script>

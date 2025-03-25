@@ -19,7 +19,7 @@
                         <div class="row mt-2">
                             <div class="col-lg-12 col-md-4 col-sm-6 text-end">
                                 @if (!$contactus->isEmpty())
-                                <button type="button" id="delete-selected" class="main-btn">Delete Selected</button>
+                                    <button type="button" id="delete-selected" class="main-btn">Delete Selected</button>
                                 @endif
                             </div>
                         </div>
@@ -36,18 +36,18 @@
                                             contact yet.</p>
                                     </div>
                                 @else
-                                <table class="ucp-table" id="contactus-table">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox" id="select-all"></th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Subject</th>
-                                            <th>Message</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                    <table class="ucp-table" id="contactus-table">
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" id="select-all"></th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Subject</th>
+                                                <th>Message</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
                                 @endif
                             </div>
                         </div>
@@ -55,42 +55,42 @@
                 </div>
             </div>
         </div>
-     @include('admin.layouts.footer')
+        @include('admin.layouts.footer')
     </div>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var table = $('#contactus-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('contactus.index') }}",
                 columns: [{
-                        data: 'checkbox',
-                        name: 'checkbox',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'subject',
-                        name: 'subject'
-                    },
-                    {
-                        data: 'message',
-                        name: 'message'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    }
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'subject',
+                    name: 'subject'
+                },
+                {
+                    data: 'message',
+                    name: 'message'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
                 ],
                 order: [
                     [1, 'asc']
@@ -106,7 +106,7 @@
                 "positionClass": "toast-top-right",
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut",
-                "onShown": function() {
+                "onShown": function () {
                     $('.toast-success').css({
                         'background-color': '#28a745', // Green for success
                         'opacity': '1' // Adjust opacity
@@ -127,7 +127,7 @@
             };
 
             // Listen for clicks on the delete button for a single record
-            $(document).on('click', '.deletecontact', function(e) {
+            $(document).on('click', '.deletecontact', function (e) {
                 e.preventDefault();
 
                 // Get the contact id from data attributes
@@ -151,13 +151,13 @@
                             data: {
                                 _token: "{{ csrf_token() }}" // CSRF token for security
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 toastr.success('Contact details deleted successfully.');
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     table.ajax.reload();
                                 }, 2000);
                             },
-                            error: function(xhr, status, error) {
+                            error: function (xhr, status, error) {
                                 Swal.fire(
                                     'Error!',
                                     'There was an issue deleting the contact.',
@@ -170,15 +170,15 @@
             });
 
             // Select all checkboxes
-            $('#select-all').on('click', function() {
+            $('#select-all').on('click', function () {
                 var isChecked = this.checked;
                 $('#contactus-table input.contactus-checkbox').prop('checked', isChecked);
             });
 
             // Delete selected contacts
-            $('#delete-selected').on('click', function() {
+            $('#delete-selected').on('click', function () {
                 var selectedIds = [];
-                $('#contactus-table input.contactus-checkbox:checked').each(function() {
+                $('#contactus-table input.contactus-checkbox:checked').each(function () {
                     selectedIds.push($(this).val());
                 });
 
@@ -202,14 +202,14 @@
                                     _token: "{{ csrf_token() }}",
                                     ids: selectedIds
                                 },
-                                success: function(response) {
+                                success: function (response) {
                                     toastr.success(
                                         'Selected contacts deleted successfully.');
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         table.ajax.reload();
                                     }, 2000);
                                 },
-                                error: function(xhr, status, error) {
+                                error: function (xhr, status, error) {
                                     Swal.fire(
                                         'Error!',
                                         'There was an issue deleting the selected contacts.',

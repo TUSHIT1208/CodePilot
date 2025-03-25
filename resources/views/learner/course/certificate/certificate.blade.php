@@ -97,7 +97,9 @@
             <h1>Certificate of Achievement</h1>
             <h3>Presented To</h3>
             <div class="name">{{ $certificate->name }}</div>
-            <p>In recognition of outstanding performance, dedication, and achievement in {{ $tname }}.</p>
+            <p>In recognition of outstanding performance, dedication, and achievement in
+                {{ $tname }}.
+            </p>
             <p>We extend our sincere appreciation for your hard work and commitment to excellence.</p>
             <div class="signature">Authorized Signature</div>
         @endif

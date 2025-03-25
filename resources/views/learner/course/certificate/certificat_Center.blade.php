@@ -15,17 +15,18 @@
                             <h1>Certification Center</h1>
                             <p>For Students and Instructors</p>
                             <ul class="certi_icons">
-                                <li><a href="#" class="edttslogo"><img src="{{ asset('images/logo1.svg') }} " alt=""></a></li>
-                                <li>
-                                <div class="edttsplus">
-                                    <img src="{{ asset('images/plus.svg') }}" alt="">
-                                  </div>
-                                  
+                                <li><a href="#" class="edttslogo"><img src="{{ asset('images/logo1.svg') }} " alt=""></a>
                                 </li>
-                                <li><a href="#" class="edttslogo1"><img src="{{ asset('images/certicon.svg') }}"
-                                            alt=""></a></li>
+                                <li>
+                                    <div class="edttsplus">
+                                        <img src="{{ asset('images/plus.svg') }}" alt="">
+                                    </div>
+
+                                </li>
+                                <li><a href="#" class="edttslogo1"><img src="{{ asset('images/certicon.svg') }}" alt=""></a>
+                                </li>
                             </ul>
-                            <a href="{{ route('learner.fill.certificate') }}"><button class="certi-btn">Start
+                            <a href="{{ route('Test_exam') }}"><button class="certi-btn">Start
                                     Certification</button></a>
                         </div>
                     </div>

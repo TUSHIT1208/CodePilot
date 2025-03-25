@@ -19,4 +19,8 @@ class user_course extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function paymentTransaction()
+    {
+        return $this->hasOneThrough(PaymentTransaction::class, Order::class, 'user_id', 'order_id', 'user_id', 'id');
+    }
 }

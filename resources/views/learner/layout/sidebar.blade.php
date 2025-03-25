@@ -48,7 +48,7 @@
 				<li class="menu--item">
 					<a href="{{ route('learning.path') }}" class="menu--link" title="Saved Courses">
 						<i class="uil uil-bullseye menu--icon"></i>
-					  <span class="menu--label">Learnign Path</span>
+						<span class="menu--label">Learnign Path</span>
 					</a>
 				</li>
 				<li class="menu--item">
@@ -58,7 +58,7 @@
 					</a>
 				</li>
 				<li class="menu--item">
-					<a href="student_my_certificates.html" class="menu--link" title="My Certificates">
+					<a href="{{route('certificate.list')}}" class="menu--link" title="My Certificates">
 						<i class='uil uil-award menu--icon'></i>
 						<span class="menu--label">My Certificates</span>
 					</a>
@@ -79,27 +79,27 @@
 </nav>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get all menu links
-        let menuLinks = document.querySelectorAll(".menu--item .menu--link");
+	document.addEventListener("DOMContentLoaded", function () {
+		// Get all menu links
+		let menuLinks = document.querySelectorAll(".menu--item .menu--link");
 
-        // Function to remove active class from all links
-        function removeActiveClass() {
-            menuLinks.forEach(link => {
-                link.classList.remove("active");
-            });
-        }
+		// Function to remove active class from all links
+		function removeActiveClass() {
+			menuLinks.forEach(link => {
+				link.classList.remove("active");
+			});
+		}
 
-        // Add click event to each menu link
-        menuLinks.forEach(link => {
-            link.addEventListener("click", function () {
-                removeActiveClass(); // Remove active class from all links
-                this.classList.add("active"); // Add active class to clicked link
+		// Add click event to each menu link
+		menuLinks.forEach(link => {
+			link.addEventListener("click", function () {
+				removeActiveClass(); // Remove active class from all links
+				this.classList.add("active"); // Add active class to clicked link
 
-                // Store the active link in localStorage
-                localStorage.setItem("activeMenu", this.getAttribute("href"));
-            });
-        });
+				// Store the active link in localStorage
+				localStorage.setItem("activeMenu", this.getAttribute("href"));
+			});
+		});
 
         // Retain the active class on page reload
         let activeMenu = localStorage.getItem("activeMenu");

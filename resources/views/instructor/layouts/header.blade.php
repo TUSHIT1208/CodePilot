@@ -33,7 +33,7 @@
 					@if(!empty(auth()->user()->profile_picture_url))
 						<img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
 					@else
-						<h1 id="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
+						<h1 class="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
 					@endif
 				</a>
 				<div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
@@ -42,7 +42,7 @@
 							@if(!empty(auth()->user()->profile_picture_url))
 								<img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
 							@else
-								<h1 id="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
+								<h1 class="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
 							@endif
 							<div class="pd_content">
 								<div class="rhte85">

@@ -51,7 +51,8 @@
                                 <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
                                     <div class="_215b03">
                                         <h2>{{ $courseDetail->title }}</h2>
-                                        <span class="_215b04">{{ $courseDetail->description }}</span>
+                                        <span class="_215b04">The only course you need to learn web development - HTML, CSS,
+                                            JS, Node, and More!</span>
                                     </div>
                                     <div class="_215b05">
                                         <div class="crse_reviews mr-2">
@@ -67,16 +68,22 @@
                                         </div>
                                     </div>
                                     <div class="_215b05">Last updated {{ $courseDetail->updated_at }}</div>
-                                    @if ($coursePrice->price == 0)
-                                        <a href="{{ route('certificate.center') }}">
-                                            <button class="btn_buy mt-3">Test</button>
-                                        </a>
-                                    @elseif($coursePrice->price != 0)
-                                        @if (isset($checkPurchase))
+
+                                    @if ($test->passing_mark > $score)
+                                        @if ($coursePrice->price == 0)
                                             <a href="{{ route('certificate.center') }}">
                                                 <button class="btn_buy mt-3">Test</button>
                                             </a>
+                                        @elseif($coursePrice->price != 0)
+                                            @if (isset($checkPurchase))
+                                                <a href="{{ route('certificate.center') }}">
+                                                    <button class="btn_buy mt-3">Test</button>
+                                                </a>
+                                            @endif
                                         @endif
+                                    @else
+                                        <button type="button" class="btn_buy mt-3" id="testGivenBtn">Test</button>
+
                                     @endif
                                 </div>
                             </div>
@@ -103,7 +110,7 @@
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
-                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">{{ $users->first_name . ' ' . $users->last_name ?? 'Unknown' }}</a>
+                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">{{ $users->username }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +119,7 @@
                             <nav>
                                 <div class="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
                                     @if ($coursePrice->price == 0)
-                                        <a class="nav-item nav-link" id="nav-courses-tab" data-bs-toggle="tab"
+                                        <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
                                             href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                     @elseif($coursePrice->price != 0)
                                         @if (isset($checkPurchase))
@@ -122,8 +129,8 @@
                                     @endif
                                     <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
                                         role="tab" aria-selected="true">About</a>
-                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
-                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
+                                    {{-- <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
+                                                href="#nav-reviews" role="tab" aria-selected="false">Reviews</a> --}}
                                 </div>
                             </nav>
                         </div>
@@ -156,7 +163,6 @@
                                                     @endforeach
                                                 </ul>
                                             @endif
-
                                         </div>
                                         <div class="_htg452 mt-35">
                                             <h3>Description</h3>
@@ -227,21 +233,6 @@
                                                                     src="{{ asset('courseVideo/' . $attachment->url) }}"
                                                                     type="video/mp4">
                                                             </video>
-                                                            <script>
-                                                                document.addEventListener('DOMContentLoaded', function() {
-                                                                    const video = document.getElementById('temp-video-{{ $attachment->id }}');
-                                                                    video.addEventListener('loadedmetadata', () => {
-                                                                        const duration = video.duration;
-                                                                        const minutes = Math.floor(duration / 60);
-                                                                        const seconds = Math.floor(duration % 60);
-                                                                        const formattedDuration = minutes > 0 ?
-                                                                            `${minutes}:${seconds.toString().padStart(2, '0')} minutes` : `${seconds} seconds`;
-                                                                        document.getElementById('video-duration-{{ $attachment->id }}').innerText =
-                                                                            formattedDuration;
-                                                                    });
-                                                                    video.load();
-                                                                });
-                                                            </script>
                                                         @elseif ($attachment->type === 'document' && Str::endsWith($attachment->url, '.pdf'))
                                                             <a href="{{ asset('courseAssignments/' . $attachment->url) }}"
                                                                 target="_blank" class="hf_img">
@@ -273,7 +264,7 @@
                                                         <p class="text-gray-700">{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;"
-                                                                    class="text-blue-500">{{ $users->first_name . ' ' . $users->last_name ?? 'Unknown' }}</a>
+                                                                    class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -295,46 +286,285 @@
                                     <div class="student_reviews">
                                         <div class="row">
                                             <div class="col-lg-5">
-                                                <form action="{{ route('review.store') }}" method="POST"
-                                                    id="review-form">
-                                                    @csrf
-                                                    <input type="hidden" name="course_id"
-                                                        value="{{ $courseDetail->id }}">
-
-                                                    <div class="review-container">
-                                                        <h3 class="review-title">Give Your Review</h3>
-
-                                                        <!-- Star Rating -->
-                                                        <div class="rating-stars">
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                <span class="star"
-                                                                    data-value="{{ $i }}">★</span>
-                                                            @endfor
-                                                            <input type="hidden" name="rating" id="rating-value"
-                                                                value="0">
+                                                <div class="reviews_left">
+                                                    <h3>Student Feedback</h3>
+                                                    <div class="total_rating">
+                                                        <div class="_rate001">4.6</div>
+                                                        <div class="rating-box">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star half-star"></span>
                                                         </div>
-
-                                                        <!-- Review Text -->
-                                                        <textarea name="review" id="review-text" class="review-input" placeholder="Write your review..." rows="5"></textarea>
-
-                                                        <!-- Submit Button -->
-                                                        <button type="submit" class="submit-btn"
-                                                            id="submit-review">Submit Review</button>
+                                                        <div class="_rate002">Course Rating</div>
                                                     </div>
-                                                </form>
+                                                    <div class="_rate003">
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-70" role="progressbar"
+                                                                    aria-valuenow="70" aria-valuemin="0"
+                                                                    aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">70%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-30" role="progressbar"
+                                                                    aria-valuenow="30" aria-valuemin="0"
+                                                                    aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">40%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-5" role="progressbar"
+                                                                    aria-valuenow="10" aria-valuemin="0"
+                                                                    aria-valuemax="100"></div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">5%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-2" role="progressbar"
+                                                                    aria-valuenow="2" aria-valuemin="0"
+                                                                    aria-valuemax="100">
+                                                                </div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">1%</div>
+                                                        </div>
+                                                        <div class="_rate004">
+                                                            <div class="progress progress1">
+                                                                <div class="progress-bar w-1" role="progressbar"
+                                                                    aria-valuenow="0" aria-valuemin="0"
+                                                                    aria-valuemax="100">
+                                                                </div>
+                                                            </div>
+                                                            <div class="rating-box">
+                                                                <span class="rating-star full-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                                <span class="rating-star empty-star"></span>
+                                                            </div>
+                                                            <div class="_rate002">1%</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="review_right">
                                                     <div class="review_right_heading">
                                                         <h3>Reviews</h3>
+                                                        <div class="review_search">
+                                                            <input class="rv_srch" type="text"
+                                                                placeholder="Search reviews...">
+                                                            <button class="rvsrch_btn"><i
+                                                                    class='uil uil-search'></i></button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="review_all120" id="review-container">
-                                                    <!-- Dynamic Reviews Will be Loaded Here -->
+                                                <div class="review_all120">
+                                                    <div class="review_item">
+                                                        <div class="review_usr_dt">
+                                                            <img src="images/left-imgs/img-1.jpg" alt="">
+                                                            <div class="rv1458">
+                                                                <h4 class="tutor_name1">John Doe</h4>
+                                                                <span class="time_145">2 hour ago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-box mt-20">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star half-star"></span>
+                                                        </div>
+                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
+                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
+                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                                        <div class="rpt100">
+                                                            <span>Was this review helpful?</span>
+                                                            <div class="radio--group-inline-container">
+                                                                <div class="radio-item">
+                                                                    <input id="radio-1" name="radio" type="radio">
+                                                                    <label for="radio-1" class="radio-label">Yes</label>
+                                                                </div>
+                                                                <div class="radio-item">
+                                                                    <input id="radio-2" name="radio" type="radio">
+                                                                    <label for="radio-2" class="radio-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                            <a href="#" class="report145">Report</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review_item">
+                                                        <div class="review_usr_dt">
+                                                            <img src="images/left-imgs/img-2.jpg" alt="">
+                                                            <div class="rv1458">
+                                                                <h4 class="tutor_name1">Jassica William</h4>
+                                                                <span class="time_145">12 hour ago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-box mt-20">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star empty-star"></span>
+                                                        </div>
+                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
+                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
+                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                                        <div class="rpt100">
+                                                            <span>Was this review helpful?</span>
+                                                            <div class="radio--group-inline-container">
+                                                                <div class="radio-item">
+                                                                    <input id="radio-3" name="radio1" type="radio">
+                                                                    <label for="radio-3" class="radio-label">Yes</label>
+                                                                </div>
+                                                                <div class="radio-item">
+                                                                    <input id="radio-4" name="radio1" type="radio">
+                                                                    <label for="radio-4" class="radio-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                            <a href="#" class="report145">Report</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review_item">
+                                                        <div class="review_usr_dt">
+                                                            <img src="images/left-imgs/img-3.jpg" alt="">
+                                                            <div class="rv1458">
+                                                                <h4 class="tutor_name1">Albert Dua</h4>
+                                                                <span class="time_145">5 days ago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-box mt-20">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star half-star"></span>
+                                                            <span class="rating-star empty-star"></span>
+                                                        </div>
+                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
+                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
+                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                                        <div class="rpt100">
+                                                            <span>Was this review helpful?</span>
+                                                            <div class="radio--group-inline-container">
+                                                                <div class="radio-item">
+                                                                    <input id="radio-5" name="radio2" type="radio">
+                                                                    <label for="radio-5" class="radio-label">Yes</label>
+                                                                </div>
+                                                                <div class="radio-item">
+                                                                    <input id="radio-6" name="radio2" type="radio">
+                                                                    <label for="radio-6" class="radio-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                            <a href="#" class="report145">Report</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review_item">
+                                                        <div class="review_usr_dt">
+                                                            <img src="images/left-imgs/img-4.jpg" alt="">
+                                                            <div class="rv1458">
+                                                                <h4 class="tutor_name1">Zoena Singh</h4>
+                                                                <span class="time_145">15 days ago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-box mt-20">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                        </div>
+                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
+                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
+                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                                        <div class="rpt100">
+                                                            <span>Was this review helpful?</span>
+                                                            <div class="radio--group-inline-container">
+                                                                <div class="radio-item">
+                                                                    <input id="radio-7" name="radio3" type="radio">
+                                                                    <label for="radio-7" class="radio-label">Yes</label>
+                                                                </div>
+                                                                <div class="radio-item">
+                                                                    <input id="radio-8" name="radio3" type="radio">
+                                                                    <label for="radio-8" class="radio-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                            <a href="#" class="report145">Report</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review_item">
+                                                        <div class="review_usr_dt">
+                                                            <img src="images/left-imgs/img-5.jpg" alt="">
+                                                            <div class="rv1458">
+                                                                <h4 class="tutor_name1">Joy Dua</h4>
+                                                                <span class="time_145">20 days ago</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="rating-box mt-20">
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star full-star"></span>
+                                                            <span class="rating-star empty-star"></span>
+                                                            <span class="rating-star empty-star"></span>
+                                                        </div>
+                                                        <p class="rvds10">Nam gravida elit a velit rutrum, eget dapibus ex
+                                                            elementum. Interdum et malesuada fames ac ante ipsum primis in
+                                                            faucibus. Fusce lacinia, nunc sit amet tincidunt venenatis.</p>
+                                                        <div class="rpt100">
+                                                            <span>Was this review helpful?</span>
+                                                            <div class="radio--group-inline-container">
+                                                                <div class="radio-item">
+                                                                    <input id="radio-9" name="radio4" type="radio">
+                                                                    <label for="radio-9" class="radio-label">Yes</label>
+                                                                </div>
+                                                                <div class="radio-item">
+                                                                    <input id="radio-10" name="radio4" type="radio">
+                                                                    <label for="radio-10" class="radio-label">No</label>
+                                                                </div>
+                                                            </div>
+                                                            <a href="#" class="report145">Report</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="review_item">
+                                                        <a href="#" class="more_reviews">See More Reviews</a>
+                                                    </div>
                                                 </div>
-
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -343,107 +573,117 @@
                 </div>
             </div>
         </div>
-        @include('learner.layout.footer')
+
         <script>
-            $(document).ready(function() {
-                const courseId = {{ $courseDetail->id }};
-                const stars = $('.star');
-                const ratingValue = $('#rating-value');
+            document.getElementById("testGivenBtn").addEventListener("click", function() {
+                //setTimeout(() => {
+                toastr.warning('You have already taken this test!', 'Warning');
+                // }, 2000); // 2 seconds delay
+            });
+        </script>
+        @include('learner.layout.footer')
+    </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+                    const courseId = {{ $courseDetail->id }};
+                    const stars = $('.star');
+                    const ratingValue = $('#rating-value');
 
-                // ⭐ Handle star click event
-                stars.on('click', function() {
-                    const value = parseInt($(this).data('value'));
-                    ratingValue.val(value);
-                    updateStars(value);
-                });
-
-                // ⭐ Function to fill stars
-                function updateStars(rating) {
-                    stars.each(function() {
+                    // ⭐ Handle star click event
+                    stars.on('click', function() {
                         const value = parseInt($(this).data('value'));
-                        $(this).toggleClass('filled', value <= rating);
+                        ratingValue.val(value);
+                        updateStars(value);
                     });
-                }
 
-                // ⭐ Submit form with AJAX and Swal
-                $('#review-form').on('submit', function(event) {
-                    event.preventDefault();
+                    // ⭐ Function to fill stars
+                    function updateStars(rating) {
+                        stars.each(function() {
+                            const value = parseInt($(this).data('value'));
+                            $(this).toggleClass('filled', value <= rating);
+                        });
+                    }
 
-                    const formData = $(this).serialize();
+                    // ⭐ Submit form with AJAX and Swal
+                    $('#review-form').on('submit', function(event) {
+                        event.preventDefault();
 
-                    $.ajax({
-                        url: $(this).attr('action'),
-                        type: 'POST',
-                        data: formData,
-                        success: function(data) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success!',
-                                text: data.success,
-                                confirmButtonColor: '#f39c12'
-                            });
-                            $('#review-form')[0].reset(); // ✅ Reset form
-                            resetStars(); // ✅ Reset stars
-                            loadReviews(); // ✅ Reload reviews after submission
-                        },
-                        error: function() {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error!',
-                                text: 'Failed to submit review',
-                                confirmButtonColor: '#d33'
-                            });
-                        }
-                    });
-                });
+                        const formData = $(this).serialize();
 
-                // ⭐ Reset stars after submission
-                function resetStars() {
-                    stars.removeClass('filled');
-                    ratingValue.val(0);
-                }
-
-                // ⭐ Load all reviews
-                function loadReviews() {
-                    $.ajax({
-                        url: `/review/${courseId}`,
-                        type: 'GET',
-                        success: function(reviews) {
-                            console.log(reviews);
-
-                            // 🔥 Convert object to array if needed
-                            if (!Array.isArray(reviews)) {
-                                reviews = [reviews];
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type: 'POST',
+                            data: formData,
+                            success: function(data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success!',
+                                    text: data.success,
+                                    confirmButtonColor: '#f39c12'
+                                });
+                                $('#review-form')[0].reset(); // ✅ Reset form
+                                resetStars(); // ✅ Reset stars
+                                loadReviews(); // ✅ Reload reviews after submission
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error!',
+                                    text: 'Failed to submit review',
+                                    confirmButtonColor: '#d33'
+                                });
                             }
+                        });
+                    });
 
-                            if (reviews.length > 0) {
-                                $('#review-container').empty();
-                                window.assetUrl = "{{ asset('') }}";
-                                reviews.forEach(review => {
-                                    let stars = '';
-                                    for (let i = 1; i <= 5; i++) {
-                                        if (i <= Math.floor(review.rating)) {
-                                            stars +=
-                                                `<span class="rating-star full-star">&#9733;</span>`;
-                                        } else if (i === Math.floor(review.rating) + 1 && review
-                                            .rating % 1 !== 0) {
-                                            stars +=
-                                                `<span class="rating-star half-star">&#9733;</span>`;
-                                        } else {
-                                            stars +=
-                                                `<span class="rating-star empty-star">&#9733;</span>`;
-                                        }
+                    // ⭐ Reset stars after submission
+                    function resetStars() {
+                        stars.removeClass('filled');
+                        ratingValue.val(0);
+                    }
+
+                    // ⭐ Load all reviews
+                    function loadReviews() {
+                        $.ajax({
+                                url: /review/$ {
+                                    courseId
+                                },
+                                type: 'GET',
+                                success: function(reviews) {
+                                    console.log(reviews);
+
+                                    // 🔥 Convert object to array if needed
+                                    if (!Array.isArray(reviews)) {
+                                        reviews = [reviews];
                                     }
 
-                                    const reviewItem = `
+                                    if (reviews.length > 0) {
+                                        $('#review-container').empty();
+                                        window.assetUrl = "{{ asset('') }}";
+                                        reviews.forEach(review => {
+                                                    let stars = '';
+                                                    for (let i = 1; i <= 5; i++) {
+                                                        if (i <= Math.floor(review.rating)) {
+                                                            stars += < span class = "rating-star full-star" > & #9733;</span>;
+                                                    } else if (i = == Math.floor(review.rating) + 1 && review.rating %
+                                                                1 !== 0
+                                                        ) {
+                                                            stars += < span class = "rating-star half-star" > & #9733;</span>;
+                                                    } else {
+                                                        stars += < span class = "rating-star empty-star" > & #9733;</span>;
+                                                    }
+                                                }
+                                                
+                                                const reviewItem = `
                                         <div class="review_item">
                                             <div class="review_usr_dt">
                                                  
                                                ${review.user.profile_picture_url
                                                 ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
                                                 : `<h1 id="default_avtar1">
-                                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
-                                                                </h1>`}
+                                                                    ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                            </h1>`}
                                                 <div class="rv1458">
                                                     <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
                                                     <span class="time_145">${formatTime(review.created_at)}</span>
@@ -454,27 +694,42 @@
                                         </div>
                                     `;
 
-                                    $('#review-container').append(reviewItem);
-                                });
-                            } else {
-                                $('#review-container').html('<p>No reviews available.</p>');
+                                                            $('#review-container').append(reviewItem);
+                                                        });
+                                                } else {
+                                                    $('#review-container').html('<p>No reviews available.</p>');
+                                                }
+                                            },
+                                            error: function(xhr) {
+                                                console.log(xhr.responseText);
+                                            }
+                                    });
                             }
-                        },
-                        error: function(xhr) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                }
 
-                // ⭐ Format time (e.g., "2 hours ago")
-                function formatTime(time) {
-                    if (!time) return 'Unknown';
-                    const date = new Date(time);
-                    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                }
+                            // ⭐ Format time (e.g., "2 hours ago")
+                            function formatTime(time) {
+                                if (!time) return 'Unknown';
+                                const date = new Date(time);
+                                return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                            }
 
-                // ⭐ Load reviews when page loads
-                loadReviews();
+                            // ⭐ Load reviews when page loads
+                            loadReviews();
+                        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('temp-video-{{ $attachment->id }}');
+            video.addEventListener('loadedmetadata', () => {
+                const duration = video.duration;
+                const minutes = Math.floor(duration / 60);
+                const seconds = Math.floor(duration % 60);
+                const formattedDuration = minutes > 0 ?
+                    `${minutes}:${seconds.toString().padStart(2, '0')} minutes` : `${seconds} seconds`;
+                document.getElementById('video-duration-{{ $attachment->id }}').innerText =
+                    formattedDuration;
             });
-        </script>
-    @endsection
+            video.load();
+        });
+    </script>
+@endsection

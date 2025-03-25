@@ -251,9 +251,9 @@
             }
 
 
-            if (course) {
-                $('#add-course-tab .step-footer button[data-direction="prev"]').click();
-            }
+           // if (course) {
+                //$('#add-course-tab .step-footer button[data-direction="prev"]').click();
+            //}
 
 
         });
