@@ -297,7 +297,7 @@ class UserController extends Controller
             'middle_name' => $request->learner_middlename,
             'last_name' => $request->learner_lastname,
             'email' => $request->learner_emailaddress,
-            'password' => Hash::make($request->learner_password),
+            'password' => Hash::make($request->password),
             'phone_number' => $request->learner_phone_no,
             'date_of_birth' => $request->learner_date_of_birth,
             'address' => $request->address,

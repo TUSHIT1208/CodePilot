@@ -47,6 +47,7 @@ class DashboardController extends Controller
             ])
             ->orderByDesc('total_sales') // Sort by most sold
             ->where('is_active', 1)
+            ->where('price','>',0)
             ->take(3) // Get top 3 courses
             ->get();
 
@@ -156,6 +157,7 @@ class DashboardController extends Controller
             ])
             ->orderByDesc('total_sales') // Sort by most sold
             ->where('is_active', 1)
+            ->where('price','>',0)
             ->take(3) // Get top 3 courses
             ->get();
 
@@ -247,6 +249,7 @@ class DashboardController extends Controller
                 }
             ])
             ->orderByDesc('total_sales') // Sort by most sold
+            ->where('price','>',0)
             ->take(3) // Get top 3 courses
             ->get();
         $latest_courses = Course::where('is_active', 1)->latest()->take(3)->get();

@@ -271,7 +271,7 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="password" name="password"
-                                                value="{{ old('learner_password') }}" id="id_password" maxlength="64"
+                                                value="{{ old('password') }}" id="id_password" maxlength="64"
                                                 placeholder="Password">
                                         </div>
                                         @error('password')

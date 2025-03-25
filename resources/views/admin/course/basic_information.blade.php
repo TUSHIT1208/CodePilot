@@ -5,7 +5,10 @@
         </div>
         <div class="course__form">
             <div class="general_info10">
-                <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
+                <form
+                    action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}"
+                    method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
+                {{-- <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data"> --}}
                     @csrf
                     @if (isset($course))
                     @method('PUT')
@@ -127,14 +130,6 @@
                             <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory"
                                 onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
-                                {{-- @if (isset($subcategories))
-                                @foreach ($subcategories as $subcategory)
-                                <option value="{{ $subcategory->id }}" {{ old('sub_category_id', $course->
-                                    sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
-                                    {{ $subcategory->name }}
-                                </option>
-                                @endforeach
-                                @endif --}}
                                 @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id', $course->category_id ?? '') ==
                                     $category->id ? 'selected' : '' }}>
@@ -261,14 +256,6 @@
                     {{-- @endif --}}
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save'
                         }}</button>
-                    {{--
-                    <div class="mt-5 row">
-                        <div class="col-lg-6">
-                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' :
-                                'Save' }}</button>
-                        </div>
-
-                    </div> --}}
                 </form>
 
                 <script>
@@ -349,45 +336,51 @@ for (instance in CKEDITOR.instances) {
     CKEDITOR.instances[instance].updateElement();
 }
 
-$("#courseForm").on("submit", function(e) {
-    e.preventDefault();
-    
-    let formData = new FormData(this);
-    // let actionUrl = $(this).attr("action"); // Get dynamic action URL
-    // let method = $(this).find("input[name='_method']").val() || "POST"; 
+$(document).ready(function () {
+        $("#courseForm").on("submit", function (e) {
+            e.preventDefault(); // Prevent default form submission
+            
+            let formData = new FormData(this);
+            let isUpdate = $("input[name='_method']").val() === "PUT"; // Check if updating
+            
+            let method = isUpdate ? "POST" : "POST"; // Laravel requires POST with _method=PUT for updates
 
-    $.ajax({
-    url: '/course/store',
-    type: 'POST',
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (response) {
-        alert(response.course_id);
-        if (response.success) {
-            debugger;
-            toastr.success(response.message, 'Success');
+            $.ajax({
+                url: $(this).attr('action'),
+                type: method,
+                data: formData,
+                processData: false, // Important for FormData
+                contentType: false, // Important for FormData
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // CSRF token for security
+                },
+                beforeSend: function () {
+                    $("#submitButton").attr("disabled", true).text("Saving...");
+                },
+                success: function (response) {
+                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
+                    
+                    if (response.success) {
+                        alert(response.message); // Show success message
+                        window.location.replace(`/course/${response.course_id}/edit`); // Redirect to course list
+                    } else {
+                        alert("Something went wrong, please try again!");
+                    }
+                },
+                error: function (xhr) {
+                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
 
-            // Debugging Logs
-            console.log("Server Response:", response);
-            console.log("Redirecting to:", `/course/${response.course_id}/edit`);
-
-            // Force Redirection
-            setTimeout(() => {
-                window.location.replace = `/course/${response.course_id}/edit`;
-            }, 1000);
-        } else {
-            toastr.error('Error: ' + response.message, 'Error');
-        }
-    },
-    error: function (xhr) {
-        console.error('AJAX Error:', xhr.responseText);
-        toastr.error('An error occurred. Check console for details.', 'Error');
-    }
-});
-
-});
-
+                    let errors = xhr.responseJSON.errors;
+                    if (errors) {
+                        let errorMessages = Object.values(errors).map((error) => error[0]).join("\n");
+                        alert(errorMessages);
+                    } else {
+                        alert("An unexpected error occurred. Please try again.");
+                    }
+                },
+            });
+        });
+    });
 </script>
 <script>
     // ckeditor
