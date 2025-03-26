@@ -5,10 +5,10 @@
         </div>
         <div class="course__form">
             <div class="general_info10">
-                <form
+                {{-- <form
                     action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}"
-                    method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
-                {{-- <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data"> --}}
+                    method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data"> --}}
+                <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
                     @csrf
                     @if (isset($course))
                     @method('PUT')
@@ -257,128 +257,126 @@
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save'
                         }}</button>
                 </form>
-
-                <script>
-                    function loadSubCategories() {
-                        var categoryId = document.getElementById("selectcategory").value;
-                        var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
-
-                        if (!categoryId) {
-                            return;
-                        }
-
-                        $.ajax({
-                            url: '{{ url('admin/course/subcategories') }}',
-                            type: 'GET',
-                            data: {
-                                category_id: categoryId
-                            },
-                            success: function(response) {
-                                var subCategorySelect = $('#selectsub_category');
-                                subCategorySelect.empty();
-                                subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
-
-                                if (response.length) {
-                                    response.forEach(function(subCategory) {
-                                        var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
-                                        subCategorySelect.append('<option value="' + subCategory.id + '" ' +
-                                            selected + '>' + subCategory.name + '</option>');
-                                    });
-                                } else {
-                                    subCategorySelect.append('<option value="">No subcategories available</option>');
-                                }
-
-                                
-                                    //subCategorySelect.selectpicker('refresh'); // Refresh after initialization
-                                    if (subCategorySelect.length) {
-                                        if ($.fn.selectpicker) {
-                                            subCategorySelect.selectpicker(); // Initialize if not already
-                                            subCategorySelect.selectpicker('refresh'); // Refresh dropdown
-                                        } else {
-                                            console.warn("Bootstrap Select is not loaded.");
-                                        }
-                                    } else {
-                                        console.error("#sub_category_id select element not found.");
-                                    }
-                            },
-                            error: function() {
-                                console.log('Error fetching subcategories');
-                            }
-                        });
-                    }
-
-                    $(document).ready(function() {
-                        // Auto-load subcategories when editing a course
-                        if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
-                            loadSubCategories();
-                        }
-                    });
-                    // // validation
-                    document.addEventListener("DOMContentLoaded", function() {
-                        const form = document.querySelector(".basic-validation");
-
-                        form.addEventListener("submit", function(event) {
-                            if (!form.checkValidity()) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add("was-validated");
-                        }, false);
-                    });
-                </script>
+                <div class="loader-overlay" id="loader">
+                    <div class="loader"></div>
+                </div>
+                
+                
             </div>
         </div>
     </div>
 </div>
 <script>
-        // Ensure CKEditor data is added before form submission
-for (instance in CKEDITOR.instances) {
-    CKEDITOR.instances[instance].updateElement();
-}
+    function loadSubCategories() {
+        var categoryId = document.getElementById("selectcategory").value;
+        var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
 
+        if (!categoryId) {
+            return;
+        }
+
+        $.ajax({
+            url: '{{ url('admin/course/subcategories') }}',
+            type: 'GET',
+            data: {
+                category_id: categoryId
+            },
+            success: function(response) {
+                var subCategorySelect = $('#selectsub_category');
+                subCategorySelect.empty();
+                subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
+
+                if (response.length) {
+                    response.forEach(function(subCategory) {
+                        var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
+                        subCategorySelect.append('<option value="' + subCategory.id + '" ' +
+                            selected + '>' + subCategory.name + '</option>');
+                    });
+                } else {
+                    subCategorySelect.append('<option value="">No subcategories available</option>');
+                }
+
+                
+                    //subCategorySelect.selectpicker('refresh'); // Refresh after initialization
+                    if (subCategorySelect.length) {
+                        if ($.fn.selectpicker) {
+                            subCategorySelect.selectpicker(); // Initialize if not already
+                            subCategorySelect.selectpicker('refresh'); // Refresh dropdown
+                        } else {
+                            console.warn("Bootstrap Select is not loaded.");
+                        }
+                    } else {
+                        console.error("#sub_category_id select element not found.");
+                    }
+            },
+            error: function() {
+                console.log('Error fetching subcategories');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        // Auto-load subcategories when editing a course
+        if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
+            loadSubCategories();
+        }
+    });
+    // // validation
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector(".basic-validation");
+
+        form.addEventListener("submit", function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+        }, false);
+    });
+</script>
+<script>
 $(document).ready(function () {
-        $("#courseForm").on("submit", function (e) {
-            e.preventDefault(); // Prevent default form submission
+        // Ensure CKEditor data is added before form submission
+// for (instance in CKEDITOR.instances) {
+//     CKEDITOR.instances[instance].updateElement();
+// }
+        $('#courseForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
             
-            let formData = new FormData(this);
-            let isUpdate = $("input[name='_method']").val() === "PUT"; // Check if updating
-            
-            let method = isUpdate ? "POST" : "POST"; // Laravel requires POST with _method=PUT for updates
-
             $.ajax({
-                url: $(this).attr('action'),
-                type: method,
-                data: formData,
-                processData: false, // Important for FormData
-                contentType: false, // Important for FormData
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // CSRF token for security
-                },
-                beforeSend: function () {
-                    $("#submitButton").attr("disabled", true).text("Saving...");
+                url: "{{ route('course.store') }}",
+                type: "POST",
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                beforeSend: function() {
+                    // Show loader before sending the request
+                    $('#loader').show();
                 },
                 success: function (response) {
-                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
-                    
-                    if (response.success) {
-                        alert(response.message); // Show success message
-                        window.location.replace(`/course/${response.course_id}/edit`); // Redirect to course list
-                    } else {
-                        alert("Something went wrong, please try again!");
-                    }
-                },
-                error: function (xhr) {
-                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
+                    console.log("Server Response:", response);
+                    $('#submitButton').attr('disabled', false).text('Save');
 
-                    let errors = xhr.responseJSON.errors;
-                    if (errors) {
-                        let errorMessages = Object.values(errors).map((error) => error[0]).join("\n");
-                        alert(errorMessages);
-                    } else {
-                        alert("An unexpected error occurred. Please try again.");
+                    if (response.success) {
+                        alert('Course saved successfully! Redirecting...');
+                        
+                        // Construct the edit URL dynamically
+                        let editUrl = `/course/${response.course_id}/edit`; 
+
+                        // Redirect the user
+                        window.location.href = editUrl;
                     }
                 },
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", xhr.responseText);
+                    alert("An error occurred. Check the console for details.");
+                },
+                complete: function() {
+                    // Hide loader after request completes
+                    $('#loader').hide();
+                }
             });
+
         });
     });
 </script>
