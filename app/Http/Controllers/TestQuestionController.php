@@ -76,8 +76,16 @@ class TestQuestionController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function reorderQuestions(Request $request)
+    {
+        $order = $request->order;
+
+        foreach ($order as $item) {
+            TestQuestion::where('id', $item['id'])->update(['position' => $item['position']]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
 
 }

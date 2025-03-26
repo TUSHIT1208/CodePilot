@@ -18,6 +18,7 @@
 <link href="{{ asset('vendor/ckeditor5/sample/css/sample.css')}}" rel="stylesheet">
 
 
+
 <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/OwlCarousel/assets/owl.carousel.css') }}" rel="stylesheet">
 <link href="{{ asset('vendor/OwlCarousel/assets/owl.theme.default.min.css') }}" rel="stylesheet">

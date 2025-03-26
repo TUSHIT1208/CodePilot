@@ -69,7 +69,7 @@
                                             <a href="" class="crse14s title900 pt-2">{{ $cartItem->course->title }}</a>
                                             <a href="#" class="crse-cate">{{ $cartItem->course->category->name ?? 'No Category' }}</a>
                                             <div class="auth1lnkprce">
-                                                <p class="cr1fot">By <a href="#">{{ $cartItem->course->user->first_name }}</a></p>
+                                                <p>By <a href="#">{{ $cartItem->course->user->first_name . ' ' . $cartItem->course->user->last_name }}</a></p>
                                                 <div class="prce142">₹{{ $cartItem->course->price }}</div>
                                             </div>
                                         </div>
@@ -120,9 +120,7 @@
 
                 document.getElementById("totalPrice").innerText = "₹" + totalPrice.toFixed(2);
             });
-
-
-
-
         </script>
+        @include('learner.layout.footer')
+    </div>
 @endsection

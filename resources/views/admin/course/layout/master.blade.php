@@ -13,17 +13,16 @@
     <script src="{{ asset('js/vertical-responsive-menu.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/super-build/39.0.1/ckeditor.js"></script>
-
-
 </head>
 
 @section('body')    
 @include('admin.layouts.body')
 @show
 
-@include('learner.layout.header')
+@include('admin.layouts.header')
 
-@yield('content')
+
+@yield(section: 'content')
 
 @include('admin.layouts.vendor-script')
 

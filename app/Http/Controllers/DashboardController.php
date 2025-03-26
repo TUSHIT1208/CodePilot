@@ -40,6 +40,9 @@ class DashboardController extends Controller
 
         //most selling course
         $most_courses = Course::with(['category', 'subcategory'])
+            ->whereIn('id', function ($query) {
+                $query->select('course_id')->from('user_courses'); // Filter only courses in user_course
+            })
             ->withCount([
                 'order_item as total_sales' => function ($query) {
                     $query->select(DB::raw('COUNT(*)')); // Count total sales
@@ -47,7 +50,7 @@ class DashboardController extends Controller
             ])
             ->orderByDesc('total_sales') // Sort by most sold
             ->where('is_active', 1)
-            ->where('price','>',0)
+            ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
             ->get();
 
@@ -149,6 +152,9 @@ class DashboardController extends Controller
 
         // Most selling courses by the instructor
         $most_courses = Course::where('user_id', $instructor->id)
+            ->whereIn('id', function ($query) {
+                $query->select('course_id')->from('user_course');
+            })
             ->with(['category', 'subcategory'])
             ->withCount([
                 'order_item as total_sales' => function ($query) {
@@ -157,7 +163,7 @@ class DashboardController extends Controller
             ])
             ->orderByDesc('total_sales') // Sort by most sold
             ->where('is_active', 1)
-            ->where('price','>',0)
+            ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
             ->get();
 
@@ -243,15 +249,20 @@ class DashboardController extends Controller
 
 
         $most_courses = Course::with(['category', 'subcategory'])
+            ->whereIn('id', function ($query) {
+                $query->select('course_id')->from('user_courses'); // Filter only courses in user_course
+            })
             ->withCount([
                 'order_item as total_sales' => function ($query) {
                     $query->select(DB::raw('COUNT(*)')); // Count total sales
                 }
             ])
             ->orderByDesc('total_sales') // Sort by most sold
-            ->where('price','>',0)
+            ->where('is_active', 1)
+            ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
             ->get();
+            
         $latest_courses = Course::where('is_active', 1)->latest()->take(3)->get();
 
         $courses = Course::whereHas('review') // Only fetch courses that have reviews
@@ -746,7 +757,12 @@ class DashboardController extends Controller
 
         $categories = Category::all();
         $instructors = User::where('role_id', 2)->get(); // Fetch only instructors
-        return view('admin.report.total_course.list', compact('categories', 'instructors'));
+
+        if (auth()->user()->role->name === 'admin') {
+            return view('admin.report.total_course.list', compact('categories', 'instructors'));
+        } else if (auth()->user()->role->name === 'insructor') {
+            return view('instructor.report.total_course.list', compact('categories', 'instructors'));
+        }
     }
 
 
@@ -781,7 +797,8 @@ class DashboardController extends Controller
                 'users.email',
                 'users.phone_number',
                 'users.profile_picture_url',
-                'users.is_active'
+                'users.is_active',
+                'courses.title as course_title'
             )
                 ->leftJoin('user_courses', 'users.id', '=', 'user_courses.user_id') // Allow users without courses
                 ->leftJoin('courses', 'user_courses.course_id', '=', 'courses.id')
@@ -813,7 +830,7 @@ class DashboardController extends Controller
                 ->orderColumn('full_name', function ($query, $order) {
                     $query->orderByRaw("CONCAT(first_name, ' ', COALESCE(middle_name, ''), ' ', last_name) {$order}");
                 })
-                ->rawColumns(['profile_picture_url', 'is_active', 'full_name'])
+                ->rawColumns(['profile_picture_url', 'is_active'])
                 ->make(true);
         }
 

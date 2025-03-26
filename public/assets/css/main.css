@@ -23,7 +23,7 @@
   text-transform: uppercase;
   font-weight: lighter;
   color: white;
-  background-color: red;
+  background-color: #ff504c;
 }
 
 .small-logo {
@@ -57,7 +57,7 @@
 }
 
 .thumbnail-course {
-  width: 93%;
+  width: 95%;
   height: 50%;
   object-fit: cover;
 }
@@ -87,7 +87,7 @@
   /* Default color used for the majority of the text content across the entire website */
   --heading-color: #37423b;
   /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #5fcf80;
+  --accent-color: #ff504c;
   /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff;
   /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
@@ -99,16 +99,16 @@
 :root {
   --nav-color: #272828;
   /* The default color of the main navmenu links */
-  --nav-hover-color: #5fcf80;
-  /* Applied to main navmenu links when they are hovered over or active */
+  --nav-hover-color: #ff504c;
+  /* Applied to main navmenu links when they are hove#ff504c over or active */
   --nav-mobile-background-color: #ffffff;
   /* Used as the background color for mobile navigation menu */
   --nav-dropdown-background-color: #ffffff;
   /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
   --nav-dropdown-color: #272828;
   /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #5fcf80;
-  /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-dropdown-hover-color: #ff504c;
+  /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hove#ff504c over. */
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
@@ -181,7 +181,7 @@ h6 {
 .php-email-form .sent-message {
   display: none;
   color: #ffffff;
-  background: #059652;
+  background: #ff504c;
   text-align: center;
   padding: 15px;
   margin-bottom: 24px;

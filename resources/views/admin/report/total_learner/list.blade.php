@@ -28,11 +28,7 @@
                                 <div class="row mb-4">
                                     <div class="col-sm-3">
                                         <label for="category">Select Category</label>
-<<<<<<< HEAD
                                         <select id="category" class="form-control _dlor1">
-=======
-                                        <select id="category" class="form-control dt-input">
->>>>>>> 163980fcf10777498717daefc64ff537d846ec33
                                             <option value="">-- Select Category --</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -41,11 +37,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <label for="subcategory">Select Subcategory</label>
-<<<<<<< HEAD
                                         <select id="subcategory" class="form-control _dlor1">
-=======
-                                        <select id="subcategory" class="form-control dt-input">
->>>>>>> 163980fcf10777498717daefc64ff537d846ec33
                                             <option value="">-- Select Subcategory --</option>
                                         </select>
                                     </div>
@@ -55,6 +47,7 @@
                                     <table class="ucp-table" id="myTable">
                                         <thead>
                                             <tr>
+                                                <th>Course</th>
                                                 <th>Profile</th>
                                                 <th>Full Name</th>
                                                 <th>Email</th>
@@ -62,6 +55,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
+
                                     </table>
                                 </div>
                             @endif
@@ -85,24 +79,26 @@
                         }
                     },
                     columns: [{
-                        data: 'profile_picture_url',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'full_name'
-                    },
-                    {
-                        data: 'email'
-                    },
-                    {
-                        data: 'phone_number'
-                    },
-                    {
-                        data: 'is_active',
-                        orderable: false,
-                        searchable: false
-                    }
+                            data: 'course_title',
+                        }, {
+                            data: 'profile_picture_url',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'full_name'
+                        },
+                        {
+                            data: 'email'
+                        },
+                        {
+                            data: 'phone_number'
+                        },
+                        {
+                            data: 'is_active',
+                            orderable: false,
+                            searchable: false
+                        }
                     ]
                 });
 

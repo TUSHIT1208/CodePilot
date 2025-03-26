@@ -13,47 +13,17 @@ class CourseAttachmentController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $attachments = courseAttachment::where('course_id', $request->course_id)
-                ->select(['id', 'title', 'discription', 'thumbnail_url', 'url', 'type', 'created_at']);
+        //
+    }
 
-            return DataTables::of($attachments)
-                ->addColumn('url', function ($attachment) {
-                    $documentUrl = $attachment->type === 'video'
-                        ? asset('courseVideo/' . $attachment->url)
-                        : asset('courseAssignments/' . $attachment->url);
+    public function getAttachments($courseId)
+    {
+        $attachments = CourseAttachment::with(['course.category']) // Ensure category is loaded
+            ->where('course_id', $courseId)
+            ->orderBy('position', 'asc') 
+            ->get();
 
-                    if ($attachment->type === 'video') {
-                        return '<video width="100" height="70" controls>
-                            <source src="' . $documentUrl . '" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>';
-                    } else {
-                        return '<div style="padding: 10px; border-radius: 8px; display: flex; gap: 10px;">
-                            <img src="' . asset('images/2299504.png') . '" alt="PDF" width="70" height="70">
-                            <div>
-                                <strong>' . $attachment->title . '</strong><br>
-                                <small>' . round(filesize(public_path('courseAssignments/' . $attachment->url)) / 1024, 2) . ' KB, PDF Document</small>
-                            </div>
-                            <div style="margin-left: auto; display: flex; gap: 10px;" class="mt-4 ext-left">
-                                <a href="' . $documentUrl . '" target="_blank" class="gray-s">
-                                    <i class="uil uil-eye" style="font-size : 20px;"></i>
-                                </a>
-                                <a href="' . $documentUrl . '" download class="gray-s">
-                                    <i class="uil uil-download-alt" style="font-size : 20px;"></i>
-                                </a>
-                            </div>
-                        </div>';
-                    }
-                })
-                ->addColumn('action', function ($attachment) {
-                    return '<a class="gray-s deleteAttachment" data-id="' . $attachment->id . '" data-type="' . $attachment->type . '">
-                            <i class="uil uil-trash"></i>
-                        </a>';
-                })
-                ->rawColumns(['thumbnail_url', 'url', 'action'])
-                ->make(true);
-        }
+        return response()->json($attachments);
     }
 
 
@@ -122,36 +92,60 @@ class CourseAttachmentController extends Controller
 
     public function destroy($id)
     {
-        $video = courseAttachment::find($id);
-        if (!$video) {
-            return response()->json(['error' => 'Video not found!'], 404);
+        $attachment = CourseAttachment::find($id);
+        if (!$attachment) {
+            return response()->json(['error' => 'Attachment not found!'], 404);
         }
 
-        // Delete files from storage (optional)
-        if (File::exists(public_path('courseThumbnail/' . $video->thumbnail_url))) {
-            File::delete(public_path('courseThumbnail/' . $video->thumbnail_url));
+        // Delete files from storage
+        if (!empty($attachment->thumbnail_url) && File::exists(public_path('courseThumbnail/' . $attachment->thumbnail_url))) {
+            File::delete(public_path('courseThumbnail/' . $attachment->thumbnail_url));
         }
-        if (File::exists(public_path('courseVideo/' . $video->video_url))) {
-            File::delete(public_path('courseVideo/' . $video->video_url));
+        if (!empty($attachment->video_url) && File::exists(public_path('courseVideo/' . $attachment->video_url))) {
+            File::delete(public_path('courseVideo/' . $attachment->video_url));
         }
 
-        $video->delete();
+        $attachment->delete();
 
-        return response()->json(['success' => 'Video deleted successfully!']);
+        return response()->json(['success' => 'Attachment deleted successfully!']);
     }
 
     public function debugger_code($id, $video_id)
     {
         $course_detail = courseAttachment::where('id', $video_id)->first();
-        $title = course::where('id',$course_detail->course_id)->first();
-        logger($title);
 
         if (auth()->user()->role->name === 'admin') {
-            return view('admin.course.debugger_code', compact('course_detail','title'));
+            return view('admin.course.mediaPlayer', compact('course_detail'));
         } else if (auth()->user()->role->name === 'insructor') {
-            return view('instructor.course.debugger_code', compact('course_detail','title'));
+            return view('instructor.course.mediaPlayer', compact('course_detail'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.debugger_code', compact('course_detail','title'));
+            return view('learner.course.mediaPlayer', compact('course_detail'));
         }
     }
+
+    public function editor_media($video_id)
+    {
+        $course_detail = courseAttachment::where('id', $video_id)->first();
+        $title = course::where('id', $course_detail->course_id)->first();
+        if (auth()->user()->role->name === 'admin') {
+            return view('admin.course.debugger_code', compact('course_detail', 'title'));
+        } else if (auth()->user()->role->name === 'insructor') {
+            return view('instructor.course.debugger_code', compact('course_detail', 'title'));
+        } else if (auth()->user()->role->name === 'learner') {
+            return view('learner.course.debugger_code', compact('course_detail', 'title'));
+        }
+    }
+
+    public function reorder(Request $request)
+    {
+        $order = $request->order;
+
+        foreach ($order as $item) {
+            courseAttachment::where('id', $item['id'])->update(['position' => $item['position']]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+
 }

@@ -27,7 +27,6 @@
 								<h5>Total Purchased Courses</h5>
 								<h2>{{ $total_purcharsed_course }}</h2>
 								<a href="{{ route('learner.purchased.course')}}">View all purchased course</a>
-								{{-- <span class="crdbg_3">New 5</span> --}}
 							</div>
 						</div>
 
@@ -208,7 +207,7 @@
 											<h3 class="fw-bold text-primary">{{ $course->title }}</h3> <!-- Course Name -->
 
 											@foreach($course->review as $review)
-												<div class="mb-3 shadow-sm border-0 p-3" style="background-color:#fff">
+												<div class="mb-3 shadow-sm border-0 p-3">
 													{{-- User Info --}}
 													<div class="d-flex align-items-center">
 														<div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
@@ -257,7 +256,6 @@
 
 			@include('learner.layout.footer')
 		</div>
-		@include('learner.layout.footer')
 	</div>
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {

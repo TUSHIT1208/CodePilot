@@ -287,9 +287,6 @@ class UserController extends Controller
             $profileImageName = null;
         }
 
-
-
-
         // Create the user record
         $user = User::create([
             'username' => $request->learner_username,
@@ -301,9 +298,8 @@ class UserController extends Controller
             'phone_number' => $request->learner_phone_no,
             'date_of_birth' => $request->learner_date_of_birth,
             'address' => $request->address,
-            'role_id' => 3, // Assign the learner role ID
-            'is_active' => true, // Assuming the user is active by default
-
+            'role_id' => 3,
+            'is_active' => true,
         ]);
 
         // Create the learner profile
@@ -359,11 +355,11 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
-                'last_name' => $request->last_name,
+                'last_name' => $request->surname,
                 'middle_name' => $request->middle_name,
                 'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'date_of_birth' => $request->date_of_birth,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
             ]);
             log::info('learner updated');
             LearnerProfile::where('user_id', $id)->update([
@@ -391,11 +387,11 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
-                'last_name' => $request->last_name,
+                'last_name' => $request->surname,
                 'middle_name' => $request->middle_name,
                 'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'date_of_birth' => $request->date_of_birth,
+                'phone_number' => $request->phone,
+                'date_of_birth' => $request->dob,
             ]);
 
             InstractorProfile::where('user_id', $id)->update([

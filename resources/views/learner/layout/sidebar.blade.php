@@ -101,14 +101,14 @@
 			});
 		});
 
-		// Retain the active class on page reload
-		let activeMenu = localStorage.getItem("activeMenu");
-		if (activeMenu) {
-			menuLinks.forEach(link => {
-				if (link.getAttribute("href") === activeMenu) {
-					link.classList.add("active");
-				}
-			});
-		}
-	});
+        // Retain the active class on page reload
+        let activeMenu = localStorage.getItem("activeMenu");
+        if (activeMenu) {
+            menuLinks.forEach(link => {
+                if (link.getAttribute("href") === activeMenu) {
+                    link.classList.add("active");
+                }
+            });
+        }
+    });
 </script>

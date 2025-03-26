@@ -192,6 +192,7 @@ Route::post('/video/progress/track', [UserVideoTrackerController::class, 'track'
 
 Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
 Route::get('/code-debugger/{id}/{video_id}', [CourseAttachmentController::class, 'debugger_code'])->name('codeDebugger');
+Route::get('/media/debugger/{video_id}', [CourseAttachmentController::class, 'editor_media'])->name('editor-media');
 
 Route::get('/course/test', function () {
     return view('admin.course.test');
@@ -312,6 +313,15 @@ Route::get('/get-subcategories/{categoryId}', function ($categoryId) {
     return response()->json($subcategories);
 });
 
+Route::get('/get-subcategories', [CourseController::class, 'getSubcategories'])->name('getSubcategories');
+
+Route::get('/course/{courseId}/attachments', [CourseAttachmentController::class, 'getAttachments'])->name('course.attachments');
 Route::get('/instructor/enrollment-chart', [DashboardController::class, 'enrollmentChart'])->name('instructor.enrollment.chart');
 
 Route::get('/learner/courses', [DashboardController::class, 'courseList'])->name('learner.courses.list');
+
+Route::delete('/course/attachments/{id}', [CourseAttachmentController::class, 'destroy']);
+
+Route::post('/course/attachments/reorder', [CourseAttachmentController::class, 'reorder'])->name('attachments.reorder');
+Route::post('/quiz/questions/reorder', [TestQuestionController::class, 'reorderQuestions'])->name('questions.reorder');
+

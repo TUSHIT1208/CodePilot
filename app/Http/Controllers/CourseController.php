@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\test;
 use App\Models\test_result;
+use App\Models\TestQuestion;
 use App\Models\User;
 use App\Models\video;
 use App\Models\course;
@@ -207,55 +208,32 @@ class CourseController extends Controller
 
     public function show($id)
     {
-        $courseDetail = Course::with(['category', 'subcategory', 'courseattachment'])->where('id', $id)->first();
+        $courseDetail = Course::with([
+            'category',
+            'subcategory',
+            'courseattachment' => function ($query) {
+                $query->orderBy('position', 'asc'); // Order media by position
+            }
+        ])->where('id', $id)->first();
         $users = User::find($courseDetail->user_id);
         $cid = $courseDetail->id;
         session()->put('course', $cid);
-        $userId = auth()->user()->id; // Get the authenticated user's ID
-        //  $userId = 1; // Example user ID
+        $userId = auth()->user()->id;
 
         $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
 
         $test = test::where('course_id', $cid)->first();
-        $test_result = test_result::where('test_id', $test->id)
-            ->latest('id') // Orders by ID in descending order
-            ->first();
+        if ($test) {
+            $test_result = test_result::where('test_id', $test->id)
+                ->latest('id') // Orders by ID in descending order
+                ->first();
 
-        if ($test_result === null) {
-            //$test_result = new test_result(); // Create a new instance if null
-            //$test_result->overallscore = 0;   // Set the overallscore to 0
-            $score = 0;
-
-        } else {
-            $score = $test_result->overall_score;
+            if ($test_result === null) {
+                $score = 0;
+            } else {
+                $score = $test_result->overall_score;
+            }
         }
-
-
-        //return $test->passing_mark;
-
-
-        // return $test_result;
-
-        // //return $test_result;
-        // if (!isset($test_result->id)) {
-        //     $score = 0;
-        // } else {
-        //     $score = $test_result->overall_score;
-        // }
-        // return $score;
-        // $pass = false;
-        // if ($test->passing_marks < $score) {
-        //     $pass = true;
-        //     //return $pass;
-
-        // }
-        // return $pass;
-        // $hasGivenTest = test_result::whereHas
-        // ('test', function ($query) use ($cid) {
-        //     $query->where('course_id', $cid);
-        // })->where('user_id', $userId)->exists();
-
-        //  return $hasGivenTest;
 
         $coursePrice = course::where('id', $cid)->first();
 
@@ -278,7 +256,13 @@ class CourseController extends Controller
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
         $tests = test::where('course_id', $id)->select('id')->first();
-
+        if (isset($tests->id)) {
+            $test_question = TestQuestion::where('test_id', $tests->id)
+                ->orderBy('position', 'asc') // Order by position
+                ->get();
+        } else {
+            $test_question = collect(); // Return an empty collection instead of 0
+        }
         if ($request->ajax()) {
             // Fetch tests with related course, questions, and options
             // $tests = Test::with('course', 'testquestion.testoption')
@@ -315,11 +299,12 @@ class CourseController extends Controller
         }
 
         if (auth()->user()->role->name == 'admin') {
-            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
+            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question'));
         } else if (auth()->user()->role->name == 'insructor') {
-            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests'));
+            return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question'));
         }
     }
+
 
 
     public function update(Request $request, Course $course)
@@ -406,6 +391,15 @@ class CourseController extends Controller
     public function addToHome(Request $request)
     {
         $course = Course::findOrFail($request->course_id); // Find the course by ID
+        $hasTest = Test::where('course_id', $course->id)->exists();
+        if (!$hasTest) {
+            return response()->json(['success' => false, 'message' => 'At least one test is required to publish this course.'], 400);
+        }
+
+        $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
+        if (!$hasMedia) {
+            return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
+        }
 
         // Update the 'is_added_to_home' field to true or 1
         $course->is_active_home = true;
@@ -584,6 +578,17 @@ class CourseController extends Controller
     public function toggleStatus(Request $request, Course $course)
     {
         try {
+
+            $hasTest = Test::where('course_id', $course->id)->exists();
+            if (!$hasTest) {
+                return response()->json(['success' => false, 'message' => 'At least one test is required to publish this course.'], 400);
+            }
+
+            $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
+            if (!$hasMedia) {
+                return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
+            }
+
             $course->update([
                 'is_active' => $request->is_active,
                 'published_at' => now()
