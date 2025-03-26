@@ -21,8 +21,8 @@
                                     <div class="ui search focus mt-30 lbel25">
                                         <label>Section Name*</label>
                                         <div class="ui left icon input swdh19">
-                                            <input class="prompt srch_explore" type="text" placeholder=""
-                                                name="title" maxlength="60" id="main[title]" value="Introduction">
+                                            <input class="prompt srch_explore" type="text" placeholder="" name="title"
+                                                maxlength="60" id="main[title]" value="Introduction">
                                         </div>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
                                     <span class="section-item-title-text">Quiz Title</span>
                                 </div>
                             </div> --}}
-                        {{-- <div class="section-list-item">
+                            {{-- <div class="section-list-item">
                                 <div class="section-item-title">
                                     <i class="fas fa-clipboard-list me-2"></i>
                                     <span class="section-item-title-text">Assignment Title</span>
@@ -139,8 +139,7 @@
                                                     value="{{ $course->id }}">
                                             @endif
                                             @if (isset($tests))
-                                                <input type="hidden" name="quiz_id" id="quiz_id"
-                                                    value="{{ $tests->id }}">
+                                                <input type="hidden" name="quiz_id" id="quiz_id" value="{{ $tests->id }}">
                                             @endif
 
                                             <div class="new-section">
@@ -177,9 +176,8 @@
 
                                                 <div class="ui search focus lbel25 mt-30 col-sm-4">
                                                     <label>Total Time*</label>
-                                                    <input class="form_input_1 form-control" type="text"
-                                                        name="time" id="time" placeholder="Time here"
-                                                        required>
+                                                    <input class="form_input_1 form-control" type="text" name="time"
+                                                        id="time" placeholder="Time here" required>
                                                     <div class="invalid-feedback" id="time_error">Please enter total
                                                         time.</div>
                                                 </div>
@@ -220,9 +218,9 @@
                                                                 <div class="form_group">
                                                                     <label class="label25 text-left">Option
                                                                         Title*</label>
-                                                                    <input class="form_input_1 form-control"
-                                                                        type="text" name="option_text[]"
-                                                                        placeholder="Option title" required>
+                                                                    <input class="form_input_1 form-control" type="text"
+                                                                        name="option_text[]" placeholder="Option title"
+                                                                        required>
                                                                     <div class="invalid-feedback" id="option_error">
                                                                         Please enter option.</div>
                                                                 </div>
@@ -238,13 +236,12 @@
                                                 <div class="container">
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <button type="button"
-                                                                class="main-btn color btn-hover mt-30"
+                                                            <button type="button" class="main-btn color btn-hover mt-30"
                                                                 id="add-option-btn">Add Option</button>
                                                         </div>
                                                         <div class="col-sm-6 text-end">
-                                                            <button type="button"
-                                                                class="main-btn color btn-hover mt-30" id="saveBtn">
+                                                            <button type="button" class="main-btn color btn-hover mt-30"
+                                                                id="saveBtn">
                                                                 Save Question & Option
                                                             </button>
                                                         </div>
@@ -286,7 +283,7 @@
 <!-- Add Quiz End -->
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Handle the edit button click
         toastr.options = {
             "closeButton": true,
@@ -296,7 +293,7 @@
             "positionClass": "toast-top-right",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut",
-            "onShown": function() {
+            "onShown": function () {
                 $('.toast-success').css({
                     'background-color': '#28a745', // Green for success
                     'opacity': '1' // Adjust opacity
@@ -316,7 +313,7 @@
             }
         };
 
-        $(document).on('click', '.edit-quiz', function() {
+        $(document).on('click', '.edit-quiz', function () {
             var quizId = document.getElementById('quiz_id').value; // Get the quiz ID
             // Perform an AJAX request to fetch the quiz data
             console.log(quizId);
@@ -326,7 +323,7 @@
             $.ajax({
                 url: '{{ route('test.show', '') }}/' + quizId,
                 method: 'GET',
-                success: function(response) {
+                success: function (response) {
                     // Populate the modal fields with the response data
                     $('#test_title').val(response.id);
                     $('#test_title').val(response.test_title);
@@ -338,7 +335,7 @@
 
                     $('#add_quiz_model').modal('show');
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     toastr.error('An error occurred while fetching quiz data.', 'Error');
                 }
             });
@@ -346,7 +343,7 @@
         });
 
         // Handle the save changes button click
-        $('#edit-quiz').on('click', function(event) {
+        $('#edit-quiz').on('click', function (event) {
             var form = $('#add_quiz_model')[0]; // Get the form element
             var quizId = document.getElementById('quiz_id').value; // Get the quiz ID
             console.log("hello");
@@ -406,7 +403,7 @@
                 url: '{{ route('test.update', '') }}/' + quizId,
                 method: 'PUT',
                 data: $('#quizForm').serialize(),
-                success: function(response) {
+                success: function (response) {
                     // Update the DataTable and close the modal
                     $('#quizTable').DataTable().ajax.reload();
                     $('#add_quiz_model').modal('hide');
@@ -415,7 +412,7 @@
                     // Reset Bootstrap validation state after successful update
                     $(form).removeClass('was-validated');
                 },
-                error: function() {
+                error: function () {
                     toastr.error('Failed to update quiz. Please try again.');
                 }
             });
@@ -423,7 +420,7 @@
 
 
         // Handle the delete button click
-        $(document).on('click', '.delete-quiz', function(event) {
+        $(document).on('click', '.delete-quiz', function (event) {
             event.preventDefault();
             var quizId = document.getElementById('quiz_id').value; // Get the quiz ID
             //var row = $(this).closest('tr'); // Get the row of the clicked button
@@ -447,12 +444,12 @@
                         data: {
                             _token: '{{ csrf_token() }}'
                         },
-                        success: function(response) {
+                        success: function (response) {
                             // If successful, reload the page
                             location.reload(); // This will refresh the page
                             //#3085d6form.reset();
                         },
-                        error: function(xhr, status, error) {
+                        error: function (xhr, status, error) {
                             toastr.error('An error occurred. Please try again.',
                                 'Error');
                         }
@@ -482,7 +479,7 @@
         "positionClass": "toast-top-right",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut",
-        "onShown": function() {
+        "onShown": function () {
             $('.toast-success').css({
                 'background-color': '#28a745', // Green for success
                 'opacity': '1' // Adjust opacity
@@ -502,7 +499,7 @@
         }
     };
     // Add a new option dynamically
-    document.getElementById('add-option-btn').addEventListener('click', function() {
+    document.getElementById('add-option-btn').addEventListener('click', function () {
         const optionItem = document.createElement('div');
         optionItem.classList.add('row', 'option-item');
         optionItem.innerHTML = `
@@ -526,14 +523,14 @@
         `;
         document.getElementById('options-section').appendChild(optionItem);
 
-        optionItem.querySelector('.opt-del').addEventListener('click', function() {
+        optionItem.querySelector('.opt-del').addEventListener('click', function () {
             optionItem.remove();
         });
     });
 
     // Save a question with options
     // Save a question with options
-    document.getElementById('saveBtn').addEventListener('click', function(event) {
+    document.getElementById('saveBtn').addEventListener('click', function (event) {
         quizData.course_id = document.getElementById('course_id').value;
         quizData.title = document.getElementById('test_title').value;
         quizData.passingMark = document.getElementById('passing_mark').value;
@@ -588,7 +585,7 @@
         if (selectedCorrectAnswers.length !== 1) {
             correctAnswers.forEach(input => input.classList.add('is-invalid'));
             toastr.warning("pleas one option");
-            setTimeout(function() {}, 2000); //alert("Please select exactly one correct answer.");
+            setTimeout(function () { }, 2000); //alert("Please select exactly one correct answer.");
 
             isValid = false;
         } else {
@@ -634,7 +631,7 @@
     });
 
     // Ensure that only one correct answer can be selected
-    document.addEventListener('change', function(event) {
+    document.addEventListener('change', function (event) {
         if (event.target.name === 'is_correct[]') {
             document.querySelectorAll('input[name="is_correct[]"]').forEach(input => {
                 if (input !== event.target) {
@@ -646,7 +643,7 @@
 
 
 
-    $('#quizDataTable').on('click', '.delete-btn', function() {
+    $('#quizDataTable').on('click', '.delete-btn', function () {
         const row = $(this).closest('tr'); // Get the row where the delete button was clicked
         const rowIndex = row.index(); // Get the index of the row
 
@@ -663,12 +660,12 @@
 
 
     // Save quiz data to DataTable and reset the form
-    (function() {
+    (function () {
         'use strict';
         var forms = document.querySelectorAll('.needs-validation');
 
-        Array.prototype.slice.call(forms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
                 if (!form.checkValidity()) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -678,7 +675,7 @@
         });
     })();
 
-    document.getElementById('save-all').addEventListener('click', function(event) {
+    document.getElementById('save-all').addEventListener('click', function (event) {
         event.preventDefault();
         var quizForm = document.getElementById('quizForm');
 
@@ -720,7 +717,7 @@
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(quizData),
-            success: function(response) {
+            success: function (response) {
                 console.log(response.message);
                 console.log("testdata", testdata);
 
@@ -731,11 +728,11 @@
                 // quizData = { title: '', passingMark: '', totalTime: '', questions: [] };
                 $('#add_quiz_model').modal('hide');
                 toastr.success("Quiz created successfully");
-                setTimeout(function() {
+                setTimeout(function () {
                     location.reload();
                 }, 2000);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(error);
                 toastr.error("Error saving quiz data. Please try again.");
             }
@@ -748,39 +745,39 @@
         serverSide: true,
         ajax: '{{ route('test.index') }}' // Update with the correct route
         columns: [{
-                data: 'test_title',
-                name: 'test_title'
-            },
-            {
-                data: 'passing_mark',
-                name: 'passing_mark'
-            },
-            {
-                data: 'total_marks',
-                name: 'total_marks'
-            },
-            {
-                data: 'time',
-                name: 'time'
-            },
-            {
-                data: 'questions',
-                name: 'questions',
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            }
+            data: 'test_title',
+            name: 'test_title'
+        },
+        {
+            data: 'passing_mark',
+            name: 'passing_mark'
+        },
+        {
+            data: 'total_marks',
+            name: 'total_marks'
+        },
+        {
+            data: 'time',
+            name: 'time'
+        },
+        {
+            data: 'questions',
+            name: 'questions',
+            orderable: false,
+            searchable: false
+        },
+        {
+            data: 'action',
+            name: 'action',
+            orderable: false,
+            searchable: false
+        }
         ]
     });
 </script>
 
 <script>
-    document.querySelector(".change-quiz").addEventListener("click", function() {
+    document.querySelector(".change-quiz").addEventListener("click", function () {
         var quizSection = document.getElementById("changeQuizSection");
         if (quizSection.style.display === "none") {
             quizSection.style.display = "block"; // Show the form
@@ -791,13 +788,13 @@
 </script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Initialize jQuery UI Sortable for the questions list
         $("#sortableQuestionsList").sortable({
             placeholder: "sortable-placeholder",
-            update: function(event, ui) {
+            update: function (event, ui) {
                 let order = [];
-                $(".draggable").each(function(index) {
+                $(".draggable").each(function (index) {
                     order.push({
                         id: $(this).data("id"),
                         position: index + 1
@@ -812,10 +809,10 @@
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         order: order
                     },
-                    success: function(response) {
+                    success: function (response) {
                         toastr.success("Question order updated successfully");
                     },
-                    error: function() {
+                    error: function () {
                         toastr.error("Failed to update order");
                     }
                 });

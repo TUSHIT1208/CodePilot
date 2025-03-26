@@ -108,7 +108,18 @@ class CertificateController extends Controller
     public function gettest()
     {
         $course = session('course');
-        $test = test::with(['testquestion.testoption'])->where('course_id', $course)->first();
+        $test = Test::with(['testquestion.testoption'])
+            ->where('course_id', $course)
+            ->first();
+
+        // Get all testquestions ordered by position (assuming there's a 'position' column)
+        $questions = $test->testquestion()->orderBy('position')->get();
+
+        // Optionally, loop through the questions and get their options
+        foreach ($questions as $question) {
+            $questionOptions = $question->testoption;
+            // You can work with each $question and its $questionOptions here
+        }
 
         logger($test);
 
