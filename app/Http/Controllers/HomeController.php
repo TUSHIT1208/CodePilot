@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\course;
 use App\Models\User;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,8 +25,10 @@ class HomeController extends Controller
         $learnerCount = User::where('role_id', 3)->count();
         $instructorCount = User::where('role_id', 2)->count();
         $courseCount = course::where('is_active', 1)->count();
+        $reviews = Review::with(['user','course'])->latest()
+        ->where('rating','>',2)->get(); 
 
-        return view('front.about', compact('learnerCount', 'instructorCount', 'courseCount'));
+        return view('front.about', compact('learnerCount', 'instructorCount', 'courseCount','reviews'));
     }
     public function course()
     {
@@ -37,5 +40,6 @@ class HomeController extends Controller
         // Pass courses to the view
         return view('front.course', compact('courses'));
     }
+    
 
 }
