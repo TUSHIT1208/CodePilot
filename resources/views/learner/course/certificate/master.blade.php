@@ -23,7 +23,7 @@
 
 @include('learner.layout.header')
 
-@yield(section: 'content')
+@yield('content')
 
 @include('admin.layouts.vendor-script')
 

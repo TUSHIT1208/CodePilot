@@ -18,10 +18,14 @@ class CourseAttachmentController extends Controller
 
     public function getAttachments($courseId)
     {
-        $attachments = CourseAttachment::where('course_id', $courseId)->get();
-        
+        $attachments = CourseAttachment::with(['course.category']) // Ensure category is loaded
+            ->where('course_id', $courseId)
+            ->orderBy('position', 'asc') 
+            ->get();
+
         return response()->json($attachments);
     }
+
 
     public function create()
     {
@@ -88,22 +92,22 @@ class CourseAttachmentController extends Controller
 
     public function destroy($id)
     {
-        $video = courseAttachment::find($id);
-        if (!$video) {
-            return response()->json(['error' => 'Video not found!'], 404);
+        $attachment = CourseAttachment::find($id);
+        if (!$attachment) {
+            return response()->json(['error' => 'Attachment not found!'], 404);
         }
 
-        // Delete files from storage (optional)
-        if (File::exists(public_path('courseThumbnail/' . $video->thumbnail_url))) {
-            File::delete(public_path('courseThumbnail/' . $video->thumbnail_url));
+        // Delete files from storage
+        if (!empty($attachment->thumbnail_url) && File::exists(public_path('courseThumbnail/' . $attachment->thumbnail_url))) {
+            File::delete(public_path('courseThumbnail/' . $attachment->thumbnail_url));
         }
-        if (File::exists(public_path('courseVideo/' . $video->video_url))) {
-            File::delete(public_path('courseVideo/' . $video->video_url));
+        if (!empty($attachment->video_url) && File::exists(public_path('courseVideo/' . $attachment->video_url))) {
+            File::delete(public_path('courseVideo/' . $attachment->video_url));
         }
 
-        $video->delete();
+        $attachment->delete();
 
-        return response()->json(['success' => 'Video deleted successfully!']);
+        return response()->json(['success' => 'Attachment deleted successfully!']);
     }
 
     public function debugger_code($id, $video_id)
@@ -131,5 +135,17 @@ class CourseAttachmentController extends Controller
             return view('learner.course.debugger_code', compact('course_detail', 'title'));
         }
     }
+
+    public function reorder(Request $request)
+    {
+        $order = $request->order;
+
+        foreach ($order as $item) {
+            courseAttachment::where('id', $item['id'])->update(['position' => $item['position']]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
 
 }

@@ -5,8 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="media_player card_dash1">
-        <div class="container-fluid">
+        <div class="container-fluid" style="position: relative; top: 12%;">
             <a href="{{ route('course.show', $course_detail->course_id) }}">
                 <button class="main-btn">Back to Course</button>
             </a>
@@ -42,7 +41,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <div class="mt-5">
         @include('admin.layouts.footer')

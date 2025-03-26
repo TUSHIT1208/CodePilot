@@ -722,6 +722,23 @@ Night Mood
     cursor: pointer;
 }
 
+.night-mode .review-container{
+    background: #333 !important;
+}
+
+.night-mode .shadow-sm{
+    background-color:#333 !important;
+}
+
+.night-mode #attachmentsList {
+    border: 1px solid black;
+}
+
+.night-mode .sortable-placeholder {
+    background: black;
+    border: dashed 2px black;
+}
+
 .night-mode .spinner>div {
     width: 10px;
     height: 10px;

@@ -86,14 +86,15 @@
                                             <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}"
                                                 class="img-fluid">
                                         @else
-                                            <h1 class="default_avtar" style="position: relative; right: 28%;">
-                                                {{ substr(Auth::user()->username, 0, 1) }}
-                                            </h1>
+                                            <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+                                                style="width: 40px; height: 40px; font-size: 18px;">
+                                                {{ strtoupper(substr(Auth::user()->username, 0, 1)) }}
+                                            </div>
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
                                         <a href="{{ route('setting') }}"
-                                            class="mt-2 _df7852">{{ Auth::user()->username }}</a>
+                                            class="mt-2 _df7852">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -298,10 +299,11 @@
                                                         </div>
 
                                                         <!-- Review Text -->
-                                                        <textarea name="review" id="review-text" class="review-input" placeholder="Write your review..." rows="5"></textarea>
+                                                        <textarea name="review" id="review-text" class="mt-3 form-control dt-input" placeholder="Write your review..."
+                                                            rows="5"></textarea>
 
                                                         <!-- Submit Button -->
-                                                        <button type="submit" class="submit-btn"
+                                                        <button type="submit" class="submit-btn mt-3"
                                                             id="submit-review">Submit Review</button>
                                                     </div>
                                                 </form>
@@ -419,28 +421,36 @@
                                     }
 
                                     const reviewItem = `
-                                        <div class="review_item">
-                                            <div class="review_usr_dt">
-                                                 
-                                               ${review.user.profile_picture_url
-                                                ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
-                                                : `<h1 id="default_avtar1">
-                                                                ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
-                                                        </h1>`}
-                                                <div class="rv1458">
-                                                    <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
-                                                    <span class="time_145">${formatTime(review.created_at)}</span>
-                                                </div>
-                                            </div>
-                                            <div class="rating-box mt-20">${stars}</div>
-                                            <p class="rvds10">${review.review || 'No review provided.'}</p>
-                                        </div>
-                                    `;
+                            <div class="review_item">
+                                <div class="review_usr_dt">
+                                    ${review.user.profile_picture_url
+                                        ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
+                                        : `<div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+                                                        style="width: 40px; height: 40px; font-size: 18px;">
+                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                    </div>`}
+                                    <div class="rv1458">
+                                        <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
+                                        <span class="time_145">${formatTime(review.created_at)}</span>
+                                    </div>
+                                </div>
+                                <div class="rating-box mt-20">${stars}</div>
+                                <p class="rvds10">${review.review || 'No review provided.'}</p>
+                            </div>
+                        `;
 
                                     $('#review-container').append(reviewItem);
                                 });
                             } else {
-                                $('#review-container').html('<p>No reviews available.</p>');
+                                $('#review-container').html(`
+                        <div class="no-categories-container text-center fade-in-animation footer">
+                            <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
+                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Review Found</h3>
+                            <p class="mb-4 fade-in-text" style="color: #aaa;">
+                                It looks like you don't have any Reviews yet.
+                            </p>
+                        </div>
+                    `);
                             }
                         },
                         error: function(xhr) {

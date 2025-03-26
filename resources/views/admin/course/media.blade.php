@@ -79,7 +79,7 @@
                             <button type="button" class="main-btn mt-3" id="submitVideoButton">Save</button>
                         </div>
                     </form>
-                    <div class="attachments-section">
+                    <div class="attachments-section mt-5">
                         <div id="attachmentsList"></div>
                     </div>
                 </div>
@@ -205,64 +205,56 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-    function loadAttachments() {
-        var courseId = $('input[name="course_id"]').val();
-        $.ajax({
-            url: `/course/${courseId}/attachments`,
-            type: 'GET',
-            success: function (response) {
-                var attachmentsContainer = $("#attachmentsList");
-                attachmentsContainer.empty(); // Clear previous content
+    $(document).ready(function() {
+        function loadAttachments() {
+            var courseId = $('input[name="course_id"]').val();
+            $.ajax({
+                url: `/course/${courseId}/attachments`,
+                type: 'GET',
+                success: function(response) {
+                    var attachmentsContainer = $("#attachmentsList");
+                    attachmentsContainer.empty(); // Clear previous content
 
-                if (response.length === 0) {
-                    attachmentsContainer.append(`
+                    if (response.length === 0) {
+                        attachmentsContainer.append(`
                         <div class="text-center fade-in-animation footer mt-3">
                             <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
                             <h3 class="mt-3 scale-in-text" style="color: #777;">No content Found</h3>
                             <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any content yet. Add one now to get started!</p>
                         </div>
                     `);
-                    return;
-                }
+                        return;
+                    }
 
-                response.forEach(attachment => {
-                    var fileType = attachment.url.split('.').pop().toLowerCase();
-                    var fileUrl = `/courseVideo/${attachment.url}`; // Ensure correct path
-                    var previewElement = '';
+                    response.forEach(attachment => {
+                        var fileType = attachment.url.split('.').pop().toLowerCase();
+                        var fileUrl = `/courseVideo/${attachment.url}`;
+                        var previewElement = '';
 
-                    if (fileType === 'mp4') {
-                        previewElement = `
+                        if (fileType === 'mp4') {
+                            previewElement = `
                             <a href="/codeDebugger/${attachment.id}" class="hf_img relative block">
                                 <img src="/courseThumbnail/${attachment.thumbnail_url}" alt="${attachment.video_title}" class="w-full rounded-lg">
                                 <div class="course-overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
                                     <span class="play_btn1 text-white text-2xl"><i class="uil uil-play"></i></span>
                                 </div>
                             </a>
-                            <video id="temp-video-${attachment.id}" style="display:none;">
-                                <source src="${fileUrl}" type="video/mp4">
-                            </video>
                         `;
-                    } else if (fileType === 'pdf') {
-                        previewElement = `
+                        } else if (fileType === 'pdf') {
+                            previewElement = `
                             <a href="/courseAssignments/${attachment.url}" target="_blank" class="hf_img">
                                 <div class="pdf-thumbnail bg-gray-200 flex items-center justify-center rounded-2xl h-40">
                                     <img src="/images/PDF_file_icon.svg.webp" alt="PDF Document" class="w-24">
                                 </div>
                             </a>
-                            <div class="eps_dots eps_dots10 more_dropdown relative">
-                                <i class="uil uil-ellipsis-v text-lg cursor-pointer"></i>
-                                <div class="dropdown-content hidden absolute bg-white shadow-lg rounded-lg p-2">
-                                    <a href="/courseAssignments/${attachment.url}" download="${attachment.title}" class="bg-blue-500 text-white px-4 py-2 rounded-2xl">Download</a>
-                                </div>
-                            </div>
                         `;
-                    } else {
-                        previewElement = `<a href="${fileUrl}" target="_blank">Download File</a>`;
-                    }
+                        } else {
+                            previewElement =
+                                `<a href="${fileUrl}" target="_blank">Download File</a>`;
+                        }
 
-                    attachmentsContainer.append(`
-                        <div class="crse_content container">
+                        attachmentsContainer.append(`
+                        <div class="crse_content container draggable" data-id="${attachment.id}">
                             <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
                                 <div class="w-full md:w-1/3">
                                     ${previewElement}
@@ -272,33 +264,113 @@
                                         <span class="vdt14">${attachment.views ?? '0'} views</span>
                                     </div>
                                     <a href="javascript:void(0);" class="crse14s title900 text-lg font-bold">
-                                        ${attachment.title} | ${attachment.category ?? 'Uncategorized'}
+                                        ${attachment.title} | ${attachment.course?.category?.name ?? 'Uncategorized'}
                                     </a>
                                     <p class="text-gray-700">${attachment.discription}</p>
                                     <div class="auth1lnkprce">
-                                        <p>By <a href="javascript:;" class="text-blue-500">{{ auth()->user()->first_name . " " . auth()->user()->last_name ?? 'Unknown' }}</a></p>
+                                       <p>By 
+                                            <a href="javascript:;" class="text-blue-500">
+                                                {{ auth()->user()->first_name ?? 'Unknown' }} 
+                                                {{ auth()->user()->last_name ?? '' }}
+                                            </a>
+                                        </p>
                                     </div>
+                                    <a href="javascript:void(0);" title="Delete" class="deleteAttachment text-red-500" data-id="${attachment.id}" style="position: relative; left: 97%; bottom: 21px; font-size: 15px;">
+                                        <i class="uil uil-trash-alt text-xl"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     `);
-                });
-            },
-            error: function () {
-                toastr.error('Failed to load attachments', 'Error');
-            }
+                    });
+
+                    // Initialize sortable after loading attachments
+                    makeAttachmentsSortable();
+                },
+                error: function() {
+                    toastr.error('Failed to load attachments', 'Error');
+                }
+            });
+        }
+
+        // Function to initialize jQuery UI Sortable
+        function makeAttachmentsSortable() {
+            $("#attachmentsList").sortable({
+                placeholder: "sortable-placeholder",
+                scroll: true, // Enable scrolling
+                scrollSensitivity: 100, // Sensitivity for scrolling
+                scrollSpeed: 20, // Speed of scrolling
+                axis: "y", // Restrict movement to vertical axis
+                update: function(event, ui) {
+                    let order = [];
+                    $(".draggable").each(function(index) {
+                        order.push({
+                            id: $(this).data("id"),
+                            position: index + 1
+                        });
+                    });
+
+                    // Send the updated order to the backend
+                    $.ajax({
+                        url: "/course/attachments/reorder",
+                        type: "POST",
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            order: order
+                        },
+                        success: function(response) {
+                            toastr.success("Attachment order updated successfully");
+                        },
+                        error: function() {
+                            toastr.error("Failed to update order");
+                        }
+                    });
+                }
+            }).disableSelection();
+        }
+
+        // Load attachments when the page is ready
+        loadAttachments();
+
+        // Refresh attachments list after uploading a file
+        $('#submitVideoButton').on('click', function() {
+            setTimeout(loadAttachments, 2000);
         });
-    }
 
-    // Call function to load attachments
-    loadAttachments();
+        // Delete Attachment with SweetAlert Confirmation
+        $(document).on('click', '.deleteAttachment', function() {
+            var attachmentId = $(this).data('id');
 
-    // Refresh attachments list after uploading a file
-    $('#submitVideoButton').on('click', function () {
-        setTimeout(loadAttachments, 2000);
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/course/attachments/${attachmentId}`,
+                        type: 'DELETE',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            toastr.success('Success',
+                                'Attachment deleted successfully');
+                            loadAttachments(); // Refresh the list
+                        },
+                        error: function(response) {
+                            Swal.fire("Error!", response.responseJSON.error,
+                                "error");
+                        }
+                    });
+                }
+            });
+        });
     });
-});
-
 </script>
 
 <script>

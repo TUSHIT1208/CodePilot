@@ -57,7 +57,8 @@
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                         <div class="dropdown-content">
 
-                                                            <span class="add-to-home-text" data-id="{{ $course->id }}" style="cursor: pointer;">
+                                                            <span class="add-to-home-text" data-id="{{ $course->id }}"
+                                                                style="cursor: pointer;">
                                                                 <i class="uil uil-windsock"></i> add to home
                                                             </span>
 
@@ -75,7 +76,7 @@
                                                         <span
                                                             class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
-                                                    </div>  
+                                                    </div>
                                                     <a href="{{ route('course.show', $course->id) }}"
                                                         class="crse14s">{{ $course->title }}</a>
                                                     <div class="row">
@@ -89,7 +90,7 @@
                                                                 @csrf
                                                                 @method('PATCH')
                                                                 <div class="toggle-button mt-2">
-                                                                     <input type="checkbox" class="toggle-input"
+                                                                    <input type="checkbox" class="toggle-input"
                                                                         id="toggle{{ $course->id }}"
                                                                         data-id="{{ $course->id }}"
                                                                         {{ $course->is_active ? 'checked' : '' }}
@@ -111,7 +112,8 @@
                                                                 Free
                                                             @else
                                                                 @if ($course->discount > 0)
-                                                                <s style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
+                                                                    <s
+                                                                        style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
                                                                 @endif
                                                                 ₹{{ $course->price - ($course->discount ?? 0) }}
                                                             @endif
@@ -158,14 +160,14 @@
                                     Swal.fire({
                                         title: "Published!",
                                         text: response
-                                        .message, // Display success message
+                                            .message, // Display success message
                                         icon: "success",
                                         background: '#d4edda',
                                         color: '#155724',
                                         confirmButtonColor: "#28a745"
                                     }).then(() => {
                                         location
-                                    .reload(); // Reload page only after success
+                                            .reload(); // Reload page only after success
                                     });
                                 },
                                 error: function(xhr) {
@@ -194,7 +196,8 @@
 
         <script>
             function updateCourseStatus(courseId) {
-                let isActive = document.getElementById(`toggle${courseId}`).checked;
+                let toggleSwitch = document.getElementById(`toggle${courseId}`);
+                let isActive = toggleSwitch.checked;
 
                 fetch(`{{ url('/courses/toggle-status/') }}/${courseId}`, {
                         method: 'PATCH',
@@ -209,91 +212,90 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            toastr.options = {
-                                closeButton: true,
-                                debug: false,
-                                newestOnTop: true,
-                                progressBar: true,
-                                positionClass: "toast-top-right",
-                                preventDuplicates: true,
-                                timeOut: 2000,
-                                extendedTimeOut: 1000,
-                                showEasing: "swing",
-                                hideEasing: "linear",
-                                showMethod: "fadeIn",
-                                hideMethod: "fadeOut",
-                                onShown: function() {
-                                    $(".toast-success").css({
-                                        'background-color': '#28a745', // Green for success
-                                        'opacity': '1' // Adjust opacity
-                                    });;
-                                }
-                            };
-                            toastr.success('Course status updated successfully.')
+                            toastr.success('Course status updated successfully.');
                         } else {
-                            alert('Failed to update status!');
+                            // Revert the toggle switch
+                            toggleSwitch.checked = !isActive;
+
+                            // Show a warning alert using SweetAlert
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Activation Failed',
+                                text: data.message,
+                                confirmButtonColor: '#ffcc00',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        console.error('Error:', error);
+                        toggleSwitch.checked = !isActive; // Revert toggle if there's an error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong while updating the course status!',
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        });
+                    });
             }
         </script>
         <script>
-            $(document).ready(function () {
-                $('.add-to-home-text').click(function () {
-                    var courseId = $(this).data('id');
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "Do you want to add this course to home?",
-                        icon: "warning",
-                        background: '#f8f9fa',
-                        color: '#343a40',
-                        showCancelButton: true,
-                        confirmButtonColor: "#28a745",
-                        cancelButtonColor: "#dc3545",
-                        confirmButtonText: "Yes, Add it!",
-                        cancelButtonText: "No, Cancel",
-                        customClass: {
-                            title: 'swal-title',
-                            content: 'swal-content',
-                            confirmButton: 'swal-confirm-button',
-                            cancelButton: 'swal-cancel-button'
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: "{{ route('courses.addToHome') }}", // Add your route here
-                                type: "POST",
-                                data: {
-                                    _token: "{{ csrf_token() }}",
-                                    course_id: courseId
-                                },
-                                success: function (response) {
-                                    Swal.fire({
-                                        title: "Added to Home!",
-                                        text: "The course has been added to home.",
-                                        icon: "success",
-                                        background: '#d4edda',
-                                        color: '#155724',
-                                        confirmButtonColor: "#28a745"
-                                    });
-                                    location.reload(); // Reload page after update
-                                },
-                                error: function (xhr) {
-                                    var errorMessage = xhr.responseJSON.message || "Something went wrong.";
-                                    Swal.fire({
-                                        title: "Error!",
-                                        text: errorMessage,
-                                        icon: "error",
-                                        background: '#f8d7da',
-                                        color: '#721c24',
-                                        confirmButtonColor: "#dc3545"
-                                    });
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-        </script>
+            $(document).ready(function() {
+    $('.add-to-home-text').click(function() {
+        var courseId = $(this).data('id');
 
-@endsection
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Do you want to add this course to home?",
+            icon: "warning",
+            background: '#f8f9fa',
+            color: '#343a40',
+            showCancelButton: true,
+            confirmButtonColor: "#28a745",
+            cancelButtonColor: "#dc3545",
+            confirmButtonText: "Yes, Add it!",
+            cancelButtonText: "No, Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('courses.addToHome') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        course_id: courseId
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            title: "Added to Home!",
+                            text: "The course has been added to the home page.",
+                            icon: "success",
+                            background: '#d4edda',
+                            color: '#155724',
+                            confirmButtonColor: "#28a745"
+                        });
+                        location.reload();
+                    },
+                    error: function(xhr) {
+                        var errorMessage = "Something went wrong.";
+                        if (xhr.status === 400 && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+
+                        Swal.fire({
+                            title: "Cannot Add to Home!",
+                            text: errorMessage,
+                            icon: "warning",
+                            background: '#fff3cd',
+                            color: '#856404',
+                            confirmButtonColor: "#ffc107"
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+        </script>
+    @endsection

@@ -23,19 +23,25 @@
             <li class="profile-dropdown">
                 <a href="#" class="opts_account" data-bs-toggle="dropdown" data-bs-auto-close="outside"
                     aria-expanded="false">
-                    @if(!empty(auth()->user()->profile_picture_url))
+                    @if (!empty(auth()->user()->profile_picture_url))
                         <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
                     @else
-                        <h1 class="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
+                        <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px; font-size: 18px;">
+                            {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}
+                        </div>
                     @endif
                 </a>
                 <div class="dropdown-menu dropdown_account drop-down dropdown-menu-end">
                     <div class="channel_my">
                         <div class="profile_link">
-                            @if(!empty(auth()->user()->profile_picture_url))
+                            @if (!empty(auth()->user()->profile_picture_url))
                                 <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}">
                             @else
-                                <h1 class="default_avtar">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
+                                <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+                                    style="width: 40px; height: 40px; font-size: 18px;">
+                                    {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}
+                                </div>
                             @endif
                             <div class="pd_content">
                                 <div class="rhte85">
@@ -60,11 +66,11 @@
                     </div>
                     <a href="{{ route('learner.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
                     {{-- <a href="membership.html" class="item channel_item">Paid Memberships</a> --}}
-                    <a href="{{route('learner.setting')}}" class="item channel_item">Setting</a>
+                    <a href="{{ route('learner.setting') }}" class="item channel_item">Setting</a>
                     <a href="help.html" class="item channel_item">Help</a>
                     <a href="feedback.html" class="item channel_item">Send Feedback</a>
-                    <a href="{{ route('changepassword.create')}}" class="item channel_item">Change Password</a>
-                    <a href="{{ route('logout')}}" class="item channel_item">Sign Out</a>
+                    <a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>
+                    <a href="{{ route('logout') }}" class="item channel_item">Sign Out</a>
                 </div>
             </li>
         </ul>
@@ -75,7 +81,7 @@
         $.ajax({
             url: "{{ route('cart.counts') }}", // Define this route in web.php
             method: "GET",
-            success: function (response) {
+            success: function(response) {
                 $('#cart_count').text(response.cartCount);
                 $('#wishlist_count').text(response.wishlistCount);
             }
@@ -83,7 +89,7 @@
     }
 
     // Call function when the page loads
-    $(document).ready(function () {
+    $(document).ready(function() {
         updateCartWishlistCount();
     });
 </script>

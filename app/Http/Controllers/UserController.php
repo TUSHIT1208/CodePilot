@@ -287,9 +287,6 @@ class UserController extends Controller
             $profileImageName = null;
         }
 
-
-
-
         // Create the user record
         $user = User::create([
             'username' => $request->learner_username,
@@ -297,13 +294,12 @@ class UserController extends Controller
             'middle_name' => $request->learner_middlename,
             'last_name' => $request->learner_lastname,
             'email' => $request->learner_emailaddress,
-            'password' => Hash::make($request->learner_password),
+            'password' => Hash::make($request->password),
             'phone_number' => $request->learner_phone_no,
             'date_of_birth' => $request->learner_date_of_birth,
             'address' => $request->address,
-            'role_id' => 3, // Assign the learner role ID
-            'is_active' => true, // Assuming the user is active by default
-
+            'role_id' => 3,
+            'is_active' => true,
         ]);
 
         // Create the learner profile

@@ -106,7 +106,8 @@
                                                                 Free
                                                             @else
                                                                 @if ($course->discount > 0)
-                                                                <s style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
+                                                                    <s
+                                                                        style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
                                                                 @endif
                                                                 ₹{{ $course->price - ($course->discount ?? 0) }}
                                                             @endif
@@ -216,17 +217,35 @@
                                 hideMethod: "fadeOut",
                                 onShown: function() {
                                     $(".toast-success").css({
-                                        'background-color': '#28a745', // Green for success
-                                        'opacity': '1' // Adjust opacity
-                                    });;
+                                        'background-color': '#28a745',
+                                        'opacity': '1'
+                                    });
                                 }
                             };
-                            toastr.success('Course status updated successfully.')
+                            toastr.success('Course status updated successfully.');
                         } else {
-                            alert('Failed to update status!');
+                            // SweetAlert for missing test or media
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.message,
+                            });
+
+                            // Revert the toggle switch if update failed
+                            document.getElementById(`toggle${courseId}`).checked = !isActive;
                         }
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong while updating the course status!',
+                        });
+
+                        // Revert the toggle switch in case of an error
+                        document.getElementById(`toggle${courseId}`).checked = !isActive;
+                    });
             }
         </script>
 

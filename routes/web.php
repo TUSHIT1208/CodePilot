@@ -319,3 +319,9 @@ Route::get('/course/{courseId}/attachments', [CourseAttachmentController::class,
 Route::get('/instructor/enrollment-chart', [DashboardController::class, 'enrollmentChart'])->name('instructor.enrollment.chart');
 
 Route::get('/learner/courses', [DashboardController::class, 'courseList'])->name('learner.courses.list');
+
+Route::delete('/course/attachments/{id}', [CourseAttachmentController::class, 'destroy']);
+
+Route::post('/course/attachments/reorder', [CourseAttachmentController::class, 'reorder'])->name('attachments.reorder');
+Route::post('/quiz/questions/reorder', [TestQuestionController::class, 'reorderQuestions'])->name('questions.reorder');
+

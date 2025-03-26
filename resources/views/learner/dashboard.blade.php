@@ -207,7 +207,7 @@
 											<h3 class="fw-bold text-primary">{{ $course->title }}</h3> <!-- Course Name -->
 
 											@foreach($course->review as $review)
-												<div class="mb-3 shadow-sm border-0 p-3" style="background-color:#fff">
+												<div class="mb-3 shadow-sm border-0 p-3">
 													{{-- User Info --}}
 													<div class="d-flex align-items-center">
 														<div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\courseAttachment;
 use App\Models\user_video_tracker;
@@ -27,6 +28,7 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
+
         try{
         if (Auth::attempt($userData)) {
             $user = Auth::user();

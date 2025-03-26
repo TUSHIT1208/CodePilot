@@ -205,8 +205,10 @@
                                                     <img id="profile_picture"
                                                         src="{{ asset($courseItem->user->profile_picture_url) }}">
                                                 @else
-                                                    <h1 id="default_avtar">
-                                                        {{ substr($courseItem->user->first_name, 0, 1) }}</h1>
+                                                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+                                                        style="width: 40px; height: 40px; font-size: 18px;">
+                                                        {{ strtoupper(substr($courseItem->user->first_name, 0, 1)) }}
+                                                    </div>
                                                 @endif
 
                                                 <a href="{{ route('user.learner_show', $courseItem->user->id) }}"
