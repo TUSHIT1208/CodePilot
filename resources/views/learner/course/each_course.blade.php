@@ -120,15 +120,15 @@
                             <nav>
                                 <div class="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
                                     @if ($coursePrice->price == 0)
-                                        <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
+                                        <a class="nav-item nav-link" id="nav-courses-tab" data-bs-toggle="tab"
                                             href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                     @elseif($coursePrice->price != 0)
                                         @if (isset($checkPurchase))
-                                            <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
+                                            <a class="nav-item nav-link" id="nav-courses-tab" data-bs-toggle="tab"
                                                 href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                         @endif
                                     @endif
-                                    <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
+                                    <a class="nav-item nav-link active" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
                                         role="tab" aria-selected="true">About</a>
                                     <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
                                         href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
@@ -145,7 +145,7 @@
                     <div class="col-lg-12">
                         <div class="course_tab_content">
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade" id="nav-about" role="tabpanel">
+                                <div class="tab-pane fade show active" id="nav-about" role="tabpanel">
                                     <div class="_htg451">
                                         <div class="_htg452">
                                             <h3>Requirements</h3>
@@ -202,87 +202,94 @@
 
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
-                                    @if ($courseDetail->courseattachment->isNotEmpty())
-                                        @foreach ($courseDetail->courseattachment as $attachment)
-                                            <div class="crse_content container">
-                                                <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
-                                                    <div class="w-full md:w-1/3">
-                                                        @if ($attachment->type === 'video')
-                                                            <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $attachment->id]) }}"
-                                                                class="hf_img relative block">
-                                                                <img src="{{ asset('courseThumbnail/' . $attachment->thumbnail_url) }}"
-                                                                    alt="{{ $attachment->title }}"
-                                                                    class="w-full rounded-lg">
-                                                                <div
-                                                                    class="course-overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
+                                @if ($coursePrice->price == 0)
+                                    <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
+                                        @if ($courseDetail->courseattachment->isNotEmpty())
+                                            @foreach ($courseDetail->courseattachment as $attachment)
+                                                <div class="crse_content container">
+                                                    <div class="fcrse_1 flex flex-col md:flex-row items-start gap-4">
+                                                        <div class="w-full md:w-1/3">
+                                                            @if ($attachment->type === 'video')
+                                                                <a href="{{ route('codeDebugger', ['id' => $courseDetail->id, 'video_id' => $attachment->id]) }}"
+                                                                    class="hf_img relative block">
+                                                                    <img src="{{ asset('courseThumbnail/' . $attachment->thumbnail_url) }}"
+                                                                        alt="{{ $attachment->title }}"
+                                                                        class="w-full rounded-lg">
                                                                     <div
-                                                                        class="badge_seller bg-blue-500 text-white px-2 py-1 rounded-full">
-                                                                        Featured</div>
-                                                                    <div class="crse_reviews text-white playlist_review"><i
-                                                                            class="uil uil-star"></i>4.5</div>
-                                                                    <span class="play_btn1 text-white text-2xl"><i
-                                                                            class="uil uil-play"></i></span>
-                                                                    <div class="crse_timer text-white"
-                                                                        id="video-duration-{{ $attachment->id }}">
-                                                                        Loading...</div>
+                                                                        class="course-overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
+                                                                        <div
+                                                                            class="badge_seller bg-blue-500 text-white px-2 py-1 rounded-full">
+                                                                            Featured</div>
+                                                                        <div
+                                                                            class="crse_reviews text-white playlist_review">
+                                                                            <i class="uil uil-star"></i>4.5</div>
+                                                                        <span class="play_btn1 text-white text-2xl"><i
+                                                                                class="uil uil-play"></i></span>
+                                                                        <div class="crse_timer text-white"
+                                                                            id="video-duration-{{ $attachment->id }}">
+                                                                            Loading...</div>
+                                                                    </div>
+                                                                </a>
+                                                                <video id="temp-video-{{ $attachment->id }}"
+                                                                    style="display:none;">
+                                                                    <source
+                                                                        src="{{ asset('courseVideo/' . $attachment->url) }}"
+                                                                        type="video/mp4">
+                                                                </video>
+                                                            @elseif ($attachment->type === 'document' && Str::endsWith($attachment->url, '.pdf'))
+                                                                <a href="{{ asset('courseAssignments/' . $attachment->url) }}"
+                                                                    target="_blank" class="hf_img">
+                                                                    <div
+                                                                        class="pdf-thumbnail bg-gray-200 flex items-center justify-center rounded-2xl h-40">
+                                                                        <img src="{{ asset('images/PDF_file_icon.svg.webp') }}"
+                                                                            alt="PDF Document" class="w-24">
+                                                                    </div>
+                                                                </a>
+                                                                <div class="eps_dots eps_dots10 more_dropdown relative">
+                                                                    <i
+                                                                        class="uil uil-ellipsis-v text-lg cursor-pointer"></i>
+                                                                    <div
+                                                                        class="dropdown-content hidden absolute bg-white shadow-lg rounded-lg p-2">
+                                                                        <a href="{{ asset('courseAssignments/' . $attachment->url) }}"
+                                                                            download="{{ $attachment->title }}"
+                                                                            class="bg-blue-500 text-white px-4 py-2 rounded-2xl">Download</a>
+                                                                    </div>
                                                                 </div>
-                                                            </a>
-                                                            <video id="temp-video-{{ $attachment->id }}"
-                                                                style="display:none;">
-                                                                <source
-                                                                    src="{{ asset('courseVideo/' . $attachment->url) }}"
-                                                                    type="video/mp4">
-                                                            </video>
-                                                        @elseif ($attachment->type === 'document' && Str::endsWith($attachment->url, '.pdf'))
-                                                            <a href="{{ asset('courseAssignments/' . $attachment->url) }}"
-                                                                target="_blank" class="hf_img">
-                                                                <div
-                                                                    class="pdf-thumbnail bg-gray-200 flex items-center justify-center rounded-2xl h-40">
-                                                                    <img src="{{ asset('images/PDF_file_icon.svg.webp') }}"
-                                                                        alt="PDF Document" class="w-24">
-                                                                </div>
-                                                            </a>
-                                                            <div class="eps_dots eps_dots10 more_dropdown relative">
-                                                                <i class="uil uil-ellipsis-v text-lg cursor-pointer"></i>
-                                                                <div
-                                                                    class="dropdown-content hidden absolute bg-white shadow-lg rounded-lg p-2">
-                                                                    <a href="{{ asset('courseAssignments/' . $attachment->url) }}"
-                                                                        download="{{ $attachment->title }}"
-                                                                        class="bg-blue-500 text-white px-4 py-2 rounded-2xl">Download</a>
-                                                                </div>
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                    <div class="hs_content w-full md:w-2/3">
-                                                        <div class="vdtodt">
-                                                            <span class="vdt14">{{ $attachment->views ?? '0' }}
-                                                                views</span>
+                                                            @endif
                                                         </div>
-                                                        <a href="javascript:void(0);"
-                                                            class="crse14s title900 text-lg font-bold">{{ $attachment->title }}
-                                                            | {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
-                                                        <p class="text-gray-700">{{ $attachment->discription }}</p>
-                                                        <div class="auth1lnkprce">
-                                                            <p>By <a href="javascript:;"
-                                                                    class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a>
-                                                            </p>
+                                                        <div class="hs_content w-full md:w-2/3">
+                                                            <div class="vdtodt">
+                                                                <span class="vdt14">{{ $attachment->views ?? '0' }}
+                                                                    views</span>
+                                                            </div>
+                                                            <a href="javascript:void(0);"
+                                                                class="crse14s title900 text-lg font-bold">{{ $attachment->title }}
+                                                                |
+                                                                {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
+                                                            <p class="text-gray-700">{{ $attachment->discription }}</p>
+                                                            <div class="auth1lnkprce">
+                                                                <p>By <a href="javascript:;"
+                                                                        class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a>
+                                                                </p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            @endforeach
+                                        @else
+                                            <div class="no-categories-container text-center fade-in-animation footer mt-3">
+                                                <i class="uil uil-folder-minus bounce-effect"
+                                                    style="font-size: 50px; color: #d1d1d1;"></i>
+                                                <h3 class="mt-3 scale-in-text" style="color: #777;">No content Found</h3>
+                                                <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't
+                                                    have
+                                                    any
+                                                    content yet. Add one now to get started!</p>
                                             </div>
-                                        @endforeach
-                                    @else
-                                        <div class="no-categories-container text-center fade-in-animation footer mt-3">
-                                            <i class="uil uil-folder-minus bounce-effect"
-                                                style="font-size: 50px; color: #d1d1d1;"></i>
-                                            <h3 class="mt-3 scale-in-text" style="color: #777;">No content Found</h3>
-                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have
-                                                any
-                                                content yet. Add one now to get started!</p>
-                                        </div>
-                                    @endif
-                                </div>
+                                        @endif
+                                    </div>
+                                @endif
+                                
                                 <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
                                     <div class="student_reviews">
                                         <div class="row">
@@ -445,8 +452,8 @@
                                            ${review.user.profile_picture_url
                                             ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
                                             : `<h1 id="default_avtar1">
-                                                                ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
-                                                        </h1>`}
+                                                                    ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                            </h1>`}
                                             <div class="rv1458">
                                                 <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
                                                 <span class="time_145">${formatTime(review.created_at)}</span>
@@ -480,7 +487,10 @@
             loadReviews();
         });
     </script>
+    @if($coursePrice->price != 0)
+    @if (isset($checkPurchase))
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('temp-video-{{ $attachment->id }}');
             video.addEventListener('loadedmetadata', () => {
@@ -495,4 +505,6 @@
             video.load();
         });
     </script>
+    @endif
+    @endif
 @endsection

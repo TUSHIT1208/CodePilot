@@ -67,10 +67,11 @@
                                     <a class="btn-sm delete-quiz">
                                         <i class="uil uil-trash-alt ucp-table"></i>
                                     </a>
+                                    <a class="change-quiz" data-bs-toggle="modal" data-bs-target="#changeQuizModal">
+                                        Change Quiz
+                                    </a>
                                 @endif
-                                <a class="change-quiz" data-bs-toggle="modal" data-bs-target="#changeQuizModal">
-                                    Change Quiz
-                                </a>
+                              
                             </div>
                         </form>
                     </div>

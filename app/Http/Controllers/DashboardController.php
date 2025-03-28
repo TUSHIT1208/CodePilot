@@ -40,6 +40,9 @@ class DashboardController extends Controller
 
         //most selling course
         $most_courses = Course::with(['category', 'subcategory'])
+            ->whereIn('id', function ($query) {
+                $query->select('course_id')->from('user_courses'); // Filter only courses in user_course
+            })
             ->withCount([
                 'order_item as total_sales' => function ($query) {
                     $query->select(DB::raw('COUNT(*)')); // Count total sales
@@ -47,9 +50,9 @@ class DashboardController extends Controller
             ])
             ->orderByDesc('total_sales') // Sort by most sold
             ->where('is_active', 1)
-            ->where('price','>','0')
+            ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
-            ->get();
+        ->get();
 
         //pending course
         $pendingCourse = Course::where('is_active', 0)->latest()->first();
@@ -242,12 +245,17 @@ class DashboardController extends Controller
 
 
         $most_courses = Course::with(['category', 'subcategory'])
+            ->whereIn('id', function ($query) {
+                $query->select('course_id')->from('user_courses'); // Filter only courses in user_course
+            })
             ->withCount([
                 'order_item as total_sales' => function ($query) {
                     $query->select(DB::raw('COUNT(*)')); // Count total sales
                 }
             ])
             ->orderByDesc('total_sales') // Sort by most sold
+            ->where('is_active', 1)
+            ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
             ->get();
         $latest_courses = Course::where('is_active', 1)->latest()->take(3)->get();
@@ -605,11 +613,11 @@ class DashboardController extends Controller
 
         // Fetch payment transactions for the authenticated user
         $transactions = PaymentTransaction::where('created_by', $userId)->get();
-
+        logger($transactions);
         // Prepare formatted data for DataTables
         $formattedCourses = $courses->map(function ($course) use ($transactions) {
             $transaction = $transactions->where('order_id', $course->course_id)->first();
-
+            
             return [
                 'title' => $course->course->title ?? 'N/A',
                 'category_id' => $course->course->category_id ?? null,
@@ -617,7 +625,9 @@ class DashboardController extends Controller
                 'total_amount' => $transaction ? '₹' . number_format($transaction->amount, 2) : 'N/A',
                 'created_at' => $course->created_at ? $course->created_at->format('Y-m-d H:i:s') : 'N/A'
             ];
+            
         });
+        logger($formattedCourses->toArray());
         if ($request->filled('date_range')) {
             $dates = explode(' - ', $request->date_range);
             $startDate = Carbon::parse(trim($dates[0]))->startOfDay();
@@ -756,19 +766,68 @@ class DashboardController extends Controller
     public function learner_course(Request $request)
     {
         if ($request->ajax()) {
-            $courses = Course::with(['courseattachment', 'user'])->select('id', 'title', 'user_id', 'created_at');
+            $query = Course::with(['category', 'subCategory', 'user'])
+                ->select('id', 'title', 'user_id', 'category_id', 'sub_category_id', 'price', 'is_active', 'published_at');
 
-            return datatables()->of($courses)
+            // Filter by category
+            if ($request->category_id) {
+                $query->where('category_id', $request->category_id);
+            }
+
+            // Filter by sub-category
+            if ($request->sub_category_id) {
+                $query->where('sub_category_id', $request->sub_category_id);
+            }
+
+            // Filter by course type
+            if ($request->course_type == 'free') {
+                $query->where(function ($q) {
+                    $q->where('price', 0)
+                        ->orWhereNull('price'); // Check if price is 0 or NULL
+                });
+            } elseif ($request->course_type == 'paid') {
+                $query->where('price', '>', 0);
+            }
+
+            // **Filter by instructor**
+            if ($request->instructor_id) {
+                $query->where('user_id', $request->instructor_id);
+            }
+
+            return datatables()->of($query)
+                ->addColumn('category', function ($course) {
+                    return $course->category ? $course->category->name : 'N/A';
+                })
+                ->addColumn('sub_category', function ($course) {
+                    return $course->subCategory ? $course->subCategory->name : 'N/A';
+                })
                 ->addColumn('instructor', function ($course) {
-                    return $course->user ? $course->user->name : 'N/A';
+                    if ($course->user) {
+                        $fullName = trim($course->user->first_name . ' ' . ($course->user->middle_name ?? '') . ' ' . ($course->user->last_name ?? ''));
+                        $role = $course->user->role_id == 1 ? 'Admin' : ($course->user->role_id == 2 ? 'Instructor' : 'Other');
+                        return $fullName . " ($role)";
+                    }
+                    return 'N/A';
                 })
-                ->addColumn('attachments', function ($course) {
-                    return $course->courseattachment ? count($course->courseattachment) . ' files' : 'No Attachments';
+                ->addColumn('price', function ($course) {
+                    return $course->price > 0 ? '₹' . number_format($course->price, 2) : 'FREE';
                 })
+                ->addColumn('published_at', function ($course) {
+                    return $course->published_at ? Carbon::parse($course->published_at)->format('d M, Y h:i A') : 'Not Published';
+                })
+                ->addColumn('status', function ($course) {
+                    return $course->is_active
+                        ? '<span class="badge badge-success active-learner">Active</span>'
+                        : '<span class="badge badge-danger inctive-learner">Inactive</span>';
+                })
+                ->rawColumns(['status'])
                 ->make(true);
         }
 
-        return view('learner.reports.total_course.list');
+        $categories = Category::all();
+        $instructors = User::where('role_id', 2)->get(); // Fetch only instructors
+
+        return view('learner.reports.total_course.list',compact('categories', 'instructors'));
 
     }
 

@@ -177,7 +177,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
          // When the "Edit Profile" button is clicked, trigger file input
-         document.getElementById('editProfileBtn').addEventListener('click', function () {
+         document.getElementById('editProfileBtn_learner').addEventListener('click', function () {
              console.log("Edit Profile button clicked!");
              document.getElementById('fileInput').click(); // Open file picker dialog
          });

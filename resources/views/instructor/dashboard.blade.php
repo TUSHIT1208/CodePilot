@@ -68,6 +68,11 @@
                         <h4 class="item_title">Latest Courses</h4>
                         <div class="la5lo1">
                             <div class="owl-carousel courses_performance owl-theme">
+                                @if($courses->isEmpty())
+									<div class="alert alert-info text-center">
+										No course found.
+									</div>
+								@else
                                 @foreach($courses as $course)
                                     <div class="item">
                                         <div class="fcrse_1">
@@ -118,7 +123,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -128,6 +133,11 @@
                         <h4 class="item_title">Most Selling Courses</h4>
                         <div class="la5lo1">
                             <div class="owl-carousel courses_performance owl-theme">
+                                @if($most_courses->isEmpty())
+									<div class="alert alert-info text-center">
+										No course found.
+									</div>
+								@else
                                 @foreach($most_courses as $course)
                                     <div class="item">
                                         <div class="fcrse_1">
@@ -178,6 +188,7 @@
                                         </div>
                                     </div>
                                 @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
