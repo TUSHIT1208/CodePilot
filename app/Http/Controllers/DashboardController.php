@@ -152,6 +152,9 @@ class DashboardController extends Controller
 
         // Most selling courses by the instructor
         $most_courses = Course::where('user_id', $instructor->id)
+            ->whereIn('id', function ($query) {
+                $query->select('course_id')->from('user_course');
+            })
             ->with(['category', 'subcategory'])
             ->withCount([
                 'order_item as total_sales' => function ($query) {
@@ -160,6 +163,7 @@ class DashboardController extends Controller
             ])
             ->orderByDesc('total_sales') // Sort by most sold
             ->where('is_active', 1)
+            ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
             ->get();
 
@@ -258,6 +262,7 @@ class DashboardController extends Controller
             ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
             ->get();
+
         $latest_courses = Course::where('is_active', 1)->latest()->take(3)->get();
 
         $courses = Course::whereHas('review') // Only fetch courses that have reviews
@@ -604,20 +609,24 @@ class DashboardController extends Controller
     {
         $userId = auth()->id();
 
+        $courses = User_course::with('course')->where('user_id', $userId)->get();
+        logger($courses); // Debugging: Check if courses exist
 
+            // Get the user's orders
+        $orders = Order::where('user_id', $userId)->pluck('id');
 
-        // Fetch purchased courses with course details
-        $courses = User_course::with('course')
-            ->where('user_id', $userId)
-            ->get();
+        // Get order items linked to these orders
+        $orderItems = Order_item::whereIn('order_id', $orders)->get()->groupBy('course_id');
 
-        // Fetch payment transactions for the authenticated user
-        $transactions = PaymentTransaction::where('created_by', $userId)->get();
-        logger($transactions);
-        // Prepare formatted data for DataTables
-        $formattedCourses = $courses->map(function ($course) use ($transactions) {
-            $transaction = $transactions->where('order_id', $course->course_id)->first();
-            
+        // Get payment transactions for these orders
+        $transactions = PaymentTransaction::whereIn('order_id', $orders)->get();
+
+        logger(['orderItems' => $orderItems, 'transactions' => $transactions]); // Debug log
+
+        $formattedCourses = $courses->map(function ($course) use ($orderItems, $transactions) {
+            $orderItem = $orderItems[$course->course_id]->first() ?? null;
+            $transaction = $orderItem ? $transactions->where('order_id', $orderItem->order_id)->first() : null;
+
             return [
                 'title' => $course->course->title ?? 'N/A',
                 'category_id' => $course->course->category_id ?? null,
@@ -627,7 +636,8 @@ class DashboardController extends Controller
             ];
             
         });
-        logger($formattedCourses->toArray());
+
+        logger($formattedCourses);
         if ($request->filled('date_range')) {
             $dates = explode(' - ', $request->date_range);
             $startDate = Carbon::parse(trim($dates[0]))->startOfDay();
@@ -765,7 +775,7 @@ class DashboardController extends Controller
 
     public function learner_course(Request $request)
     {
-        if ($request->ajax()) {
+         if ($request->ajax()) {
             $query = Course::with(['category', 'subCategory', 'user'])
                 ->select('id', 'title', 'user_id', 'category_id', 'sub_category_id', 'price', 'is_active', 'published_at');
 
@@ -827,7 +837,7 @@ class DashboardController extends Controller
         $categories = Category::all();
         $instructors = User::where('role_id', 2)->get(); // Fetch only instructors
 
-        return view('learner.reports.total_course.list',compact('categories', 'instructors'));
+        return view('learner.reports.total_course.list', compact('categories', 'instructors'));
 
     }
 

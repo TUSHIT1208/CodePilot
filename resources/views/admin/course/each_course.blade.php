@@ -18,7 +18,6 @@
                                             <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
                                                 alt="Course Thumbnail" class="img-fluid thumbnail" style="height: 213px;">
                                             <div class="course-overlay intro_overlay">
-                                                <div class="badge_seller">Bestseller</div>
                                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                 <span class="_215b02">Preview this course</span>
                                             </div>
@@ -59,7 +58,7 @@
                                         </div>
                                         (81,665 ratings)
                                     </div>
-                                    <div class="_215b05">114,521 students enrolled</div>
+                                    {{-- <div class="_215b05">114,521 students enrolled</div> --}}
                                     <div class="_215b06">
                                         <div class="_215b07">
                                             <span><i class='uil uil-comment'></i></span>
@@ -329,7 +328,7 @@
             </div>
         </div>
         @include('admin.layouts.footer')
-        <script>
+        {{-- <script>
             $(document).ready(function() {
                 const courseId = {{ $courseDetail->id }};
                 const stars = $('.star');
@@ -469,5 +468,5 @@
                 // ⭐ Load reviews when page loads
                 loadReviews();
             });
-        </script>
+        </script> --}}
     @endsection

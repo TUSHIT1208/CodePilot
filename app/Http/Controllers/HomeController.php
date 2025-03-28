@@ -25,7 +25,7 @@ class HomeController extends Controller
         $learnerCount = User::where('role_id', 3)->count();
         $instructorCount = User::where('role_id', 2)->count();
         $courseCount = course::where('is_active', 1)->count();
-        $reviews = review::with(['user','course'])->latest()
+        $reviews = Review::with(['user','course'])->latest()
         ->where('rating','>',2)->get(); 
 
         return view('front.about', compact('learnerCount', 'instructorCount', 'courseCount','reviews'));
@@ -40,5 +40,6 @@ class HomeController extends Controller
         // Pass courses to the view
         return view('front.course', compact('courses'));
     }
+    
 
 }

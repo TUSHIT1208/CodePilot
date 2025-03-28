@@ -8,6 +8,7 @@
                 <form
                     action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}"
                     method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
+                {{-- <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data"> --}}
                     @csrf
                     @if (isset($course))
                     @method('PUT')
@@ -129,14 +130,6 @@
                             <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory"
                                 onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
-                                {{-- @if (isset($subcategories))
-                                @foreach ($subcategories as $subcategory)
-                                <option value="{{ $subcategory->id }}" {{ old('sub_category_id', $course->
-                                    sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
-                                    {{ $subcategory->name }}
-                                </option>
-                                @endforeach
-                                @endif --}}
                                 @foreach ($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id', $course->category_id ?? '') ==
                                     $category->id ? 'selected' : '' }}>
@@ -263,128 +256,135 @@
                     {{-- @endif --}}
                     <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save'
                         }}</button>
-                    {{--
-                    <div class="mt-5 row">
-                        <div class="col-lg-6">
-                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' :
-                                'Save' }}</button>
-                        </div>
-
-                    </div> --}}
                 </form>
-
-                <script>
-                    function loadSubCategories() {
-                        var categoryId = document.getElementById("selectcategory").value;
-                        var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
-
-                        if (!categoryId) {
-                            return;
-                        }
-
-                        $.ajax({
-                            url: '{{ url('admin/course/subcategories') }}',
-                            type: 'GET',
-                            data: {
-                                category_id: categoryId
-                            },
-                            success: function(response) {
-                                var subCategorySelect = $('#selectsub_category');
-                                subCategorySelect.empty();
-                                subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
-
-                                if (response.length) {
-                                    response.forEach(function(subCategory) {
-                                        var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
-                                        subCategorySelect.append('<option value="' + subCategory.id + '" ' +
-                                            selected + '>' + subCategory.name + '</option>');
-                                    });
-                                } else {
-                                    subCategorySelect.append('<option value="">No subcategories available</option>');
-                                }
-
-                                if ($.fn.selectpicker) {
-                                    subCategorySelect.selectpicker('refresh');
-                                } else {
-                                    console.warn("Bootstrap Select is not loaded.");
-                                }
-                            },
-                            error: function() {
-                                console.log('Error fetching subcategories');
-                            }
-                        });
-                    }
-
-                    $(document).ready(function() {
-                        // Auto-load subcategories when editing a course
-                        if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
-                            loadSubCategories();
-                        }
-                    });
-                    // // validation
-                    document.addEventListener("DOMContentLoaded", function() {
-                        const form = document.querySelector(".basic-validation");
-
-                        form.addEventListener("submit", function(event) {
-                            if (!form.checkValidity()) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add("was-validated");
-                        }, false);
-                    });
-                </script>
+                <div class="loader-overlay" id="loader">
+                    <div class="loader"></div>
+                </div>
+                
+                
             </div>
         </div>
     </div>
 </div>
-{{-- <script>
-        $(document).ready(function () {
-        $("#courseForm").on("submit", function (e) {
-            e.preventDefault(); // Prevent default form submission
-            
-            let formData = new FormData(this);
-            let isUpdate = $("input[name='_method']").val() === "PUT"; // Check if updating
-            
-            let method = isUpdate ? "POST" : "POST"; // Laravel requires POST with _method=PUT for updates
+<script>
+    function loadSubCategories() {
+        var categoryId = document.getElementById("selectcategory").value;
+        var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
+
+        if (!categoryId) {
+            return;
+        }
+
+        $.ajax({
+            url: '{{ url('admin/course/subcategories') }}',
+            type: 'GET',
+            data: {
+                category_id: categoryId
+            },
+            success: function(response) {
+                var subCategorySelect = $('#selectsub_category');
+                subCategorySelect.empty();
+                subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
+
+                if (response.length) {
+                    response.forEach(function(subCategory) {
+                        var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
+                        subCategorySelect.append('<option value="' + subCategory.id + '" ' +
+                            selected + '>' + subCategory.name + '</option>');
+                    });
+                } else {
+                    subCategorySelect.append('<option value="">No subcategories available</option>');
+                }
+
+                
+                    //subCategorySelect.selectpicker('refresh'); // Refresh after initialization
+                    if (subCategorySelect.length) {
+                        if ($.fn.selectpicker) {
+                            subCategorySelect.selectpicker(); // Initialize if not already
+                            subCategorySelect.selectpicker('refresh'); // Refresh dropdown
+                        } else {
+                            console.warn("Bootstrap Select is not loaded.");
+                        }
+                    } else {
+                        console.error("#sub_category_id select element not found.");
+                    }
+            },
+            error: function() {
+                console.log('Error fetching subcategories');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        // Auto-load subcategories when editing a course
+        if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
+            loadSubCategories();
+        }
+    });
+    // // validation
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector(".basic-validation");
+
+        form.addEventListener("submit", function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+        }, false);
+    });
+</script>
+<script>
+$(document).ready(function () {
+        // Ensure CKEditor data is added before form submission
+// for (instance in CKEDITOR.instances) {
+//     CKEDITOR.instances[instance].updateElement();
+// }
+        $('#courseForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+            let formAction = $(this).attr("action"); // Get action URL
+            let formMethod = $(this).attr("method").toUpperCase(); // Get method (POST or PUT)
 
             $.ajax({
-                url: $(this).attr('action'),
-                type: method,
-                data: formData,
-                processData: false, // Important for FormData
-                contentType: false, // Important for FormData
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // CSRF token for security
-                },
-                beforeSend: function () {
-                    $("#submitButton").attr("disabled", true).text("Saving...");
+                url: formAction,
+                type: formMethod,
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                beforeSend: function() {
+                    // Show loader before sending the request
+                    $('#loader').show();
                 },
                 success: function (response) {
-                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
-                    
+                    debugger;
+                    console.log("Server Response:", response);
+                    $('#submitButton').attr('disabled', false).text('Save');
                     if (response.success) {
-                        alert(response.message); // Show success message
-                        window.location.href = "{{ route('course.index') }}"; // Redirect to course list
+                        debugger;
+                        //alert('Course saved successfully! Redirecting...');
+                        // $('#add-course-tab .step-footer button[data-direction="next"]').click();
+                        // Construct the edit URL dynamically
+                        // Check if it's an edit route
+                        if (formMethod === "POST" && response.redirect_url) {
+                            window.location.href = response.redirect_url;
+                        }
                     } else {
-                        alert("Something went wrong, please try again!");
+                        alert('Update');
                     }
                 },
-                error: function (xhr) {
-                    $("#submitButton").attr("disabled", false).text(isUpdate ? "Update" : "Save");
-
-                    let errors = xhr.responseJSON.errors;
-                    if (errors) {
-                        let errorMessages = Object.values(errors).map((error) => error[0]).join("\n");
-                        alert(errorMessages);
-                    } else {
-                        alert("An unexpected error occurred. Please try again.");
-                    }
+                error: function (xhr, status, error) {
+                    console.log("AJAX Error:", xhr.responseText);
+                    alert("An error occurred. Check the console for details.");
                 },
+                complete: function() {
+                    // Hide loader after request completes
+                    $('#loader').hide();
+                }
             });
+
         });
     });
-</script> --}}
+</script>
 <script>
     // ckeditor
     document.addEventListener("DOMContentLoaded", function() {
