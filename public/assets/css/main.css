@@ -1965,3 +1965,33 @@ section,
   left: 3%;
   font-size: 21px;
 }
+
+.terms-content ul i {
+  font-size: 1.25rem;
+  margin-right: 4px;
+  color: var(--accent-color);
+}
+
+.terms-content ul {
+  list-style: none;
+}
+.terms-content ul li {
+  padding-bottom: 10px;
+  position: relative;
+  right: 2%;
+}
+
+.privacy-content ul i {
+  font-size: 1.25rem;
+  margin-right: 4px;
+  color: var(--accent-color);
+}
+
+.privacy-content ul {
+  list-style: none;
+}
+.privacy-content ul li {
+  padding-bottom: 10px;
+  position: relative;
+  right: 2%;
+}

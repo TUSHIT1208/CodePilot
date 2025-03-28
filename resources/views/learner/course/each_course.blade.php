@@ -122,16 +122,17 @@
                                     @if ($coursePrice->price == 0)
                                         <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
                                             href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
+                                        
                                     @elseif($coursePrice->price != 0)
                                         @if (isset($checkPurchase))
                                             <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
                                                 href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
+                                            <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
+                                                href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
                                         @endif
                                     @endif
                                     <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
                                         role="tab" aria-selected="true">About</a>
-                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
-                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
                                 </div>
                             </nav>
                         </div>
@@ -145,7 +146,7 @@
                     <div class="col-lg-12">
                         <div class="course_tab_content">
                             <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade" id="nav-about" role="tabpanel">
+                                <div class="tab-pane fade active show" id="nav-about" role="tabpanel">
                                     <div class="_htg451">
                                         <div class="_htg452">
                                             <h3>Requirements</h3>
@@ -202,7 +203,9 @@
 
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show active" id="nav-courses" role="tabpanel">
+                                @if($coursePrice->price != 0)
+                                    @if (isset($checkPurchase))
+                                <div class="tab-pane fade" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
                                         @foreach ($courseDetail->courseattachment as $attachment)
                                             <div class="crse_content container">
@@ -330,6 +333,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endif
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -480,6 +485,8 @@
             loadReviews();
         });
     </script>
+    @if($coursePrice->price != 0)
+    @if (isset($checkPurchase))
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('temp-video-{{ $attachment->id }}');
@@ -495,4 +502,6 @@
             video.load();
         });
     </script>
+    @endif
+    @endif
 @endsection

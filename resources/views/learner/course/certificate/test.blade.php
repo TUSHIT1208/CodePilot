@@ -64,17 +64,19 @@
                         <div class="certi_form">
                             <div class="all_ques_lest">
                                 @if ($test->testquestion->isNotEmpty())
-                                    @foreach ($test->testquestion as $index => $question)
+                                    @foreach ($test->testquestion->sortBy('position') as $index => $question)
+                                        <!-- Sorting by position if not already sorted -->
                                         <div class="grouped fields">
                                             <div class="ques_title mt-3">
                                                 <strong>Ques {{ $index + 1 }} :-</strong>
                                                 {{ $question->question_text }}&nbsp;?
                                             </div>
+
                                             @foreach ($question->testoption as $option)
                                                 <div class="field">
                                                     <div class="ui radio checkbox">
-                                                        <input type="radio" name="answers[{{ $question->id }}]"
-                                                            value="{{ $option->id }}" tabindex="0" class="hidden">
+                                                        <input type="radio" name="answers[{{ $question->id }}]" value="{{ $option->id }}" tabindex="0"
+                                                            class="hidden">
                                                         <label>{{ $option->option_text }}</label>
                                                     </div>
                                                 </div>

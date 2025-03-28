@@ -142,7 +142,7 @@
                 return;
             }
             var formData = new FormData(form);
-            $('#loader').show();
+            $('.loader-overlay').show();
             $('.tab-from-content').addClass('blurred');
             toastr.options = {
                 "closeButton": true,
@@ -196,7 +196,7 @@
                 },
                 complete: function() {
                     // 👉 Hide loader and remove blur
-                    $('#loader').hide();
+                    $('.loader-overlay').hide();
                     $('.tab-from-content').removeClass('blurred');
                 }
             });

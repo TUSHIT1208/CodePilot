@@ -262,7 +262,7 @@ class DashboardController extends Controller
             ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
             ->get();
-            
+
         $latest_courses = Course::where('is_active', 1)->latest()->take(3)->get();
 
         $courses = Course::whereHas('review') // Only fetch courses that have reviews
@@ -609,19 +609,23 @@ class DashboardController extends Controller
     {
         $userId = auth()->id();
 
+        $courses = User_course::with('course')->where('user_id', $userId)->get();
+        logger($courses); // Debugging: Check if courses exist
 
+            // Get the user's orders
+        $orders = Order::where('user_id', $userId)->pluck('id');
 
-        // Fetch purchased courses with course details
-        $courses = User_course::with('course')
-            ->where('user_id', $userId)
-            ->get();
+        // Get order items linked to these orders
+        $orderItems = Order_item::whereIn('order_id', $orders)->get()->groupBy('course_id');
 
-        // Fetch payment transactions for the authenticated user
-        $transactions = PaymentTransaction::where('created_by', $userId)->get();
+        // Get payment transactions for these orders
+        $transactions = PaymentTransaction::whereIn('order_id', $orders)->get();
 
-        // Prepare formatted data for DataTables
-        $formattedCourses = $courses->map(function ($course) use ($transactions) {
-            $transaction = $transactions->where('order_id', $course->course_id)->first();
+        logger(['orderItems' => $orderItems, 'transactions' => $transactions]); // Debug log
+
+        $formattedCourses = $courses->map(function ($course) use ($orderItems, $transactions) {
+            $orderItem = $orderItems[$course->course_id]->first() ?? null;
+            $transaction = $orderItem ? $transactions->where('order_id', $orderItem->order_id)->first() : null;
 
             return [
                 'title' => $course->course->title ?? 'N/A',
@@ -631,6 +635,8 @@ class DashboardController extends Controller
                 'created_at' => $course->created_at ? $course->created_at->format('Y-m-d H:i:s') : 'N/A'
             ];
         });
+
+        logger($formattedCourses);
         if ($request->filled('date_range')) {
             $dates = explode(' - ', $request->date_range);
             $startDate = Carbon::parse(trim($dates[0]))->startOfDay();
@@ -768,20 +774,69 @@ class DashboardController extends Controller
 
     public function learner_course(Request $request)
     {
-        if ($request->ajax()) {
-            $courses = Course::with(['courseattachment', 'user'])->select('id', 'title', 'user_id', 'created_at');
+         if ($request->ajax()) {
+            $query = Course::with(['category', 'subCategory', 'user'])
+                ->select('id', 'title', 'user_id', 'category_id', 'sub_category_id', 'price', 'is_active', 'published_at');
 
-            return datatables()->of($courses)
+            // Filter by category
+            if ($request->category_id) {
+                $query->where('category_id', $request->category_id);
+            }
+
+            // Filter by sub-category
+            if ($request->sub_category_id) {
+                $query->where('sub_category_id', $request->sub_category_id);
+            }
+
+            // Filter by course type
+            // if ($request->course_type == 'free') {
+            //     $query->where(function ($q) {
+            //         $q->where('price', 0)
+            //             ->orWhereNull('price'); // Check if price is 0 or NULL
+            //     });
+            // } elseif ($request->course_type == 'paid') {
+            //     $query->where('price', '>', 0);
+            // }
+
+            // **Filter by instructor**
+            if ($request->instructor_id) {
+                $query->where('user_id', $request->instructor_id);
+            }
+
+            return datatables()->of($query)
+                ->addColumn('category', function ($course) {
+                    return $course->category ? $course->category->name : 'N/A';
+                })
+                ->addColumn('sub_category', function ($course) {
+                    return $course->subCategory ? $course->subCategory->name : 'N/A';
+                })
                 ->addColumn('instructor', function ($course) {
-                    return $course->user ? $course->user->name : 'N/A';
+                    if ($course->user) {
+                        $fullName = trim($course->user->first_name . ' ' . ($course->user->middle_name ?? '') . ' ' . ($course->user->last_name ?? ''));
+                        $role = $course->user->role_id == 1 ? 'Admin' : ($course->user->role_id == 2 ? 'Instructor' : 'Other');
+                        return $fullName . " ($role)";
+                    }
+                    return 'N/A';
                 })
-                ->addColumn('attachments', function ($course) {
-                    return $course->courseattachment ? count($course->courseattachment) . ' files' : 'No Attachments';
+                ->addColumn('price', function ($course) {
+                    return $course->price > 0 ? '₹' . number_format($course->price, 2) : 'FREE';
                 })
+                ->addColumn('published_at', function ($course) {
+                    return $course->published_at ? Carbon::parse($course->published_at)->format('d M, Y h:i A') : 'Not Published';
+                })
+                ->addColumn('status', function ($course) {
+                    return $course->is_active
+                        ? '<span class="badge badge-success active-learner">Active</span>'
+                        : '<span class="badge badge-danger inctive-learner">Inactive</span>';
+                })
+                ->rawColumns(['status'])
                 ->make(true);
         }
 
-        return view('learner.reports.total_course.list');
+        $categories = Category::all();
+        $instructors = User::where('role_id', 2)->get(); // Fetch only instructors
+
+        return view('learner.reports.total_course.list', compact('categories', 'instructors'));
 
     }
 

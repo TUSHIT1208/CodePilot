@@ -184,10 +184,13 @@ class CourseController extends Controller
 
             // return redirect()->route('course.edit', $course->id)->with('success', 'Course inserted successfully');
             // DB::commit(); // Commit the transaction
-            return back()->with([
-                'success' => 'Course saved successfully!',
-                'course_id' => $course->id
-            ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Course created successfully',
+                'course_id' => $course->id,
+                'redirect_url' => route('course.edit', $course->id) . '?tab=tab_step2'
+            ], 200);
+            
 
         } catch (\Exception $e) {
             Log::error('Error inserting course', [
@@ -252,6 +255,8 @@ class CourseController extends Controller
     public function edit($id, Request $request)
     {
         $course = Course::findOrFail($id); // Load course with attachments
+        $tab = request()->query('tab', ''); // ✅ Get tab from query string
+
         // return $course;
         $categories = Category::all(); // Fetch all categories
         $subcategories = Sub_category::all(); // Fetch all subcategories (if needed)
@@ -299,7 +304,7 @@ class CourseController extends Controller
         }
 
         if (auth()->user()->role->name == 'admin') {
-            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question'));
+            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question','tab'));
         } else if (auth()->user()->role->name == 'insructor') {
             return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question'));
         }
@@ -367,9 +372,9 @@ class CourseController extends Controller
             // return redirect()->back()->with('success', 'course updated successfully');
             return response()->json([
                 'success' => true,
-                'message' => 'Course Update successfully!',
+                'message' => 'Course Update successfully',
                 'course_id' => $course->id
-            ]);
+            ], 200);
 
         } catch (\Exception $e) {
             Log::error('Error inserting course', [

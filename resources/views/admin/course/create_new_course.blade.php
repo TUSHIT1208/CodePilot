@@ -180,17 +180,32 @@
     </style>
     <script>
         $(document).ready(function () {
-
-
-            // Disable all tabs except the first one
             $(".step-steps li:not(:first)").addClass("disabled");
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab'); // Get tab parameter from query string
+            
+            if (tab) {
+                setTimeout(function () {
+                    // Remove 'active' class from all <li> and add 'done' class to the previous step
+                    $('.step-steps li.active').removeClass('active').addClass('done');
 
+                    let targetTab = $('.step-steps a[href="#' + tab + '"]');
+                    $('a[href="#tab_step2"]').click();
+                    targetTab.parent().addClass('active show'); // Add active class to <li>
+                    
+                      
+                }, 300); 
+            }
+           
+            
             if (window.location.pathname.endsWith("/edit")) {
                 $(".step-steps li").removeClass("disabled");
             };
         });
-
-    </script>
+        
+        // Disable all tabs except the first one
+        </script>
 
 
 
@@ -204,23 +219,13 @@
             });
         });
 
-
-        // Initialize CKEditor instances
-        // ClassicEditor.create(document.querySelector('#editor1'))
-        //     .then(editor => {
-        //         window.editor1 = editor;
-        //     })
-        //     .catch(err => {
-        //         console.error(err.stack);
-        //     });
-        // Steps wizard initialization
         $('#add-course-tab').steps({
             onFinish: function () {
                 alert('Course Completed');
                 window.location.href = "{{ route('course.index') }}";
             }
         });
-
+        
         // Make sortable
         $(function () {
             $(".sortable").sortable();
@@ -239,11 +244,11 @@
 
             // if ('{{ session('success') }}') {
 
-            //     $('#add-course-tab .step-footer button[data-direction="next"]').click();
-
+            
             // }
             if (window.location.pathname.endsWith("/edit")) {
                 // Trigger the next button automatically after receiving success
+                //$('#add-course-tab .step-footer button[data-direction="next"]').click();
                 var buttons = document.querySelectorAll('.step-footer .main-btn');
                 buttons.forEach(function (button) {
                     button.style.visibility = "visible"; // Hide each button

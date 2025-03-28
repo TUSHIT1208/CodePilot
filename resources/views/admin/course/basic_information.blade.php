@@ -5,10 +5,10 @@
         </div>
         <div class="course__form">
             <div class="general_info10">
-                {{-- <form
+                <form
                     action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}"
-                    method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data"> --}}
-                <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
+                    method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
+                {{-- <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data"> --}}
                     @csrf
                     @if (isset($course))
                     @method('PUT')
@@ -342,10 +342,12 @@ $(document).ready(function () {
 // }
         $('#courseForm').submit(function (event) {
             event.preventDefault(); // Prevent default form submission
-            
+            let formAction = $(this).attr("action"); // Get action URL
+            let formMethod = $(this).attr("method").toUpperCase(); // Get method (POST or PUT)
+
             $.ajax({
-                url: "{{ route('course.store') }}",
-                type: "POST",
+                url: formAction,
+                type: formMethod,
                 data: new FormData(this),
                 processData: false,
                 contentType: false,
@@ -354,17 +356,20 @@ $(document).ready(function () {
                     $('#loader').show();
                 },
                 success: function (response) {
+                    debugger;
                     console.log("Server Response:", response);
                     $('#submitButton').attr('disabled', false).text('Save');
-
                     if (response.success) {
-                        alert('Course saved successfully! Redirecting...');
-                        
+                        debugger;
+                        //alert('Course saved successfully! Redirecting...');
+                        // $('#add-course-tab .step-footer button[data-direction="next"]').click();
                         // Construct the edit URL dynamically
-                        let editUrl = `/course/${response.course_id}/edit`; 
-
-                        // Redirect the user
-                        window.location.href = editUrl;
+                        // Check if it's an edit route
+                        if (formMethod === "POST" && response.redirect_url) {
+                            window.location.href = response.redirect_url;
+                        }
+                    } else {
+                        alert('Update');
                     }
                 },
                 error: function (xhr, status, error) {

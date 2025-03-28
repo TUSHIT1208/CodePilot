@@ -203,7 +203,7 @@ Route::get('/course/basic-information', function () {
 })->name('course.basic-information');
 
 
-Route::get('/course/{course}/edit', [CourseController::class, 'edit'])->name('course.edit')->middleware('auth');
+Route::get('/course/{id}/edit', [CourseController::class, 'edit'])->name('course.edit')->middleware('auth');
 
 route::post('course/price/{course}', [CourseController::class, 'price'])->name('course.price')->middleware('auth');
 
@@ -325,3 +325,10 @@ Route::delete('/course/attachments/{id}', [CourseAttachmentController::class, 'd
 Route::post('/course/attachments/reorder', [CourseAttachmentController::class, 'reorder'])->name('attachments.reorder');
 Route::post('/quiz/questions/reorder', [TestQuestionController::class, 'reorderQuestions'])->name('questions.reorder');
 
+Route::get('/privacy-policy', function () {
+    return view('front.privacy_policy');
+})->name('privacy-policy');
+
+Route::get('/terms-of-service', function () {
+    return view('front.terms-of-service');
+})->name('terms-of-service');
