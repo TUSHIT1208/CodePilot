@@ -23,11 +23,11 @@
                                                 <img src="{{ asset(Auth::user()->profile_picture_url) }}" alt="Profile Image" id="profileImage" style="width:200px; height:200px; object-fit: cover;">
                                             @else
                                                 <img src="" alt="Default Profile" id="profileImage" style="display:none;">
-                                                <h1 class="profile-default" id="profileInitial">{{ substr(Auth::user()->first_name, 0, 1) }}</h1>
+                                                <h1 class="profile-default" id="profileInitial">{{ substr(Auth::user()->username, 0, 1) }}</h1>
                                             @endif
                                         </div>
                                         <div class="prfledt1">
-                                            <h2>{{ Auth::user()->username }}</h2>
+                                            <h2>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</h2>
                                             <i id="editProfileBtn" class="uil uil-camera"></i>
                                             <input type="file" id="fileInput" name="profile_image" style="display:none;" onchange="previewImage(event)">
                                             <button id="saveProfileBtn" class="upload_btn" style="display:none;">Save Profile</button>
@@ -130,7 +130,7 @@
                                                     <a href="{{ route('course.show', $course->id) }}" class="fcrse_img">
                                                         <img src="{{ $course->thumbnail_url ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg') }}"
                                                             alt="Course Thumbnail">    
-                                                        <div class="course-overlay" style="width: 100;">
+                                                        <div class="course-overlay" style="width: 100%;">
                                                             @if ($course->is_active)
                                                                 <div class="badge_seller">Active</div>
                                                             @else

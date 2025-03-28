@@ -35,7 +35,7 @@
                                     <div class="field">
                                         <textarea rows="3" name="description" class="form-control"
                                             id="description-field" required minlength="10" maxlength="1000"
-                                            placeholder="Item description here...">{{ old('description', $course->description ?? '') }}</textarea>
+                                            placeholder="course description here...">{{ old('description', $course->description ?? '') }}</textarea>
                                         <div class="invalid-feedback">Short Description must be between 10 and 1000
                                             characters.</div>
                                     </div>
@@ -44,15 +44,19 @@
                             </div>
                         </div>
 
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="description-field">Description*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea name="course_description" class="form-control"
+                                            id="description-field" required
+                                            placeholder="course description here...">{{ old('course_description', $course->course_description ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Course Description is required.</div>
+                                    </div>
+                                </div>
 
-                        <div class="course_des_textarea mt-30 lbel25">
-                            <label>Course Description*</label>
-                            <div class="text-editor">
-                                <textarea class="form-control editor1" name="course_description"
-                                    placeholder="Item description here"
-                                    required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
                             </div>
-                            <div class="invalid-feedback">Course Description is required.</div>
                         </div>
 
                         <!-- What will students learn? -->
@@ -322,68 +326,76 @@
         }
     });
     // // validation
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.querySelector(".basic-validation");
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     const form = document.querySelector(".basic-validation");
 
-        form.addEventListener("submit", function(event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add("was-validated");
-        }, false);
-    });
+    //     form.addEventListener("submit", function(event) {
+    //         if (!form.checkValidity()) {
+    //             event.preventDefault();
+    //             event.stopPropagation();
+    //         }
+    //         form.classList.add("was-validated");
+    //     }, false);
+    // });
 </script>
 <script>
-$(document).ready(function () {
+// $(document).ready(function () {
         // Ensure CKEditor data is added before form submission
 // for (instance in CKEDITOR.instances) {
 //     CKEDITOR.instances[instance].updateElement();
 // }
-        $('#courseForm').submit(function (event) {
-            event.preventDefault(); // Prevent default form submission
-            let formAction = $(this).attr("action"); // Get action URL
-            let formMethod = $(this).attr("method").toUpperCase(); // Get method (POST or PUT)
+$(document).ready(function () {
+    const form = $(".basic-validation");
 
-            $.ajax({
-                url: formAction,
-                type: formMethod,
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                beforeSend: function() {
-                    // Show loader before sending the request
-                    $('#loader').show();
-                },
-                success: function (response) {
-                    debugger;
-                    console.log("Server Response:", response);
-                    $('#submitButton').attr('disabled', false).text('Save');
-                    if (response.success) {
-                        debugger;
-                        //alert('Course saved successfully! Redirecting...');
-                        // $('#add-course-tab .step-footer button[data-direction="next"]').click();
-                        // Construct the edit URL dynamically
-                        // Check if it's an edit route
-                        if (formMethod === "POST" && response.redirect_url) {
-                            window.location.href = response.redirect_url;
-                        }
-                    } else {
-                        alert('Update');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("AJAX Error:", xhr.responseText);
-                    alert("An error occurred. Check the console for details.");
-                },
-                complete: function() {
-                    // Hide loader after request completes
-                    $('#loader').hide();
+    form.submit(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        if (!form[0].checkValidity()) {
+            event.stopPropagation();
+            form.addClass("was-validated");
+            return;
+        }
+
+        let formAction = form.attr("action");
+        let formMethod = form.attr("method").toUpperCase();
+        let formData = new FormData(this);
+        let submitButton = $("#submitButton");
+        let loader = $("#loader");
+
+        // Show loader and disable submit button
+        loader.show();
+        submitButton.prop("disabled", true).text("Saving...");
+
+        $.ajax({
+            url: formAction,
+            type: formMethod,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log("Server Response:", response);
+                loader.hide();
+                submitButton.prop("disabled", false).text("Save");
+
+                if (response.success && formMethod === "POST" && response.redirect_url) {
+                    window.location.href = response.redirect_url;
+                } else {
+                    //alert("Update");
+                    console.log("update");
                 }
-            });
-
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", xhr.responseText);
+                loader.hide();
+                submitButton.prop("disabled", false).text("Save");
+            }
         });
+
+        form.addClass("was-validated");
     });
+});
+
+    // });
 </script>
 <script>
     // ckeditor
@@ -448,7 +460,7 @@ $(document).ready(function () {
                     }
                 })
                 .then(editor => {
-                    console.log(`Editor ${index + 1} initialized`);
+                    console.log(Editor ${index + 1} initialized);
                 })
                 .catch(error => {
                     console.error("Error initializing CKEditor:", error);
@@ -482,9 +494,6 @@ $(document).ready(function () {
 
     }
 </script>
-
-
-
 <style>
     .was-validated .form-control:invalid {
         border-color: #dc3545 !important;

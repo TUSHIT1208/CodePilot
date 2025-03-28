@@ -220,6 +220,7 @@ Night Mood
 .night-mode .night_mode_switch__btn a i {
     background-color: #333 !important;
     color: white !important;
+    font-size: 20px;
 }
 
 .night-mode .pd_content span {

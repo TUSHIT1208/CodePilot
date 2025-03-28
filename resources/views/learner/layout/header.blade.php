@@ -58,16 +58,15 @@
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">
-                            <i class="uil uil-moon"></i> Night mode
+                            <i class="uil uil-moon mode-icon"></i>
+                            <span style="position: relative; left: 16%;">Night Mode</span>
                             <span class="btn-night-mode-switch">
                                 <span class="uk-switch-button"></span>
                             </span>
                         </a>
-                    </div>
-                    <a href="{{ route('learner.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
-                    {{-- <a href="membership.html" class="item channel_item">Paid Memberships</a> --}}
+                    </div>                    
+                    <a href="{{ route('learner.dashboard') }}" class="item channel_item">Dashboard</a>
                     <a href="{{ route('learner.setting') }}" class="item channel_item">Setting</a>
-                    
                     <a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>
                     <a href="{{ route('logout') }}" class="item channel_item">Sign Out</a>
                 </div>
@@ -78,7 +77,7 @@
 <script>
     function updateCartWishlistCount() {
         $.ajax({
-            url: "{{ route('cart.counts') }}", // Define this route in web.php
+            url: "{{ route('cart.counts') }}",
             method: "GET",
             success: function(response) {
                 $('#cart_count').text(response.cartCount);

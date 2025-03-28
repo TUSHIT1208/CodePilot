@@ -849,6 +849,37 @@ i.icon1 {
     font-size: 18px;
     line-height: 15px;
     color: #1da1f2;
+    position: relative;
+    left: 28%;
+}
+
+.mode-icon {
+    transition: opacity 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Initial styles for moon and sun */
+.uil-moon, .uil-sun {
+    position: absolute;
+    left: 5px;
+    top: 9px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Default: show moon, hide sun */
+.night_mode_switch__btn .uil-moon {
+    opacity: 1;
+}
+.night_mode_switch__btn .uil-sun {
+    opacity: 0;
+}
+
+/* In dark mode: hide moon, show sun */
+.night-mode .night_mode_switch__btn .uil-moon {
+    opacity: 0;
+}
+.night-mode .night_mode_switch__btn .uil-sun {
+    opacity: 1;
 }
 
 .pd_content p {
@@ -1339,7 +1370,7 @@ i.icon1 {
     display: none;
     position: absolute;
     background-color: #fff;
-    min-width: 160px;
+    min-width: 176px;
     box-shadow: 0 2px 3px 0 rgba(34, 36, 38, .15);
     border: 1px solid rgba(34, 36, 38, .15);
     z-index: 1;

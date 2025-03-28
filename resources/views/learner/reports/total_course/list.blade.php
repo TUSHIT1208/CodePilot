@@ -13,58 +13,68 @@
                 </div>
                 <div class="col-md-12">
                     <div class="card_dash1">
-                        <div class="row mb-3">
-                            <div class="col-sm-2">
-                                <label>Category</label>
-                                <select id="categoryFilter" class="form-control _dlor1 mt-2">
-                                    <option value=""> - - All Categories - - </option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
+                        @if ($categories->isEmpty() && $instructors->isEmpty())
+                            <!-- No Records Found -->
+                            <div class="no-categories-container text-center fade-in-animation footer mt-5">
+                                <i class="uil uil-folder-minus bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
+                                <h3 class="mt-3 scale-in-text" style="color: #777;">No Courses Found</h3>
+                                <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have
+                                    any Course yet. Add one now to get started!</p>
                             </div>
-                            <div class="col-sm-2">
-                                <label>Sub-Category</label>
-                                <select id="subCategoryFilter" class="form-control _dlor1 mt-2">
-                                    <option value=""> - - All Sub-Categories - - </option>
-                                </select>
+                        @else
+                            <div class="row mb-3">
+                                <div class="col-sm-2">
+                                    <label>Category</label>
+                                    <select id="categoryFilter" class="form-control _dlor1 mt-2">
+                                        <option value=""> - - All Categories - - </option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Sub-Category</label>
+                                    <select id="subCategoryFilter" class="form-control _dlor1 mt-2">
+                                        <option value=""> - - All Sub-Categories - - </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Course Type</label>
+                                    <select id="courseTypeFilter" class="form-control _dlor1 mt-2">
+                                        <option value=""> - - Course Type - - </option>
+                                        <option value="free">Free</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>Instructor</label>
+                                    <select id="instructorFilter" class="form-control _dlor1 mt-2">
+                                        <option value=""> - - All Instructors - - </option>
+                                        @foreach ($instructors as $instructor)
+                                            <option value="{{ $instructor->id }}">{{ $instructor->first_name }}
+                                                {{ $instructor->last_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-sm-2">
-                                <label>Course Type</label>
-                                <select id="courseTypeFilter" class="form-control _dlor1 mt-2">
-                                    <option value=""> - - Course Type - - </option>
-                                    <option value="free">Free</option>
-                                    <option value="paid">Paid</option>
-                                </select>
+                            <div class="tab-pane fade show active mt-5" id="pills-my-courses" role="tabpanel">
+                                <div class="table-responsive mt-3">
+                                    <table class="ucp-table" id="coursesTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Category</th>
+                                                <th>Sub-Category</th>
+                                                <th>Created By</th>
+                                                <th>Price</th>
+                                                <th>Published At</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="col-sm-2">
-                                <label>Instructor</label>
-                                <select id="instructorFilter" class="form-control _dlor1 mt-2">
-                                    <option value=""> - - All Instructors - - </option>
-                                    @foreach ($instructors as $instructor)
-                                        <option value="{{ $instructor->id }}">{{ $instructor->first_name }}
-                                            {{ $instructor->last_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade show active mt-5" id="pills-my-courses" role="tabpanel">
-                            <div class="table-responsive mt-3">
-                                <table class="ucp-table" id="coursesTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Title</th>
-                                            <th>Category</th>
-                                            <th>Sub-Category</th>
-                                            <th>Created By</th>
-                                            <th>Price</th>
-                                            <th>Published At</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

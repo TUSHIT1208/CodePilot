@@ -114,14 +114,14 @@
 
         </section><!-- /Counts Section -->
 
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="testimonials section">
+        @if ($reviews->isNotEmpty())
+            <section id="testimonials" class="testimonials section">
 
-            <!-- Section Title -->
-            <div class="container section-title" data-aos="fade-up">
-                <h2>Testimonials</h2>
-                <p>What are they saying</p>
-            </div><!-- End Section Title -->
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>Testimonials</h2>
+                    <p>What are they saying</p>
+                </div><!-- End Section Title -->
                 <div class="container" data-aos="fade-up" data-aos-delay="100">
                     <div class="swiper init-swiper">
                         <script type="application/json" class="swiper-config">
@@ -142,24 +142,24 @@
                             }
                         </script>
                         <div class="swiper-wrapper">
-                            @foreach($reviews as $review)
+                            @foreach ($reviews as $review)
                                 <div class="swiper-slide">
                                     <div class="testimonial-wrap">
                                         <div class="testimonial-item">
                                             {{-- <img src="{{ asset('assets/img/default-user.png') }}" class="testimonial-img" alt=""> --}}
-                                            @if(!empty($review->user->profile_picture_url))
-                                                    <img class="testimonial-img"
-                                                        src="{{  asset($review->user->profile_picture_url) }}">
-                                                @else
+                                            @if (!empty($review->user->profile_picture_url))
+                                                <img class="testimonial-img"
+                                                    src="{{ asset($review->user->profile_picture_url) }}">
+                                            @else
                                                 <div class=" testimonial-img thumbnail bg-danger text-white d-flex align-items-center justify-content-center"
-                                                style="width: 90px; height: 69px; font-size: 35px;">
-                                                {{ strtoupper(substr($review->user->first_name, 0, 1)) }}
-                                            </div>
-                                                @endif
-                                            <h3>{{ $review->user->first_name .  $review->user->last_name}}</h3>
+                                                    style="width: 90px; height: 69px; font-size: 35px;">
+                                                    {{ strtoupper(substr($review->user->first_name, 0, 1)) }}
+                                                </div>
+                                            @endif
+                                            <h3>{{ $review->user->first_name . $review->user->last_name }}</h3>
                                             <h4>Course : {{ $review->course->title }}</h4>
                                             <div class="stars">
-                                                @for($i = 1; $i <= 5; $i++)
+                                                @for ($i = 1; $i <= 5; $i++)
                                                     <i class="bi bi-star{{ $i <= $review->rating ? '-fill' : '' }}"></i>
                                                 @endfor
                                             </div>
@@ -176,8 +176,9 @@
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
-                
-        </section><!-- /Testimonials Section -->
+
+            </section><!-- /Testimonials Section -->
+        @endif
 
     </main>
 

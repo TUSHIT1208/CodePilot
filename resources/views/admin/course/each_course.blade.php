@@ -105,8 +105,8 @@
                                         href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                     <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
                                         role="tab" aria-selected="true">About</a>
-                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
-                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
+                                    {{-- <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
+                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a> --}}
                                 </div>
                             </nav>
                         </div>
@@ -273,53 +273,6 @@
                                                 content yet. Add one now to get started!</p>
                                         </div>
                                     @endif
-                                </div>
-                                <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
-                                    <div class="student_reviews">
-                                        <div class="row">
-                                            <div class="col-lg-5">
-                                                <form action="{{ route('review.store') }}" method="POST"
-                                                    id="review-form">
-                                                    @csrf
-                                                    <input type="hidden" name="course_id"
-                                                        value="{{ $courseDetail->id }}">
-
-                                                    <div class="review-container">
-                                                        <h3 class="review-title">Give Your Review</h3>
-
-                                                        <!-- Star Rating -->
-                                                        <div class="rating-stars">
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                <span class="star"
-                                                                    data-value="{{ $i }}">★</span>
-                                                            @endfor
-                                                            <input type="hidden" name="rating" id="rating-value"
-                                                                value="0">
-                                                        </div>
-
-                                                        <!-- Review Text -->
-                                                        <textarea name="review" id="review-text" class="mt-3 form-control dt-input" placeholder="Write your review..."
-                                                            rows="5"></textarea>
-
-                                                        <!-- Submit Button -->
-                                                        <button type="submit" class="submit-btn mt-3"
-                                                            id="submit-review">Submit Review</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="col-lg-7">
-                                                <div class="review_right">
-                                                    <div class="review_right_heading">
-                                                        <h3>Reviews</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="review_all120" id="review-container">
-                                                    <!-- Dynamic Reviews Will be Loaded Here -->
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -621,7 +621,7 @@ class DashboardController extends Controller
         // Get payment transactions for these orders
         $transactions = PaymentTransaction::whereIn('order_id', $orders)->get();
 
-        logger(['orderItems' => $orderItems, 'transactions' => $transactions]); // Debug log
+        // logger(['orderItems' => $orderItems, 'transactions' => $transactions]); // Debug log
 
         $formattedCourses = $courses->map(function ($course) use ($orderItems, $transactions) {
             $orderItem = $orderItems[$course->course_id]->first() ?? null;

@@ -113,7 +113,7 @@
                 <li class="menu--item">
                     <a href="{{ route('contactus.index')}}" class="menu--link" title="content us">
                         <i class='uil uil-file menu--icon'></i>
-                        <span class="menu--label">contact us</span>
+                        <span class="menu--label">Contact us</span>
                     </a>
                 </li>
             </ul>

@@ -10,8 +10,7 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-8">
                         <div class="section3125 mt-3">
-                            <h1>Learning path</h1>
-
+                            <h2 class="st_title"><i class="uil uil-bullseye"></i> Learning path</h2>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -20,7 +19,7 @@
                                 @if ($path_name->isEmpty())
                                     <!-- No Records Found -->
                                     <div class="no-categories-container text-center fade-in-animation footer">
-                                        <i class="uil uil-folder-minus bounce-effect"
+                                        <i class="uil uil-bullseye bounce-effect"
                                             style="font-size: 50px; color: #d1d1d1;"></i>
                                         <h3 class="mt-3 scale-in-text" style="color: #777;">No Learning path Found</h3>
                                         <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have any

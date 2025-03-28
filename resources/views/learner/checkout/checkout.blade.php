@@ -14,9 +14,7 @@
                                 <div class="ttl121">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="course_detail_view.html">Complete Python
-                                                    Bootcamp: Go from zero to hero in Python 3</a></li>
+                                            <li class="breadcrumb-item"><a href="{{ route('learner.dashboard') }}">Home</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                                         </ol>
                                     </nav>

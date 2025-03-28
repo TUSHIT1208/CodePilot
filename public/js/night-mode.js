@@ -1,33 +1,36 @@
-// Night Mode JS
 (function (window, document, undefined) {
-		'use strict';
-		if (!('localStorage' in window)) return;
-		var nightMode = localStorage.getItem('gmtNightMode');
-		if (nightMode) {
-			document.documentElement.className += ' night-mode';
-		}
-	})(window, document);
+    'use strict';
 
+    // Check if localStorage is supported
+    if (!('localStorage' in window)) return;
 
-	(function (window, document, undefined) {
+    // Retrieve night mode state
+    var nightMode = localStorage.getItem('gmtNightMode');
+    if (nightMode) {
+        document.documentElement.classList.add('night-mode');
+    }
 
-		'use strict';
+    // Select the night mode toggle button
+    var nightModeToggle = document.querySelector('#night-mode');
+    if (!nightModeToggle) return;
 
-		// Feature test
-		if (!('localStorage' in window)) return;
-		// Get our newly insert toggle
-		var nightMode = document.querySelector('#night-mode');
-		if (!nightMode) return;
+    // Append sun icon dynamically
+    var modeIcon = nightModeToggle.querySelector('i');
+    var sunIcon = document.createElement('i');
+    sunIcon.classList.add('uil', 'uil-sun', 'mode-icon');
+    modeIcon.parentNode.appendChild(sunIcon); // Add sun icon next to moon
 
-		// When clicked, toggle night mode on or off
-		nightMode.addEventListener('click', function (event) {
-			event.preventDefault();
-			document.documentElement.classList.toggle('night-mode');
-			if (document.documentElement.classList.contains('night-mode')) {
-				localStorage.setItem('gmtNightMode', true);
-				return;
-			}
-			localStorage.removeItem('gmtNightMode');
-		}, false);
+    // Toggle dark mode and icon visibility
+    nightModeToggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        document.documentElement.classList.toggle('night-mode');
 
-	})(window, document);
+        // Store or remove night mode preference
+        if (document.documentElement.classList.contains('night-mode')) {
+            localStorage.setItem('gmtNightMode', true);
+        } else {
+            localStorage.removeItem('gmtNightMode');
+        }
+    });
+
+})(window, document);

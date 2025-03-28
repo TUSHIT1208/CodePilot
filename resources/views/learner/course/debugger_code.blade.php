@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-        <div class="container-fluid" style="position: relative; top: 12%;">
+        <div class="container-fluid" style="margin-top: 6%;">
             <a href="{{ route('course.show', $course_detail->course_id) }}">
                 <button class="main-btn">Back to Course</button>
             </a>

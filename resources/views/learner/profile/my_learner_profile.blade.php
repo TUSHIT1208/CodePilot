@@ -156,8 +156,6 @@
                                                                     <p>By <a
                                                                             href="javascript:;">{{ $course->course->user->first_name . ' ' . $course->course->user->last_name ?? 'unknown' }}</a>
                                                                     </p>
-                                                                    <div class="prce142">₹{{ $course->course->price ?? 'Free' }}</div>
-            
                                                                 </div>
                                                             </div>
                                                         </div>

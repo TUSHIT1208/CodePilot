@@ -54,6 +54,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 15px;
+  width: 81%;
 }
 
 .thumbnail-course {
