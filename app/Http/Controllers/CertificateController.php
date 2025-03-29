@@ -36,14 +36,10 @@ class CertificateController extends Controller
     {
         $userId = Auth::user()->id;
 
-        // $certificates = Certificate::where('user_id', $userId)
-        //     ->with('test') // Eager load the related test data
-        //     ->select('certificates.id as certificate_id', 'certificates.test_id', 'certificates.created_at'); // Specify table names
-        // return $certificates;
         if ($request->ajax()) {
             $certificates = Certificate::where('user_id', $userId)
-                ->with('test') // Eager load the related test data
-                ->select('certificates.id as certificate_id', 'certificates.test_id', 'certificates.created_at'); // Specify table names
+                ->with('test') 
+                ->select('certificates.id as certificate_id', 'certificates.test_id', 'certificates.created_at');
 
             return DataTables::of($certificates)
                 ->addColumn('test_title', function ($certificate) {
@@ -67,7 +63,9 @@ class CertificateController extends Controller
                 ->make(true);
         }
 
-        return view('learner.certificate.list');
+        $certificates = Certificate::where('user_id', $userId)
+            ->with('test')->get();
+        return view('learner.certificate.list',compact('certificates'));
     }
 
 

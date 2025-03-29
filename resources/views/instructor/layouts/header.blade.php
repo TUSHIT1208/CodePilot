@@ -66,12 +66,13 @@
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">
-                            <i class="uil uil-moon"></i> Night mode
+                            <i class="uil uil-moon mode-icon"></i>
+                            <span style="position: relative; left: 16%;">Night Mode</span>
                             <span class="btn-night-mode-switch">
                                 <span class="uk-switch-button"></span>
                             </span>
                         </a>
-                    </div>
+                    </div>                    
                     <a href="{{ route('instructor.dashboard') }}" class="item channel_item">CodePilot dashboard</a>
                     <a href="{{ route('instructor.setting') }}" class="item channel_item">Setting</a>
                     <a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>

@@ -37,8 +37,14 @@ class LoginController extends Controller
             if ($user->role && $user->role->name === 'admin') {
                 return redirect()->route('dashboard.index');
             } elseif ($user->role && $user->role->name === 'insructor') {
+                if (AUth::User()->is_active === 0) {
+                    return back()->with('warning', 'You are temporarly Blocked');
+                }
                 return redirect()->route('instructor.dashboard');
             } elseif ($user->role && $user->role->name === 'learner') {
+                if (AUth::User()->is_active === 0) {
+                    return back()->with('warning', 'You are temporarly Blocked');
+        }
                 $oneMonthAgo = now()->subMonth();
                 logger($oneMonthAgo);
                 // Get distinct course IDs where the user has not watched the video for more than 1 month

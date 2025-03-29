@@ -42,7 +42,7 @@
                 <div class="container">
                     <ol>
                         <li><a href="{{ route('index') }}">Home</a></li>
-                        <li class="current">Courses</li>
+                        <li class="current">FAQ</li>
                     </ol>
                 </div>
             </nav>

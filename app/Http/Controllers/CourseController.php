@@ -50,13 +50,6 @@ class CourseController extends Controller
         }
     }
 
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
     public function create(Request $request)
     {
         try {
@@ -109,9 +102,6 @@ class CourseController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         ini_set('memory_limit', '12G'); // Increase memory limit
@@ -190,7 +180,7 @@ class CourseController extends Controller
                 'course_id' => $course->id,
                 'redirect_url' => route('course.edit', $course->id) . '?tab=tab_step2'
             ], 200);
-            
+
 
         } catch (\Exception $e) {
             Log::error('Error inserting course', [
@@ -204,7 +194,7 @@ class CourseController extends Controller
                 'message' => 'An error occurred while inserting the course.',
                 'details' => $e->getMessage()
             ], 500);
-    
+
             // return redirect()->back()->with('error', 'An error occurred while inserting the course.');
         }
     }
@@ -228,7 +218,8 @@ class CourseController extends Controller
         $test = test::where('course_id', $cid)->first();
         if ($test) {
             $test_result = test_result::where('test_id', $test->id)
-                ->latest('id') // Orders by ID in descending order
+            ->where('user_id', $userId)
+            ->latest('id') // Orders by ID in descending order
                 ->first();
 
             if ($test_result === null) {
@@ -248,10 +239,6 @@ class CourseController extends Controller
             return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice', 'test', 'score'));
         }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id, Request $request)
     {
         $course = Course::findOrFail($id); // Load course with attachments
@@ -304,13 +291,11 @@ class CourseController extends Controller
         }
 
         if (auth()->user()->role->name == 'admin') {
-            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question','tab'));
+            return view('admin.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question', 'tab'));
         } else if (auth()->user()->role->name == 'insructor') {
             return view('instructor.course.create_new_course', compact('course', 'categories', 'subcategories', 'tests', 'test_question'));
         }
     }
-
-
 
     public function update(Request $request, Course $course)
     {
@@ -389,30 +374,42 @@ class CourseController extends Controller
                 'message' => 'An error occurred while Update the course.',
                 'details' => $e->getMessage()
             ], 500);
-    
+
             // return redirect()->back()->with('error', 'An error occurred while updateing the course.');
         }
     }
-    public function addToHome(Request $request)
+    public function toggleHomeStatus(Request $request)
     {
         $course = Course::findOrFail($request->course_id); // Find the course by ID
+
+        // If currently added to home, remove it
+        if ($course->is_active_home) {
+            $course->is_active_home = false;
+            $course->published_at = null;
+            $course->save();
+
+            return response()->json(['success' => true, 'message' => 'Course removed from home.']);
+        }
+
+        // Check conditions before adding to home
         $hasTest = Test::where('course_id', $course->id)->exists();
         if (!$hasTest) {
             return response()->json(['success' => false, 'message' => 'At least one test is required to publish this course.'], 400);
         }
 
-        $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
+        $hasMedia = CourseAttachment::where('course_id', $course->id)->exists();
         if (!$hasMedia) {
             return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
         }
 
-        // Update the 'is_added_to_home' field to true or 1
+        // Add to home
         $course->is_active_home = true;
         $course->published_at = now();
         $course->save();
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Course added to home.']);
     }
+
 
     public function price(Request $request, Course $course)
     {
@@ -449,40 +446,42 @@ class CourseController extends Controller
         if ($courses->isNotEmpty()) {
             foreach ($courses as $course) {
                 $html .= '
-            <div class="col-lg-3 col-md-4">
-                <div class="fcrse_1 mt-30">
-                    <a href="' . route('course.show', $course->id) . '" class="fcrse_img">
-                        <img src="' . (isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg')) . '" alt="Course Thumbnail">
-                        <div class="course-overlay learning-path-course-overlay">
-                            ' . ($course->is_active ? '<div class="badge_seller">Active</div>' : '<div class="badge_seller">InActive</div>') . '
-                            <div class="crse_reviews"><i class="uil uil-star"></i> 5</div>
-                            <span class="play_btn1"><i class="uil uil-play"></i></span>
-                            <div class="crse_timer">' . ($course->duration ?? 'N/A') . ' hours</div>
-                        </div>
-                    </a>
-                    <div class="fcrse_content">
-                        <div class="eps_dots more_dropdown">
-                            <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                            <div class="dropdown-content">
-                                <span><i class="uil uil-share-alt"></i>Share</span>
-                                <form class="wishlistForm">
-                                    ' . csrf_field() . '
-                                    <input type="hidden" name="course_id" value="' . $course->id . '">
-                                    <span class="wishlistButton"><i class="uil uil-heart"></i>Save</span>
-                                </form>
-                                <span><i class="uil uil-windsock"></i>Report</span>
+                <div class="col-lg-3 col-md-4">
+                    <div class="fcrse_1 mt-30">
+                        <a href="' . route('course.show', $course->id) . '" class="fcrse_img">
+                            <img src="' . (isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg')) . '" alt="Course Thumbnail">
+                            <div class="course-overlay learning-path-course-overlay">
+                                ' . ($course->is_active ? '<div class="badge_seller">Active</div>' : '<div class="badge_seller">InActive</div>') . '
+                                <div class="crse_reviews"><i class="uil uil-star"></i> 5</div>
+                                <span class="play_btn1"><i class="uil uil-play"></i></span>
+                                <div class="crse_timer">' . ($course->duration ?? 'N/A') . ' hours</div>
                             </div>
-                        </div>
-                        <div class="vdtodt">
-                            <span class="vdt14">50 views</span>
-                            <span class="vdt14">' . $course->created_at->diffForHumans() . '</span>
-                        </div>
-                        <a href="' . route('course.show', $course->id) . '" class="crse14s">' . $course->title . '</a>
-                        <a href="#" class="crse-cate">' . ($course->category->name ?? 'Uncategorized') . '</a>
-                        <div class="auth1lnkprce">
-                            <p>By <a href="javascript:;">' . ($course->user->first_name . ' ' . $course->user->last_name ?? 'unknown') . '</a></p>
-                            <div class="prce142">' . ($course->price == 0 ? 'Free' : '₹' . $course->price) . '</div>';
-
+                        </a>
+                        <div class="fcrse_content">
+                            <div class="eps_dots more_dropdown">
+                                <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+                                <div class="dropdown-content">
+                                    <span><i class="uil uil-share-alt"></i>Share</span>
+                                    <form class="wishlistForm">
+                                        ' . csrf_field() . '
+                                        <input type="hidden" name="course_id" value="' . $course->id . '">
+                                        <span class="wishlistButton"><i class="uil uil-heart"></i>Save</span>
+                                    </form>
+                                    <span><i class="uil uil-windsock"></i>Report</span>
+                                </div>
+                            </div>
+                            <div class="vdtodt">
+                                <span class="vdt14">50 views</span>
+                                <span class="vdt14">' . $course->created_at->diffForHumans() . '</span>
+                            </div>
+                            <a href="' . route('course.show', $course->id) . '" class="crse14s">' . $course->title . '</a>
+                            <a href="#" class="crse-cate">' . ($course->category->name ?? 'Uncategorized') . '</a>
+                            <div class="auth1lnkprce">
+                                <p>By <a href="javascript:;">' . ($course->user->first_name . ' ' . $course->user->last_name ?? 'unknown') . '</a></p>
+                                <div class="prce142">
+                                    ' . ($course->price == 0 ? 'Free' : ($course->discount > 0 ? '<s style="text-decoration-color: red; font-size: 0.9em;">₹' . $course->price . '</s> ₹' . ($course->price - ($course->discount ?? 0)) : '₹' . $course->price)) . '
+                                </div>';
+        
                 if ($course->price != 0) {
                     $html .= ' <form class="cartForm">
                                 ' . csrf_field() . '
@@ -504,10 +503,10 @@ class CourseController extends Controller
         return response()->json($html);
     }
 
-    public function publishCourse(Request $request)
+    public function togglePublish(Request $request)
     {
         try {
-            logger('Starting course publishing process...');
+            logger('Processing publish toggle for course...');
 
             $course = Course::where('id', $request->course_id)
                 ->where('user_id', auth()->id()) // Ensure user owns the course
@@ -515,99 +514,36 @@ class CourseController extends Controller
 
             logger('Course found: ' . $course->title);
 
-            // Check if already published
-            if ($course->is_active == 1) {
-                logger('Course is already published.');
-                return response()->json(['success' => false, 'message' => 'Course is already published.'], 400);
-            }
+            // Check if publishing is possible
+            if (!$course->is_active) {
+                $hasTest = Test::where('course_id', $course->id)->exists();
+                if (!$hasTest) {
+                    return response()->json(['success' => false, 'message' => 'At least one test is required to publish this course.'], 400);
+                }
 
-            $hasTest = Test::where('course_id', $course->id)->exists();
-            if (!$hasTest) {
-                return response()->json(['success' => false, 'message' => 'At least one test is required to publish this course.'], 400);
-            }
-
-            $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
-            if (!$hasMedia) {
-                return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
-            }
-
-            $course->is_active = 1;
-            $course->save();
-
-            $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
-            if (!$hasMedia) {
-                return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
-            }
-
-            $course->is_active = 1;
-            $course->save();
-
-            logger('Course published successfully.');
-            //send to creator of course
-            try {
-                logger('Sending email to course creator: ' . $course->user->email);
-                Mail::to($course->user->email)->send(new CoursePublished($course, true));
-                logger('Email sent to course creator: ' . $course->user->email);
-            } catch (\Exception $e) {
-                logger('Error sending email to course creator: ' . $e->getMessage());
-            }
-
-            //Send email to all learners
-            $learners = User::whereHas('role', function ($query) {
-                $query->where('name', 'learner');
-            })->get();
-
-            logger('Learners found: ' . $learners->count());
-
-            foreach ($learners as $learner) {
-                logger('Start sending email to: ' . $learner->email);
-                try {
-                    Mail::to($learner->email)->send(new CoursePublished($course, false));
-                    logger('Email sent to: ' . $learner->email);
-                } catch (\Exception $e) {
-                    logger('Error sending email to ' . $learner->email . ': ' . $e->getMessage());
+                $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
+                if (!$hasMedia) {
+                    return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
                 }
             }
 
-            logger('All emails processed.');
+            // Toggle the is_active status
+            $course->is_active = !$course->is_active;
+            $course->save();
 
-            return response()->json(['success' => true, 'message' => 'Course published successfully!']);
+            logger($course->is_active ? 'Course published successfully.' : 'Course unpublished.');
+
+            return response()->json([
+                'success' => true,
+                'message' => $course->is_active ? 'Course published successfully!' : 'Course unpublished successfully!'
+            ]);
+
         } catch (\Exception $e) {
-            logger('Error publishing course: ' . $e->getMessage());
+            logger('Error toggling publish status: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Something went wrong!'], 500);
         }
-
     }
 
-
-    public function toggleStatus(Request $request, Course $course)
-    {
-        try {
-
-            $hasTest = Test::where('course_id', $course->id)->exists();
-            if (!$hasTest) {
-                return response()->json(['success' => false, 'message' => 'At least one test is required to publish this course.'], 400);
-            }
-
-            $hasMedia = courseAttachment::where('course_id', $course->id)->exists();
-            if (!$hasMedia) {
-                return response()->json(['success' => false, 'message' => 'At least one media file is required to publish this course.'], 400);
-            }
-
-            $course->update([
-                'is_active' => $request->is_active,
-                'published_at' => now()
-            ]);
-            return response()->json(['success' => true, 'message' => 'Course status updated successfully']);
-        } catch (\Exception $e) {
-            Log::error('Error updating course status', [
-                'message' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile()
-            ]);
-            return response()->json(['success' => false, 'message' => 'Failed to update course status']);
-        }
-    }
 
 
 }

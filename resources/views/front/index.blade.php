@@ -143,8 +143,8 @@
                             <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
                                 <div class="icon-box d-flex flex-column justify-content-center align-items-center">
                                     <i class="bi bi-gem"></i>
-                                    <h4>Subscribtion</h4>
-                                    <p>A subscription can be either paid or free, depending on the user's preference. Users
+                                    <h4>Course</h4>
+                                    <p>A Course can be either paid or free, depending on the user's preference. Users
                                         can choose a course based on their
                                         needs and availability.</p>
                                 </div>

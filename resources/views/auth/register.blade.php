@@ -191,16 +191,6 @@
                                         @enderror
                                     </div>
 
-                                    <div class="ui form mt-30 checkbox_sign">
-                                        <div class="inline field">
-                                            <div class="ui checkbox mncheck">
-                                                <input type="checkbox" tabindex="0" class="hidden">
-                                                <label>I’m in for emails with exciting discounts and personalized
-                                                    recommendations</label>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <button class="login-btn" type="submit">Instructor Sign Up Now</button>
                                 </form>
 
@@ -315,16 +305,6 @@
                                         <div class="ui left icon input swdh11 swdh19">
                                             <textarea class="prompt srch_explore" name="address" id="address"
                                                 placeholder=" Address" rows="4" cols="70"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="ui form mt-30 checkbox_sign">
-                                        <div class="inline field">
-                                            <div class="ui checkbox mncheck">
-                                                <input type="checkbox" tabindex="0" class="hidden">
-                                                <label>I'm in for emails with exciting discounts and personalized
-                                                    recommendations</label>
-                                            </div>
                                         </div>
                                     </div>
 

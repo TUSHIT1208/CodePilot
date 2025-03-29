@@ -35,7 +35,7 @@
                                     <div class="field">
                                         <textarea rows="3" name="description" class="form-control"
                                             id="description-field" required minlength="10" maxlength="1000"
-                                            placeholder="Item description here...">{{ old('description', $course->description ?? '') }}</textarea>
+                                            placeholder="course description here...">{{ old('description', $course->description ?? '') }}</textarea>
                                         <div class="invalid-feedback">Short Description must be between 10 and 1000
                                             characters.</div>
                                     </div>
@@ -44,15 +44,19 @@
                             </div>
                         </div>
 
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="description-field">Description*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea name="course_description" class="form-control"
+                                            id="description-field" required
+                                            placeholder="course description here...">{{ old('course_description', $course->course_description ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Course Description is required.</div>
+                                    </div>
+                                </div>
 
-                        <div class="course_des_textarea mt-30 lbel25">
-                            <label>Course Description*</label>
-                            <div class="text-editor">
-                                <textarea class="form-control editor1" name="course_description"
-                                    placeholder="Item description here"
-                                    required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
                             </div>
-                            <div class="invalid-feedback">Course Description is required.</div>
                         </div>
 
                         <!-- What will students learn? -->
@@ -456,7 +460,7 @@ $(document).ready(function () {
                     }
                 })
                 .then(editor => {
-                    console.log(`Editor ${index + 1} initialized`);
+                    console.log(Editor ${index + 1} initialized);
                 })
                 .catch(error => {
                     console.error("Error initializing CKEditor:", error);
@@ -465,7 +469,10 @@ $(document).ready(function () {
     });
 
 
-    function previewThumbnail(event) {
+  
+</script>
+<script>
+      function previewThumbnail(event) {
         var output = document.getElementById('thumbnail-preview');
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function() {
@@ -489,7 +496,7 @@ $(document).ready(function () {
 
 
     }
-</script>
+    </script>
 <style>
     .was-validated .form-control:invalid {
         border-color: #dc3545 !important;

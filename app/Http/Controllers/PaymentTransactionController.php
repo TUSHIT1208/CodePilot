@@ -22,10 +22,10 @@ class PaymentTransactionController extends Controller
                 ->from('order_items')
                 ->whereIn('course_id', function ($subQuery) {
                     $subQuery->select('id')
-                        ->from('courses')
-                        ->where('user_id', auth()->user()->id);
+                        ->from('courses');
                 });
         })->get();
+        logger($paymentTransactions);
         if (auth()->user()->role->name === 'admin') {
             if ($request->ajax()) {
                 logger($paymentTransactions);

@@ -15,7 +15,8 @@
                             <h1>Certification Center</h1>
                             <p>For Students and Instructors</p>
                             <ul class="certi_icons">
-                                <li><a href="#" class="edttslogo"><img src="{{ asset('images/logo1.svg') }} " alt=""></a>
+                                <li><a href="#" class="edttslogo"><img src="{{ asset('images/logo1.svg') }} "
+                                            alt=""></a>
                                 </li>
                                 <li>
                                     <div class="edttsplus">
@@ -23,7 +24,8 @@
                                     </div>
 
                                 </li>
-                                <li><a href="#" class="edttslogo1"><img src="{{ asset('images/certicon.svg') }}" alt=""></a>
+                                <li><a href="#" class="edttslogo1"><img src="{{ asset('images/certicon.svg') }}"
+                                            alt=""></a>
                                 </li>
                             </ul>
                             <a href="{{ route('Test_exam') }}"><button class="certi-btn">Start
@@ -71,21 +73,18 @@
                     </div>
                     <div class="col-md-12">
                         <div class="knowledge_dts">
-                            <p>Morbi eget elit eget turpis varius mollis eget vel massa. Donec porttitor, sapien eget
-                                commodo vulputate, erat felis aliquam dolor, non condimentum libero dolor vel ipsum. Sed
-                                porttitor nisi eget nulla ullamcorper eleifend. Fusce tristique sapien nisi, vel feugiat
-                                neque luctus sit amet. Quisque consequat quis turpis in mattis. Maecenas eget mollis nisl.
-                                Cras porta dapibus est, quis malesuada ex iaculis at. Vestibulum egestas tortor in urna
-                                tempor, in fermentum lectus bibendum. In leo leo, bibendum at pharetra at, tincidunt in
-                                nulla. In vel malesuada nulla, sed tincidunt neque. Phasellus at massa vel sem aliquet
-                                sodales non in magna. Ut tempus ipsum sagittis neque cursus euismod. Vivamus luctus
-                                elementum tortor, ac aliquet dolor vehicula et. Nulla vehicula pharetra lacus ornare
-                                gravida. Vivamus mollis ullamcorper dui quis gravida. Aenean pulvinar pulvinar arcu a
-                                suscipit.</p>
+                            <p>Learners are required to complete the test within the allotted time to evaluate their
+                                understanding of the subject. Each test has a predefined passing mark, and only those who
+                                achieve a score greater than the passing mark will be eligible to receive a certificate. If
+                                a learner fails to meet the required score, they will not be eligible for certification. The
+                                test must be attempted within the given time limit, and once the time expires, the test will
+                                be automatically submitted. This ensures a fair assessment process and encourages learners
+                                to prepare thoroughly before attempting the test.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         @include('learner.layout.footer')
-@endsection
+    @endsection

@@ -41,8 +41,8 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 Route::get('/courses', [HomeController::class, 'course'])->name('course');
 
-// routes/web.php
-Route::post('/courses/add-to-home', [CourseController::class, 'addToHome'])->name('courses.addToHome');
+Route::post('/courses/toggle-home-status', [CourseController::class, 'toggleHomeStatus'])->name('courses.toggleHomeStatus');
+
 
 
 Route::get('/list/instructor', function () {
@@ -174,7 +174,6 @@ Route::post('/learningpath/bulk-delete', [LearningPathController::class, 'bulkDe
 
 
 Route::resource('course', CourseController::class)->middleware('auth');
-Route::patch('/courses/toggle-status/{course}', [CourseController::class, 'toggleStatus'])->name('courses.toggle');
 
 
 Route::resource('test', TestController::class)->middleware('auth');
@@ -272,7 +271,9 @@ Route::get('/payment-history', [PaymentTransactionController::class, 'learner_pa
 Route::get('/invoice/view/{id}', [PaymentTransactionController::class, 'viewInvoice'])->name('invoice.view')->middleware('auth');
 Route::get('/invoice/download/{id}', [PaymentTransactionController::class, 'downloadInvoice'])->name('invoice.download')->middleware('auth');
 
-Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name('course.publish')->middleware('auth');
+// Route::post('/course/publish', [CourseController::class, 'publishCourse'])->name('course.publish')->middleware('auth');
+Route::post('/course/toggle-publish', [CourseController::class, 'togglePublish'])->name('course.togglePublish');
+
 
 Route::post('/test/{testId}/submit', [TestResultController::class, 'submitTest'])->name('test.submit')->middleware('auth');
 

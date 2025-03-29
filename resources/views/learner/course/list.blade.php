@@ -71,7 +71,7 @@
                                                     <a href="{{ route('course.show', $course->id) }}"
                                                         class="crse14s">{{ $course->title }}</a>
                                                     <a href="#"
-                                                        class="crse-cate">{{ $course->category->name ?? 'Uncategorized' }}</a>
+                                                        class="crse-cate">{{ $course->description ?? 'Uncategorized' }}</a>
                                                     <div class="auth1lnkprce">
                                                         <p>By <a
                                                                 href="javascript:;">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown' }}</a>
@@ -81,10 +81,11 @@
                                                                 Free
                                                             @else
                                                                 @if ($course->discount > 0)
-                                                                <s style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
+                                                                    <s
+                                                                        style="text-decoration-color: red; font-size: 0.9em;">₹{{ $course->price }}</s>
                                                                 @endif
                                                                 ₹{{ $course->price - ($course->discount ?? 0) }}
-                                                            @endif    
+                                                            @endif
                                                         </div>
                                                         @if ($course->price != 0)
                                                             <form class="cartForm">
@@ -183,7 +184,7 @@
                                     }
                                 };
                                 toastr.warning(body
-                                .message); // Show warning for duplicate entry
+                                    .message); // Show warning for duplicate entry
                             } else {
                                 toastr.options = {
                                     closeButton: true,
@@ -282,7 +283,7 @@
                                     }
                                 };
                                 toastr.warning(body
-                                .message); // Show warning for duplicate entry
+                                    .message); // Show warning for duplicate entry
                             } else {
                                 toastr.options = {
                                     closeButton: true,

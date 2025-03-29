@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\course;
+use App\Models\review;
 use App\Models\User;
-use App\Models\Review;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller

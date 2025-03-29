@@ -51,8 +51,7 @@
                                 <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
                                     <div class="_215b03">
                                         <h2>{{ $courseDetail->title }}</h2>
-                                        <span class="_215b04">The only course you need to learn web development - HTML, CSS,
-                                            JS, Node, and More!</span>
+                                        <span class="_215b04">{{ $courseDetail->description }}</span>
                                     </div>
                                     <div class="_215b05">
                                         <div class="crse_reviews mr-2">
@@ -100,18 +99,17 @@
                             <div class="user_dt_left">
                                 <div class="live_user_dt">
                                     <div class="user_img5">
-                                        @if (!empty(auth()->user()->profile_picture_url))
-                                            <img id="profile_picture" src="{{ asset(Auth::user()->profile_picture_url) }}"
-                                                class="img-fluid">
+                                        @if (!empty($user->profile_picture_url))
+                                        <img id="profile_picture" src="{{ asset('profile_images/' . $user->profile_picture_url) }}" class="img-fluid">
                                         @else
                                             <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
                                                 style="width: 40px; height: 40px; font-size: 18px;">
-                                                {{ strtoupper(substr($users->username, 0, 1)) }}
+                                                {{ strtoupper(substr($users->first_name, 0, 1)) }}
                                             </div>
                                         @endif
                                     </div>
                                     <div class="user_cntnt">
-                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">{{ $users->username }}</a>
+                                        <a href="{{ route('setting') }}" class="mt-2 _df7852">{{ $users->first_name . ' ' . $users->last_name }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -120,19 +118,20 @@
                             <nav>
                                 <div class="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
                                     @if ($coursePrice->price == 0)
-                                        <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
+                                        <a class="nav-item nav-link" id="nav-courses-tab" data-bs-toggle="tab"
                                             href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
-                                        
+                                            <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
+                                            href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
                                     @elseif($coursePrice->price != 0)
                                         @if (isset($checkPurchase))
-                                            <a class="nav-item nav-link active" id="nav-courses-tab" data-bs-toggle="tab"
+                                            <a class="nav-item nav-link" id="nav-courses-tab" data-bs-toggle="tab"
                                                 href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                             <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
                                                 href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
                                         @endif
                                     @endif
-                                    <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
-                                        role="tab" aria-selected="true">About</a>
+                                    <a class="nav-item nav-link active" id="nav-about-tab" data-bs-toggle="tab"
+                                        href="#nav-about" role="tab" aria-selected="true">About</a>
                                 </div>
                             </nav>
                         </div>
@@ -203,8 +202,7 @@
 
                                     </div>
                                 </div>
-                                @if($coursePrice->price != 0)
-                                    @if (isset($checkPurchase))
+
                                 <div class="tab-pane fade" id="nav-courses" role="tabpanel">
                                     @if ($courseDetail->courseattachment->isNotEmpty())
                                         @foreach ($courseDetail->courseattachment as $attachment)
@@ -222,8 +220,6 @@
                                                                     <div
                                                                         class="badge_seller bg-blue-500 text-white px-2 py-1 rounded-full">
                                                                         Featured</div>
-                                                                    <div class="crse_reviews text-white playlist_review"><i
-                                                                            class="uil uil-star"></i>4.5</div>
                                                                     <span class="play_btn1 text-white text-2xl"><i
                                                                             class="uil uil-play"></i></span>
                                                                     <div class="crse_timer text-white"
@@ -237,6 +233,21 @@
                                                                     src="{{ asset('courseVideo/' . $attachment->url) }}"
                                                                     type="video/mp4">
                                                             </video>
+                                                            <script>
+                                                                document.addEventListener('DOMContentLoaded', function() {
+                                                                    const video = document.getElementById('temp-video-{{ $attachment->id }}');
+                                                                    video.addEventListener('loadedmetadata', () => {
+                                                                        const duration = video.duration;
+                                                                        const minutes = Math.floor(duration / 60);
+                                                                        const seconds = Math.floor(duration % 60);
+                                                                        const formattedDuration = minutes > 0 ?
+                                                                            `${minutes}:${seconds.toString().padStart(2, '0')} minutes` : `${seconds} seconds`;
+                                                                        document.getElementById('video-duration-{{ $attachment->id }}').innerText =
+                                                                            formattedDuration;
+                                                                    });
+                                                                    video.load();
+                                                                });
+                                                            </script>
                                                         @elseif ($attachment->type === 'document' && Str::endsWith($attachment->url, '.pdf'))
                                                             <a href="{{ asset('courseAssignments/' . $attachment->url) }}"
                                                                 target="_blank" class="hf_img">
@@ -264,7 +275,8 @@
                                                         </div>
                                                         <a href="javascript:void(0);"
                                                             class="crse14s title900 text-lg font-bold">{{ $attachment->title }}
-                                                            | {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
+                                                            |
+                                                            {{ $courseDetail->category->name ?? 'Uncategorized' }}</a>
                                                         <p class="text-gray-700">{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;"
@@ -280,12 +292,15 @@
                                             <i class="uil uil-folder-minus bounce-effect"
                                                 style="font-size: 50px; color: #d1d1d1;"></i>
                                             <h3 class="mt-3 scale-in-text" style="color: #777;">No content Found</h3>
-                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't have
+                                            <p class="mb-4 fade-in-text" style="color: #aaa;">It looks like you don't
+                                                have
                                                 any
                                                 content yet. Add one now to get started!</p>
                                         </div>
                                     @endif
                                 </div>
+
+
                                 <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
                                     <div class="student_reviews">
                                         <div class="row">
@@ -333,8 +348,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -450,8 +463,8 @@
                                            ${review.user.profile_picture_url
                                             ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
                                             : `<h1 id="default_avtar1">
-                                                                ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
-                                                        </h1>`}
+                                                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                                                </h1>`}
                                             <div class="rv1458">
                                                 <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
                                                 <span class="time_145">${formatTime(review.created_at)}</span>
@@ -465,7 +478,14 @@
                                 $('#review-container').append(reviewItem);
                             });
                         } else {
-                            $('#review-container').html('<p>No reviews available.</p>');
+                            $('#review-container').html(`
+                                <div class="no-categories-container text-center fade-in-animation footer mt-5">
+                                    <i class="uil uil-award bounce-effect" style="font-size: 50px; color: #d1d1d1;"></i>
+                                    <h3 class="mt-3 scale-in-text" style="color: #777;">No Review Found</h3>
+                                    <p class="mb-4 fade-in-text" style="color: #aaa;">
+                                        It looks like you don't have any Review yet.</p>
+                                </div>
+                            `);
                         }
                     },
                     error: function(xhr) {
@@ -485,23 +505,10 @@
             loadReviews();
         });
     </script>
-    @if($coursePrice->price != 0)
-    @if (isset($checkPurchase))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('temp-video-{{ $attachment->id }}');
-            video.addEventListener('loadedmetadata', () => {
-                const duration = video.duration;
-                const minutes = Math.floor(duration / 60);
-                const seconds = Math.floor(duration % 60);
-                const formattedDuration = minutes > 0 ?
-                    `${minutes}:${seconds.toString().padStart(2, '0')} minutes` : `${seconds} seconds`;
-                document.getElementById('video-duration-{{ $attachment->id }}').innerText =
-                    formattedDuration;
-            });
-            video.load();
-        });
-    </script>
-    @endif
-    @endif
+
+    {{-- @if ($coursePrice->price != 0)
+        @if (isset($checkPurchase))
+            
+        @endif
+    @endif --}}
 @endsection

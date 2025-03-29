@@ -157,6 +157,14 @@
                                             <div class="row">
                                                 <!-- Passing Marks -->
                                                 <div class="ui search focus lbel25 mt-30 col-sm-4">
+                                                    <label>Total Marks*</label>
+                                                    <input class="form_input_1 form-control" type="text"
+                                                        name="total_marks" id="total_marks"
+                                                        placeholder="total marks here" required>
+                                                    <div class="invalid-feedback" id="total_marks_error">Please enter
+                                                        total marks.</div>
+                                                </div>
+                                                <div class="ui search focus lbel25 mt-30 col-sm-4">
                                                     <label>Passing Marks*</label>
                                                     <input class="form_input_1 form-control" type="text"
                                                         name="passing_mark" id="passing_mark"
@@ -165,14 +173,7 @@
                                                         passing marks below than total marks</div>
                                                 </div>
 
-                                                <div class="ui search focus lbel25 mt-30 col-sm-4">
-                                                    <label>Total Marks*</label>
-                                                    <input class="form_input_1 form-control" type="text"
-                                                        name="total_marks" id="total_marks"
-                                                        placeholder="total marks here" required>
-                                                    <div class="invalid-feedback" id="total_marks_error">Please enter
-                                                        total marks.</div>
-                                                </div>
+                                              
 
                                                 <div class="ui search focus lbel25 mt-30 col-sm-4">
                                                     <label>Total Time*</label>
@@ -334,6 +335,10 @@
                     // Show the modal
 
                     $('#add_quiz_model').modal('show');
+                    if (quizId) {
+                        $('#questionForm').hide();
+                        $('#quizDataTable').hide();
+                    }
                 },
                 error: function (xhr, status, error) {
                     toastr.error('An error occurred while fetching quiz data.', 'Error');
@@ -584,7 +589,7 @@
         const selectedCorrectAnswers = Array.from(correctAnswers).filter(input => input.checked);
         if (selectedCorrectAnswers.length !== 1) {
             correctAnswers.forEach(input => input.classList.add('is-invalid'));
-            toastr.warning("pleas one option");
+            toastr.warning("please select one correct option!");
             setTimeout(function () { }, 2000); //alert("Please select exactly one correct answer.");
 
             isValid = false;

@@ -35,7 +35,7 @@
                     @else
                         <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
                             style="width: 40px; height: 40px; font-size: 18px;">
-                            {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}
+                            {{ strtoupper(substr(Auth::user()->username, 0, 1)) }}
                         </div>
                     @endif
                 </a>
@@ -47,7 +47,7 @@
                             @else
                                 <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
                                     style="width: 40px; height: 40px; font-size: 18px;">
-                                    {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}
+                                    {{ strtoupper(substr(Auth::user()->username, 0, 1)) }}
                                 </div>
                             @endif
                             <div class="pd_content">
@@ -65,12 +65,13 @@
                     </div>
                     <div class="night_mode_switch__btn">
                         <a href="#" id="night-mode" class="btn-night-mode">
-                            <i class="uil uil-moon"></i> Night mode
+                            <i class="uil uil-moon mode-icon"></i>
+                            <span style="position: relative; left: 16%;">Night Mode</span>
                             <span class="btn-night-mode-switch">
                                 <span class="uk-switch-button"></span>
                             </span>
                         </a>
-                    </div>
+                    </div>                    
                     <a href="{{ route('dashboard.index') }}" class="item channel_item">CodePilot dashboard</a>
                     <a href="{{ route('setting') }}" class="item channel_item">Setting</a>
                     <a href="{{ route('changepassword.create') }}" class="item channel_item">Change Password</a>

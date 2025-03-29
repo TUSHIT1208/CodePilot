@@ -205,6 +205,32 @@
 
             toastr.error("{{ session('error') }}", "Error");
         @endif
+
+        @if(session('warning'))
+            toastr.options = {
+                closeButton: true,
+                debug: false,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-top-right",
+                preventDuplicates: true,
+                timeOut: 2000,
+                extendedTimeOut: 1000,
+                showEasing: "swing",
+                hideEasing: "linear",
+                showMethod: "fadeIn",
+                hideMethod: "fadeOut",
+                onShown: function () {
+                    $(".toast-warning").css({
+                        'background-color': '#ffc107', // Green for success
+                        'opacity': '1'  // Adjust opacity
+                    });;
+                }
+            };
+
+            toastr.warning("{{ session('warning') }}", "Warning");
+        @endif
+
     </script>
 
 

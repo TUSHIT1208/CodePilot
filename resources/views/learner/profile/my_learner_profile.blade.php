@@ -156,8 +156,6 @@
                                                                     <p>By <a
                                                                             href="javascript:;">{{ $course->course->user->first_name . ' ' . $course->course->user->last_name ?? 'unknown' }}</a>
                                                                     </p>
-                                                                    <div class="prce142">₹{{ $course->course->price ?? 'Free' }}</div>
-            
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -177,7 +175,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
          // When the "Edit Profile" button is clicked, trigger file input
-         document.getElementById('editProfileBtn').addEventListener('click', function () {
+         document.getElementById('editProfileBtn_learner').addEventListener('click', function () {
              console.log("Edit Profile button clicked!");
              document.getElementById('fileInput').click(); // Open file picker dialog
          });

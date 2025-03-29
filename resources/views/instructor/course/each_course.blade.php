@@ -18,7 +18,6 @@
                                             <img src="{{ asset('courseThumbnail/' . $courseDetail->thumbnail_url) }}"
                                                 alt="Course Thumbnail" class="img-fluid thumbnail" style="height: 213px;">
                                             <div class="course-overlay intro_overlay">
-                                                <div class="badge_seller">Bestseller</div>
                                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                 <span class="_215b02">Preview this course</span>
                                             </div>
@@ -59,7 +58,7 @@
                                         </div>
                                         (81,665 ratings)
                                     </div>
-                                    <div class="_215b05">114,521 students enrolled</div>
+                                    {{-- <div class="_215b05">114,521 students enrolled</div> --}}
                                     <div class="_215b06">
                                         <div class="_215b07">
                                             <span><i class='uil uil-comment'></i></span>
@@ -94,7 +93,7 @@
                                     </div>
                                     <div class="user_cntnt">
                                         <a href="{{ route('setting') }}"
-                                            class="mt-2 _df7852">{{ Auth::user()->username }}</a>
+                                            class="mt-2 _df7852">{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -257,7 +256,7 @@
                                                         <p class="text-gray-700">{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;"
-                                                                    class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a>
+                                                                    class="text-blue-500">{{ $users->first_name . ' ' . $users->last_name ?? 'Unknown' }}</a>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -275,60 +274,14 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="tab-pane fade" id="nav-reviews" role="tabpanel">
-                                    <div class="student_reviews">
-                                        <div class="row">
-                                            <div class="col-lg-5">
-                                                <form action="{{ route('review.store') }}" method="POST"
-                                                    id="review-form">
-                                                    @csrf
-                                                    <input type="hidden" name="course_id"
-                                                        value="{{ $courseDetail->id }}">
-
-                                                    <div class="review-container">
-                                                        <h3 class="review-title">Give Your Review</h3>
-
-                                                        <!-- Star Rating -->
-                                                        <div class="rating-stars">
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                <span class="star"
-                                                                    data-value="{{ $i }}">★</span>
-                                                            @endfor
-                                                            <input type="hidden" name="rating" id="rating-value"
-                                                                value="0">
-                                                        </div>
-
-                                                        <!-- Review Text -->
-                                                        <textarea name="review" id="review-text" class="review-input" placeholder="Write your review..." rows="5"></textarea>
-
-                                                        <!-- Submit Button -->
-                                                        <button type="submit" class="submit-btn"
-                                                            id="submit-review">Submit Review</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="col-lg-7">
-                                                <div class="review_right">
-                                                    <div class="review_right_heading">
-                                                        <h3>Reviews</h3>
-                                                    </div>
-                                                </div>
-                                                <div class="review_all120" id="review-container">
-                                                    <!-- Dynamic Reviews Will be Loaded Here -->
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @include('instructor.layouts.footer')
-        <script>
+        @include('admin.layouts.footer')
+        {{-- <script>
             $(document).ready(function() {
                 const courseId = {{ $courseDetail->id }};
                 const stars = $('.star');
@@ -420,23 +373,23 @@
                                     }
 
                                     const reviewItem = `
-                                        <div class="review_item">
-                                            <div class="review_usr_dt">
-                                                 
-                                               ${review.user.profile_picture_url
-                                                ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
-                                                : `<h1 id="default_avtar1">
-                                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
-                                                                </h1>`}
-                                                <div class="rv1458">
-                                                    <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
-                                                    <span class="time_145">${formatTime(review.created_at)}</span>
-                                                </div>
-                                            </div>
-                                            <div class="rating-box mt-20">${stars}</div>
-                                            <p class="rvds10">${review.review || 'No review provided.'}</p>
-                                        </div>
-                                    `;
+                            <div class="review_item">
+                                <div class="review_usr_dt">
+                                    ${review.user.profile_picture_url
+                                        ? ` <img src="${window.assetUrl + review.user.profile_picture_url}" alt="" >` 
+                                        : `<div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center"
+                                                        style="width: 40px; height: 40px; font-size: 18px;">
+                                                        ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
+                                                    </div>`}
+                                    <div class="rv1458">
+                                        <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
+                                        <span class="time_145">${formatTime(review.created_at)}</span>
+                                    </div>
+                                </div>
+                                <div class="rating-box mt-20">${stars}</div>
+                                <p class="rvds10">${review.review || 'No review provided.'}</p>
+                            </div>
+                        `;
 
                                     $('#review-container').append(reviewItem);
                                 });
@@ -468,5 +421,5 @@
                 // ⭐ Load reviews when page loads
                 loadReviews();
             });
-        </script>
+        </script> --}}
     @endsection

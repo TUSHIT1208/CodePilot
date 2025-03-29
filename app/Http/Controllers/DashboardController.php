@@ -52,7 +52,7 @@ class DashboardController extends Controller
             ->where('is_active', 1)
             ->where('price', '>', 0)
             ->take(3) // Get top 3 courses
-            ->get();
+        ->get();
 
         //pending course
         $pendingCourse = Course::where('is_active', 0)->latest()->first();
@@ -621,7 +621,7 @@ class DashboardController extends Controller
         // Get payment transactions for these orders
         $transactions = PaymentTransaction::whereIn('order_id', $orders)->get();
 
-        logger(['orderItems' => $orderItems, 'transactions' => $transactions]); // Debug log
+        // logger(['orderItems' => $orderItems, 'transactions' => $transactions]); // Debug log
 
         $formattedCourses = $courses->map(function ($course) use ($orderItems, $transactions) {
             $orderItem = $orderItems[$course->course_id]->first() ?? null;
@@ -634,6 +634,7 @@ class DashboardController extends Controller
                 'total_amount' => $transaction ? '₹' . number_format($transaction->amount, 2) : 'N/A',
                 'created_at' => $course->created_at ? $course->created_at->format('Y-m-d H:i:s') : 'N/A'
             ];
+            
         });
 
         logger($formattedCourses);
@@ -789,14 +790,14 @@ class DashboardController extends Controller
             }
 
             // Filter by course type
-            // if ($request->course_type == 'free') {
-            //     $query->where(function ($q) {
-            //         $q->where('price', 0)
-            //             ->orWhereNull('price'); // Check if price is 0 or NULL
-            //     });
-            // } elseif ($request->course_type == 'paid') {
-            //     $query->where('price', '>', 0);
-            // }
+            if ($request->course_type == 'free') {
+                $query->where(function ($q) {
+                    $q->where('price', 0)
+                        ->orWhereNull('price'); // Check if price is 0 or NULL
+                });
+            } elseif ($request->course_type == 'paid') {
+                $query->where('price', '>', 0);
+            }
 
             // **Filter by instructor**
             if ($request->instructor_id) {
