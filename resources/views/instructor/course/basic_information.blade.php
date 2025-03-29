@@ -8,28 +8,12 @@
                 <form
                     action="{{ isset($course) ? route('course.update', ['course' => $course->id]) : route('course.store') }}"
                     method="POST" id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data">
+                {{-- <form id="courseForm" novalidate class="basic-validation" enctype="multipart/form-data"> --}}
                     @csrf
                     @if (isset($course))
-                        @method('PUT')
+                    @method('PUT')
                     @endif
                     <div class="row">
-                        {{-- <div class="col-lg-12 col-md-12">
-                            <div class="ui search focus mt-30 lbel25">
-                                <label for="title-field">Course Title*</label>
-                                <div class="ui left icon input swdh19">
-                                    <input type="text" 
-                                           class="prompt srch_explore form-control" 
-                                           id="title-field"
-                                           placeholder="Course title here" 
-                                           name="title" 
-                                           required minlength="10" maxlength="100"
-                                           value="{{ old('title', $course->title ?? '') }}">
-                                    <div class="invalid-feedback">Course Title must be between 10 and 100 characters.</div>
-                                </div>
-                                <div class="help-block">(Please make this a maximum of 100 characters and unique.)</div>
-                            </div>                                 
-                        </div> --}}
-
                         <div class="col-lg-12 col-md-12">
                             <div class="ui search focus lbel25 mt-30">
                                 <label for="title-field">Course Title*</label>
@@ -49,8 +33,9 @@
                                 <label for="description-field">Short Description*</label>
                                 <div class="ui form swdh30">
                                     <div class="field">
-                                        <textarea rows="3" name="description" class="form-control" id="description-field" required minlength="10"
-                                            maxlength="1000" placeholder="Item description here...">{{ old('description', $course->description ?? '') }}</textarea>
+                                        <textarea rows="3" name="description" class="form-control"
+                                            id="description-field" required minlength="10" maxlength="1000"
+                                            placeholder="Item description here...">{{ old('description', $course->description ?? '') }}</textarea>
                                         <div class="invalid-feedback">Short Description must be between 10 and 1000
                                             characters.</div>
                                     </div>
@@ -63,7 +48,9 @@
                         <div class="course_des_textarea mt-30 lbel25">
                             <label>Course Description*</label>
                             <div class="text-editor">
-                                <textarea class="form-control editor1" name="course_description" placeholder="Item description here" required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
+                                <textarea class="form-control editor1" name="course_description"
+                                    placeholder="Item description here"
+                                    required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
                             </div>
                             <div class="invalid-feedback">Course Description is required.</div>
                         </div>
@@ -74,8 +61,9 @@
                                 <label for="learn-field">What will students learn in your course?*</label>
                                 <div class="ui form swdh30">
                                     <div class="field">
-                                        <textarea rows="3" name="learn_in_course" class="form-control editor1" id="learn-field" required minlength="10"
-                                            maxlength="1000" placeholder="Enter learning outcomes...">{{ old('learn_in_course', $course->learn_in_course ?? '') }}</textarea>
+                                        <textarea rows="3" name="learn_in_course" class="form-control editor1"
+                                            id="learn-field" required minlength="10" maxlength="1000"
+                                            placeholder="Enter learning outcomes...">{{ old('learn_in_course', $course->learn_in_course ?? '') }}</textarea>
                                         <div class="invalid-feedback">Learning outcomes must be between 10 and 1000
                                             characters.</div>
                                     </div>
@@ -89,8 +77,9 @@
                                 <label for="requirement-field">Requirements*</label>
                                 <div class="ui form swdh30">
                                     <div class="field">
-                                        <textarea rows="3" name="requirement" class="form-control editor1" id="requirement-field" required minlength="10"
-                                            maxlength="1000" placeholder="Enter course requirements...">{{ old('requirement', $course->requirement ?? '') }}</textarea>
+                                        <textarea rows="3" name="requirement" class="form-control editor1"
+                                            id="requirement-field" required minlength="10" maxlength="1000"
+                                            placeholder="Enter course requirements...">{{ old('requirement', $course->requirement ?? '') }}</textarea>
                                         <div class="invalid-feedback">Requirements must be between 10 and 1000
                                             characters.</div>
                                     </div>
@@ -105,14 +94,14 @@
                             <select class="selectpicker _dlor1 form-control" name="course_level" id="selectlevel"
                                 required>
                                 <option value="" hidden>Select Course Level</option>
-                                <option value="Beginner"
-                                    {{ old('course_level', $course->course_level ?? '') == 'Beginner' ? 'selected' : '' }}>
+                                <option value="Beginner" {{ old('course_level', $course->course_level ?? '') ==
+                                    'Beginner' ? 'selected' : '' }}>
                                     Beginner</option>
-                                <option value="Intermediate"
-                                    {{ old('course_level', $course->course_level ?? '') == 'Intermediate' ? 'selected' : '' }}>
+                                <option value="Intermediate" {{ old('course_level', $course->course_level ?? '') ==
+                                    'Intermediate' ? 'selected' : '' }}>
                                     Intermediate</option>
-                                <option value="Expert"
-                                    {{ old('course_level', $course->course_level ?? '') == 'Expert' ? 'selected' : '' }}>
+                                <option value="Expert" {{ old('course_level', $course->course_level ?? '') == 'Expert' ?
+                                    'selected' : '' }}>
                                     Expert</option>
                             </select>
                             <div class="invalid-feedback">Course Level is required.</div>
@@ -125,9 +114,10 @@
                             <select class="selectpicker _dlor1 form-control" name="course_type" id="selectcourse_type"
                                 required>
                                 <option value="" hidden>Select Course type</option>
-                                {{-- <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ? 'selected' : '' }}>Text</option> --}}
-                                <option value="video"
-                                    {{ old('course_type', $course->course_type ?? '') == 'video' ? 'selected' : '' }}>
+                                {{-- <option value="text" {{ old('course_type', $course->course_type ?? '') == 'text' ?
+                                    'selected' : '' }}>Text</option> --}}
+                                <option value="video" {{ old('course_type', $course->course_type ?? '') == 'video' ?
+                                    'selected' : '' }}>
                                     Video</option>
                             </select>
                             <div class="invalid-feedback">Course Type is required.</div>
@@ -140,19 +130,11 @@
                             <select class="selectpicker _dlor1 form-control" name="category_id" id="selectcategory"
                                 onchange="loadSubCategories()" required>
                                 <option value="" selected hidden>Select Category</option>
-                                {{-- @if (isset($subcategories))
-                                    @foreach ($subcategories as $subcategory)
-                                        <option value="{{ $subcategory->id }}"
-                                            {{ old('sub_category_id', $course->sub_category_id ?? '') == $subcategory->id ? 'selected' : '' }}>
-                                            {{ $subcategory->name }}
-                                        </option>
-                                    @endforeach
-                                @endif --}}
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category_id', $course->category_id ?? '') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
+                                <option value="{{ $category->id }}" {{ old('category_id', $course->category_id ?? '') ==
+                                    $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">Course Category is required.</div>
@@ -174,9 +156,9 @@
                                 <label for="title-field">Meta Keyword*</label>
                                 <div class="ui left icon">
                                     <input type="text" name="meta_keyword" id="title-field"
-                                        class="prompt srch_explore form-control"
-                                        placeholder="Course meta keyword here" required minlength="3"
-                                        maxlength="255" value="{{ old('title', $course->meta_keyword ?? '') }}">
+                                        class="prompt srch_explore form-control" placeholder="Course meta keyword here"
+                                        required minlength="3" maxlength="255"
+                                        value="{{ old('title', $course->meta_keyword ?? '') }}">
                                     <div class="invalid-feedback">Course Meta Keyword must be between 3 and 255
                                         characters.</div>
                                 </div>
@@ -202,8 +184,9 @@
                                 <label for="description-field">Meta Description*</label>
                                 <div class="ui form swdh30">
                                     <div class="field">
-                                        <textarea rows="3" name="meta_description" class="form-control" id="meta-description-field" required
-                                            minlength="10" maxlength="1000" placeholder="Item meta description here...">{{ old('meta_description', $course->meta_description ?? '') }}</textarea>
+                                        <textarea rows="3" name="meta_description" class="form-control"
+                                            id="meta-description-field" required minlength="10" maxlength="1000"
+                                            placeholder="Item meta description here...">{{ old('meta_description', $course->meta_description ?? '') }}</textarea>
                                         <div class="invalid-feedback">Meta Description must be between 10 and 1000
                                             characters.</div>
                                     </div>
@@ -224,18 +207,18 @@
                                 </div>
                                 <div class="upload-file-dt mt-28">
                                     <!-- Video Preview Section -->
-                                    <video width="60%" id="video-preview" controls
-                                        {{ isset($course->url) ? '' : 'hidden' }}>
+                                    <video width="60%" id="video-preview" controls {{ isset($course->url) ? '' :
+                                        'hidden' }}>
                                         <source id="video-source"
                                             src="{{ isset($course->url) ? asset('courseVideo/' . $course->url) : '' }}"
                                             type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>
                                     <div class="upload-btn">
-                                        <input class="uploadBtn-main-input" type="file"
-                                            id="IntroFile__input--source" name="introduction_video" accept=".mp4"
-                                            value="{{ old('url', $course->url ?? '') }}"
-                                            {{ isset($course) ? '' : 'required' }} onchange="previewVideo(event)">
+                                        <input class="uploadBtn-main-input" type="file" id="IntroFile__input--source"
+                                            name="introduction_video" accept=".mp4"
+                                            value="{{ old('url', $course->url ?? '') }}" {{ isset($course) ? ''
+                                            : 'required' }} onchange="previewVideo(event)">
                                         <label for="IntroFile__input--source" title="Zip">Upload Video</label>
                                     </div>
 
@@ -257,9 +240,8 @@
                                             <input class="uploadBtn-main-input" type="file"
                                                 id="ThumbFile__input--source" name="introduction_thumbnail"
                                                 accept=".jpg,.jpeg,.png"
-                                                value="{{ old('thumbnail_url', $course->thumbnail_url ?? '') }}"
-                                                {{ isset($course) ? '' : 'required' }}
-                                                onchange="previewThumbnail(event)">
+                                                value="{{ old('thumbnail_url', $course->thumbnail_url ?? '') }}" {{
+                                                isset($course) ? '' : 'required' }} onchange="previewThumbnail(event)">
                                             <label for="ThumbFile__input--source" title="Zip">Choose
                                                 Thumbnail</label>
                                         </div>
@@ -271,83 +253,146 @@
                             </div>
                         </div>
                     </div>
-                    {{-- @endif   --}}
-                    <button type="submit" class="main-btn mt-3"
-                        id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
-                    {{--                    
-                    <div class="mt-5 row">
-                        <div class="col-lg-6">
-                            <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save' }}</button>
-                        </div>
-                        
-                    </div> --}}
+                    {{-- @endif --}}
+                    <button type="submit" class="main-btn mt-3" id="submitButton">{{ isset($course) ? 'Update' : 'Save'
+                        }}</button>
                 </form>
-
-                <script>
-                    function loadSubCategories() {
-                        var categoryId = document.getElementById("selectcategory").value;
-                        var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
-
-                        if (!categoryId) {
-                            return;
-                        }
-
-                        $.ajax({
-                            url: '{{ url('admin/course/subcategories') }}',
-                            type: 'GET',
-                            data: {
-                                category_id: categoryId
-                            },
-                            success: function(response) {
-                                var subCategorySelect = $('#selectsub_category');
-                                subCategorySelect.empty();
-                                subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
-
-                                if (response.length) {
-                                    response.forEach(function(subCategory) {
-                                        var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
-                                        subCategorySelect.append('<option value="' + subCategory.id + '" ' +
-                                            selected + '>' + subCategory.name + '</option>');
-                                    });
-                                } else {
-                                    subCategorySelect.append('<option value="">No subcategories available</option>');
-                                }
-
-                                if ($.fn.selectpicker) {
-                                    subCategorySelect.selectpicker('refresh');
-                                } else {
-                                    console.warn("Bootstrap Select is not loaded.");
-                                }
-                            },
-                            error: function() {
-                                console.log('Error fetching subcategories');
-                            }
-                        });
-                    }
-
-                    $(document).ready(function() {
-                        // Auto-load subcategories when editing a course
-                        if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
-                            loadSubCategories();
-                        }
-                    });
-                    // validation
-                    document.addEventListener("DOMContentLoaded", function() {
-                        const form = document.querySelector(".basic-validation");
-
-                        form.addEventListener("submit", function(event) {
-                            if (!form.checkValidity()) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add("was-validated");
-                        }, false);
-                    });
-                </script>
+                <div class="loader-overlay" id="loader">
+                    <div class="loader"></div>
+                </div>
+                
+                
             </div>
         </div>
     </div>
 </div>
+<script>
+    function loadSubCategories() {
+        var categoryId = document.getElementById("selectcategory").value;
+        var selectedSubCategoryId = "{{ old('sub_category_id', $course->sub_category_id ?? '') }}";
+
+        if (!categoryId) {
+            return;
+        }
+
+        $.ajax({
+            url: '{{ url('admin/course/subcategories') }}',
+            type: 'GET',
+            data: {
+                category_id: categoryId
+            },
+            success: function(response) {
+                var subCategorySelect = $('#selectsub_category');
+                subCategorySelect.empty();
+                subCategorySelect.append('<option value="" selected hidden>Select Sub-category</option>');
+
+                if (response.length) {
+                    response.forEach(function(subCategory) {
+                        var selected = (subCategory.id == selectedSubCategoryId) ? 'selected' : '';
+                        subCategorySelect.append('<option value="' + subCategory.id + '" ' +
+                            selected + '>' + subCategory.name + '</option>');
+                    });
+                } else {
+                    subCategorySelect.append('<option value="">No subcategories available</option>');
+                }
+
+                
+                    //subCategorySelect.selectpicker('refresh'); // Refresh after initialization
+                    if (subCategorySelect.length) {
+                        if ($.fn.selectpicker) {
+                            subCategorySelect.selectpicker(); // Initialize if not already
+                            subCategorySelect.selectpicker('refresh'); // Refresh dropdown
+                        } else {
+                            console.warn("Bootstrap Select is not loaded.");
+                        }
+                    } else {
+                        console.error("#sub_category_id select element not found.");
+                    }
+            },
+            error: function() {
+                console.log('Error fetching subcategories');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        // Auto-load subcategories when editing a course
+        if ("{{ isset($course) ? 'true' : 'false' }}" === "true") {
+            loadSubCategories();
+        }
+    });
+    // // validation
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     const form = document.querySelector(".basic-validation");
+
+    //     form.addEventListener("submit", function(event) {
+    //         if (!form.checkValidity()) {
+    //             event.preventDefault();
+    //             event.stopPropagation();
+    //         }
+    //         form.classList.add("was-validated");
+    //     }, false);
+    // });
+</script>
+<script>
+// $(document).ready(function () {
+        // Ensure CKEditor data is added before form submission
+// for (instance in CKEDITOR.instances) {
+//     CKEDITOR.instances[instance].updateElement();
+// }
+$(document).ready(function () {
+    const form = $(".basic-validation");
+
+    form.submit(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        if (!form[0].checkValidity()) {
+            event.stopPropagation();
+            form.addClass("was-validated");
+            return;
+        }
+
+        let formAction = form.attr("action");
+        let formMethod = form.attr("method").toUpperCase();
+        let formData = new FormData(this);
+        let submitButton = $("#submitButton");
+        let loader = $("#loader");
+
+        // Show loader and disable submit button
+        loader.show();
+        submitButton.prop("disabled", true).text("Saving...");
+
+        $.ajax({
+            url: formAction,
+            type: formMethod,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log("Server Response:", response);
+                loader.hide();
+                submitButton.prop("disabled", false).text("Save");
+
+                if (response.success && formMethod === "POST" && response.redirect_url) {
+                    window.location.href = response.redirect_url;
+                } else {
+                    //alert("Update");
+                    console.log("update");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", xhr.responseText);
+                loader.hide();
+                submitButton.prop("disabled", false).text("Save");
+            }
+        });
+
+        form.addClass("was-validated");
+    });
+});
+
+    // });
+</script>
 <script>
     // ckeditor
     document.addEventListener("DOMContentLoaded", function() {
@@ -446,11 +491,6 @@
     }
 </script>
 
-<script>
-    // if (course) {
-    //     $('#add-course-tab .step-footer button[data-direction="prev"]').css('display', 'none');
-    // }
-</script>
 
 
 <style>

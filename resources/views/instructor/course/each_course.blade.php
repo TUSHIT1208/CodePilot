@@ -106,8 +106,8 @@
                                         href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
                                     <a class="nav-item nav-link" id="nav-about-tab" data-bs-toggle="tab" href="#nav-about"
                                         role="tab" aria-selected="true">About</a>
-                                    <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
-                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
+                                    {{-- <a class="nav-item nav-link" id="nav-reviews-tab" data-bs-toggle="tab"
+                                        href="#nav-reviews" role="tab" aria-selected="false">Reviews</a> --}}
                                 </div>
                             </nav>
                         </div>

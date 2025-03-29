@@ -128,6 +128,7 @@
                         <h4 class="item_title">Most Selling Courses</h4>
                         <div class="la5lo1">
                             <div class="owl-carousel courses_performance owl-theme">
+                                @if($most_courses)
                                 @foreach($most_courses as $course)
                                     <div class="item">
                                         <div class="fcrse_1">
@@ -178,6 +179,11 @@
                                         </div>
                                     </div>
                                 @endforeach
+                                @else
+                                    <div class="upcming_card">
+                                        <p class="text-muted">No courses found.</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

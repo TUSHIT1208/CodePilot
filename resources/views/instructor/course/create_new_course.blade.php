@@ -180,17 +180,32 @@
     </style>
     <script>
         $(document).ready(function () {
-
-
-            // Disable all tabs except the first one
             $(".step-steps li:not(:first)").addClass("disabled");
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab'); // Get tab parameter from query string
+            
+            if (tab) {
+                setTimeout(function () {
+                    // Remove 'active' class from all <li> and add 'done' class to the previous step
+                    $('.step-steps li.active').removeClass('active').addClass('done');
 
+                    let targetTab = $('.step-steps a[href="#' + tab + '"]');
+                    $('a[href="#tab_step2"]').click();
+                    targetTab.parent().addClass('active show'); // Add active class to <li>
+                    
+                      
+                }, 300); 
+            }
+           
+            
             if (window.location.pathname.endsWith("/edit")) {
                 $(".step-steps li").removeClass("disabled");
             };
         });
-
-    </script>
+        
+        // Disable all tabs except the first one
+        </script>
 
 
 
@@ -216,7 +231,34 @@
         // Steps wizard initialization
         $('#add-course-tab').steps({
             onFinish: function () {
-                alert('Course Completed');
+                toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "2000",
+                "extendedTimeOut": "2000",
+                "positionClass": "toast-top-right",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "onShown": function() {
+                    $('.toast-success').css({
+                        'background-color': '#28a745', // Green for success
+                        'opacity': '1' // Adjust opacity
+                    });
+                    $('.toast-error').css({
+                        'background-color': '#dc3545', // Red for error
+                        'opacity': '1'
+                    });
+                    $('.toast-warning').css({
+                        'background-color': '#ffc107', // Yellow for warning
+                        'opacity': '1'
+                    });
+                    $('.toast-info').css({
+                        'background-color': '#17a2b8', // Blue for info
+                        'opacity': '1'
+                    });
+                }
+            };
+                toastr.success("Course Completed", 'Success');
                 window.location.href = "{{ route('course.index') }}";
             }
         });

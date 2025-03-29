@@ -8,20 +8,7 @@
     <div class="sa4d25">
         <div class="container-fluid">			
             <div class="row">
-                {{-- <div class="col-lg-3 col-md-4 ">
-                    <div class="section3125 hstry142">
-                        <div class="grp_titles pt-0">
-                            <div class="ht_title">Saved Courses</div>
-                            <a href="#" class="ht_clr">Remove All</a>
-                        </div>
-                        <div class="tb_145">
-                            <div class="wtch125">
-                                <span class="vdt14">4 Courses</span>
-                            </div>
-                            <a href="#" class="rmv-btn"><i class='uil uil-trash-alt'></i>Remove Saved Courses</a>
-                        </div>						
-                    </div>							
-                </div>					 --}}
+                
                 <div class="col-md-12">
                     <div class="_14d25 mb-20">						
                         <div class="row">
@@ -29,7 +16,7 @@
                                 <h4 class="mhs_title">Saved Courses</h4>
                                 @if ($wishlistItem->isEmpty())
                                     <!-- No Wishlist Found Block -->
-                                <div class="no-categories-container text-center fade-in-animation footer">
+                                <div class="no-categories-container text-center fade-in-animation footer" id="no-wishlist">
                                     <i class="uil uil-heart-sign bounce-effect" 
                                         style="font-size: 50px; color: #d1d1d1;"></i>
                                     <h3 class="mt-3 scale-in-text" style="color: #777;">No Wishlist Found</h3>
@@ -221,7 +208,14 @@
                     _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
-                    courseDiv.fadeOut(300, function() { $(this).remove(); }); // Smoothly remove the div
+                    courseDiv.fadeOut(300, function() { $(this).remove(); 
+
+                        
+                            // If no wishlist items left, show the no wishlist found message
+                            console.log("No wishlist items left");
+                            $('#no-wishlist').show();
+                        
+                    }); // Smoothly remove the div
                 },
                 error: function(xhr) {
                     alert("Failed to delete item.");

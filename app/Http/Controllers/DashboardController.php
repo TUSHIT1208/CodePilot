@@ -153,7 +153,7 @@ class DashboardController extends Controller
         // Most selling courses by the instructor
         $most_courses = Course::where('user_id', $instructor->id)
             ->whereIn('id', function ($query) {
-                $query->select('course_id')->from('user_course');
+                $query->select('course_id')->from('user_courses');
             })
             ->with(['category', 'subcategory'])
             ->withCount([
