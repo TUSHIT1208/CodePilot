@@ -127,6 +127,46 @@
                             <div class="invalid-feedback">Course Type is required.</div>
                         </div>
 
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="select_debugger">Debugger*</label>
+                                <select class="selectpicker _dlor1 form-control" name="debugger" id="select_debugger" required>
+                                    <option value="" hidden>Select Course Debugger</option>
+                                
+                                    <optgroup label="Web Development">
+                                        <option value="https://onecompiler.com/embed/html" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/html" ? 'selected' : '' }}>HTML</option>
+                                        <option value="https://onecompiler.com/embed/bootstrap" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/bootstrap" ? 'selected' : '' }}>Bootstrap</option>
+                                        <option value="https://onecompiler.com/embed/jquery" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/jquery" ? 'selected' : '' }}>jQuery</option>
+                                    </optgroup>
+                                
+                                    <optgroup label="Frontend & Backend Programming">
+                                        <option value="https://onecompiler.com/embed/javascript" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/javascript" ? 'selected' : '' }}>JavaScript</option>
+                                        <option value="https://onecompiler.com/embed/nodejs" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/nodejs" ? 'selected' : '' }}>Node.js</option>
+                                        <option value="https://onecompiler.com/embed/ejs" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/ejs" ? 'selected' : '' }}>Express.js</option>
+                                    </optgroup>
+                                
+                                    <optgroup label="General Programming Languages">
+                                        <option value="https://onecompiler.com/embed/php" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/php" ? 'selected' : '' }}>PHP</option>
+                                        <option value="https://onecompiler.com/embed/java" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/java" ? 'selected' : '' }}>Java</option>
+                                        <option value="https://onecompiler.com/embed/c" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/c" ? 'selected' : '' }}>C</option>
+                                        <option value="https://onecompiler.com/embed/cpp" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/cpp" ? 'selected' : '' }}>C++</option>
+                                        <option value="https://onecompiler.com/embed/c#" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/c#" ? 'selected' : '' }}>C#</option>
+                                        <option value="https://onecompiler.com/embed/kotlin" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/kotlin" ? 'selected' : '' }}>Kotlin</option>
+                                        <option value="https://onecompiler.com/embed/r" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/r" ? 'selected' : '' }}>R</option>
+                                        <option value="https://onecompiler.com/embed/perl" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/perl" ? 'selected' : '' }}>Perl</option>
+                                    </optgroup>
+                                
+                                    <optgroup label="Databases">
+                                        <option value="https://onecompiler.com/embed/mysql" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/mysql" ? 'selected' : '' }}>MySQL</option>
+                                        <option value="https://onecompiler.com/embed/mongodb" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/mongodb" ? 'selected' : '' }}>MongoDB</option>
+                                        <option value="https://onecompiler.com/embed/sqlite" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/sqlite" ? 'selected' : '' }}>SQLite</option>
+                                    </optgroup>
+                                </select>
+                                
+                            </div>
+                        </div>
+
+
                         <div class="col-lg-6 col-md-12">
                             <div class="mt-30 lbel25">
                                 <label>Category Name*</label>

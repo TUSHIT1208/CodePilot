@@ -490,4 +490,17 @@ class UserController extends Controller
         }
     }
 
+    public function mycourse(Request $request)
+    {
+        $id = Auth::user()->id;
+        $mycourse = user_course::with('course')->where('user_id', $id)->get();
+        $paymentTransactions = PaymentTransaction::whereHas('order.order_items.course')
+            ->where('created_by', auth()->id())
+            ->with('order.order_items.course')
+            ->get();
+        return view('learner.purches_cource.list', compact('mycourse', 'paymentTransactions'));
+    }
+
+
+
 }

@@ -88,6 +88,12 @@
                         <span class="menu--label">Transactions History</span>
                     </a>
                 </li>
+                <li class="menu--item">
+                    <a href="{{ route('instructor_course') }}" class="menu--link" title="learner cours">
+                        <i class="uil uil-graduation-cap menu--icon"></i>
+                        <span class="menu--label">Instructor course</span>
+                    </a>
+                </li>
             </ul>
         </div>
         <div class="left_section pt-2">

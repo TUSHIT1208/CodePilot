@@ -32,7 +32,25 @@
     <link href="{{ asset('vendor/bootstrap-select/docs/docs/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
 
+    <style>
+.loader {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top: 3px solid #ffffff; /* White color */
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 10px; /* Space between text and loader */
+    vertical-align: middle;
+}
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+    </style>
 </head>
 
 <body>
@@ -191,7 +209,10 @@
                                         @enderror
                                     </div>
 
-                                    <button class="login-btn" type="submit">Instructor Sign Up Now</button>
+                                    <button class="login-btn" type="submit" id="submit-btn">
+                                        Instructor Sign Up Now
+                                        <span id="btn-loader" class="loader" style="display: none;"></span>
+                                    </button>
                                 </form>
 
 
@@ -200,7 +221,7 @@
                                 aria-labelledby="student-tab">
                                 <h2>Welcome to CodePilot</h2>
                                 <p>Sign Up and Start Learning!</p>
-                                <form action="{{ route('user.store_learner')}}" method="POST"
+                                <form id="student-signup-form" action="{{ route('user.store_learner')}}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
                                     <div class="ui search focus">
@@ -308,7 +329,11 @@
                                         </div>
                                     </div>
 
-                                    <button class="login-btn" type="submit">Student Sign Up Now</button>
+                                    <button class="login-btn" type="submit" id="student-submit-btn">
+                                        Student Sign Up Now
+                                        <span id="student-btn-loader" class="loader" style="display: none;"></span>
+                                    </button>
+                                    
                                 </form>
 
                             </div>
@@ -328,7 +353,15 @@
     
 
     <script>
-        
+        //instructor loder
+        document.querySelector("form").addEventListener("submit", function () {
+            let btn = document.getElementById("submit-btn");
+            document.getElementById("btn-loader").style.display = "inline-block"; 
+            btn.disabled = true;
+            
+        });
+       
+
         // {{-- validation --}}
         (function () {
             'use strict';
@@ -348,42 +381,51 @@
 
 
         $(document).ready(function () {
-    $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
-        e.preventDefault(); // Prevent default form submission
+            $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
+    e.preventDefault(); // Prevent default form submission
 
-        let form = $(this);
-        let formData = new FormData(this);
+    let form = $(this);
+    let formData = new FormData(this);
+    let submitButton = form.find('button[type="submit"]'); // Select the submit button
+    let loader = $('<span class="loader"></span>'); // Create a loader element
 
-        // Clear previous error messages
-        form.find('.text-danger').remove();
+    // Clear previous error messages
+    form.find('.text-danger').remove();
 
-        $.ajax({
-            url: form.attr('action'), // Form action URL
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function () {
-                localStorage.setItem('success', 'Registration successful! Please log in.');
+    // Disable button and show loader
+    submitButton.prop('disabled', true).append(loader);
 
-                // Redirect handled by Laravel, no need for JS redirect
-                window.location.href = "{{ route('login') }}";
-            },
-            error: function (xhr) {
-                // Handle validation errors from the server
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-                    for (let key in errors) {
-                        let input = form.find(`[name="${key}"]`);
-                        let errorMessage = `<span class="text-danger">${errors[key][0]}</span>`;
-                        input.closest('.ui.search').append(errorMessage);
-                    }
-                } else {
-                    alert('An error occurred. Please try again.');
+    $.ajax({
+        url: form.attr('action'),
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function () {
+            localStorage.setItem('success', 'Registration successful! Please log in.');
+
+            // Redirect after successful registration
+            window.location.href = "{{ route('login') }}";
+        },
+        error: function (xhr) {
+            // Remove loader and enable button if validation fails
+            loader.remove();
+            submitButton.prop('disabled', false);
+
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                for (let key in errors) {
+                    let input = form.find(`[name="${key}"]`);
+                    let errorMessage = `<span class="text-danger">${errors[key][0]}</span>`;
+                    input.closest('.ui.search').append(errorMessage);
                 }
+            } else {
+                alert('An error occurred. Please try again.');
             }
-        });
+        }
     });
+});
+
 });
 
 

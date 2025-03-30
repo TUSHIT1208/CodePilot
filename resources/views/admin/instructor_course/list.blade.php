@@ -11,13 +11,13 @@
                 <div class="row">
                     <div class="col-xl-12 col-lg-8">
                         <div class="section3125">
-                            <h2 class="st_title"> <i class="uil uil-graduation-cap"></i> Courses</h2>
+                            <h2 class="st_title"> <i class="uil uil-graduation-cap"></i> Instructor Courses</h2>
                         </div>
                     </div>
-                    <div class="text-end mt-3">
+                    {{-- <div class="text-end mt-3">
                         <a href="{{ route('course.create') }}" class="upload_btn" title="Create New Course">Create New
                             Course</a>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <div class="_14d25">
                             <div class="row mt-5">
@@ -44,9 +44,6 @@
                                                         @else
                                                             <div class="badge_seller">InActive</div>
                                                         @endif
-                                                        <div class="crse_reviews">
-                                                            <i class="uil uil-star"></i> 5
-                                                        </div>
                                                         <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                         <div class="crse_timer">{{ $course->duration ?? 'N/A' }} hours</div>
                                                     </div>
@@ -63,33 +60,28 @@
                                                                 {{ $course->is_active_home ? 'Remove from Home' : 'Add to Home' }}
                                                             </span>
 
-                                                            <span class="toggle-publish-status"
-                                                                data-id="{{ $course->id }}"
-                                                                data-active="{{ $course->is_active }}"
-                                                                style="cursor: pointer;">
+                                                            <span class="toggle-publish-status" data-id="{{ $course->id }}"
+                                                                data-active="{{ $course->is_active }}" style="cursor: pointer;">
                                                                 <i class="uil uil-windsock"></i>
                                                                 {{-- <span id="publish-label-{{ $course->id }}"> --}}
                                                                     {{ $course->is_active ? 'Unpublish' : 'Publish' }}
-                                                                {{-- </span> --}}
+                                                                    {{-- </span> --}}
                                                             </span>
-
-                                                            <a href="{{ route('course.edit', $course->id) }}"><span><i
-                                                                        class="uil uil-edit-alt text-sm"></i>Edit</span></a>
                                                         </div>
                                                     </div>
                                                     <div class="vdtodt">
                                                         <span class="vdt14">50 views</span>
-                                                        <span
-                                                            class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
+                                                        <span class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
                                                     </div>
                                                     <a href="{{ route('course.show', $course->id) }}"
                                                         class="crse14s">{{ $course->title }}</a>
                                                     <div class="row">
                                                         <div class="col-lg-12">
-                                                            <a href="#" class="crse-cate">{{ Str::limit($course->description, 100, '...') ?? 'Uncategorized' }}</a>
+                                                            <a href="#"
+                                                                class="crse-cate">{{ Str::limit($course->description, 100, '...') ?? 'Uncategorized' }}</a>
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <div class="auth1lnkprce">
                                                         <p class="cr1fot">By <a
@@ -125,8 +117,8 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('.toggle-publish-status').click(function() {
+        $(document).ready(function () {
+            $('.toggle-publish-status').click(function () {
                 var courseId = $(this).data('id');
                 var isActive = $(this).data('active');
 
@@ -151,7 +143,6 @@
                     if (result.isConfirmed) {
                         // Show loader
                         $('#loader').show();
-
                         $.ajax({
                             url: "{{ route('course.togglePublish') }}",
                             type: "POST",
@@ -159,9 +150,8 @@
                                 _token: "{{ csrf_token() }}",
                                 course_id: courseId
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 $('#loader').hide(); // Hide loader on success
-
                                 Swal.fire({
                                     title: successMessage,
                                     text: successText,
@@ -173,9 +163,8 @@
                                     location.reload();
                                 });
                             },
-                            error: function(xhr) {
-                                $('#loader').hide(); // Hide loader on error
-
+                            error: function (xhr) {
+                                $('#loader').hide(); // Hide loader on success
                                 var errorMessage = "Something went wrong.";
                                 if (xhr.status === 400 && xhr.responseJSON.message) {
                                     errorMessage = xhr.responseJSON.message;
@@ -195,12 +184,11 @@
                 });
             });
         });
-
     </script>
 
     <script>
-        $(document).ready(function() {
-            $('.toggle-home-status').click(function() {
+        $(document).ready(function () {
+            $('.toggle-home-status').click(function () {
                 var courseId = $(this).data('id');
                 var isActive = $(this).data('active');
 
@@ -230,7 +218,7 @@
                                 _token: "{{ csrf_token() }}",
                                 course_id: courseId
                             },
-                            success: function(response) {
+                            success: function (response) {
                                 Swal.fire({
                                     title: successMessage,
                                     text: successText,
@@ -241,7 +229,7 @@
                                 });
                                 location.reload();
                             },
-                            error: function(xhr) {
+                            error: function (xhr) {
                                 var errorMessage = "Something went wrong.";
                                 if (xhr.status === 400 && xhr.responseJSON.message) {
                                     errorMessage = xhr.responseJSON.message;

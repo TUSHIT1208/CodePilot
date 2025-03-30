@@ -52,13 +52,13 @@
                                         <h2>{{ $courseDetail->title }}</h2>
                                         <span class="_215b04">{{ $courseDetail->description }}</span>
                                     </div>
-                                    <div class="_215b05">
+                                    {{-- <div class="_215b05">
                                         <div class="crse_reviews mr-2">
                                             <i class="uil uil-star"></i>5.3.2
                                         </div>
                                         (81,665 ratings)
-                                    </div>
-                                    {{-- <div class="_215b05">114,521 students enrolled</div> --}}
+                                    </div> --}}
+                                    <div class="_215b05">{{ $total_enrolled }} students enrolled</div>
                                     <div class="_215b06">
                                         <div class="_215b07">
                                             <span><i class='uil uil-comment'></i></span>
@@ -152,7 +152,7 @@
                                         </div>
                                         <div class="_htg452 mt-35">
                                             <h3>What will students learn in your course?</h3>
-                                            <span class="_abc123">Just updated to include Bootstrap 4.1.3!</span>
+                                            {{-- <span class="_abc123">Just updated to include Bootstrap 4.1.3!</span> --}}
 
                                             <ul class="_abc124">
                                                 @php

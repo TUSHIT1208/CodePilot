@@ -264,7 +264,7 @@
                                         <div class="vdtodt">
                                             <span class="vdt14">${attachment.views ?? '0'} views</span>
                                         </div>
-                                        <a href="javascript:void(0);" class="crse14s title900 text-lg font-bold">
+                                    <a href="javascript:void(0);" class="crse14s title900 text-lg font-bold">
                                             ${attachment.title} | ${attachment.course?.category?.name ?? 'Uncategorized'}
                                         </a>
                                         <p class="text-gray-700">${attachment.discription}</p>

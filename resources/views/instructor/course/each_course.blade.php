@@ -52,13 +52,13 @@
                                         <h2>{{ $courseDetail->title }}</h2>
                                         <span class="_215b04">{{ $courseDetail->description }}</span>
                                     </div>
-                                    <div class="_215b05">
+                                    {{-- <div class="_215b05">
                                         <div class="crse_reviews mr-2">
                                             <i class="uil uil-star"></i>5.3.2
                                         </div>
                                         (81,665 ratings)
-                                    </div>
-                                    {{-- <div class="_215b05">114,521 students enrolled</div> --}}
+                                    </div> --}}
+                                    <div class="_215b05">{{ $total_enrolled}} students enrolled</div>
                                     <div class="_215b06">
                                         <div class="_215b07">
                                             <span><i class='uil uil-comment'></i></span>

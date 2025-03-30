@@ -21,24 +21,14 @@
                         </video>
                         <h2 class="mt-2">{{ $course_detail->title }}</h2>
                         <p>{{ $course_detail->discription }}</p>
+                       
                     </div>
                 </div>
 
                 <!-- Code Debugger Section -->
                 <div class="col-lg-6 col-md-12 mt-4 mt-lg-0">
-                    @if ($title->title === 'Python')
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
+                        <iframe id="code-iframe" src="{{ $course_detail->course->debugger }}" width="100%" height="500px"
                             frameborder="0" allowfullscreen></iframe>
-                    @elseif($title->title === 'Php')
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/php" width="100%" height="500px"
-                            frameborder="0" allowfullscreen></iframe>
-                    @elseif($title->title === 'Html')
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/html" width="100%" height="500px"
-                            frameborder="0" allowfullscreen></iframe>
-                    @else
-                        <iframe id="code-iframe" src="https://onecompiler.com/embed/python" width="100%" height="500px"
-                            frameborder="0" allowfullscreen></iframe>
-                    @endif
                 </div>
             </div>
         </div>

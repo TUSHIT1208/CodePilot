@@ -333,3 +333,7 @@ Route::get('/privacy-policy', function () {
 Route::get('/terms-of-service', function () {
     return view('front.terms-of-service');
 })->name('terms-of-service');
+
+route::get('instructor_course', [CourseController::class, 'instructor_course'])->name('instructor_course');
+
+route::get('mycourse', [UserController::class, 'mycourse'])->name('mycourse.list');

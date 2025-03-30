@@ -35,7 +35,7 @@
                                     <div class="field">
                                         <textarea rows="3" name="description" class="form-control"
                                             id="description-field" required minlength="10" maxlength="1000"
-                                            placeholder="Item description here...">{{ old('description', $course->description ?? '') }}</textarea>
+                                            placeholder="course description here...">{{ old('description', $course->description ?? '') }}</textarea>
                                         <div class="invalid-feedback">Short Description must be between 10 and 1000
                                             characters.</div>
                                     </div>
@@ -44,15 +44,19 @@
                             </div>
                         </div>
 
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="description-field">Description*</label>
+                                <div class="ui form swdh30">
+                                    <div class="field">
+                                        <textarea name="course_description" class="form-control"
+                                            id="description-field" required
+                                            placeholder="course description here...">{{ old('course_description', $course->course_description ?? '') }}</textarea>
+                                        <div class="invalid-feedback">Course Description is required.</div>
+                                    </div>
+                                </div>
 
-                        <div class="course_des_textarea mt-30 lbel25">
-                            <label>Course Description*</label>
-                            <div class="text-editor">
-                                <textarea class="form-control editor1" name="course_description"
-                                    placeholder="Item description here"
-                                    required>{{ old('course_description', $course->course_description ?? '') }}</textarea>
                             </div>
-                            <div class="invalid-feedback">Course Description is required.</div>
                         </div>
 
                         <!-- What will students learn? -->
@@ -122,6 +126,46 @@
                             </select>
                             <div class="invalid-feedback">Course Type is required.</div>
                         </div>
+
+                        <div class="col-lg-12 col-md-12">
+                            <div class="ui search focus lbel25 mt-30">
+                                <label for="select_debugger">Debugger*</label>
+                                <select class="selectpicker _dlor1 form-control" name="debugger" id="select_debugger" required>
+                                    <option value="" hidden>Select Course Debugger</option>
+                                
+                                    <optgroup label="Web Development">
+                                        <option value="https://onecompiler.com/embed/html" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/html" ? 'selected' : '' }}>HTML</option>
+                                        <option value="https://onecompiler.com/embed/bootstrap" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/bootstrap" ? 'selected' : '' }}>Bootstrap</option>
+                                        <option value="https://onecompiler.com/embed/jquery" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/jquery" ? 'selected' : '' }}>jQuery</option>
+                                    </optgroup>
+                                
+                                    <optgroup label="Frontend & Backend Programming">
+                                        <option value="https://onecompiler.com/embed/javascript" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/javascript" ? 'selected' : '' }}>JavaScript</option>
+                                        <option value="https://onecompiler.com/embed/nodejs" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/nodejs" ? 'selected' : '' }}>Node.js</option>
+                                        <option value="https://onecompiler.com/embed/ejs" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/ejs" ? 'selected' : '' }}>Express.js</option>
+                                    </optgroup>
+                                
+                                    <optgroup label="General Programming Languages">
+                                        <option value="https://onecompiler.com/embed/php" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/php" ? 'selected' : '' }}>PHP</option>
+                                        <option value="https://onecompiler.com/embed/java" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/java" ? 'selected' : '' }}>Java</option>
+                                        <option value="https://onecompiler.com/embed/c" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/c" ? 'selected' : '' }}>C</option>
+                                        <option value="https://onecompiler.com/embed/cpp" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/cpp" ? 'selected' : '' }}>C++</option>
+                                        <option value="https://onecompiler.com/embed/c#" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/c#" ? 'selected' : '' }}>C#</option>
+                                        <option value="https://onecompiler.com/embed/kotlin" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/kotlin" ? 'selected' : '' }}>Kotlin</option>
+                                        <option value="https://onecompiler.com/embed/r" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/r" ? 'selected' : '' }}>R</option>
+                                        <option value="https://onecompiler.com/embed/perl" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/perl" ? 'selected' : '' }}>Perl</option>
+                                    </optgroup>
+                                
+                                    <optgroup label="Databases">
+                                        <option value="https://onecompiler.com/embed/mysql" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/mysql" ? 'selected' : '' }}>MySQL</option>
+                                        <option value="https://onecompiler.com/embed/mongodb" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/mongodb" ? 'selected' : '' }}>MongoDB</option>
+                                        <option value="https://onecompiler.com/embed/sqlite" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/sqlite" ? 'selected' : '' }}>SQLite</option>
+                                    </optgroup>
+                                </select>
+                                
+                            </div>
+                        </div>
+
 
                         <div class="col-lg-6 col-md-12">
                             <div class="mt-30 lbel25">
@@ -456,7 +500,7 @@ $(document).ready(function () {
                     }
                 })
                 .then(editor => {
-                    console.log(`Editor ${index + 1} initialized`);
+                    console.log(Editor ${index + 1} initialized);
                 })
                 .catch(error => {
                     console.error("Error initializing CKEditor:", error);
@@ -465,7 +509,10 @@ $(document).ready(function () {
     });
 
 
-    function previewThumbnail(event) {
+  
+</script>
+<script>
+      function previewThumbnail(event) {
         var output = document.getElementById('thumbnail-preview');
         output.src = URL.createObjectURL(event.target.files[0]);
         output.onload = function() {
@@ -489,10 +536,7 @@ $(document).ready(function () {
 
 
     }
-</script>
-
-
-
+    </script>
 <style>
     .was-validated .form-control:invalid {
         border-color: #dc3545 !important;

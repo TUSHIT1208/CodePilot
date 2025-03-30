@@ -53,13 +53,7 @@
                                         <h2>{{ $courseDetail->title }}</h2>
                                         <span class="_215b04">{{ $courseDetail->description }}</span>
                                     </div>
-                                    <div class="_215b05">
-                                        <div class="crse_reviews mr-2">
-                                            <i class="uil uil-star"></i>5.3.2
-                                        </div>
-                                        (81,665 ratings)
-                                    </div>
-                                    <div class="_215b05">114,521 students enrolled</div>
+                                    <div class="_215b05">{{ $total_enrolled}} students enrolled</div>
                                     <div class="_215b06">
                                         <div class="_215b07">
                                             <span><i class='uil uil-comment'></i></span>
@@ -67,23 +61,37 @@
                                         </div>
                                     </div>
                                     <div class="_215b05">Last updated {{ $courseDetail->updated_at }}</div>
-
-                                    @if ($test->passing_mark > $score)
-                                        @if ($coursePrice->price == 0)
-                                            <a href="{{ route('certificate.center') }}">
-                                                <button class="btn_buy mt-3">Test</button>
-                                            </a>
-                                        @elseif($coursePrice->price != 0)
-                                            @if (isset($checkPurchase))
-                                                <a href="{{ route('certificate.center') }}">
-                                                    <button class="btn_buy mt-3">Test</button>
-                                                </a>
+                                    <div class="row  d-flex justify-content-start gap-0 text-start">
+                                        <div class="col-lg-1 col-md-3 col-sm-5 text-start">
+                                            @if ($test->passing_mark > $score)
+                                                @if ($coursePrice->price == 0)
+                                                    <a href="{{ route('certificate.center') }}">
+                                                        <button class="btn_buy mt-3">Test</button>
+                                                    </a>
+                                                @elseif($coursePrice->price != 0)
+                                                    @if (isset($checkPurchase))
+                                                        <a href="{{ route('certificate.center') }}">
+                                                            <button class="btn_buy mt-3">Test</button>
+                                                        </a>
+                                                    @endif
+                                                @endif
+                                            @else
+                                                <button type="button" class="btn_buy mt-3" id="testGivenBtn">Test</button>
+        
                                             @endif
-                                        @endif
-                                    @else
-                                        <button type="button" class="btn_buy mt-3" id="testGivenBtn">Test</button>
-
-                                    @endif
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-6 text-end">
+                                            <form class="cartForm">
+                                                @csrf
+                                                <input type="hidden" name="course_id"
+                                                    value="{{ $courseDetail->id }}">
+                                                <button type="submit" class="btn_buy mt-3"
+                                                    title="Add to Cart">
+                                                    Add To Cart
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +184,7 @@
                                         </div>
                                         <div class="_htg452 mt-35">
                                             <h3>What will students learn in your course?</h3>
-                                            <span class="_abc123">Just updated to include Bootstrap 4.1.3!</span>
+                                            {{-- <span class="_abc123">Just updated to include Bootstrap 4.1.3!</span> --}}
 
                                             <ul class="_abc124">
                                                 @php
@@ -505,10 +513,104 @@
             loadReviews();
         });
     </script>
+    {{-- add to cart --}}
+    <script>
+        document.querySelectorAll('.cartForm').forEach((form, index) => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    let formData = new FormData(this);
+                    let messageDiv = document.querySelectorAll('.cartMessage')[index];
 
-    {{-- @if ($coursePrice->price != 0)
-        @if (isset($checkPurchase))
-            
-        @endif
-    @endif --}}
+                    fetch("{{ route('cart.store') }}", {
+                            method: "POST",
+                            body: formData,
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('input[name=_token]')
+                                    .value
+                            }
+                        })
+                        .then(response => response.json().then(data => ({
+                            status: response.status,
+                            body: data
+                        })))
+                        .then(({
+                            status,
+                            body
+                        }) => {
+                            if (status === 201) {
+                                toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 2000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-success").css({
+                                            'background-color': '#28a745', // Green for success
+                                            'opacity': '1' // Adjust opacity
+                                        });
+                                    }
+                                };
+                                toastr.success(body.message); // Show success message
+                            } else if (status === 409) {
+                                toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 2000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-warning").css({
+                                            'background-color': '#ffc107', // Green for success
+                                            'opacity': '1' // Adjust opacity
+                                        });
+                                    }
+                                };
+                                toastr.warning(body
+                                    .message); // Show warning for duplicate entry
+                            } else {
+                                toastr.options = {
+                                    closeButton: true,
+                                    debug: false,
+                                    newestOnTop: true,
+                                    progressBar: true,
+                                    positionClass: "toast-top-right",
+                                    preventDuplicates: true,
+                                    timeOut: 2000,
+                                    extendedTimeOut: 1000,
+                                    showEasing: "swing",
+                                    hideEasing: "linear",
+                                    showMethod: "fadeIn",
+                                    hideMethod: "fadeOut",
+                                    onShown: function() {
+                                        $(".toast-error").css({
+                                            'background-color': '#dc3545', // Green for success
+                                            'opacity': '1' // Adjust opacity
+                                        });
+                                    }
+                                };
+                                toastr.error("Something went wrong!");
+                            }
+                        })
+                        .catch(() => {
+                            toastr.error("Error adding to cart");
+                        });
+                });
+            });
+    </script>
+    
 @endsection

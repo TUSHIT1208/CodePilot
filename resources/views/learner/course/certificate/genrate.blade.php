@@ -6,7 +6,25 @@
 
 @section('content')
     <!-- Body Start -->
-    <!-- Body Start -->
+
+    <style>
+        .loader_btn {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+    </style>
     <div class="wrapper _bg4586 _new89">
         <div class="_215b15">
             <div class="container">
@@ -70,14 +88,15 @@
                                             @if($p_marks < $test_result->overall_score)
                                                 <h2>Congratulation! {{ Auth::user()->username }}</h2>
                                                 <p>You are eligible for this certificate</p>
-                                                <form action="{{ route('downloadCerty') }}">
+                                                <form action="{{ route('downloadCerty') }}" id="certDownloadForm">
                                                     @csrf
-                                                    <button type="submit" class="download_btn" target="_blank">Download
-                                                        Certificate</button>
+                                                    <button type="submit" class="download_btn" target="_blank" id="downloadBtn">
+                                                        <span id="btnText">Download Certificate</span>
+                                                        <span class="loader_btn" id="btnLoader" style="display: none;"></span>
+                                                    </button>
                                                 </form>
                                             @else
                                                 BETTER LUCK NEXT TIME......
-
                                             @endif
                                         </div>
                                     </div>
@@ -87,5 +106,42 @@
                 </div>
             </div>
         </div>
+        
         @include('learner.layout.footer')
+        <script>
+             document.getElementById("certDownloadForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let form = this;
+        let btnLoader = document.getElementById("btnLoader");
+        let downloadBtn = document.getElementById("downloadBtn");
+
+        btnLoader.style.display = "inline-block"; // Show loader
+        downloadBtn.disabled = true; // Disable button to prevent multiple clicks
+
+        // Send AJAX request to download the certificate
+        fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+            }
+        }).then(response => response.blob()) // Handle file download response
+          .then(blob => {
+              let url = window.URL.createObjectURL(blob);
+              let a = document.createElement("a");
+              a.href = url;
+              a.download = "certificate.pdf"; // Adjust file name as needed
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+          }).catch(error => {
+              alert("Error downloading certificate. Please try again.");
+              console.error(error);
+          }).finally(() => {
+              btnLoader.style.display = "none"; // Hide loader
+              downloadBtn.disabled = false; // Re-enable button
+          });
+    });
+        </script>
 @endsection

@@ -120,6 +120,7 @@ class CourseController extends Controller
                 'learn_in_course' => 'required',
                 'requirement' => 'required',
                 'course_level' => 'required',
+                'debugger' => 'required',
                 'introduction_thumbnail' => 'required|file|mimes:jpg,jpeg,png',
                 'introduction_video' => 'required|file|mimes:mp4',
             ]);
@@ -168,6 +169,7 @@ class CourseController extends Controller
                 'url' => $videoUrlName,
                 'thumbnail_url' => $videoThumbnailName,
                 'course_level' => $request->course_level,
+                'debugger' => $request->debugger,
             ]);
 
             Log::info('Course created successfully', ['course_id' => $course->id]);
@@ -215,6 +217,9 @@ class CourseController extends Controller
 
         $checkPurchase = user_course::where('user_id', $userId)->where('course_id', $cid)->first();
 
+        $total_enrolled = user_course::where('course_id', $cid)->count();
+        logger('total_enrolled: ' . $total_enrolled.'course_title: '.$courseDetail->title);
+
         $test = test::where('course_id', $cid)->first();
         if ($test) {
             $test_result = test_result::where('test_id', $test->id)
@@ -227,16 +232,17 @@ class CourseController extends Controller
             } else {
                 $score = $test_result->overall_score;
             }
+            
         }
 
         $coursePrice = course::where('id', $cid)->first();
 
         if (auth()->user()->role->name === 'admin') {
-            return view('admin.course.each_course', compact('courseDetail', 'users'));
+            return view('admin.course.each_course', compact('courseDetail', 'users','total_enrolled'));
         } else if (auth()->user()->role->name === 'insructor') {
-            return view('instructor.course.each_course', compact('courseDetail', 'users'));
+            return view('instructor.course.each_course', compact('courseDetail', 'users','total_enrolled'));
         } else if (auth()->user()->role->name === 'learner') {
-            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice', 'test', 'score'));
+            return view('learner.course.each_course', compact('courseDetail', 'users', 'checkPurchase', 'coursePrice', 'test', 'score','total_enrolled'));
         }
     }
     public function edit($id, Request $request)
@@ -313,6 +319,7 @@ class CourseController extends Controller
                 'meta_keyword' => 'required|string|min:3|max:255',
                 'meta_title' => 'required|string|min:3|max:255',
                 'meta_description' => 'required|string|min:10',
+                'debugger' => 'required',
             ]);
             Log::info('Validated request data', ['data' => $validated]);
 
@@ -324,6 +331,7 @@ class CourseController extends Controller
                 'requirement',
                 'course_level',
                 'course_type',
+                'debugger',
                 'category_id',
                 'sub_category_id',
                 'meta_keyword',
@@ -509,7 +517,7 @@ class CourseController extends Controller
             logger('Processing publish toggle for course...');
 
             $course = Course::where('id', $request->course_id)
-                ->where('user_id', auth()->id()) // Ensure user owns the course
+                //->where('user_id', auth()->id()) // Ensure user owns the course
                 ->firstOrFail();
 
             logger('Course found: ' . $course->title);
@@ -531,8 +539,32 @@ class CourseController extends Controller
             $course->is_active = !$course->is_active;
             $course->save();
 
-            logger($course->is_active ? 'Course published successfully.' : 'Course unpublished.');
+            try {
+                logger('Sending email to course creator: ' . $course->user->email);
+                Mail::to($course->user->email)->send(new CoursePublished($course, true));
+                logger('Email sent to course creator: ' . $course->user->email);
+            } catch (\Exception $e) {
+                logger('Error sending email to course creator: ' . $e->getMessage());
+            }
+           
+            //Send email to all learners
+            $learners = User::whereHas('role', function ($query) {
+                $query->where('name', 'learner');
+            })->get();
 
+            logger('Learners found: ' . $learners->count());
+
+            foreach ($learners as $learner) {
+                logger('Start sending email to: ' . $learner->email);
+                try {
+                    Mail::to($learner->email)->send(new CoursePublished($course, false));
+                    logger('Email sent to: ' . $learner->email);
+                } catch (\Exception $e) {
+                    logger('Error sending email to ' . $learner->email . ': ' . $e->getMessage());
+                }
+            }
+
+            logger('All emails processed.');
             return response()->json([
                 'success' => true,
                 'message' => $course->is_active ? 'Course published successfully!' : 'Course unpublished successfully!'
@@ -543,6 +575,21 @@ class CourseController extends Controller
             return response()->json(['success' => false, 'message' => 'Something went wrong!'], 500);
         }
     }
+    public function instructor_course(Request $request)
+    {
+        $courses = Course::with(['courseattachment', 'user'])
+            ->whereHas('user', function ($query) {
+                $query->where('role_id', 2);
+            })
+            ->get();
+
+        //return $courses;
+        Log::info('Fetched courses successfully', ['courses_count' => $courses->count()]);
+        if (auth()->user()->role->name == 'admin') {
+            return view('admin.instructor_course.list', compact('courses'));
+        }
+    }
+
 
 
 

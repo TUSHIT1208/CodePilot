@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Mail;
 
 class CertificateController extends Controller
 {
@@ -152,12 +153,24 @@ class CertificateController extends Controller
         $certificate = Certificate::where('user_id', Auth::id())
             ->where('test_id', $tid)
             ->first();
-
+        logger($certificate);
+        $test_result = test_result::where('user_id', auth()->id())
+        ->where('test_id', $tid)
+        ->latest() //last record
+        ->first();
+        logger($test_result);
         if (!$certificate) {
             return back()->with('error', 'Certificate not found.');
         }
 
         $pdf = PDF::loadView('learner.course.certificate.certificate', compact('tname', 'certificate'));
+        logger('pdf');
+        try {
+            Mail::to(Auth::user()->email)->send(new CourseCertificate($certificate, $test_result, $pdf));
+            logger('Certificate email sent successfully');
+        } catch (\Exception $e) {
+            logger(' Error sending email: ' . $e->getMessage());
+        }
 
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->output();

@@ -515,6 +515,9 @@
                 </div>
             </div>
         </div>
+        <div class="loader-overlay" id="loader">
+            <div class="loader"></div>
+        </div>
     </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
@@ -576,6 +579,7 @@
                 toastr.success("address saved successfully...");
             });
             // Checkout process
+
             $("#checkoutButton").on("click", function() {
                 event.preventDefault();
                 if (!savedAddress.first_name) {
@@ -663,6 +667,8 @@
         });
 
         function startRazorpayPayment(razorpay_order_id, amount, order_id) {
+            $('.loader-overlay').show();
+            $('.tab-from-content').addClass('blurred');
             var options = {
                 "key": "{{ env('RAZORPAY_KEY') }}", // Razorpay Key
                 "amount": amount * 100, // Convert to paisa
@@ -680,6 +686,8 @@
                         razorpay_signature: response.razorpay_signature
                     }, function(res) {
                         if (res.success) {
+                            $('.loader-overlay').hide(); // Hide loader
+                            $('.tab-from-content').removeClass('blurred'); // Remove blur
                             Swal.fire({
                                 title: "Payment Successful!",
                                 text: "Your order has been placed successfully.",
@@ -689,6 +697,8 @@
                                 window.location.href = "/dashboard/learner";
                             });
                         } else {
+                            $('.loader-overlay').hide(); // Hide loader
+                            $('.tab-from-content').removeClass('blurred'); // Remove blur
                             Swal.fire({
                                 title: "Payment Failed",
                                 text: "Payment verification failed. Please try again.",
