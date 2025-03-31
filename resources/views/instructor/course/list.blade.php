@@ -56,12 +56,12 @@
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                         <div class="dropdown-content">
 
-                                                            <span class="toggle-home-status" data-id="{{ $course->id }}"
+                                                            {{-- <span class="toggle-home-status" data-id="{{ $course->id }}"
                                                                 data-active="{{ $course->is_active_home }}"
                                                                 style="cursor: pointer;">
                                                                 <i class="uil uil-windsock"></i>
                                                                 {{ $course->is_active_home ? 'Remove from Home' : 'Add to Home' }}
-                                                            </span>
+                                                            </span> --}}
 
                                                             <span class="toggle-publish-status"
                                                                 data-id="{{ $course->id }}"

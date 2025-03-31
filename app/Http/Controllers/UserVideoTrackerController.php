@@ -67,13 +67,6 @@ class UserVideoTrackerController extends Controller
 
     public function track(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'course_attachment_id' => 'required|exists:course_attachments,id',
-            'current_time' => 'required|numeric',
-            'event' => 'required|string'
-        ]);
-
         user_video_tracker::updateOrCreate(
             [
                 'user_id' => $request->user_id,
@@ -87,5 +80,20 @@ class UserVideoTrackerController extends Controller
         );
 
         return response()->json(['message' => 'Video progress saved', 'time' => $request->current_time]);
+    }
+
+    public function getProgress($user_id, $course_attachment_id)
+    {
+       
+        $progress = user_video_tracker::where('user_id', $user_id)
+            ->where('course_attachment_id', $course_attachment_id)
+            ->latest()
+            ->first();
+
+        // logger($progress);
+        return response()->json([
+            'success' => true,
+            'time' => $progress ? (int) $progress->time : 0
+        ]);
     }
 }

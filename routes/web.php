@@ -187,7 +187,8 @@ route::resource('testquestion', TestQuestionController::class);
 route::resource('testoption', TestOptionController::class);
 
 Route::resource('courseAttachment', CourseAttachmentController::class)->middleware('auth');
-Route::post('/video/progress/track', [UserVideoTrackerController::class, 'track'])->name('video.progress.track');
+Route::post('/progress/track', [UserVideoTrackerController::class, 'track'])->name('video.progress.track');
+Route::get('/get-progress/{user_id}/{course_attachment_id}', [UserVideoTrackerController::class, 'getProgress']);
 
 Route::get('/admin/course/subcategories', [CourseController::class, 'getSubCategories']);
 Route::get('/code-debugger/{id}/{video_id}', [CourseAttachmentController::class, 'debugger_code'])->name('codeDebugger');
@@ -337,3 +338,4 @@ Route::get('/terms-of-service', function () {
 route::get('instructor_course', [CourseController::class, 'instructor_course'])->name('instructor_course');
 
 route::get('mycourse', [UserController::class, 'mycourse'])->name('mycourse.list');
+
