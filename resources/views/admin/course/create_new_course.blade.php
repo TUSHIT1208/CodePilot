@@ -23,7 +23,7 @@
                                 <li>
                                     <a href="#tab_step2">
                                         <span class="number"></span>
-                                        <span class="step-name">Curriculum</span>
+                                        <span class="step-name">Quiz</span>
                                     </a>
                                 </li>
                                 <li>

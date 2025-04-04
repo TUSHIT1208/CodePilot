@@ -33,7 +33,7 @@
         </div>
 
     <div class="mt-5">
-        @include('admin.layouts.footer')
+        @include('LEARNER.layout.footer')
     </div>
 
     <script>

@@ -346,6 +346,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        logger($request->all());
         $user = User::with('role')->find($id);
         $roleId = $user->role_id;   // Get role_id from users table
         $roleName = $user->role->name; // Get role name from roles table
@@ -355,11 +356,11 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
-                'last_name' => $request->surname,
+                'last_name' => $request->last_name,
                 'middle_name' => $request->middle_name,
                 'email' => $request->email,
-                'phone_number' => $request->phone,
-                'date_of_birth' => $request->dob,
+                'phone_number' => $request->phone_number,
+                'date_of_birth' => $request->date_of_birth,
             ]);
             log::info('learner updated');
             LearnerProfile::where('user_id', $id)->update([
@@ -371,11 +372,11 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
-                'last_name' => $request->surname,
+                'last_name' => $request->last_name,
                 'middle_name' => $request->middle_name,
                 'email' => $request->email,
-                'phone_number' => $request->phone,
-                'date_of_birth' => $request->dob,
+                'phone_number' => $request->phone_number,
+                'date_of_birth' => $request->date_of_birth,
             ]);
 
             adminprofile::where('admin_id', $id)->update([
@@ -387,11 +388,11 @@ class UserController extends Controller
             $user->update([
                 'first_name' => $request->first_name,
                 'username' => $request->username,
-                'last_name' => $request->surname,
+                'last_name' => $request->last_name,
                 'middle_name' => $request->middle_name,
                 'email' => $request->email,
-                'phone_number' => $request->phone,
-                'date_of_birth' => $request->dob,
+                'phone_number' => $request->phone_number,
+                'date_of_birth' => $request->date_of_birth,
             ]);
 
             InstractorProfile::where('user_id', $id)->update([

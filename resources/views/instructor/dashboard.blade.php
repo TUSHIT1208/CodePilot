@@ -195,7 +195,7 @@
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="section3125 mt-50">
-                        <h4 class="item_title">Submit Courses</h4>
+                        <h4 class="item_title">Unpublish Courses</h4>
                         <div class="la5lo1">
                             <div class="fcrse_1">
                                 <div class="fcrse_content">
@@ -220,6 +220,7 @@
                         <h4 class="item_title">Earnings Overview</h4>
                         <div class="la5lo1">
                             <div class="fcrse_1">
+                                
                                 <div class="fcrse_content">
                                     <h2>Most Selling Courses</h2>
                                     <canvas id="mostSellingChart"></canvas>

@@ -147,6 +147,7 @@
                                 
                                     <optgroup label="General Programming Languages">
                                         <option value="https://onecompiler.com/embed/php" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/php" ? 'selected' : '' }}>PHP</option>
+                                        <option value="https://onecompiler.com/embed/php" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/python" ? 'selected' : '' }}>Python</option>
                                         <option value="https://onecompiler.com/embed/java" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/java" ? 'selected' : '' }}>Java</option>
                                         <option value="https://onecompiler.com/embed/c" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/c" ? 'selected' : '' }}>C</option>
                                         <option value="https://onecompiler.com/embed/cpp" {{ old('debugger', $course->debugger ?? '') == "https://onecompiler.com/embed/cpp" ? 'selected' : '' }}>C++</option>

@@ -44,9 +44,6 @@
                                                         @else
                                                             <div class="badge_seller">InActive</div>
                                                         @endif
-                                                        <div class="crse_reviews">
-                                                            <i class="uil uil-star"></i> 5
-                                                        </div>
                                                         <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                         <div class="crse_timer">{{ $course->duration ?? 'N/A' }} hours</div>
                                                     </div>
@@ -55,13 +52,6 @@
                                                     <div class="eps_dots more_dropdown">
                                                         <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                         <div class="dropdown-content">
-
-                                                            {{-- <span class="toggle-home-status" data-id="{{ $course->id }}"
-                                                                data-active="{{ $course->is_active_home }}"
-                                                                style="cursor: pointer;">
-                                                                <i class="uil uil-windsock"></i>
-                                                                {{ $course->is_active_home ? 'Remove from Home' : 'Add to Home' }}
-                                                            </span> --}}
 
                                                             <span class="toggle-publish-status"
                                                                 data-id="{{ $course->id }}"
@@ -78,7 +68,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="vdtodt">
-                                                        <span class="vdt14">50 views</span>
+                                                        {{-- <span class="vdt14">50 views</span> --}}
                                                         <span
                                                             class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 
@@ -118,6 +108,9 @@
                 </div>
             </div>
         </div>
+        <div class="loader-overlay" id="loader">
+            <div class="loader"></div>
+        </div>
         @include('admin.layouts.footer')
     </div>
 
@@ -146,6 +139,9 @@
                     cancelButtonText: "No, Cancel"
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        // Show loader
+                        $('#loader').show();
+
                         $.ajax({
                             url: "{{ route('course.togglePublish') }}",
                             type: "POST",
@@ -154,6 +150,8 @@
                                 course_id: courseId
                             },
                             success: function(response) {
+                                $('#loader').hide(); // Hide loader on success
+
                                 Swal.fire({
                                     title: successMessage,
                                     text: successText,
@@ -166,6 +164,8 @@
                                 });
                             },
                             error: function(xhr) {
+                                $('#loader').hide(); // Hide loader on error
+
                                 var errorMessage = "Something went wrong.";
                                 if (xhr.status === 400 && xhr.responseJSON.message) {
                                     errorMessage = xhr.responseJSON.message;
@@ -185,6 +185,7 @@
                 });
             });
         });
+
     </script>
 
     <script>

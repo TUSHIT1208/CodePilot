@@ -15,6 +15,9 @@
                                     <div class="ttl121">
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb">
+                                                <li class="breadcrumb-item active" aria-current="page"><a
+                                                    href="{{ route('learner.dashboard') }}">Home</a>
+                                            </li>
                                                 <li class="breadcrumb-item"><a
                                                         href="{{ route('certificate.center') }}">Certificate Center</a></li>
                                                 <li class="breadcrumb-item active" aria-current="page">Test View</li>
@@ -72,7 +75,7 @@
                                         <div class="grouped fields">
                                             <div class="ques_title mt-3">
                                                 <strong>Ques {{ $questionNumber++ }} :-</strong> <!-- Display question number properly -->
-                                                {{ $question->question_text }}&nbsp;?
+                                                {{ $question->question_text }}&nbsp; {{ '(' . intval($question->score) . ' Marks)' }}
                                             </div>
 
                                             @foreach ($question->testoption as $option)

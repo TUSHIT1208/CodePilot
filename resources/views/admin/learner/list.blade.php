@@ -99,7 +99,7 @@
 
                         <div class="mb-3">
                             <label for="editLearnerLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control _dlor1" id="editLearnerLastName" name="last_name" required>
+                            <input type="text" class="form-control _dlor1" id="editLearnerLastName" name="last_name">
                             
                         </div>
 

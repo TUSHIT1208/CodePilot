@@ -178,7 +178,7 @@
                                                 <div class="ui search focus lbel25 mt-30 col-sm-4">
                                                     <label>Total Time*</label>
                                                     <input class="form_input_1 form-control" type="text" name="time"
-                                                        id="time" placeholder="Time here" required>
+                                                        id="time" placeholder="Time here(in sec)" required>
                                                     <div class="invalid-feedback" id="time_error">Please enter total
                                                         time.</div>
                                                 </div>
@@ -200,10 +200,10 @@
                                                 <div class="form_group mt-30">
                                                     <label class="label25 text-left">Score*</label>
                                                     <input class="form_input_1 form-control" type="number"
-                                                        id="question_score" name="question_score" placeholder="Score"
+                                                    min="1" id="question_score" name="question_score" placeholder="Score"
                                                         required>
                                                     <div class="invalid-feedback" id="question_score_error">Please
-                                                        enter score.</div>
+                                                        enter score valid score (min. 1).</div>
                                                 </div>
 
                                                 <!-- Options for the question -->

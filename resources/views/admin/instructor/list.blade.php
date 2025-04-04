@@ -75,7 +75,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="instructorEditForm" method="POST" class="needs-validation" novalidate>
+                    <form id="instructorEditForm" method="POST" action="{{ route('user.update', $user->id ?? '') }}" class="needs-validation" novalidate>
                         @csrf
                         @method('PUT')
 
@@ -100,7 +100,7 @@
 
                         <div class="mb-3">
                             <label for="editLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control _dlor1" id="editLastName" name="last_name" required>
+                            <input type="text" class="form-control _dlor1" id="editLastName" name="last_name">
                            
                         </div>
 

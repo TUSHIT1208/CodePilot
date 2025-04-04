@@ -20,7 +20,7 @@
                         yourself</button></a>
             </div>
         </div>
-        @include('admin.layouts.footer')
+        @include('learner.layout.footer')
     </div>
 
 

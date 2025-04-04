@@ -21,7 +21,7 @@
     <link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet"> --}}
 
     <!-- Vendor Stylesheets -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -35,18 +35,18 @@
 
 <body>
     <div class="text-end mt-3 fs-4 gray-s">
-        <a href="{{ route('index') }}" class="text-dark"><i class="uil uil-times container"></i></a>
+        <a href="{{ route('index') }}" class="text-dark"><i class="uil uil-times container"></i>
+        
+        </a>
     </div>
     <!-- Signup Start -->
-    <div class="sign_in_up_bg">
+    <div class="sign_in_up_bg mb-5">
         <div class="container">
             <div class="row justify-content-lg-center justify-content-md-center">
                 <div class="col-lg-12">
-                    <div class="main_logo25" id="logo">
-                        <h1>CodePilot</h1>
-                        {{-- <a href="{{ url('/') }}"><img src="{{ asset('images/logo.svg') }}" alt=""></a>
-                        <a href="{{ url('/') }}"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}"
-                                alt=""></a> --}}
+                    <div class="main_logo" id="logo">
+                        <img src="{{ asset('images/logo_12.png')}}" alt="" class="logo-inverse" style="width: 32%; position: relative; left: 327%; top: 11px;">
+                        <h1 class="ml-3" style="position: relative; left: 372%; bottom: 56px; text-transform: uppercase; font-family: 'Open Sans'; letter-spacing: 3px;">CodePilot</h1>
                     </div>
                 </div>
 

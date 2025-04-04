@@ -23,7 +23,7 @@
                                 <li>
                                     <a href="#tab_step2">
                                         <span class="number"></span>
-                                        <span class="step-name">Curriculum</span>
+                                        <span class="step-name">Quiz</span>
                                     </a>
                                 </li>
                                 <li>
@@ -219,16 +219,6 @@
             });
         });
 
-
-        // Initialize CKEditor instances
-        // ClassicEditor.create(document.querySelector('#editor1'))
-        //     .then(editor => {
-        //         window.editor1 = editor;
-        //     })
-        //     .catch(err => {
-        //         console.error(err.stack);
-        //     });
-        // Steps wizard initialization
         $('#add-course-tab').steps({
             onFinish: function () {
                 toastr.options = {
@@ -262,7 +252,7 @@
                 window.location.href = "{{ route('course.index') }}";
             }
         });
-
+        
         // Make sortable
         $(function () {
             $(".sortable").sortable();
@@ -279,13 +269,13 @@
 
 
 
-            if ('{{ session('success') }}') {
+            // if ('{{ session('success') }}') {
 
-                $('#add-course-tab .step-footer button[data-direction="next"]').click();
-
-            }
+            
+            // }
             if (window.location.pathname.endsWith("/edit")) {
                 // Trigger the next button automatically after receiving success
+                //$('#add-course-tab .step-footer button[data-direction="next"]').click();
                 var buttons = document.querySelectorAll('.step-footer .main-btn');
                 buttons.forEach(function (button) {
                     button.style.visibility = "visible"; // Hide each button
@@ -293,9 +283,9 @@
             }
 
 
-            if (course) {
-                $('#add-course-tab .step-footer button[data-direction="prev"]').click();
-            }
+           // if (course) {
+                //$('#add-course-tab .step-footer button[data-direction="prev"]').click();
+            //}
 
 
         });

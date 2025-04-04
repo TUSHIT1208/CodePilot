@@ -409,7 +409,7 @@
                                                             <label class="title-field">Zip/Postal Code*</label>
                                                             <div class="ui left icon swdh11 swdh19">
                                                                 <input class="prompt srch_explore form-control"
-                                                                    type="text" name="zip_code" id="id_zip"
+                                                                    type="number" name="zip_code" id="id_zip"
                                                                     required maxlength="64"
                                                                     placeholder="Zip / Postal Code">
                                                                 <div class="invalid-feedback">Please enter your Pincode.

@@ -105,15 +105,15 @@
                     </a>
                 </li>
                 <li class="menu--item">
-                    <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
-                        <i class='uil uil-file menu--icon'></i>
-                        <span class="menu--label">FAQ's</span>
-                    </a>
-                </li>
-                <li class="menu--item">
                     <a href="{{route('learningpath.index')}}" class="menu--link" title="Learning Path">
                         <i class='uil uil-bullseye menu--icon'></i>
                         <span class="menu--label">Learning Path</span>
+                    </a>
+                </li>
+                <li class="menu--item">
+                    <a href="{{route('faq.index')}}" class="menu--link" title="FAQ">
+                        <i class='uil uil-file menu--icon'></i>
+                        <span class="menu--label">FAQ's</span>
                     </a>
                 </li>
                 <li class="menu--item">

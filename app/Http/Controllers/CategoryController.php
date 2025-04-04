@@ -31,6 +31,16 @@ class CategoryController extends Controller
                             </a>
                         </form>';
                     })
+                    ->editColumn('description', function ($category) {
+                        $maxLength = 80;
+                        $description = strip_tags($category->description); // Remove HTML tags
+                        if (empty($description)) {
+                            return 'N/A';
+                        }    
+                        return strlen($description) > $maxLength 
+                            ? substr($description, 0, $maxLength) . '...' 
+                            : $description;
+                    })
                     ->editColumn('status', function ($category) {
                         return '
                             <div class="toggle-button mt-2 text-left">
@@ -58,7 +68,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => 'required|string|max:255',
+            'category_name' => 'required|string|max:255|unique:categories,name',
             'category_description' => 'nullable|string',
         ]);
 

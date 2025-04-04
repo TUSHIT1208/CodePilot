@@ -80,6 +80,7 @@
         
                                             @endif
                                         </div>
+                                        @if ($coursePrice->price != 0)
                                         <div class="col-lg-3 col-md-4 col-sm-6 text-end">
                                             <form class="cartForm">
                                                 @csrf
@@ -91,6 +92,7 @@
                                                 </button>
                                             </form>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

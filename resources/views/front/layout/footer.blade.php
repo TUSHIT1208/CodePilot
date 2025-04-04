@@ -3,8 +3,9 @@
     <div class="container footer-top">
         <div class="row gy-4">
             <div class="col-lg-4 col-md-6 footer-about">
-                <a href="{{ route('index') }}" class="logo d-flex align-items-center">
-                    <span class="sitename">CodePilot</span>
+                <a href="{{ route('index') }}" class="logo d-flex align-items-center me-auto">
+                    <img src="{{ asset('images/logo4.png')}}" alt="" style="max-height : 69px;">
+                    {{-- <h1 class="sitename">CodePilot</h1> --}}
                 </a><br>
                 <p>
                     CodePilot is an online coding education platform that enables users to learn, code, and debug in

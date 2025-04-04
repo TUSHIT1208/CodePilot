@@ -19,6 +19,18 @@ class LearningPathController extends Controller
                     ->addColumn('checkbox', function ($row) {
                         return '<input type="checkbox" class="learningpath-checkbox" name="learningpath_checkbox[]" value="' . $row->id . '">';
                     })
+                    ->editColumn('description', function ($row) {
+                        $maxLength = 80;
+                        $description = strip_tags($row->description); // Remove HTML tags
+                        
+                        if (empty($description)) {
+                            return 'N/A';
+                        }
+    
+                        return strlen($description) > $maxLength 
+                            ? substr($description, 0, $maxLength) . '...' 
+                            : $description;
+                    })
                     ->addColumn('actions', function ($row) {
                         return '<a href="#" title="Edit" class="gray-s edit-btn" 
                                     data-id="' . $row->id . '" 

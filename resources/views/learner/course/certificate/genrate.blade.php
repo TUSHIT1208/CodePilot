@@ -98,6 +98,7 @@
                                             @else
                                                 BETTER LUCK NEXT TIME......
                                             @endif
+
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +109,7 @@
         </div>
         
         @include('learner.layout.footer')
-        <script>
+        {{-- <script>
              document.getElementById("certDownloadForm").addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent default form submission
 
@@ -143,5 +144,5 @@
               downloadBtn.disabled = false; // Re-enable button
           });
     });
-        </script>
+        </script> --}}
 @endsection

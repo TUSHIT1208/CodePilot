@@ -244,7 +244,15 @@
                     },
                     {
                         data: 'description',
-                        name: 'description'
+                        name: 'description',
+                        render: function (data) {
+                            if (!data || data.trim() === "") {
+                                return "N/A"; // Display N/A if empty
+                            }
+                            
+                            let text = $("<div>").html(data).text(); // Decode HTML entities
+                            return text.length > 80 ? text.substring(0, 80) + '...' : text;
+                        }
                     },
                     {
                         data: 'category_name',

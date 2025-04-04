@@ -28,7 +28,7 @@
                                 @else
 
                                     @foreach ($path_name as $path)
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mt-3">
                                             <div class="card learning-card p-4 position-relative learning-path"
                                                 data-name="{{ $path->name }}">
                                                 <span class="icon-badge"><i class="uil uil-bullseye"></i></span>

@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use session;
 use App\Models\test;
 use App\Models\certificate;
 use App\Models\test_result;
 use Illuminate\Http\Request;
 use App\Mail\CourseCertificate;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Yajra\DataTables\DataTables;
 use App\Models\PaymentTransaction;
 use App\Models\test_result_answer;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Yajra\DataTables\Contracts\DataTable;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Session;
+use Yajra\DataTables\Contracts\DataTable;
 
 class CertificateController extends Controller
 {
@@ -36,18 +37,52 @@ class CertificateController extends Controller
     public function list(Request $request)
     {
         $userId = Auth::user()->id;
+        // $certificates = Certificate::where('user_id', $userId)
+        //     ->with([
+        //         'test' => function ($query) {
+        //             $query->select('id', 'course_id', 'test_title', 'passing_mark', 'total_marks', 'created_at');
+        //         },
+        //         'test.testresult' => function ($query): void {
+        //             $query->select('id', 'test_id', 'overall_score'); // Ensure test_id is selected for proper relation
+        //         },
+        //         'test.course' => function ($query) {
+        //             $query->select('id', 'title');
+        //         }
+        //     ])
+        //     ->select('id as certificate_id', 'user_id', 'test_id', 'name', 'email', 'phone_no', 'created_at')
+        //     ->get();
+
+
+
+        // return $certificates;
+
+
 
         if ($request->ajax()) {
             $certificates = Certificate::where('user_id', $userId)
-                ->with('test') 
-                ->select('certificates.id as certificate_id', 'certificates.test_id', 'certificates.created_at');
+                ->with([
+                    'test' => function ($query) {
+                        $query->select('id', 'course_id', 'test_title', 'passing_mark', 'total_marks', 'created_at');
+                    },
+                    'test.testresult' => function ($query): void {
+                        $query->select('id', 'test_id', 'overall_score'); // Ensure test_id is selected for proper relation
+                    },
+                    'test.course' => function ($query) {
+                        $query->select('id', 'title');
+                    }
+                ])
+                ->select('id as certificate_id', 'user_id', 'test_id', 'name', 'email', 'phone_no', 'created_at')
+                ->get();
 
             return DataTables::of($certificates)
+                ->addColumn('course_title', function ($certificate) {
+                    return optional($certificate->test->course)->title ?? 'N/A';
+                })
                 ->addColumn('test_title', function ($certificate) {
                     return $certificate->test->test_title ?? 'N/A';
                 })
-                ->addColumn('passing_mark', function ($certificate) {
-                    return $certificate->test->passing_mark ?? 'N/A';
+                ->addColumn('overall_score', function ($certificate) {
+                    return optional($certificate->test->testresult)->overall_score ?? 'N/A'; // Change 'testresult' to 'test_result'
                 })
                 ->addColumn('total_marks', function ($certificate) {
                     return $certificate->test->total_marks ?? 'N/A';
@@ -66,8 +101,9 @@ class CertificateController extends Controller
 
         $certificates = Certificate::where('user_id', $userId)
             ->with('test')->get();
-        return view('learner.certificate.list',compact('certificates'));
+        return view('learner.certificate.list', compact('certificates'));
     }
+
 
 
     /**
@@ -147,7 +183,8 @@ class CertificateController extends Controller
         }
 
         $tid = $test->id;
-        $tname = $test->test_title;
+        $tname = $test->course->title;
+        logger($tname);
 
         // Ensure certificate exists
         $certificate = Certificate::where('user_id', Auth::id())
@@ -158,6 +195,7 @@ class CertificateController extends Controller
         ->where('test_id', $tid)
         ->latest() //last record
         ->first();
+        logger("total_marks".$test_result->test->total_marks);
         logger($test_result);
         if (!$certificate) {
             return back()->with('error', 'Certificate not found.');
@@ -207,7 +245,7 @@ class CertificateController extends Controller
 
         // Load the view and pass the necessary data
         $pdf = PDF::loadView('learner.course.certificate.certificate', [
-            'tname' => $test->test_title,
+            'tname' => $test->course->title,
             'certificate' => $certificate
         ]);
         // Return the PDF as a downloadable file

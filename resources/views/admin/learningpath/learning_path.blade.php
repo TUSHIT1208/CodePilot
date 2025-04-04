@@ -183,7 +183,15 @@
                     },
                     {
                         data: "description",
-                        name: "description"
+                        name: "description",
+                        render: function (data) {
+                            if (!data || data.trim() === "") {
+                                return "N/A"; // Show "N/A" if description is empty
+                            }
+
+                            let text = $("<div>").html(data).text(); // Remove HTML entities
+                            return text.length > 80 ? text.substring(0, 80) + "..." : text;
+                        }
                     },
                     {
                         data: "actions",

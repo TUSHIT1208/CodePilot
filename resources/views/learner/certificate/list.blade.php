@@ -33,6 +33,7 @@
                                             <table id="certificateTable" class="ucp-table">
                                                 <thead>
                                                     <tr>
+                                                        <th>Course Title</th>
                                                         <th>Test Title</th>
                                                         <th>Passing Marks</th>
                                                         <th>Total Marks</th>
@@ -55,18 +56,22 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#certificateTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('certificate.list') }}',
-                columns: [{
+                columns: [
+                    {
+                        data: 'course_title', // Add course title column
+                        name: 'test.course.title'
+                    }, {
                         data: 'test_title',
                         name: 'test.test_title'
                     },
                     {
-                        data: 'passing_mark',
-                        name: 'test.passing_mark'
+                        data: 'overall_score', // Fix column reference
+                        name: 'test.test_result.overall_score' // Change from 'test.testresult' to 'test.test_result'
                     },
                     {
                         data: 'total_marks',
@@ -85,5 +90,6 @@
                 ]
             });
         });
-    </script>
+     </script>
+
 @endsection

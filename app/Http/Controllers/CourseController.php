@@ -460,7 +460,6 @@ class CourseController extends Controller
                             <img src="' . (isset($course->thumbnail_url) && $course->thumbnail_url != null ? asset('courseThumbnail/' . $course->thumbnail_url) : asset('images/courses/img-2.jpg')) . '" alt="Course Thumbnail">
                             <div class="course-overlay learning-path-course-overlay">
                                 ' . ($course->is_active ? '<div class="badge_seller">Active</div>' : '<div class="badge_seller">InActive</div>') . '
-                                <div class="crse_reviews"><i class="uil uil-star"></i> 5</div>
                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
                                 <div class="crse_timer">' . ($course->duration ?? 'N/A') . ' hours</div>
                             </div>
@@ -469,13 +468,13 @@ class CourseController extends Controller
                             <div class="eps_dots more_dropdown">
                                 <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                 <div class="dropdown-content">
-                                    <span><i class="uil uil-share-alt"></i>Share</span>
+                                   
                                     <form class="wishlistForm">
                                         ' . csrf_field() . '
                                         <input type="hidden" name="course_id" value="' . $course->id . '">
                                         <span class="wishlistButton"><i class="uil uil-heart"></i>Save</span>
                                     </form>
-                                    <span><i class="uil uil-windsock"></i>Report</span>
+                                    
                                 </div>
                             </div>
                             <div class="vdtodt">

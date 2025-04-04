@@ -579,7 +579,7 @@ header {
 }
 
 .logo-inverse {
-    display: none;
+    /* display: none; */
 }
 
 .search120 {
@@ -6176,10 +6176,10 @@ a.rmv-btn i {
 
 .main_logo25 {
     float: none;
-    width: 135px;
+    width: 272px;
     text-align: center;
     margin: auto !important;
-    padding: 50px 0;
+    padding: 5px 0;
 }
 
 .sign_in_up_bg {

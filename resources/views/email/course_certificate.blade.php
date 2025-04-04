@@ -91,7 +91,7 @@
             <p><strong>Correct Answers:</strong> {{ $test_result->total_correct_answer }}</p>
             <p><strong>Wrong Answers:</strong> {{ $test_result->total_wrong_answer }}</p>
             <p><strong>Total Attempted:</strong> {{ $test_result->total_attempted }}</p>
-            <p><strong>Overall Score:</strong> {{ $test_result->overall_score }}%</p>
+            <p><strong>Overall Score:</strong> {{ $test_result->overall_score }} / {{ $test_result->test->total_marks }}</p>
         </div>
         @endif
 

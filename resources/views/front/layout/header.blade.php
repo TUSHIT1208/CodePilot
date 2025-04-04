@@ -2,7 +2,8 @@
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
         <a href="{{ route('index') }}" class="logo d-flex align-items-center me-auto">
-            <h1 class="sitename">CodePilot</h1>
+            <img src="{{ asset('images/logo4.png')}}" alt="">
+            {{-- <h1 class="sitename">CodePilot</h1> --}}
         </a>
 
         <nav id="navmenu" class="navmenu">

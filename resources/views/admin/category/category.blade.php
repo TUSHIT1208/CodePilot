@@ -119,7 +119,8 @@
                                 <label for="category_name" class="form-label">Category Name</label>
                                 <input type="text" class="form-control _dlor1" id="category_name"
                                     name="category_name" placeholder="Enter the category name" required>
-                                <div class="invalid-feedback">Please enter a category name.</div>
+                                <div class="invalid-feedback">Please enter a category name and Category Name must be unique.</div>
+                                
                             </div>
                             <div class="mb-3">
                                 <label for="category_description" class="form-label">Category Description</label>
@@ -179,7 +180,11 @@
                     },
                     {
                         data: 'description',
-                        name: 'description'
+                        name: 'description',
+                        render: function (data) {
+                            let text = $("<div>").html(data).text(); // Decode HTML entities
+                            return text.length > 50 ? text.substring(0, 80) + '...' : text;
+                        }
                     },
                     {
                         data: 'status',

@@ -44,9 +44,9 @@
                                                         @else
                                                             <div class="badge_seller">InActive</div>
                                                         @endif
-                                                        <div class="crse_reviews">
+                                                        {{-- <div class="crse_reviews">
                                                             <i class="uil uil-star"></i> 5
-                                                        </div>
+                                                        </div> --}}
                                                         <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                         <div class="crse_timer">{{ $course->duration ?? 'N/A' }} hours</div>
                                                     </div>
@@ -78,7 +78,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="vdtodt">
-                                                        <span class="vdt14">50 views</span>
+                                                        {{-- <span class="vdt14">50 views</span> --}}
                                                         <span
                                                             class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
 

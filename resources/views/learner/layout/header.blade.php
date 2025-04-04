@@ -8,8 +8,8 @@
         <span class="collapse_menu--label"></span>
     </button>
     <div class="main_logo" id="logo">
-        <h1>CodePilot</h1>
-        {{-- <a href="index.html"><img class="logo-inverse" src="{{ asset('images/ct_logo.svg') }}" alt=""></a> --}}
+        <img src="{{ asset('images/logo_12.png')}}" alt="" style="height: 51px;position: absolute;top: 7%;" class="logo-inverse">
+        <h1 class="ml-3" style="position: relative; left: 50px; bottom: 11px; text-transform: uppercase; font-family: monospace; letter-spacing: 2px;">CodePilot</h1>
     </div>
 
     <div class="header_right">

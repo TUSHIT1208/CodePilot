@@ -43,6 +43,18 @@ class SubCategoryController extends Controller
                                 </a>
                             </form>';
                     })
+                    ->editColumn('description', function ($subcategory) {
+                        $maxLength = 80;
+                        $description = strip_tags($subcategory->description); // Remove HTML tags
+                        
+                        if (empty($description)) {
+                            return 'N/A';
+                        }
+    
+                        return strlen($description) > $maxLength 
+                            ? substr($description, 0, $maxLength) . '...' 
+                            : $description;
+                    })
                     ->editColumn('status', function ($subcategory) {
                         return '
                             <div class="toggle-button mt-2 text-center">
@@ -59,7 +71,7 @@ class SubCategoryController extends Controller
                     ->make(true);
             }
 
-            $categories = Category::paginate(3);
+            $categories = Category::all();
             $subcategories = Sub_Category::with('category')->get();
 
             return view('admin.sub-category.sub_category', compact('categories', 'subcategories'));

@@ -32,5 +32,8 @@ class test extends Model
         return $this->hasMany(Certificate::class);
     }
 
-
+    public function testresult()
+    {
+        return $this->hasOne(test_result::class);
+    }
 }

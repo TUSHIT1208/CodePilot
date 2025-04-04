@@ -8,9 +8,8 @@
         <span class="collapse_menu--label"></span>
     </button>
     <div class="main_logo" id="logo">
-        <h1>CodePilot</h1>
-        {{-- <a href="index.html"><img src="{{ asset('images/logo.png') }}" alt=""></a> --}}
-        {{-- <a href="index.html"><img class="logo-inverse" src="{{ asset('images/logo.png') }}" alt=""></a> --}}
+        <img src="{{ asset('images/logo_12.png')}}" alt="" style="height: 51px;position: absolute;top: 7%;" class="logo-inverse">
+        <h1 class="ml-3" style="position: relative; left: 50px; bottom: 11px; text-transform: uppercase; font-family: monospace; letter-spacing: 2px;">CodePilot</h1>
     </div>
     {{-- <div class="search120">
 		<div class="ui search">
@@ -80,4 +79,25 @@
             </li>
         </ul>
     </div>
+    <script>
+        $(document).ready(function () {
+            function updateLogo() {
+                if ($("html").hasClass("night-mode")) {
+                    $("#logo").attr("src", "{{ asset('images/logo4.png') }}"); // Dark mode logo
+                } else {
+                    $("#logo").attr("src", "{{ asset('images/logo5.png') }}"); // Light mode logo
+                }
+            }
+    
+            // Run on page load
+            updateLogo();
+    
+            // Detect class change on <html> dynamically
+            const observer = new MutationObserver(function () {
+                updateLogo();
+            });
+    
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+        });
+    </script>
 </header>

@@ -154,13 +154,13 @@
                                                                                                                                                 class="ui left icon  swdh11 swdh19">
                                                                                                                                                 <input class="prompt srch_explore form-control"
                                                                                                                                                         type="text"
-                                                                                                                                                        name="phone"
+                                                                                                                                                        name="phone_number"
                                                                                                                                                         value="{{ Auth::user()->phone_number }}"
                                                                                                                                                         placeholder="Phone number" required>
                                                                                                                                                         <div class="invalid-feedback">Please provide a PhoneNumber.</div>
                                                                                                                                         </div>
                                                                                                                                         <span>
-                                                                                                                                                @error('phone')
+                                                                                                                                                @error('phone_number')
                                                                                                                                                         <small class="text-danger">{{ $message }}</small>
                                                                                                                                                 @enderror                                                                                                                                                  
                                                                                                                                         </span>
@@ -174,13 +174,13 @@
                                                                                                                                                 class="ui left icon swdh11 swdh19">
                                                                                                                                                 <input class="prompt srch_explore form-control"
                                                                                                                                                         type="date"
-                                                                                                                                                        name="dob"
+                                                                                                                                                        name="date_of_birth"
                                                                                                                                                         value="{{ Auth::user()->date_of_birth }}"
                                                                                                                                                         placeholder="Date of birth" required max="{{ date('Y-m-d') }}">
                                                                                                                                                         <div class="invalid-feedback">Please provide a Birth date.</div>
                                                                                                                                         </div>
                                                                                                                                         <span>
-                                                                                                                                                @error('dob')
+                                                                                                                                                @error('date_of_birth')
                                                                                                                                                         <small class="text-danger">{{ $message }}</small>
                                                                                                                                                 @enderror                                                                                                                                           
                                                                                                                                         </span>
