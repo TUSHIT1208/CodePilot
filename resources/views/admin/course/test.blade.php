@@ -173,12 +173,12 @@
                                                         passing marks below than total marks</div>
                                                 </div>
 
-                                              
+
 
                                                 <div class="ui search focus lbel25 mt-30 col-sm-4">
                                                     <label>Total Time*</label>
                                                     <input class="form_input_1 form-control" type="text" name="time"
-                                                        id="time" placeholder="Time here(in sec)" required>
+                                                        id="time" placeholder="Time here" required>
                                                     <div class="invalid-feedback" id="time_error">Please enter total
                                                         time.</div>
                                                 </div>
@@ -199,11 +199,11 @@
                                                 </div>
                                                 <div class="form_group mt-30">
                                                     <label class="label25 text-left">Score*</label>
-                                                    <input class="form_input_1 form-control" type="number"
-                                                    min="1" id="question_score" name="question_score" placeholder="Score"
+                                                    <input class="form_input_1 form-control" type="number" min="1"
+                                                        id="question_score" name="question_score" placeholder="Score"
                                                         required>
                                                     <div class="invalid-feedback" id="question_score_error">Please
-                                                        enter score valid score (min. 1).</div>
+                                                        enter score.</div>
                                                 </div>
 
                                                 <!-- Options for the question -->
@@ -255,6 +255,7 @@
                                             <table id="quizDataTable" class="display mt-2" style="width:100%">
                                                 <thead>
                                                     <tr>
+                                                        <th>id</th>
                                                         <th>Questions</th>
                                                         <th>Score</th>
                                                         <th>Action</th>
@@ -466,6 +467,8 @@
 </script>
 
 <script>
+    let questionIdCounter = 0; // Unique ID counter
+
     // Initialize the quizData object
     let quizData = {
         title: '',
@@ -602,6 +605,7 @@
         }
 
         const questionData = {
+            id: questionIdCounter++, // Assign unique ID
             questionText: questionText.value.trim(),
             questionScore: parseFloat(questionScore.value),
             options: []
@@ -629,9 +633,10 @@
 
         // Add the question to the DataTable
         table.row.add([
+            questionData.id,
             questionData.questionText,
             questionData.questionScore,
-            '<button class="btn btn-danger delete-btn"><i class="uil uil-trash-alt ucp-table"></i></button>'
+            '<button class="btn btn-danger delete-btn"  data-id="${questionData.id}"><i class="uil uil-trash-alt ucp-table"></i></button>'
         ]).draw();
     });
 
@@ -649,18 +654,23 @@
 
 
     $('#quizDataTable').on('click', '.delete-btn', function () {
-        const row = $(this).closest('tr'); // Get the row where the delete button was clicked
-        const rowIndex = row.index(); // Get the index of the row
+        // const questionId = parseInt($(this).attr('data-id')); // Get ID from data attribute
 
-        // Remove the question from quizData based on the row index
-        quizData.questions.splice(rowIndex, 1);
+        // // Find index by ID
+        // const questionIndex = quizData.questions.findIndex(q => q.id === questionId);
 
-        // Remove the row from the DataTable
+        // if (questionIndex !== -1) {
+        //     quizData.questions.splice(questionIndex, 1); // Remove from array
+        // }
+
+        // Remove the row from DataTable
         const table = $('#quizDataTable').DataTable();
+        const row = $(this).closest('tr');
         table.row(row).remove().draw();
 
         console.log('Updated Quiz Data after deletion:', quizData);
     });
+
 
 
 
@@ -703,9 +713,14 @@
         } else {
             passingMark.classList.remove('is-invalid');
         }
+        const table = $('#quizDataTable').DataTable();
+        const newData = table.rows().data().toArray();
+        console.log('newData=>', newData);
 
-        // Validate that the total score of all questions matches the total marks
-        const totalScore = quizData.questions.reduce((sum, question) => sum + question.questionScore, 0);
+        // Extract scores from newData (assuming scores are in the third column, index 2)
+        const totalScore = newData.reduce((sum, row) => sum + parseFloat(row[2] || 0), 0);
+
+        // Validate that the total score matches the total marks
         if (totalScore !== parseFloat(totalMarks.value)) {
             toastr.warning("Total score of questions must match with total marks.");
             return;
