@@ -432,8 +432,6 @@
 
                                         {{ $topInstructor->last_name }}</h3>
 
-
-
                                     <div class="allvperf">
 
                                         <div class="crse-perf-left">Total Course</div>

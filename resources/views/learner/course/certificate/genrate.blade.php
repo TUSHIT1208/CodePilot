@@ -86,7 +86,7 @@
 
 
                                             @if($p_marks < $test_result->overall_score)
-                                                <h2>Congratulation! {{ Auth::user()->username }}</h2>
+                                                <h2>Congratulation! {{ Auth::user()->first_name }} {{Auth::user()->last_name}}</h2>
                                                 <p>You are eligible for this certificate</p>
                                                 <form action="{{ route('downloadCerty') }}" id="certDownloadForm">
                                                     @csrf

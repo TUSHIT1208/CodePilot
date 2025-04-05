@@ -1,6 +1,6 @@
 @extends('learner.layout.master')
 
-@section('title') Learner Profile @endsection
+@section('title') My courses @endsection
 
 @section('content_learner')
     <!-- Body Start -->
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-                @include('admin.layouts.footer')
+                @include('learner.layout.footer')
 
         {{--
         <script>

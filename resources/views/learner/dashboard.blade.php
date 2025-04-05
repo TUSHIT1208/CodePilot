@@ -222,8 +222,9 @@
 														</div>
 														<div class="ms-3">
 															<h6 class="fw-bold mb-0">
-																{{ optional($review->user)->username ?? 'Anonymous' }}
-															</h6>
+																{{ optional($review->user)->first_name ?? 'Anonymous' }} 
+																{{ optional($review->user)->last_name ? optional($review->user)->last_name : '' }}
+															</h6>															
 															<small class="text-muted">
 																{{ $review->created_at->diffForHumans() }}
 															</small>

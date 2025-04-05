@@ -104,7 +104,7 @@
                                                                                                                                         class="ui left icon  swdh11 swdh19">
                                                                                                                                         <input class="prompt srch_explore form-control"
                                                                                                                                                 type="text"
-                                                                                                                                                name="surname"
+                                                                                                                                                name="last_name"
                                                                                                                                                 value="{{ Auth::user()->last_name }}"
                                                                                                                                                 maxlength="64"
                                                                                                                                                 placeholder="Last Name">

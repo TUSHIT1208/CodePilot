@@ -1,112 +1,108 @@
 @extends('learner.layout.master')
 
 @section('title')
-    Saved Courses
+Saved Courses
 @endsection
 @section('content_learner')
-    <div class="wrapper">
-        <div class="sa4d25">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section3125 mt-3">
-                            <h2 class="st_title"><i class="uil uil-heart-alt"></i> Saved Courses</h2>
-                        </div>
+<div class="wrapper">
+    <div class="sa4d25">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section3125 mt-3">
+                        <h2 class="st_title"><i class="uil uil-heart-alt"></i> Saved Courses</h2>
                     </div>
-                    <div class="col-md-12">
-                        <div class="_14d25 mb-20">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @if ($wishlistItem->isEmpty())
-                                        <!-- No Wishlist Found Block -->
-                                        <div class="no-categories-container text-center fade-in-animation footer mt-5">
-                                            <i class="uil uil-heart-sign bounce-effect"
-                                                style="font-size: 50px; color: #d1d1d1;"></i>
-                                            <h3 class="mt-3 scale-in-text" style="color: #777;">No Wishlist Found</h3>
-                                            <p class="mb-4 fade-in-text" style="color: #aaa;">
-                                                It looks like you don't have any wishlist yet.
-                                            </p>
-                                        </div>
-                                    @else
-                                        @foreach ($wishlistItem as $item)
-                                            <div class="fcrse_1 mt-3">
-                                                <a href="{{ route('course.show', $item->course->id) }}" class="hf_img">
-                                                    <img src="{{ asset('courseThumbnail/' . $item->course->thumbnail_url ?? 'images/default-thumbnail.jpg') }}"
-                                                        alt="{{ $item->course->title }}">
-                                                    <div class="course-overlay">
-                                                        {{-- <div class="badge_seller">Bestseller</div>
-                                                    <div class="crse_reviews">
-                                                        <i class="uil uil-star"></i>4.5
-                                                    </div> --}}
-                                                        <span class="play_btn1"><i class="uil uil-play"></i></span>
-                                                        <div class="crse_timer">
-                                                            {{ $item->course->duration ?? 'N/A' }} hours
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <div class="hs_content">
-                                                    <div class="eps_dots eps_dots10 more_dropdown">
-                                                        <form class="delete-wishlist" data-id="{{ $item->id }}"
-                                                            style="display: inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="button"
-                                                                style="border: none; background: none; cursor: pointer;">
-                                                                <i class='uil uil-times'></i>
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                    <div class="vdtodt">
-                                                        <span class="vdt14">0 views</span>
-                                                        <span
-                                                            class="vdt14">{{ $item->course->created_at->diffForHumans() }}</span>
-                                                    </div>
-                                                    <a href="course_detail_view.html"
-                                                        class="crse14s title900">{{ $item->course->title }}</a>
-                                                    <a href="#"
-                                                        class="crse-cate">{{ $item->course->description ?? 'Uncategorized' }}</a>
-                                                    <div class="auth1lnkprce">
-                                                        <p class="cr1fot">By <a
-                                                                href="#">{{ $item->course->user->first_name ?? 'Unknown' }}</a>
-                                                        </p>
-                                                        <div class="prce142">
-                                                            @if ($item->course->price == 0)
-                                                                Free
-                                                            @else
-                                                                @if ($item->course->discount > 0)
-                                                                    <s
-                                                                        style="text-decoration-color: red; font-size: 0.9em;">₹{{ $item->course->price }}</s>
-                                                                @endif
-                                                                ₹{{ $item->course->price - ($item->course->discount ?? 0) }}
-                                                            @endif
-                                                        </div>
-                                                        @if ($item->course->price != 0)
-                                                            <form class="cartForm">
-                                                                @csrf
-                                                                <input type="hidden" name="course_id"
-                                                                    value="{{ $item->course->id }}">
-                                                                <button type="submit" class="shrt-cart-btn"
-                                                                    title="Add to Cart">
-                                                                    <i class="uil uil-shopping-cart-alt"></i>
-                                                                </button>
-                                                            </form>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
+                </div>
+                <div class="col-md-12">
+                    <div class="_14d25 mb-20">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @if ($wishlistItem->isEmpty())
+                                <!-- No Wishlist Found Block -->
+                                <div class="no-categories-container text-center fade-in-animation footer mt-5">
+                                    <i class="uil uil-heart-sign bounce-effect"
+                                        style="font-size: 50px; color: #d1d1d1;"></i>
+                                    <h3 class="mt-3 scale-in-text" style="color: #777;">No Wishlist Found</h3>
+                                    <p class="mb-4 fade-in-text" style="color: #aaa;">
+                                        It looks like you don't have any wishlist yet.
+                                    </p>
                                 </div>
+                                @else
+                                @foreach ($wishlistItem as $item)
+                                <div class="fcrse_1 mt-3">
+                                    <a href="{{ route('course.show', $item->course->id) }}" class="hf_img">
+                                        <img src="{{ asset('courseThumbnail/' . $item->course->thumbnail_url ?? 'images/default-thumbnail.jpg') }}"
+                                            alt="{{ $item->course->title }}">
+                                        <div class="course-overlay">
+                                            {{-- <div class="badge_seller">Bestseller</div>
+                                            <div class="crse_reviews">
+                                                <i class="uil uil-star"></i>4.5
+                                            </div> --}}
+                                            <span class="play_btn1"><i class="uil uil-play"></i></span>
+                                            <div class="crse_timer">
+                                                {{ $item->course->duration ?? 'N/A' }} hours
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="hs_content">
+                                        <div class="eps_dots eps_dots10 more_dropdown">
+                                            <form class="delete-wishlist" data-id="{{ $item->id }}"
+                                                style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button"
+                                                    style="border: none; background: none; cursor: pointer;">
+                                                    <i class='uil uil-times'></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="vdtodt">
+                                            <span class="vdt14">0 views</span>
+                                            <span class="vdt14">{{ $item->course->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        <a href="course_detail_view.html" class="crse14s title900">{{
+                                            $item->course->title }}</a>
+                                        <a href="#" class="crse-cate">{{ $item->course->description ?? 'Uncategorized'
+                                            }}</a>
+                                        <div class="auth1lnkprce">
+                                            <p class="cr1fot">By <a href="#">{{ $item->course->user->first_name ??
+                                                    'Unknown' }} {{ $item->course->user->last_name ?? '' }}</a></p>
+                                            <div class="prce142">
+                                                @if ($item->course->price == 0)
+                                                Free
+                                                @else
+                                                @if ($item->course->discount > 0)
+                                                <s style="text-decoration-color: red; font-size: 0.9em;">₹{{
+                                                    $item->course->price }}</s>
+                                                @endif
+                                                ₹{{ $item->course->price - ($item->course->discount ?? 0) }}
+                                                @endif
+                                            </div>
+                                            @if ($item->course->price != 0)
+                                            <form class="cartForm">
+                                                @csrf
+                                                <input type="hidden" name="course_id" value="{{ $item->course->id }}">
+                                                <button type="submit" class="shrt-cart-btn" title="Add to Cart">
+                                                    <i class="uil uil-shopping-cart-alt"></i>
+                                                </button>
+                                            </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @include('learner.layout.footer')
     </div>
-    <script>
-        document.querySelectorAll('.cartForm').forEach((form, index) => {
+    @include('learner.layout.footer')
+</div>
+<script>
+    document.querySelectorAll('.cartForm').forEach((form, index) => {
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
                 let formData = new FormData(this);
@@ -244,5 +240,5 @@
                 }
             });
         });
-    </script>
+</script>
 @endsection

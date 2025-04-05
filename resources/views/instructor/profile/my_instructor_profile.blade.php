@@ -27,39 +27,13 @@
                                             @endif
                                         </div>
                                         <div class="prfledt1">
-                                            <h2>{{ Auth::user()->username }}</h2>
-                                            <i id="editProfileBtn" class="uil uil-camera"></i>
+                                            <h2>{{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}</h2>
+                                            <i id="editProfileBtn" class="uil uil-camera" style="background-color: white; color: red; border-radius: 100%; position: absolute; right: 84%; padding: 1%; font-size: 176%; top: 72%; border: 1px solid black;"></i>
                                             <input type="file" id="fileInput" name="profile_image" style="display:none;" onchange="previewImage(event)">
                                             <button id="saveProfileBtn" class="upload_btn" style="display:none;">Save Profile</button>
                                         </div>
                                     </div>
                                 </form> 
-                                <ul class="_ttl120">
-                                    <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">Enroll Students</div>
-                                            <div class="_ttl123">{{ $totalLearners }}</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">Courses</div>
-                                            <div class="_ttl123">{{ $totalCourses }}</div>
-                                        </div>
-                                    </li>
-                                    {{-- <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">Reviews</div>
-                                            <div class="_ttl123">11K</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="_ttl121">
-                                            <div class="_ttl122">Subscriptions</div>
-                                            <div class="_ttl123">452K</div>
-                                        </div>
-                                    </li> --}}
-                                </ul>
                             </div>
                             <div class="col-lg-6">
                                 <a href="{{ route('instructor.setting') }} " class="_216b12">
