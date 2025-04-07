@@ -838,5 +838,5 @@
                 });
             }
         }).disableSelection();
-    });
+ });
 </script>

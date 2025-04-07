@@ -136,9 +136,9 @@
                                                             @else
                                                                 <div class="badge_seller">InActive</div>
                                                             @endif
-                                                            <div class="crse_reviews">
+                                                            {{-- <div class="crse_reviews">
                                                                 <i class="uil uil-star"></i> 5
-                                                            </div>
+                                                            </div> --}}
                                                             <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                             <div class="crse_timer">{{ $course->duration ?? 'N/A' }} hours</div>
                                                         </div>
@@ -146,7 +146,7 @@
                                                     <div class="fcrse_content">
                                                         
                                                         <div class="vdtodt">
-                                                            <span class="vdt14">50 views</span>
+                                                            {{-- <span class="vdt14">50 views</span> --}}
                                                             <span
                                                                 class="vdt14">{{ $course->created_at->diffForHumans() }}</span>
     
@@ -159,8 +159,8 @@
                                                             <p>By <a
                                                                     href="javascript:;">{{ $course->user->first_name . ' ' . $course->user->last_name ?? 'unknown' }}</a>
                                                             </p>
-                                                            <div class="prce142">₹{{ $course->price ?? 'Free' }}</div>
-    
+                                                            <div class="prce142">{{ $course->price == 0 ? 'FREE' : '₹' . $course->price }}</div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

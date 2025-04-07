@@ -184,7 +184,7 @@
                             <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
                                 data-aos-delay="100">
                                 <div class="mt-5">
-                                    <a href="{{ route('course.show', $courseItem->id) }}" class="fcrse_img video-trigger">
+                                    <a href="javascript:;" class="fcrse_img video-trigger">
                                         <img src="{{ asset('courseThumbnail/' . $courseItem->thumbnail_url) }}"
                                             alt="Course Thumbnail" class="img-fluid thumbnail" style="height: 213px;">
                                     </a>

@@ -290,7 +290,7 @@
                                                         <p class="text-gray-700">{{ $attachment->discription }}</p>
                                                         <div class="auth1lnkprce">
                                                             <p>By <a href="javascript:;"
-                                                                    class="text-blue-500">{{ $users->username ?? 'Unknown' }}</a>
+                                                                class="text-blue-500">{{ $users->first_name . ' ' . $users->last_name ?? 'Unknown' }}</a>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -476,7 +476,10 @@
                                                                                         ${review.user.username ? review.user.username.charAt(0).toUpperCase() : ''}
                                                                                 </h1>`}
                                             <div class="rv1458">
-                                                <h4 class="tutor_name1">${review.user.username || 'Anonymous'}</h4>
+                                                <h6 class="fw-bold mb-0">
+                    ${review.user.first_name || 'Anonymous'} 
+                    ${review.user.last_name ? review.user.last_name : ''}
+                </h6>
                                                 <span class="time_145">${formatTime(review.created_at)}</span>
                                             </div>
                                         </div>

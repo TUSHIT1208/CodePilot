@@ -102,6 +102,7 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     @include('learner.layout.footer')
     <script>
@@ -197,3 +198,99 @@
     </script>
     
 @endsection
+=======
+        @include('learner.layout.footer')
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const timerElement = document.getElementById('timer');
+                let timeLeft;
+
+                // Handle both "HH:MM:SS" and "minutes" format
+                if (timerElement.textContent.includes(':')) {
+                    // Format: HH:MM:SS
+                    const timeParts = timerElement.textContent.split(':');
+                    let hours = parseInt(timeParts[0], 10) || 0;
+                    let minutes = parseInt(timeParts[1], 10) || 0;
+                    let seconds = parseInt(timeParts[2], 10) || 0;
+                    timeLeft = (hours * 3600) + (minutes * 60) + seconds;
+                } else {
+                    // Format: Minutes only
+                    timeLeft = parseInt(timerElement.textContent, 10) * 60;
+                }
+
+                function updateTimerDisplay() {
+                    const displayHours = Math.floor(timeLeft / 3600);
+                    const displayMinutes = Math.floor((timeLeft % 3600) / 60);
+                    const displaySeconds = timeLeft % 60;
+
+                    timerElement.textContent =
+                        `${displayHours.toString().padStart(2, '0')}:${displayMinutes.toString().padStart(2, '0')}:${displaySeconds.toString().padStart(2, '0')}`;
+                }
+
+                updateTimerDisplay();
+
+                const timerInterval = setInterval(() => {
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        Swal.fire({
+                            title: 'Time’s Up!',
+                            text: 'Your test time has ended. Submitting your answers now.',
+                            icon: 'warning',
+                            confirmButtonText: 'OK',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false
+                        }).then(() => {
+                            document.getElementById('testForm').submit();
+                        });
+                        return;
+                    }
+
+                    timeLeft--;
+                    updateTimerDisplay();
+                }, 1000);
+            });
+
+            function confirmSubmit() {
+    // Get all question blocks
+    const questionBlocks = document.querySelectorAll('.grouped.fields');
+
+    let unanswered = [];
+
+    questionBlocks.forEach((block, index) => {
+        const inputs = block.querySelectorAll('input[type="radio"]');
+        const questionId = inputs.length > 0 ? inputs[0].name : null;
+        const answered = [...inputs].some(input => input.checked);
+
+        if (!answered && questionId) {
+            unanswered.push(index + 1); // store question number (1-based)
+        }
+    });
+
+    if (unanswered.length > 0) {
+        Swal.fire({
+            title: 'Unanswered Questions!',
+            text: `You have not answered question(s): ${unanswered.join(', ')}.`,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
+        // If all questions are answered, confirm submit
+        Swal.fire({
+            title: 'Submit Test?',
+            text: 'Are you sure you want to submit your test?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Submit',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('testForm').submit();
+            }
+        });
+    }
+
+        </script>
+@endsection
+>>>>>>> 1a8d468aeec6e19cc8e231603d0d6b0967a64c90

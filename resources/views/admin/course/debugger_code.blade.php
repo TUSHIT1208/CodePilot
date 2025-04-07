@@ -15,7 +15,7 @@
                 <!-- Video Section -->
                 <div class="col-lg-6 col-md-12">
                     <div class="video-container">
-                        <video controls width="100%">
+                        <video controls width="100%" controlsList="nodownload">
                             <source src="{{ asset('courseVideo/' . $course_detail->url) }}" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
