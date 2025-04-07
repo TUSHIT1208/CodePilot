@@ -478,7 +478,6 @@ class CourseController extends Controller
                                 </div>
                             </div>
                             <div class="vdtodt">
-                                <span class="vdt14">50 views</span>
                                 <span class="vdt14">' . $course->created_at->diffForHumans() . '</span>
                             </div>
                             <a href="' . route('course.show', $course->id) . '" class="crse14s">' . $course->title . '</a>

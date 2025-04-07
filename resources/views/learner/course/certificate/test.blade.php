@@ -153,18 +153,45 @@
             });
 
             function confirmSubmit() {
-                Swal.fire({
-                    title: 'Submit Test?',
-                    text: 'Are you sure you want to submit your test?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, Submit',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById('testForm').submit();
-                    }
-                });
+    // Get all question blocks
+    const questionBlocks = document.querySelectorAll('.grouped.fields');
+
+    let unanswered = [];
+
+    questionBlocks.forEach((block, index) => {
+        const inputs = block.querySelectorAll('input[type="radio"]');
+        const questionId = inputs.length > 0 ? inputs[0].name : null;
+        const answered = [...inputs].some(input => input.checked);
+
+        if (!answered && questionId) {
+            unanswered.push(index + 1); // store question number (1-based)
+        }
+    });
+
+    if (unanswered.length > 0) {
+        Swal.fire({
+            title: 'Unanswered Questions!',
+            text: `You have not answered question(s): ${unanswered.join(', ')}.`,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
+        // If all questions are answered, confirm submit
+        Swal.fire({
+            title: 'Submit Test?',
+            text: 'Are you sure you want to submit your test?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Submit',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('testForm').submit();
             }
+        });
+    }
+
         </script>
 @endsection

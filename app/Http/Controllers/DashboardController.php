@@ -90,7 +90,8 @@ class DashboardController extends Controller
                 'phone',
                 'created_at'
             )
-                ->orderByDesc('payable_amount'); // Sort by highest payable amount
+            ->where('payment_status', 'paid') // ✅ Filter only paid orders
+            ->orderByDesc('payable_amount');
 
             return DataTables::of($orders)
                 ->addColumn('user', function ($order) {
@@ -192,6 +193,7 @@ class DashboardController extends Controller
                     'phone',
                     'created_at'
                 )
+                ->where('payment_status', 'paid') // ✅ Filter only paid orders
                 ->orderByDesc('payable_amount');
 
             logger('Query executed', ['query' => $orders->toSql(), 'bindings' => $orders->getBindings()]);
@@ -243,6 +245,7 @@ class DashboardController extends Controller
         $total_learners = User::whereHas('role', function ($query) {
             $query->where('name', 'learner'); // Ensure this matches your database role name
         })
+            ->where('created_by', auth()->id())
             ->whereHas('orders') // Ensure the learner has at least one order
             ->count();
         logger($total_learners);
@@ -625,16 +628,14 @@ class DashboardController extends Controller
 
         $formattedCourses = $courses->map(function ($course) use ($orderItems, $transactions) {
             $orderItem = $orderItems[$course->course_id]->first() ?? null;
-            $transaction = $orderItem ? $transactions->where('order_id', $orderItem->order_id)->first() : null;
-
+            // No need to fetch transaction here just to get amount per course
             return [
                 'title' => $course->course->title ?? 'N/A',
                 'category_id' => $course->course->category_id ?? null,
                 'sub_category_id' => $course->course->sub_category_id ?? null,
-                'total_amount' => $transaction ? '₹' . number_format($transaction->amount, 2) : 'N/A',
+                'total_amount' => $orderItem ? '₹' . number_format($orderItem->payable_amount, 2) : 'N/A',
                 'created_at' => $course->created_at ? $course->created_at->format('Y-m-d H:i:s') : 'N/A'
             ];
-            
         });
 
         logger($formattedCourses);

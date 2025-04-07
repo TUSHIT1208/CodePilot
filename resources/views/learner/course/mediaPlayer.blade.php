@@ -9,7 +9,7 @@
         <div class="sa4d25">
             <div class="container-fluid">
                 <div class="video-container">
-                    <video controls width="100%">
+                    <video controls width="100%" controls controlsList="nodownload">
                         <source src="{{ asset('courseVideo/' . $course_detail->url) }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -93,7 +93,7 @@
                 type: "GET",
                 success: function(response) {
                     if (response.success) {
-                        alert("Resuming video from: " + response.time);
+                       // alert("Resuming video from: " + response.time);
                         video.currentTime = response.time;
                         console.log("Resuming video from:", response.time);
                     }

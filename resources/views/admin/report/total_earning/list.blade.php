@@ -41,7 +41,7 @@
 
                                     <!-- Date Range Filter -->
                                     <div class="col-md-3">
-                                        <label for="enrollDateRange">Filter by Enroll Date:</label>
+                                        <label for="enrollDateRange">Filter by Date:</label>
                                         <input type="text" id="enrollDateRange" class="form-control"
                                             placeholder="Select Date Range">
                                     </div>

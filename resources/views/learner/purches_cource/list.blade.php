@@ -65,7 +65,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="vdtodt">
-                                                                        <span class="vdt14">50 views</span>
+                                                                       
                                                                         <span class="vdt14">{{ $course->course->created_at->diffForHumans() }}</span>
 
                                                                     </div>

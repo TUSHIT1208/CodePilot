@@ -66,7 +66,7 @@
                                             <li>
                                                 <div class="result_dt">
                                                     <i class="uil uil-check right_ans"></i>
-                                                    <p>Right<span>{{$test_result->total_correct_answer}}</span></p>
+                                                    <p>Right<span>({{$test_result->total_correct_answer}})</span></p>
                                                 </div>
                                             </li>
                                             <li>
@@ -78,7 +78,7 @@
                                             <li>
                                                 <div class="result_dt">
                                                     <h4>{{$test_result->total_attempted	}}</h4>
-                                                    <p>{{$test_result->total_attempted	}}</p>
+                                                    <p>Attempt<span>({{$test_result->total_attempted}})<span></p>
                                                 </div>
                                             </li>
                                         </ul>

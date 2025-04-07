@@ -195,8 +195,7 @@
                                                                     <div
                                                                         class="badge_seller bg-blue-500 text-white px-2 py-1 rounded-full">
                                                                         Featured</div>
-                                                                    <div class="crse_reviews text-white playlist_review"><i
-                                                                            class="uil uil-star"></i>4.5</div>
+                                                                   
                                                                     <span class="play_btn1 text-white text-2xl"><i
                                                                             class="uil uil-play"></i></span>
                                                                     <div class="crse_timer text-white"

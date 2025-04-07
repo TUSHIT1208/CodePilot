@@ -9,7 +9,7 @@
         <div class="sa4d25">
             <div class="container-fluid">
                 <div class="video-container">
-                    <video controls width="100%">
+                    <video controls width="100%" controlsList="nodownload">
                         <source src="{{ asset('courseVideo/' . $course_detail->url) }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
