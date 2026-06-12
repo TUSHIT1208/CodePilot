@@ -146,9 +146,3 @@ Follow these steps to set up CodePilot on your local environment:
   ```bash
   npm run build
   ```
-
----
-
-## 📝 License
-
-This project is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
