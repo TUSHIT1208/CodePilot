@@ -10,35 +10,10 @@ CodePilot is a modern, feature-rich web-based learning management system (LMS) d
 
 ## 🌟 Key Features
 
-### 💻 1. Interactive Workspace & Code Debugger
-* **Side-by-Side Learning:** A split-screen media player allows learners to watch course lectures on one side while having a dedicated coding workspace/debugger environment open on the other.
-* **Smart Video Tracking:** Automatically tracks student watch progress (play, pause, and check points) via custom AJAX tracking to ensure progress persistence.
-
-### 👥 2. Multi-Role Management System
-The platform features three core user portals with distinct dashboards:
-* **Admin Dashboard:**
-  * Complete management of users, instructors, and categories.
-  * System-wide configuration (FAQs, Learning Paths, categories, and subcategories).
-  * Bulk operations (deletion/status toggling) using **Yajra DataTables** for smooth server-side rendering.
-  * Financial audits and earning statements.
-* **Instructor Portal:**
-  * Quick course creator supporting free or paid courses.
-  * Video and document/assignment attachment uploading with drag-and-drop ordering capabilities.
-  * Real-time enrollment and earning tracking powered by visual analytics (enrollment charts).
-* **Learner Portal:**
-  * Intuitive course discovery interface filtered by category and level.
-  * Interactive progress tracking dashboard with resume capabilities.
-  * Custom shopping cart and wishlist management.
-
-### 💳 3. Cart, Checkout & Razorpay Integration
-* Complete shopping cart and wishlist system.
-* Secure online payment transactions integrated with the **Razorpay Payment Gateway API**.
-* Automated generation of transaction invoices available for preview or instant download.
-
-### 📜 4. Quizzes & PDF Certifications
-* Course-specific quiz examinations to test and validate learning outcomes.
-* Automatic grading of MCQ-based test questionnaires.
-* Dynamic Certificate of Completion generation (PDF format) using **Barryvdh DomPDF** upon successfully passing the course exam.
+* **Interactive Code Debugger:** Features a split-screen workspace where learners can watch course videos and practice coding in a built-in real-time editor/debugger.
+* **Role-Based Dashboards:** Distinct portals for **Admins** (control users, categories, and FAQs), **Instructors** (publish free/paid courses, manage media attachments, and track earnings), and **Learners** (resume courses, track video progress, and download certs).
+* **Cart & Payment Integration:** Fully functional shopping cart and wishlist systems integrated with **Razorpay** payments and PDF invoice downloads.
+* **Quizzes & Certifications:** Automatic evaluation of learner progress via MCQ tests, with dynamic PDF Certificate generation using **DomPDF** upon passing.
 
 ---
 
@@ -52,6 +27,17 @@ The platform features three core user portals with distinct dashboards:
 | **Build Tool** | Vite |
 | **Database** | MySQL |
 | **Core Libraries** | Razorpay SDK, Barryvdh DomPDF, Yajra DataTables, Mews Purifier |
+
+---
+
+## 🗄️ Database Architecture
+
+The application database is modularly structured to support e-commerce, tracking, and certification:
+1. **Authentication & Roles:** `users`, `roles`, `adminprofiles`, `instractor_profiles`, and `learner_profiles`.
+2. **Course Engine:** `categories`, `sub_categories`, `learning_paths`, `courses`, `course_attachments`, and `user_video_trackers`.
+3. **Quiz & Evaluation:** `tests`, `test_questions`, `test_options`, `test_results`, and `test_result_answers`.
+4. **E-Commerce & Orders:** `carts`, `orders`, `order_items`, and `payment_transactions`.
+5. **Platform Assets:** `media`, `certificates`, `reviews`, and `contactuses`.
 
 ---
 
@@ -146,3 +132,9 @@ Follow these steps to set up CodePilot on your local environment:
   ```bash
   npm run build
   ```
+
+---
+
+## 📝 License
+
+This project is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
