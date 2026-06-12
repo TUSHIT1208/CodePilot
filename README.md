@@ -55,17 +55,6 @@ The platform features three core user portals with distinct dashboards:
 
 ---
 
-## 🗄️ Database Architecture
-
-The application database is modularly structured to support e-commerce, tracking, and certification:
-1. **Authentication & Roles:** `users`, `roles`, `adminprofiles`, `instractor_profiles`, and `learner_profiles`.
-2. **Course Engine:** `categories`, `sub_categories`, `learning_paths`, `courses`, `course_attachments`, and `user_video_trackers`.
-3. **Quiz & Evaluation:** `tests`, `test_questions`, `test_options`, `test_results`, and `test_result_answers`.
-4. **E-Commerce & Orders:** `carts`, `orders`, `order_items`, and `payment_transactions`.
-5. **Platform Assets:** `media`, `certificates`, `reviews`, and `contactuses`.
-
----
-
 ## 🚀 Installation & Setup
 
 Follow these steps to set up CodePilot on your local environment:
