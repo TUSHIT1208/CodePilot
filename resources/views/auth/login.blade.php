@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=9">
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
-    <title> Sign In | Codepilot</title>
+    <title> Sign In | CodePilot</title>
 
     <!-- Favicon Icon -->
     <link rel="icon" type="image/png" href="{{ asset('images/fav.png') }}">
@@ -53,7 +53,7 @@
                 <div class="col-lg-6 col-md-8">
                     <div class="sign_form">
                         <h2>Welcome Back</h2>
-                        <p>Log In to Your Codepilot Account!</p>
+                        <p>Log In to Your CodePilot Account!</p>
 
                         <!-- Login Form -->
                         <form action="{{ route('login_check') }}" method="POST" class="needs-validation" novalidate>

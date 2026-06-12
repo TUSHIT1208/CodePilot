@@ -1,4 +1,4 @@
-@extends('instructor.setting.master')
+﻿@extends('instructor.setting.master')
 
 @section('title') Help @endsection
 

@@ -1,4 +1,4 @@
-@extends('front.layout.master')
+﻿@extends('front.layout.master')
 
 @section('title')
     Contact Us
@@ -66,7 +66,7 @@
                             <i class="bi bi-envelope flex-shrink-0"></i>
                             <div>
                                 <h3>Email Us</h3>
-                                <p>codepilot1213@gmail.com</p>
+                                <p>CodePilot1213@gmail.com</p>
                             </div>
                         </div><!-- End Info Item -->
 

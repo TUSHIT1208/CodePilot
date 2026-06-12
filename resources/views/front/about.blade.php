@@ -1,4 +1,4 @@
-@extends('front.layout.master')
+﻿@extends('front.layout.master')
 
 @section('title')
     About
@@ -14,7 +14,7 @@
                     <div class="row d-flex justify-content-center text-center">
                         <div class="col-lg-8">
                             <h1>About Us<br></h1>
-                            <p class="mb-0">Welcome to Codepilot, your go-to platform for high-quality courses designed to
+                            <p class="mb-0">Welcome to CodePilot, your go-to platform for high-quality courses designed to
                                 help you learn, grow, and
                                 achieve your goals. Whether you're looking for free or paid courses, we provide a wide range
                                 of options tailored to your
@@ -46,10 +46,10 @@
 
                     <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
                         <h3>Our Mission</h3>
-                        At CodePilote, we believe that learning should be accessible, flexible, and engaging. Our goal is to
+                        At CodePilot, we believe that learning should be accessible, flexible, and engaging. Our goal is to
                         empower learners
                         with expertly crafted courses that enhance knowledge, improve skills, and drive career growth.
-                        <h3 class="mt-2">Why Choose CodePilote?</h3>
+                        <h3 class="mt-2">Why Choose CodePilot?</h3>
 
                         <ul>
                             <li><i class="bi bi-check-circle"></i> <span>Diverse Course Selection - Covering programming,
@@ -63,7 +63,7 @@
 
                         </ul>
                         <p class="fst-italic">
-                            At CodePilote, we are committed to making learning accessible, flexible, and impactful. Whether
+                            At CodePilot, we are committed to making learning accessible, flexible, and impactful. Whether
                             you're looking to
                             enhance your skills, start a new career, or simply explore new subjects, our expertly designed
                             courses are here to guide

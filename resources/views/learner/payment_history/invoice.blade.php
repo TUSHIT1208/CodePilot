@@ -1,4 +1,4 @@
-@extends('learner.layout.master')
+﻿@extends('learner.layout.master')
 
 @section('title')
     Invoice

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, shrink-to-fit=9">
 	<meta name="description" content="Gambolthemes">
 	<meta name="author" content="Gambolthemes">
-	<title>@yield('title') | Codepilot</title>
+	<title>@yield('title') | CodePilot</title>
 	@include('learner.layout.head-css')
 	<script src="{{ asset('js/vertical-responsive-menu.min.js') }}"></script>
 	<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>

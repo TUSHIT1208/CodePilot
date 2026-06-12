@@ -1,4 +1,4 @@
-@extends('front.layout.master')
+﻿@extends('front.layout.master')
 
 @section('title')
 Privacy Policy
@@ -118,7 +118,7 @@ Privacy Policy
         
                                 <h2>9. Contact Us</h2>
                                 <p>If you have any questions regarding this Privacy Policy, please contact us at
-                                    <a href="mailto:support@codepilot.com">support@codepilot.com</a>.</p>
+                                    <a href="mailto:support@CodePilot.com">support@CodePilot.com</a>.</p>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-@extends('admin.setting.master')
+﻿@extends('admin.setting.master')
 
 @section('title') Help @endsection
 

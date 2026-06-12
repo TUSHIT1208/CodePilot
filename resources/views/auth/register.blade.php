@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,13 +16,14 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,500" rel="stylesheet">
     <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
     <!-- Toastr CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
     <link href="{{ asset('vendor/unicons-2.0.1/css/unicons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/vertical-responsive-menu.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet"> --}}
-    
+    {{--
+    <link href="{{ asset('css/night-mode.css') }}" rel="stylesheet"> --}}
+
 
     <!-- Vendor Stylesheets -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -33,23 +34,29 @@
     <link href="{{ asset('vendor/semantic/semantic.min.css') }}" rel="stylesheet">
 
     <style>
-.loader {
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid #ffffff; /* White color */
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    animation: spin 1s linear infinite;
-    display: inline-block;
-    margin-left: 10px; /* Space between text and loader */
-    vertical-align: middle;
-}
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffffff;
+            /* White color */
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+            /* Space between text and loader */
+            vertical-align: middle;
+        }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
 
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -159,7 +166,8 @@
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="password"
                                                 name="password_confirmation" value="{{ old('password_confirmation') }}"
-                                                id="id_confirmationpassword" maxlength="64" placeholder="Confirm Password">
+                                                id="id_confirmationpassword" maxlength="64"
+                                                placeholder="Confirm Password">
                                         </div>
                                         @error('password_confirmation')
                                             <span class="text-danger">{{ $message }}</span>
@@ -228,8 +236,8 @@
                                     <div class="ui search focus">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="learner_username"
-                                                value="{{ old('learner_username') }}" id="learner__id_username" maxlength="64"
-                                                placeholder="UserName">
+                                                value="{{ old('learner_username') }}" id="learner__id_username"
+                                                maxlength="64" placeholder="UserName">
                                         </div>
                                         @error('learner_username')
                                             <span class="text-danger">{{ $message }}</span>
@@ -239,8 +247,8 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="learner_firstname"
-                                                value="{{ old('learner_firstname') }}" id="learner_id_firstname" maxlength="64"
-                                                placeholder="First Name">
+                                                value="{{ old('learner_firstname') }}" id="learner_id_firstname"
+                                                maxlength="64" placeholder="First Name">
                                         </div>
                                         @error('learner_firstname')
                                             <span class="text-danger">{{ $message }}</span>
@@ -250,8 +258,8 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="learner_middlename"
-                                                value="{{ old('learner_middlename') }}" id="learner_id_middlename" maxlength="64"
-                                                placeholder="Middle Name">
+                                                value="{{ old('learner_middlename') }}" id="learner_id_middlename"
+                                                maxlength="64" placeholder="Middle Name">
                                         </div>
                                         @error('learner_middlename')
                                             <span class="text-danger">{{ $message }}</span>
@@ -261,8 +269,8 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="text" name="learner_lastname"
-                                                value="{{ old('learner_lastname') }}" id="learner_id_lastname" maxlength="64"
-                                                placeholder="Last Name">
+                                                value="{{ old('learner_lastname') }}" id="learner_id_lastname"
+                                                maxlength="64" placeholder="Last Name">
                                         </div>
                                         @error('learner_lastname')
                                             <span class="text-danger">{{ $message }}</span>
@@ -272,8 +280,8 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="email" name="learner_emailaddress"
-                                                value="{{ old('learner_emailaddress') }}" id="learner_id_email" maxlength="64"
-                                                placeholder="Email Address">
+                                                value="{{ old('learner_emailaddress') }}" id="learner_id_email"
+                                                maxlength="64" placeholder="Email Address">
                                         </div>
                                         @error('learner_emailaddress')
                                             <span class="text-danger">{{ $message }}</span>
@@ -305,8 +313,8 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="number" name="learner_phone_no"
-                                                value="{{ old('learner_phone_no') }}" id="learner_id_phoneno" maxlength="64"
-                                                placeholder="Phone Number">
+                                                value="{{ old('learner_phone_no') }}" id="learner_id_phoneno"
+                                                maxlength="64" placeholder="Phone Number">
                                         </div>
                                         @error('learner_phone_no')
                                             <span class="text-danger">{{ $message }}</span>
@@ -316,7 +324,8 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                             <input class="prompt srch_explore" type="date" name="learner_date_of_birth"
-                                                value="{{ old('learner_date_of_birth') }}" id="learner_id_date_of_birth" max="{{ date('Y-m-d') }}">
+                                                value="{{ old('learner_date_of_birth') }}" id="learner_id_date_of_birth"
+                                                max="{{ date('Y-m-d') }}">
                                         </div>
                                         @error('learner_date_of_birth')
                                             <span class="text-danger">{{ $message }}</span>
@@ -334,7 +343,7 @@
                                         Student Sign Up Now
                                         <span id="student-btn-loader" class="loader" style="display: none;"></span>
                                     </button>
-                                    
+
                                 </form>
 
                             </div>
@@ -348,28 +357,29 @@
         </div>
     </div>
     <!-- Signup End -->
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    {{--
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="js/jquery-3.7.1.min.js"></script>
 
-    
+
 
     <script>
         //instructor loder
         document.querySelector("form").addEventListener("submit", function () {
             let btn = document.getElementById("submit-btn");
-            document.getElementById("btn-loader").style.display = "inline-block"; 
+            document.getElementById("btn-loader").style.display = "inline-block";
             btn.disabled = true;
-            
+
         });
-       
+
 
         // {{-- validation --}}
         (function () {
             'use strict';
-    
+
             document.addEventListener('DOMContentLoaded', function () {
                 const form = document.querySelector('.needs-validation');
-    
+
                 form.addEventListener('submit', function (event) {
                     if (!form.checkValidity()) {
                         event.preventDefault();
@@ -383,56 +393,57 @@
 
         $(document).ready(function () {
             $('form[action="{{ route('user.store_learner') }}"]').on('submit', function (e) {
-    e.preventDefault(); // Prevent default form submission
+                e.preventDefault(); // Prevent default form submission
 
-    let form = $(this);
-    let formData = new FormData(this);
-    let submitButton = form.find('button[type="submit"]'); // Select the submit button
-    let loader = $('<span class="loader"></span>'); // Create a loader element
+                let form = $(this);
+                let formData = new FormData(this);
+                let submitButton = form.find('button[type="submit"]'); // Select the submit button
+                let loader = $('<span class="loader"></span>'); // Create a loader element
 
-    // Clear previous error messages
-    form.find('.text-danger').remove();
+                // Clear previous error messages
+                form.find('.text-danger').remove();
 
-    // Disable button and show loader
-    submitButton.prop('disabled', true).append(loader);
+                // Disable button and show loader
+                submitButton.prop('disabled', true).append(loader);
 
-    $.ajax({
-        url: form.attr('action'),
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function () {
-            localStorage.setItem('success', 'Registration successful! Please log in.');
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function () {
+                        localStorage.setItem('success', 'Registration successful! Please log in.');
 
-            // Redirect after successful registration
-            window.location.href = "{{ route('login') }}";
-        },
-        error: function (xhr) {
-            // Remove loader and enable button if validation fails
-            loader.remove();
-            submitButton.prop('disabled', false);
+                        // Redirect after successful registration
+                        window.location.href = "{{ route('login') }}";
+                    },
+                    error: function (xhr) {
+                        // Remove loader and enable button if validation fails
+                        loader.remove();
+                        submitButton.prop('disabled', false);
 
-            if (xhr.status === 422) {
-                let errors = xhr.responseJSON.errors;
-                for (let key in errors) {
-                    let input = form.find(`[name="${key}"]`);
-                    let errorMessage = `<span class="text-danger">${errors[key][0]}</span>`;
-                    input.closest('.ui.search').append(errorMessage);
-                }
-            } else {
-                alert('An error occurred. Please try again.');
-            }
-        }
-    });
-});
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            for (let key in errors) {
+                                let input = form.find(`[name="${key}"]`);
+                                let errorMessage = `<span class="text-danger">${errors[key][0]}</span>`;
+                                input.closest('.ui.search').append(errorMessage);
+                            }
+                        } else {
+                            alert('An error occurred. Please try again.');
+                        }
+                    }
+                });
+            });
 
-});
+        });
 
 
     </script>
 
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    {{--
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/OwlCarousel/owl.carousel.js"></script>
     <script src="vendor/bootstrap-select/docs/docs/dist/js/bootstrap-select.js"></script>
@@ -444,29 +455,29 @@
 
     <script>
         // Check if there is a success message in the session
-    @if(session('success'))
-    toastr.options = {
-                            "closeButton": true, // Remove close button
-                            "debug": false,
-                            "newestOnTop": true,
-                            "progressBar": true, // Enable time bar
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": true,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000", // Duration before auto-hiding
-                    "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-            
+        @if(session('success'))
+            toastr.options = {
+                "closeButton": true, // Remove close button
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true, // Enable time bar
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000", // Duration before auto-hiding
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
             // Show success toast notification with the session message
             toastr.success("{{ session('success') }}", "Success");
         @endif
-    
+
         // You can also handle other session messages if needed
         @if(session('error'))
             toastr.options = {
@@ -483,7 +494,7 @@
                 showMethod: "fadeIn",
                 hideMethod: "fadeOut"
             };
-            
+
             // Show error toast notification with the session message
             toastr.error("{{ session('error') }}", "Error");
         @endif

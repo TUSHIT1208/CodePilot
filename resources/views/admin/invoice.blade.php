@@ -1,4 +1,4 @@
-@include('admin.layouts.master')
+﻿@include('admin.layouts.master')
 <div class="wrapper _bg4586 _new89 p-0">		
     <div class="container">
         <div class="row justify-content-md-center">

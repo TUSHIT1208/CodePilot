@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <title>{{ $isCreator ? 'Your Course is Published!' : 'New Course Published' }}</title>

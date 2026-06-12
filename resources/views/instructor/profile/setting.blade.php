@@ -1,4 +1,4 @@
-@extends('instructor.layouts.master')
+﻿@extends('instructor.layouts.master')
 
 @section('title') Setting @endsection
 

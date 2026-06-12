@@ -763,7 +763,7 @@
     $('#testTable').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '{{ route('test.index') }}' // Update with the correct route
+        ajax: '{{ route('test.index') }}', // Update with the correct route
         columns: [{
             data: 'test_title',
             name: 'test_title'
@@ -797,46 +797,47 @@
 </script>
 
 <script>
-    document.querySelector(".change-quiz").addEventListener("click", function () {
-        var quizSection = document.getElementById("changeQuizSection");
-        if (quizSection.style.display === "none") {
-            quizSection.style.display = "block"; // Show the form
-        } else {
-            quizSection.style.display = "none"; // Hide the form
-        }
-    });
+    if (document.querySelector(".change-quiz")) {
+        document.querySelector(".change-quiz").addEventListener("click", function () {
+            var quizSection = document.getElementById("changeQuizSection");
+            if (quizSection.style.display === "none") {
+                quizSection.style.display = "block"; // Show the form
+            } else {
+                quizSection.style.display = "none"; // Hide the form
+            }
+        });
 </script>
 
 <script>
-    $(document).ready(function () {
-        // Initialize jQuery UI Sortable for the questions list
-        $("#sortableQuestionsList").sortable({
-            placeholder: "sortable-placeholder",
-            update: function (event, ui) {
-                let order = [];
-                $(".draggable").each(function (index) {
-                    order.push({
-                        id: $(this).data("id"),
-                        position: index + 1
+        $(document).ready(function () {
+            // Initialize jQuery UI Sortable for the questions list
+            $("#sortableQuestionsList").sortable({
+                placeholder: "sortable-placeholder",
+                update: function (event, ui) {
+                    let order = [];
+                    $(".draggable").each(function (index) {
+                        order.push({
+                            id: $(this).data("id"),
+                            position: index + 1
+                        });
                     });
-                });
 
-                // Send the updated order to the backend
-                $.ajax({
-                    url: "/quiz/questions/reorder",
-                    type: "POST",
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'),
-                        order: order
-                    },
-                    success: function (response) {
-                        toastr.success("Question order updated successfully");
-                    },
-                    error: function () {
-                        toastr.error("Failed to update order");
-                    }
-                });
-            }
-        }).disableSelection();
- });
+                    // Send the updated order to the backend
+                    $.ajax({
+                        url: "/quiz/questions/reorder",
+                        type: "POST",
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            order: order
+                        },
+                        success: function (response) {
+                            toastr.success("Question order updated successfully");
+                        },
+                        error: function () {
+                            toastr.error("Failed to update order");
+                        }
+                    });
+                }
+            }).disableSelection();
+        });
 </script>

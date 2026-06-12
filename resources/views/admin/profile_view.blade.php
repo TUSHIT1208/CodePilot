@@ -1,4 +1,4 @@
-@include('admin.layouts.master')
+﻿@include('admin.layouts.master')
 <div class="wrapper _bg4586">
     <div class="_216b01">
         <div class="container">			

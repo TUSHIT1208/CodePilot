@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,7 +8,7 @@
     <meta name="description" content="Gambolthemes">
     <meta name="author" content="Gambolthemes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title') | Codepilot</title>
+    <title>@yield('title') | CodePilot</title>
     @include('front.layout.head-css')
 </head>
 

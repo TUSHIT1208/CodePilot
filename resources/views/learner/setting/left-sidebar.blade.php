@@ -1,4 +1,4 @@
-<!-- Left Sidebar Start -->
+﻿<!-- Left Sidebar Start -->
 <nav class="vertical_nav">
     <div class="left_section menu_left" id="js-menu">
         <div class="left_section">

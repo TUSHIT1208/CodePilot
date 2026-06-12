@@ -1,4 +1,4 @@
-@extends('front.layout.master')
+﻿@extends('front.layout.master')
 
 @section('title')
 Terms of service
@@ -121,7 +121,7 @@ Terms of service
 
                 <!-- Contact Information -->
                 <h2>12. Contact Us</h2>
-                <p>If you have any questions or concerns, please contact us at: <a href="mailto:support@codepilot.com">support@codepilot.com</a></p>
+                <p>If you have any questions or concerns, please contact us at: <a href="mailto:support@CodePilot.com">support@CodePilot.com</a></p>
             </div>
         </div>
     </section>

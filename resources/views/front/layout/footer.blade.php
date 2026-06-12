@@ -1,4 +1,4 @@
-<footer id="footer" class="footer position-relative light-background">
+﻿<footer id="footer" class="footer position-relative light-background">
 
     <div class="container footer-top">
         <div class="row gy-4">
@@ -39,7 +39,7 @@
                     <p>A108 Adam Street</p>
                     <p>New York, NY 535022</p>
                     <p class="mt-3"><strong>Phone:</strong> <span>+91 88456 72389</span></p>
-                    <p><strong>Email:</strong> <span>codepilot1213@gmail.com</span></p>
+                    <p><strong>Email:</strong> <span>CodePilot1213@gmail.com</span></p>
                 </div>
                 <div class="social-links d-flex mt-4">
                     <a href="javascript: void(0);"><i class="bi bi-twitter-x"></i></a>

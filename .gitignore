@@ -18,5 +18,10 @@ yarn-error.log
 /.idea
 /.vscode
 /public/courseVideo/*
+!/public/courseVideo/.gitkeep
 /public/courseAssignments/*
+!/public/courseAssignments/.gitkeep
 /public/courseThumbnail/*
+!/public/courseThumbnail/.gitkeep
+/public/profile_images/*
+!/public/profile_images/.gitkeep
