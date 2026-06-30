@@ -82,8 +82,8 @@ Follow these steps to set up CodePilot on your local environment:
    ```
    
    > 👤 **Default Seeder Admin Credentials:**
-   > * **Email:** `CodePilot1213@gmail.com`
-   > * **Password:** `admin123`
+   > * **Email:** `seeder_email_address@gmail.com`
+   > * **Password:** `seeder_Password`
 
 6. **Add Payment Keys (Razorpay Setup):**
    Open `.env` and configure your API details:
